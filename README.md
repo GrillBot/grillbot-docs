@@ -1,13 +1,6 @@
-# GrillBot docs
+# GrillBot
 
 ## Kapitoly
 
-- [GDPR](docs/gdpr.md) - Informace o GDPR
-
-## Sestavení
-
-Random informace o sestavení
-
-```sh
-./docker
-```
+- [Ustanovení](docs/legal.md) - Ustanovení o sběru dat o uživatelých.
+- [Swagger UI](https://grillbot.cloud/swagger) - Specifikace rozhraní REST API.

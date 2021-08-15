@@ -1,3 +1,0 @@
-# GDPR
-
-Hello
