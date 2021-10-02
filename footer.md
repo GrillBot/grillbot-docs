@@ -1,2 +1,3 @@
+<footer>Poslední aktualizace dokumentu <i>{{Today}}</i> uživatelem <i>{{User}}</i>. Načteno <i class="now-date"></i></footer>
 
-<footer>Poslední aktualizace <i>{{Today}}</i> uživatelem <i>{{User}}</i></footer>
+<script src="/static/script.js"></script>

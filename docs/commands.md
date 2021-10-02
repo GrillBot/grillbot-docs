@@ -1,0 +1,25 @@
+# GrillBot / Příkazy
+
+GrillBot umí vykonávat určité činnosti na základě předepsané množiny příkazů. Podle zadaného příkazu bot provede určitou činnost. Příkazy jsou popsány u jednotlivých funkcionalit bota.
+
+## Seznam příkazů
+
+### Správa a statistika kanálů
+### Správa a statistika emotů
+### Nápověda
+### Body
+### Připomínání
+### Hledání
+### Odebírání přístupu
+### Správa uživatelů
+### Matematické výpočty
+### Náhodné věci
+### Mockování zpráv
+### Správa serveru
+#### Správa zpráv
+#### Správa pinů
+#### Správa oprávnění serveru
+#### Správa reakcí
+#### Správa rolí
+#### Pozvánky
+
