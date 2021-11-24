@@ -22,5 +22,5 @@ const setLoadDate = () => {
 
 const getFormatedNowDateTime = () => {
     const now = new Date();
-    return `${now.getDay()}. ${now.getMonth()}. ${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+    return `${now.getDate()}. ${now.getMonth() + 1}. ${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
 };

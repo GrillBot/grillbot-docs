@@ -44,11 +44,10 @@ Kromě aktuálního stavu unverify je také uchováván log provedených operac�
 
 Každý záznam bez ohledu na jeho typ (z výše uvedených) obsahuje následující data:
 
-- Povinné identifikátory
-  - Záznamu operace.
-  - Uživatele, který operaci provedl.
-  - Uživatele, nad kterým byla operace provedena.
-  - Serveru, ve kterém byla tato oprace provedena.
+- Unikátní identifikátor operace.
+- Identifikace uživatele, který operaci provedl.
+- Identifikace uživatele nad kterým byla operace provedena.
+- Identifikace serveru ve kterém byla tato operace provedena.
 - Typ záznamu
 - Datum a čas zaevidování operace
 - Data konkrétní operace
@@ -68,31 +67,35 @@ Mezi konkrétní data se řadí následující:
 - Aktualizace doby odebrání přístupu
   - Nový čas začátku a konce odebrání přístupu.
 
-K záznamům o odebrání přístupu je možné přistoupit pomocí rozhraní REST API, případně pomocí uživatelského rozhraní, které využívá tohoto REST API. Vedení konkrétního serveru si určí, kdo bude mít přístup k záznamům.
+K záznamům o odebrání přístupu je možné přistoupit pomocí rozhraní REST API, případně pomocí uživatelského rozhraní, které využívá tohoto REST API. Uživatelé mají přístup k těm záznamům, které ukazují provedení nad jeho účtem. Oprávněné osoby mohou vidět všechny záznamy.
 
 ### Obecné informace o uživateli
 
 GrillBot v databázi o samotném uživateli eviduje následující:
 
 - Jednoznačný identifikátor ve službě Discord
-- Přístupový token k veřejnému rozhraní REST API rozhraní. Pro privátní rozhraní sloužící k uživatelskému rozhraní slouží bezstavové JWT tokeny.
 - Pomocné příznaky (bitová maska)
-  - Bit 1 (`1`): Pokud je tento bit nastaven, pak má uživatel hned po vlastníkovi bota nejvyšší oprávnění a může obsluhovat všechny metody dostupné pomocí příkazů ve službě Discord.
-  - Bit 2 (`2`): Pokud je tento bit nastaven, pak má uživatel přístup do webové administrace, kam se přihlašuje pomocí OAuth2 přihlášení služby Discord.
+  - Bit 1 (`1`): Umožňuje uživateli hned po vlastníkovi bota mít nejvyšší oprávnění a může obsluhovat všechny metody dostupné pomocí příkazů ve službě Discord.
+  - Bit 2 (`2`): Umožňuje uživateli přístup do webové administrace, kam se přihlašuje pomocí OAuth2 přihlášení služby Discord.
+  - Bit 3 (`4`): Pomocný bit rozlišující uživatele a boty.
+  - Bit 4 (`8`): Informační bit, že je uživatel přihlášen v privátní webové administraci.
+  - Bit 5 (`16`): Uživatel má zablokovaný přístup k veřejné administraci.
+  - Bit 6 (`32`): Informační bit, že je uživatel přihlášen ve veřejné webové administraci.
 - Datum a čas narození uživatele. Jedná se o datum s volitelnou specifikací roku. Datum narození si zadává a odebírá uživatel sám. Ostatní osoby nemohou s datem narození jiného uživatele vůbec manipulovat. Oprávněné osoby mají přístup pouze k informaci o tom, zda má uživatel datum narození uloženo (ANO/NE). Nevidí konkrétní datum. Uložením data narození dává uživatel souhlas k nakládání s datem narození za účelem prezentace ke dni narozenin prostřednictvím příkazu a automatizovaného upozornění.
 - Interní poznámka, kterou si mohou oprávněné osoby k uživateli napsat pomocí webové administrace.
 - Aktuální uživatelské jméno ze služby Discord.
-- Agregované informace o použitých emotikonech
+- Agregované informace o použitých emotikonech.
+- Interní poznámka nastavitelná v privátní administraci. Vidí ji všechny oprávněné osoby. Poznámka není dostupná ve veřejné administraci.
+- Minimální doba, na kterou si uživatel může dát selfunverify. Pokud není nastaveno, tak se na něj vztahuje výchozí nastavení.
 
-Každý uživatel má přístup ke svým informacím pomocí příkazu `$me`. Oprávněné osoby mají přístup ke všem údajům o uživatelích a to pomocí příkazu `$user info`, nebo pomocí webové administrace.
+Každý uživatel má přístup ke svým informacím pomocí příkazu `$me`, nebo pomocí veřejné administrace. Oprávněné osoby mají přístup ke všem údajům o uživatelích a to pomocí příkazu `$user info`, nebo pomocí webové administrace.
 
 ### Statistika používání emotikonů
 
 Statistika o používání různých emotikonů. Vytváří se statistika pouze k emotikonům, ke kterým má bot přístup. Tato statistika se sbírá ze zpráv i reakcí. Neuchovávají se unicode emoji. U každé statistiky je uchováno:
 
-- Povinné identifikátory
-  - Jednoznačný identifikátor emotikonu ve formátu `<:nazev:id>`.
-  - Identifikátor uživatele (discord ID).
+- Jednoznačný identifikátor emotikonu ve formátu `<:nazev:id>`.
+- Identifikace uživatele. Který emoji použil.
 - Počet použití emotikonu.
 - Datum a čas prvního výskytu emotikonu, který bot zaznamenal.
 - Datum a čas posledního výskytu emotikonu, který bot zaznamenal.
@@ -101,12 +104,11 @@ Statistika o používání různých emotikonů. Vytváří se statistika pouze 
 
 Aby bylo možné provádět upozornění uživatele k určitému datu za pomocí feature "Remind", pak musí bot ukládat následující:
 
-- Povinné identifikátory:
-  - Jednoznačný identifikátor v databázové tabulce.
-  - Identifikátor uživatele, který zprávu k upozornění založil.
-  - Identifikátor uživatele, který zprávu k upozornění má obdržet.
-  - Identifikátor původní zprávy za účelem možnosti vytvářet kopie tohoto upozornění za pomocí reakcí.
-  - Identifikátor zprávy upozornění za účelem odložení.
+- Jednoznačný identifikátor v databázové tabulce.
+- Identifikace uživatele, který zprávu k upozornění založil.
+- Identifikace uživatele, který zprávu k upozornění má obdržet.
+- Identifikace původní zprávy za účelem možnosti vytvářet kopie tohoto upozornění za pomocí reakcí.
+- Identifikace zprávy upozornění za účelem odložení.
 - Datum a čas, kdy se má upozornění odeslat.
 - Obsah zprávy.
 - Počet odložení.
@@ -138,8 +140,7 @@ Pro každý textový kanál, který se nachází na serveru a byla na něm prove
 
 - Povinné identifikátory (serveru a kanálu).
 - Název kanálu
-- Pomocné příznaky (bitová maska)
-  - Bit 1 (`1`): Pokud je tento bit nastaven, tak se tento kanál nebude při startu bota ukládat do cache v paměti.
+- Typ kanálu
 
 Za každého uživatele jsou pak u kanálu uloženy následující data:
 
