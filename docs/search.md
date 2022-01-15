@@ -2,7 +2,7 @@
 
 Zjednodušená forma inzerce, kdy uživatel v kanálu něco hledá. Může to být cokoliv. Od nějakého produktu, až po týmy.
 
-Data se v databázi ukládají do tabulky `SearchItems` a jsou mapována na entitu [SearchItem](https://gitlab.com/grillbot/grillbot/-/blob/master/src/GrillBot/GrillBot.Database/Entity/SearchItem.cs). 
+Data se v databázi ukládají do tabulky `SearchItems` a jsou mapována na entitu [SearchItem](https://gitlab.com/grillbot/grillbot/-/blob/master/src/GrillBot/GrillBot.Database/Entity/SearchItem.cs).
 
 ## Příkazy
 
@@ -23,4 +23,3 @@ Příkazy mají jednotnou skupinu příkazů pojmenovanou jako `$hledam`;
 ## Administrace
 
 Oprávnění uživatelé mají možnost vidět všechna hledání formou webové administrace. Také mnou hromadně mazat hledání.
-
