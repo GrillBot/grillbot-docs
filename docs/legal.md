@@ -14,7 +14,7 @@ Za účelem správného chodu GrillBot musí uchovávat v databázi informace o 
 
 Data jsou v databázi uchovávany na základě jejich potřeby po různou dobu.
 
-- Záznamy z logování provozu starší, než 6 měsíců jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data uchovány po dobu minimálně dalších 6 měsíců. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně smazat.
+- Záznamy z logování provozu starší, než 4 měsíce jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data uchovány po dobu minimálně dalších 6 měsíců. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně smazat.
 - Ostatní výše nezmíněné data jsou v databázi uchovány po dobu existence discord serveru na kterém se bot nachází a to i po opuštění bota ze serveru.
 
 Administrátor serveru je oprávněn provádět pravidelné zálohy celé databáze (kromě výše uvedené automatizované archivace) za účelem zajištění provozuschopnosti služby. Administrátor serveru na kterém běží instance aplikace sám rozhodne, jak dlouho bude držet zálohy.
@@ -138,9 +138,11 @@ Pro každého uživatele na serveru je nutné evidovat (kromě výše uvedených
 
 Pro každý textový kanál, který se nachází na serveru a byla na něm provedena nějaká aktivita se ukládá:
 
-- Povinné identifikátory (serveru a kanálu).
+- Povinné identifikátory (serveru a kanálu, případně nadřazeného kanálu).
 - Název kanálu
 - Typ kanálu
+
+_Identifikátor nadřazeného kanálu se uchovává pouze v případě, že kanál je vlákno._
 
 Za každého uživatele jsou pak u kanálu uloženy následující data:
 
@@ -167,26 +169,27 @@ Logování provozu se provádí za účelem zabezpečení bezproblémového chod
 
 Logování probíhá formou událostí různých typů. Tyto události jsou:
 
-| Typ                 | Popis                                                                                                        |
-| ------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `Info`              | Textová zpráva informačního charakteru. Zapisuje se zde informace o načtených pozvánek při startu.           |
-| `Warning`           | Varování, že došlo k nějaké události, které by měla být věnována pozornost, ale nemá destruktivní charakter. |
-| `Error`             | Při běhu aplikace došlo k chybě.                                                                             |
-| `Command`           | Provedení příkazu.                                                                                           |
-| `ChannelCreated`    | Vytvoření kanálu                                                                                             |
-| `ChannelDeleted`    | Smazání kanálu                                                                                               |
-| `ChannelUpdated`    | Úprava kanálu                                                                                                |
-| `EmojiDeleted`      | Smazání emotikonu ze serveru.                                                                                |
-| `OverwriteCreated`  | Vytvoření přístupové výjimky do kanálu.                                                                      |
-| `OverwriteDeleted`  | Smazání přístupové výjimky do kanálu.                                                                        |
-| `OverwriteUpdated`  | Aktualizace přístupové výjimky do kanálu.                                                                    |
-| `Unban`             | Odblokování uživatele a umožnění se připojit na server.                                                      |
-| `MemberUpdated`     | Uživatel na serveru byl aktualizován (přezdívka, nebo umlčení v hlasovém kanálu).                            |
-| `MemberRoleUpdated` | Role uživatele byly aktualizovány.                                                                           |
-| `GuildUpdated`      | Vlastnosti serveru byly upraveny.                                                                            |
-| `UserLeft`          | Uživatel opustil server.                                                                                     |
-| `MessageEdited`     | Obsah nějaké zprávy byl upraven.                                                                             |
-| `MessageDeleted`    | Zpráva byla na serveru smazána.                                                                              |
+| Typ                  | Popis                                                                                                        |
+| -------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `Info`               | Textová zpráva informačního charakteru. Zapisuje se zde informace o načtených pozvánek při startu.           |
+| `Warning`            | Varování, že došlo k nějaké události, které by měla být věnována pozornost, ale nemá destruktivní charakter. |
+| `Error`              | Při běhu aplikace došlo k chybě.                                                                             |
+| `Command`            | Provedení příkazu.                                                                                           |
+| `ChannelCreated`     | Vytvoření kanálu                                                                                             |
+| `ChannelDeleted`     | Smazání kanálu                                                                                               |
+| `ChannelUpdated`     | Úprava kanálu                                                                                                |
+| `EmojiDeleted`       | Smazání emotikonu ze serveru.                                                                                |
+| `OverwriteCreated`   | Vytvoření přístupové výjimky do kanálu.                                                                      |
+| `OverwriteDeleted`   | Smazání přístupové výjimky do kanálu.                                                                        |
+| `OverwriteUpdated`   | Aktualizace přístupové výjimky do kanálu.                                                                    |
+| `Unban`              | Odblokování uživatele a umožnění se připojit na server.                                                      |
+| `MemberUpdated`      | Uživatel na serveru byl aktualizován (přezdívka, nebo umlčení v hlasovém kanálu).                            |
+| `MemberRoleUpdated`  | Role uživatele byly aktualizovány.                                                                           |
+| `GuildUpdated`       | Vlastnosti serveru byly upraveny.                                                                            |
+| `UserLeft`           | Uživatel opustil server.                                                                                     |
+| `MessageEdited`      | Obsah nějaké zprávy byl upraven.                                                                             |
+| `MessageDeleted`     | Zpráva byla na serveru smazána.                                                                              |
+| `InteractionCommand` | Provedení integrovaného příkazu (Slash command, Message command, User command)                               |
 
 U všech událostí se evidují tyto společné vlastnosti:
 
@@ -268,6 +271,15 @@ Většina událostí obsahuje v záznamu také data specifické k určitému typ
     - Autor zprávy. Základní informace o uživateli.
     - Datum a čas vytvoření zprávy.
     - Textový obsah zprávy.
+- Integrovaný příkaz
+  - Název příkazu, modulu a metody svázané s příkazem.
+  - Seznam parametrů
+    - V každém parametru se ukládá: Název parametru, typ (Bool, Int, Double, String, Kanál, Role, Uživatel a Zpráva) a hodnota.
+  - Příznak, že bot odpověděl.
+  - Příznak, že bot měl k dispozici platný token ke službě Discord.
+  - Příznak, zda příkaz byl proveden úspěšně.
+  - Typ chyby, který vznikl při provádění příkazu, pokud se neprovedl správně.
+  - Textovou reprezentaci chyby, která vznikla při prováděné příkazu. Pokud se příkaz neprovedl správně.
 
 ### Zpřístupnění
 
