@@ -7,3 +7,4 @@
 - [Narozneniny](docs/birthday.md)
 - [Správa a statistika kanálů](docs/emotes.md)
 - [Hledání](docs/search.md)
+- [Plánované úlohy](docs/tasks.md)
