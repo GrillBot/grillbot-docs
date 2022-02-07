@@ -37,6 +37,7 @@ Do úlohy je možné vkládat závislosti pomocí konstruktoru z DI kontejneru. 
 
 ```cs
 using Quartz;
+using Microsoft.Extensions.Configuration;
 
 [DisallowConcurrentExecution]
 public class YourJob : IJob 
