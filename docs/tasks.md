@@ -23,16 +23,16 @@ Kromě výše uvedených časů se úlohy, které nejsou definovány pomocí cro
 using Quartz;
 
 [DisallowConcurrentExecution]
-public class YourJob : IJob 
+public class YourJob : IJob
 {
     public async Task Execute(IJobExecutionContext context)
     {
         // Implement.
-    } 
+    }
 }
 ```
 
-Doporučuje se na úlohy atribut `DisallowConcurrentExecution`, aby nedošlo k paralelnímu spuštění jedné úlohy. 
+Doporučuje se na úlohy atribut `DisallowConcurrentExecution`, aby nedošlo k paralelnímu spuštění jedné úlohy.
 Do úlohy je možné vkládat závislosti pomocí konstruktoru z DI kontejneru. Např.:
 
 ```cs
@@ -40,7 +40,7 @@ using Quartz;
 using Microsoft.Extensions.Configuration;
 
 [DisallowConcurrentExecution]
-public class YourJob : IJob 
+public class YourJob : IJob
 {
     private IConfiguration Configuration { get; }
 
@@ -52,7 +52,7 @@ public class YourJob : IJob
     public async Task Execute(IJobExecutionContext context)
     {
         // Implement.
-    } 
+    }
 }
 ```
 
