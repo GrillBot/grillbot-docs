@@ -1,0 +1,490 @@
+digraph G {
+    subgraph cluster_0 {
+		style=filled;
+		color=lightgrey;
+		node [
+		    style=filled,
+		    color=white
+	    ];
+		
+		"AuditLogController" -> "AuditLogService"
+        "AuditLogController" -> "GrillBotContext"
+        "AuditLogController" -> "FileStorageFactory"
+        "OAuth2Controller" -> "OAuth2Service"
+        "AutoReplyController" -> "AutoReplyService"
+        "AutoReplyController" -> "GrillBotContext"
+        "ChannelController" -> "DiscordSocketClient"
+        "ChannelController" -> "GrillBotContext"
+        "ChannelController" -> "MessageCache"
+        "ChannelController" -> "ChannelService"
+        "DataController" -> "DiscordSocketClient"
+        "DataController" -> "GrillBotContext"
+        "DataController" -> "CommandService"
+        "DataController" -> "IConfiguration"
+        "DataController" -> "InteractionService"
+        "GuildController" -> "GrillBotContext"
+        "GuildController" -> "DiscordSocketClient"
+        "InviteController" -> "GrillBotContext"
+        "PermissionsController" -> "GrillBotContext"
+        "PermissionsController" -> "GrillBotContext"
+        "ReminderController" -> "GrillBotContext"
+        "ReminderController" -> "RemindService"
+        "RemindController" -> "DiscordSocketClient"
+        "SearchingController" -> "SearchingService"
+        "SearchingController" -> "GrillBotContext"
+        "SystemController" -> "IWebHostEnvironment"
+        "SystemController" -> "DiscordSocketClient"
+        "SystemController" -> "GrillBotContext"
+        "SystemController" -> "DiscordInitializationService"
+        "UnverifyController" -> "UnverifyService"
+        "UnverifyController" -> "DiscordSocketClient"
+        "UnverifyController" -> "GrillBotContext"
+        "UsersController" -> "GrillBotContext"
+        "UsersController" -> "DiscordSocketClient"
+        "UsersController" -> "CommandsHelpService"
+        "UsersController" -> "ExternalCommandsHelpService"
+		
+		label = "API (Controllers)";
+	}
+	
+	subgraph cluster_2 {
+	    style=filled;
+		color=lightgrey;
+		node [
+		    style=filled,
+		    color=white
+	    ];
+	    
+	    subgraph cluster_2_1 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+	    
+	        "AuditLogService" -> "DiscordSocketClient"
+	        "AuditLogService" -> "GrillBotContextFactory"
+	        "AuditLogService" -> "MessageCache"
+	        "AuditLogService" -> "FileStorageFactory"
+	        "AuditLogService" -> "DiscordInitializationService"
+	        
+	        "AuditLogClearingJob" -> "GrillBotContextFactory"
+	        "AuditLogClearingJob" -> "FileStorageFactory"
+	        "AuditLogClearingJob" -> "IConfiguration"
+	        "AuditLogClearingJob" -> "LoggingService"
+	    
+	        label = "AuditLog"
+	    }
+	    
+	    subgraph cluster_2_2 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+	    
+	        "BirthdayCronJob" -> "BirthdayService"
+	        "BirthdayCronJob" -> "IConfiguration"
+	        "BirthdayCronJob" -> "DiscordSocketClient"
+	        "BirthdayCronJob" -> "LoggingService"
+	        
+	        "BirthdayService" -> "DiscordSocketClient"
+	        "BirthdayService" -> "GrillBotContextFactory"
+	    
+	        label = "Birthday"
+	    }
+	    
+	    subgraph cluster_2_3 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+	    
+	        "CommandsHelpService" -> "DiscordSocketClient"
+	        "CommandsHelpService" -> "CommandService"
+	        "CommandsHelpService" -> "ChannelService"
+	        "CommandsHelpService" -> "IServiceProvider"
+	        
+	        "ExternalCommandsHelpService" -> "DiscordSocketClient"
+	        "ExternalCommandsHelpService" -> "IConfiguration"
+	        "ExternalCommandsHelpService" -> "IMemoryCache"
+	        "ExternalCommandsHelpService" -> "DiscordInitializationService"
+	        "ExternalCommandsHelpService" -> "IServiceProvider"
+	    
+	        label = "CommandsHelp"
+	    }
+	    
+	    subgraph cluster_2_4 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+	    
+	        "DiscordHealthCheck" -> "DiscordSocketClient"
+	        
+	        "DiscordInitializationService" -> "ILogger"
+	        
+	        "DiscordService" -> "DiscordSocketClient"
+	        "DiscordService" -> "IConfiguration"
+	        "DiscordService" -> "IServiceProvider"
+	        "DiscordService" -> "CommandService"
+	        "DiscordService" -> "IWebHostEnvironment"
+	        "DiscordService" -> "DiscordInitializationService"
+	        "DiscordService" -> "LoggingService"
+	        "DiscordService" -> "InteractionService"
+	        
+	        "DiscordSyncService" -> "DiscordSocketClient"
+	        "DiscordSyncService" -> "GrillBotContextFactory"
+	        "DiscordSyncService" -> "DiscordInitializationService"
+	    
+	        label = "Discord"
+	    }
+	    
+	    subgraph cluster_2_5 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+    	    
+    	    "EmoteService" -> "DiscordSocketClient"
+    	    "EmoteService" -> "GrillBotContextFactory"
+    	    "EmoteService" -> "IConfiguration"
+    	    "EmoteService" -> "MessageCache"
+    	    
+    	    "EmoteStatsCleaningJob" -> "EmoteService"
+    	    "EmoteStatsCleaningJob" -> "LoggingService"
+    	    "EmoteStatsCleaningJob" -> "GrillBotContextFactory"
+    	    "EmoteStatsCleaningJob" -> "DiscordSocketClient"
+    	    "EmoteStatsCleaningJob" -> "AuditLogService"
+    	    "EmoteStatsCleaningJob" -> "DiscordInitializationService"
+	    
+	        label = "Emotes"
+	    }
+	    
+	    subgraph cluster_2_6 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+    	    
+    	    "FileStorageFactory" -> "IConfiguration"
+	    
+	        label = "FileStorage"
+	    }
+	    
+	    subgraph cluster_2_7 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+    	    
+    	    "PeepoangryRenderer" -> "FileStorageFactory"
+    	    "PeepoloveRenderer" -> "FileStorageFactory"
+	    
+	        label = "Images"
+	    }
+	    
+	    subgraph cluster_2_8 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+    	    
+    	    "LoggingService" -> "DiscordSocketClient"
+    	    "LoggingService" -> "CommandService"
+    	    "LoggingService" -> "ILoggerFactory"
+    	    "LoggingService" -> "IConfiguration"
+    	    "LoggingService" -> "GrillBotContextFactory"
+    	    "LoggingService" -> "InteractionService"
+	    
+	        label = "Logging"
+	    }
+	    
+	    subgraph cluster_2_9 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+    	    
+    	    "MessageCache" -> "DiscordSocketClient"
+    	    "MessageCache" -> "DiscordInitializationService"
+    	    "MessageCache" -> "GrillBotContextFactory"
+    	    
+    	    "MessageCacheCheckCron" -> "MessageCache"
+    	    "MessageCacheCheckCron" -> "LoggingService"
+	    
+	        label = "MessageCache"
+	    }
+	    
+	    subgraph cluster_2_10 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+    	    
+    	    "PermissionsService" -> "GrillBotContextFactory"
+    	    "PermissionsService" -> "IServiceProvider"
+    	    
+	        label = "Permissions"
+	    }
+	    
+	    subgraph cluster_2_11 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+    	    
+    	    "RemindCronJob" -> "RemindService"
+    	    "RemindCronJob" -> "LoggingService"
+    	    
+    	    "RemindService" -> "DiscordSocketClient"
+    	    "RemindService" -> "GrillBotContextFactory"
+    	    "RemindService" -> "IConfiguration"
+    	    
+	        label = "Reminder"
+	    }
+	    
+	    subgraph cluster_2_12 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+    	    
+    	    "SelfUnverifyService" -> "UnverifyService"
+    	    "SelfUnverifyService" -> "GrillBotContextFactory"
+    	    
+    	    "UnverifyChecker" -> "GrillBotContextFactory"
+    	    "UnverifyChecker" -> "IConfiguration"
+    	    "UnverifyChecker" -> "IWebHostEnvironment"
+    	    
+    	    "UnverifyCronJob" -> "UnverifyService"
+    	    "UnverifyCronJob" -> "LoggingService"
+    	    "UnverifyCronJob" -> "DiscordSocketClient"
+    	    "UnverifyCronJob" -> "DiscordInitializationService"
+    	    
+    	    "UnverifyLogger" -> "DiscordSocketClient"
+    	    "UnverifyLogger" -> "GrillBotContextFactory"
+    	    
+    	    "UnverifyProfileGenerator" -> "GrillBotContextFactory"
+    	    
+    	    "UnverifyService" -> "DiscordSocketClient"
+    	    "UnverifyService" -> "UnverifyChecker"
+    	    "UnverifyService" -> "UnverifyProfileGenerator"
+    	    "UnverifyService" -> "UnverifyLogger"
+    	    "UnverifyService" -> "GrillBotContextFactory"
+    	    "UnverifyService" -> "LoggingService"
+    	    
+	        label = "Unverify"
+	    }
+	    
+	    subgraph cluster_2_13 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+    	    
+    	    "OnlineUsersCleanJob" -> "GrillBotContextFactory"
+    	    "OnlineUsersCleanJob" -> "LoggingService"
+    	    
+    	    "PointsService" -> "DiscorSocketClient"
+    	    "PointsService" -> "GrillBotContextFactory"
+    	    "PointsService" -> "IConfiguration"
+    	    "PointsService" -> "FileStorageFactory"
+    	    "PointsService" -> "MessageCache"
+    	    "PointsService" -> "RandomizationService"
+    	    
+    	    "UserService" -> "GrillBotContextFactory"
+    	    "UserService" -> "IConfiguration"
+    	    
+	        label = "User"
+	    }
+	    
+	    "AutoReplyService" -> "IConfiguration"
+	    "AutoReplyService" -> "DiscordSocketClient"
+	    "AutoReplyService" -> "GrillBotContextFactory"
+	    "AutoReplyService" -> "DiscordInitializationService"
+	    
+	    "BoosterService" -> "DiscordSocketClient"
+	    "BoosterService" -> "GrillBotContextFactory"
+	    "BoosterService" -> "IConfiguration"
+	    "BoosterService" -> "DiscordInitializationService"
+	    
+	    "ChannelService" -> "DiscordSocketClient"
+	    "ChannelService" -> "GrillBotContextFactory"
+	    "ChannelService" -> "IConfiguration"
+	    "ChannelService" -> "MessageCache"
+	    
+	    "EmoteChainService" -> "IConfiguration"
+	    "EmoteChainService" -> "DiscordSocketClient"
+	    
+	    "InviteService" -> "DiscordSocketClient"
+	    "InviteService" -> "GrillBotContectFactory"
+	    
+	    "MockingService" -> "IConfiguration"
+	    "MockingService" -> "RandomizationService"
+	    
+	    "OAuth2Service" -> "IConfiguration"
+	    "OAuth2Service" -> "GrillBotContextFactory"
+	    "OAuth2Service" -> "LoggingService"
+	    "OAuth2Service" -> "IHttpClientFactory"
+	    
+	    "RandomizationService"
+	    
+	    "SearchingService" -> "DiscordSocketClient"
+	    "SearchingService" -> "GrillBotContextFactory"
+	    "SearchingService" -> "MessageCache"
+	    
+	    label = "Services"
+	}
+	
+	subgraph cluster_3 {
+	    style=filled;
+		color=lightgrey;
+		node [
+		    style=filled,
+		    color=white
+	    ];
+	    
+	    "CommandHandler" -> "DiscordSocketClient"
+	    "CommandHandler" -> "CommandService"
+	    "CommandHandler" -> "IServiceProvider"
+	    "CommandHandler" -> "IConfiguration"
+	    "CommandHandler" -> "AuditLogService"
+	    "CommandHandler" -> "DiscordInitializationService"
+	    
+	    "InteractionHandler" -> "DiscordSocketClient"
+	    "InteractionHandler" -> "GrillBotContextFactory"
+	    "InteractionHandler" -> "IServiceProvider"
+	    "InteractionHandler" -> "DiscordInitializationService"
+	    "InteractionHandler" -> "AuditLogService"
+	    
+	    "ReactionHandler" -> "DiscordSocketClient"
+	    "ReactionHandler" -> "IEnumerable<ReactionEventHandler>"
+	    "ReactionHandler" -> "MessageCache"
+	    "ReactionHandler" -> "DiscordInitializationService"
+	    "ReactionHandler" -> "LoggingService"
+	    
+	    label = "Handlers"
+	}
+	
+	subgraph cluster_4 {
+	    style=filled;
+		color=lightgrey;
+		node [
+		    style=filled,
+		    color=white
+	    ];
+	    
+	    subgraph cluster_4_1 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+    	    
+    	    "SelfUnverifyModule" -> "SelfUnverifyService"
+    	    "SelfUnverifyModule" -> "IConfiguration"
+    	    
+    	    "RemindModule" -> "RemindService"
+    	    
+    	    "PointsModule" -> "PointsService"
+    	    
+    	    "MockingModule" -> "MockingService"
+    	    
+    	    "MemeModule" -> "RandomizationService"
+    	    "MemeModule" -> "IConfiguration"
+    	    
+    	    "DuckModule" -> "IHttpClientFactory"
+    	    "DuckModule" -> "IConfiguration"
+    	    
+	        label = "Interactions"
+	    }
+	    
+	    subgraph cluster_4_2 {
+    	    style=filled;
+    		color=grey;
+    		node [
+    		    style=filled,
+    		    color=white
+    	    ];
+    	    
+    	    "ServerModule" -> "IConfiguration"
+    	    "ServerModule.PinManagementSubmodule" -> "IConfiguration"
+    	    "ServerModule.GuildManagementSubmodule.GuildInfoSubModule" -> "GrillBotContextFactory"
+    	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule" -> "IConfiguration"
+    	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> "IMemoryCache"
+    	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> "IConfiguration"
+    	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> "UnverifyService"
+    	    "ServerModule.GuildManagementSubmodule.GuildReactSubModule"
+    	    "ServerModule.GuildManagementSubmodule.GuildRoleInfoSubModule"
+    	    "ServerModule.GuildManagementSubmodule.GuildInvitesSubModule" -> "InviteService"
+    	    
+    	    "SearchingModule" -> "SearchingService"
+    	    "SearchingModule" -> "UserService"
+    	    
+    	    "RemindModule" -> "RemindService"
+    	    
+    	    "PointsModule" -> "PointsService"
+    	    "PointsModule" -> "GrillBotContextFactory"
+    	    
+    	    "MockingModule" -> "MockingService"
+    	    
+    	    "MemeModule" -> "FileStorageFactory"
+    	    
+    	    "MathModule" -> "IHttpClientFactory"
+    	    
+    	    "HelpModule" -> "CommandService"
+    	    "HelpModule" -> "IServiceProvider"
+    	    
+    	    "EmotesModule" -> "GrillBotContextFactory"
+    	    
+    	    "ChannelModule" -> "GrillBotContextFactory"
+    	    
+    	    "BotInfoModule"
+    	    
+    	    "BirthdayModule" -> "BirthdayService"
+    	    "BirthdayModule" -> "IConfiguration"
+    	    
+    	    "UserModule" -> "UserService"
+    	    "UserMeModule" -> "UserService"
+    	    
+    	    "UnverifyModule" -> "UnverifyService"
+    	    "UnverifyModule" -> "IConfiguration"
+    	    
+    	    "SelfUnverifyModule"
+    	    "SelfUnverifyModule.SelfunverifyKeepableSubModule" -> "SelfUnverifyService"
+    	    
+    	    "FunverifyModule" -> "UnverifyService"
+    	    "FunverifyModule" -> "IConfiguration"
+    	    
+	        label = "TextBased"
+	    }
+	    
+	    label = "Modules";
+	}
+}

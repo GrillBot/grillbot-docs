@@ -7,6 +7,7 @@
 - [Správa a statistika kanálů](docs/emotes.md)
 - [Hledání](docs/search.md)
 - [Plánované úlohy](docs/tasks.md)
+- [Graf závilostí](docs/service-dependency.md) - Graf závislostí jednotlivých služeb v kódu.
 
 ## Odkazy
 
