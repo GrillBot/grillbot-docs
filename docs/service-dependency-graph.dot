@@ -422,6 +422,10 @@ digraph G {
     	    "DuckModule" -> "IHttpClientFactory"
     	    "DuckModule" -> "IConfiguration"
     	    
+    	    "BotInfoModule"
+    	    
+            "MathModule" -> "IHttpClientFactory"
+    	    
 	        label = "Interactions"
 	    }
 	    
@@ -456,17 +460,13 @@ digraph G {
     	    
     	    "MemeModule" -> "FileStorageFactory"
     	    
-    	    "MathModule" -> "IHttpClientFactory"
-    	    
     	    "HelpModule" -> "CommandService"
     	    "HelpModule" -> "IServiceProvider"
     	    
     	    "EmotesModule" -> "GrillBotContextFactory"
     	    
     	    "ChannelModule" -> "GrillBotContextFactory"
-    	    
-    	    "BotInfoModule"
-    	    
+
     	    "BirthdayModule" -> "BirthdayService"
     	    "BirthdayModule" -> "IConfiguration"
     	    
