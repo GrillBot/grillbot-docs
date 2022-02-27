@@ -32,6 +32,7 @@ digraph G {
         "RemindController" -> "DiscordSocketClient"
         "SearchingController" -> "SearchingService"
         "SearchingController" -> "GrillBotContext"
+        "SelfUnverifyController" -> "SelfUnverifyService"
         "SystemController" -> "IWebHostEnvironment"
         "SystemController" -> "DiscordSocketClient"
         "SystemController" -> "GrillBotContext"
@@ -422,7 +423,8 @@ digraph G {
     	    "DuckModule" -> "IHttpClientFactory"
     	    "DuckModule" -> "IConfiguration"
     	    
-    	    "BotInfoModule"
+    	    "BotModule"
+    	    "BotModule.SelfUnverifyConfig" -> "SelfUnverifyService"
     	    
             "MathModule" -> "IHttpClientFactory"
     	    
@@ -477,7 +479,6 @@ digraph G {
     	    "UnverifyModule" -> "IConfiguration"
     	    
     	    "SelfUnverifyModule"
-    	    "SelfUnverifyModule.SelfunverifyKeepableSubModule" -> "SelfUnverifyService"
     	    
     	    "FunverifyModule" -> "UnverifyService"
     	    "FunverifyModule" -> "IConfiguration"
