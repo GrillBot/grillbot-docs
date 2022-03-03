@@ -389,6 +389,10 @@ digraph G {
 	    "ReactionHandler" -> "DiscordInitializationService"
 	    "ReactionHandler" -> "LoggingService"
 	    
+	    "IEnumerable<ReactionEventHandler>" -> "EmoteListReactionHandler"
+	    "EmoteListReactionHandler" -> "DiscordSocketClient"
+	    "EmoteListReactionHandler" -> "EmoteService"
+	    
 	    label = "Handlers"
 	}
 	
@@ -427,6 +431,8 @@ digraph G {
     	    "BotModule.SelfUnverifyConfig" -> "SelfUnverifyService"
     	    
             "MathModule" -> "IHttpClientFactory"
+            
+            "EmoteModule" -> "EmoteService"
     	    
 	        label = "Interactions"
 	    }
@@ -465,8 +471,6 @@ digraph G {
     	    "HelpModule" -> "CommandService"
     	    "HelpModule" -> "IServiceProvider"
     	    
-    	    "EmotesModule" -> "GrillBotContextFactory"
-    	    
     	    "ChannelModule" -> "GrillBotContextFactory"
 
     	    "BirthdayModule" -> "BirthdayService"
@@ -478,10 +482,13 @@ digraph G {
     	    "UnverifyModule" -> "UnverifyService"
     	    "UnverifyModule" -> "IConfiguration"
     	    
-    	    "SelfUnverifyModule"
-    	    
     	    "FunverifyModule" -> "UnverifyService"
     	    "FunverifyModule" -> "IConfiguration"
+    	    
+    	    "EmotesModule"
+    	    "EmotesModule.EmoteListSubModule"
+    	    "EmotesModule.EmoteListSubModule.EmoteListByCountSubModule" -> "EmoteService"
+    	    "EmotesModule.EmoteListSubModule.EmoteListByLastUseSubModule" -> "EmoteService"
     	    
 	        label = "TextBased"
 	    }
