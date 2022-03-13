@@ -12,7 +12,6 @@ digraph G {
 		"AuditLogController" -> "AuditLogService"
         "OAuth2Controller" -> "OAuth2Service"
         "AutoReplyController" -> "AutoReplyService"
-        "AutoReplyController" -> "GrillBotContext"
         "ChannelController" -> "DiscordSocketClient"
         "ChannelController" -> "GrillBotContext"
         "ChannelController" -> "MessageCache"
