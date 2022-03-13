@@ -10,8 +10,6 @@ digraph G {
 	    ];
 		
 		"AuditLogController" -> "AuditLogService"
-        "AuditLogController" -> "GrillBotContext"
-        "AuditLogController" -> "FileStorageFactory"
         "OAuth2Controller" -> "OAuth2Service"
         "AutoReplyController" -> "AutoReplyService"
         "AutoReplyController" -> "GrillBotContext"
@@ -33,7 +31,6 @@ digraph G {
         "ReminderController" -> "RemindService"
         "RemindController" -> "DiscordSocketClient"
         "SearchingController" -> "SearchingService"
-        "SearchingController" -> "GrillBotContext"
         "SelfUnverifyController" -> "SelfUnverifyService"
         "SystemController" -> "IWebHostEnvironment"
         "SystemController" -> "DiscordSocketClient"
