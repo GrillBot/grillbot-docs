@@ -23,8 +23,7 @@ digraph G {
         "DataController" -> "InteractionService"
         "GuildController" -> "GrillBotContext"
         "GuildController" -> "DiscordSocketClient"
-        "InviteController" -> "GrillBotContext"
-        "PermissionsController" -> "GrillBotContext"
+        "InviteController" -> "InviteService"
         "PermissionsController" -> "GrillBotContext"
         "ReminderController" -> "GrillBotContext"
         "ReminderController" -> "RemindService"
@@ -343,6 +342,7 @@ digraph G {
 	    
 	    "InviteService" -> "DiscordSocketClient"
 	    "InviteService" -> "GrillBotContextFactory"
+	    "InviteService" -> "AuditLogService"
 	    
 	    "MockingService" -> "IConfiguration"
 	    "MockingService" -> "RandomizationService"
@@ -471,7 +471,6 @@ digraph G {
     	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> "UnverifyService"
     	    "ServerModule.GuildManagementSubmodule.GuildReactSubModule"
     	    "ServerModule.GuildManagementSubmodule.GuildRoleInfoSubModule"
-    	    "ServerModule.GuildManagementSubmodule.GuildInvitesSubModule" -> "InviteService"
     	    
     	    "SearchingModule" -> "SearchingService"
     	    "SearchingModule" -> "UserService"
