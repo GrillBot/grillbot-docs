@@ -318,7 +318,8 @@ digraph G {
     	    
     	    "UserService" -> "GrillBotContextFactory"
     	    "UserService" -> "IConfiguration"
-    	    
+    	    "UserService" -> "DiscordSocketClient"
+
 	        label = "User"
 	    }
 	    
@@ -437,25 +438,18 @@ digraph G {
     	    
     	    "SelfUnverifyModule" -> "SelfUnverifyService"
     	    "SelfUnverifyModule" -> "IConfiguration"
-    	    
-    	    "RemindModule" -> "RemindService"
-    	    
-    	    "PointsModule" -> "PointsService"
-    	    
-    	    "MockingModule" -> "MockingService"
-    	    
+    	    "UserMeModule" -> "UserService"
+            "BotModule"
+    	    "BotModule.SelfUnverifyConfig" -> "SelfUnverifyService"
+            "DuckModule" -> "IHttpClientFactory"
+    	    "DuckModule" -> "IConfiguration"
+    	    "EmoteModule" -> "EmoteService"
+    	    "MathModule" -> "IHttpClientFactory"
     	    "MemeModule" -> "RandomizationService"
     	    "MemeModule" -> "IConfiguration"
-    	    
-    	    "DuckModule" -> "IHttpClientFactory"
-    	    "DuckModule" -> "IConfiguration"
-    	    
-    	    "BotModule"
-    	    "BotModule.SelfUnverifyConfig" -> "SelfUnverifyService"
-    	    
-            "MathModule" -> "IHttpClientFactory"
-            
-            "EmoteModule" -> "EmoteService"
+    	    "MockingModule" -> "MockingService"
+    	    "PointsModule" -> "PointsService"
+    	    "RemindModule" -> "RemindService"
     	    
 	        label = "Interactions"
 	    }
@@ -500,7 +494,6 @@ digraph G {
     	    "BirthdayModule" -> "IConfiguration"
     	    
     	    "UserModule" -> "UserService"
-    	    "UserMeModule" -> "UserService"
     	    
     	    "UnverifyModule" -> "UnverifyService"
     	    "UnverifyModule" -> "IConfiguration"
