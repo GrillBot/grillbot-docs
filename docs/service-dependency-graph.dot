@@ -27,9 +27,8 @@ digraph G {
         "PermissionsController" -> "GrillBotContext"
         "ReminderController" -> "GrillBotContext"
         "ReminderController" -> "RemindService"
-        "RemindController" -> "DiscordSocketClient"
         "SearchingController" -> "SearchingService"
-        "SelfUnverifyController" -> "SelfUnverifyService"
+        "SelfUnverifyController" -> "SelfUnverifyServremice"
         "SystemController" -> "IWebHostEnvironment"
         "SystemController" -> "DiscordSocketClient"
         "SystemController" -> "GrillBotContext"
@@ -395,7 +394,6 @@ digraph G {
 	    "IEnumerable<ReactionEventHandler>" -> "UserAccessListReactionHandler"
 	    "IEnumerable<ReactionEventHandler>" -> "UnverifyListReactionHandler"
 	    "IEnumerable<ReactionEventHandler>" -> "SearchingReactionHandler"
-	    "IEnumerable<ReactionEventHandler>" -> "RemindReactionHandler"
 	    "IEnumerable<ReactionEventHandler>" -> "RemindPostponeReactionHandler"
 	    "EmoteListReactionHandler" -> "DiscordSocketClient"
 	    "EmoteListReactionHandler" -> "EmoteService"
@@ -412,10 +410,8 @@ digraph G {
 	    "UnverifyListReactionHandler" -> "UnverifyService"
 	    "SearchingReactionHandler" -> "SearchingService"
 	    "SearchingReactionHandler" -> "DiscordSocketClient"
-	    "RemindReactionHandler" -> "RemindService"
-	    "RemindReactionHandler" -> "DiscordSocketClient"
 	    "RemindPostponeReactionHandler" -> "GrillBotContextFactory"
-	    "RemindPostponeReactionHandler" -> "DiscordSocketClient"
+	    "RemindPostponeReactionHandler" -> "IDiscordClient"
 	    
 	    label = "Handlers"
 	}
@@ -474,8 +470,6 @@ digraph G {
     	    
     	    "SearchingModule" -> "SearchingService"
     	    "SearchingModule" -> "UserService"
-    	    
-    	    "RemindModule" -> "RemindService"
     	    
     	    "PointsModule" -> "PointsService"
     	    "PointsModule" -> "GrillBotContextFactory"
