@@ -28,7 +28,7 @@ digraph G {
         "ReminderController" -> "GrillBotContext"
         "ReminderController" -> "RemindService"
         "SearchingController" -> "SearchingService"
-        "SelfUnverifyController" -> "SelfUnverifyServremice"
+        "SelfUnverifyController" -> "SelfUnverifyService"
         "SystemController" -> "IWebHostEnvironment"
         "SystemController" -> "DiscordSocketClient"
         "SystemController" -> "GrillBotContext"
