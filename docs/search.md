@@ -6,20 +6,22 @@ Data se v databázi ukládají do tabulky `SearchItems` a jsou mapována na enti
 
 ## Příkazy
 
-_Všechny příkazy počítají s výchozím prefixem `$`. Pokud máte v konfiguraci vlastní prefix, pak jej zohledněte._
+*Všechny příkazy mají jednotnou skupinu `/hledam` a jsou integrovány jako "slash commands".*
 
-Příkazy mají jednotnou skupinu příkazů pojmenovanou jako `$hledam`;
-
-- `$hledam [{kanal}]` - Vypíše seznam hledání v daném kanálu. Součástí každé položky seznamu bude informace o tom, kdo něco hledá a samotná zpráva od uživatele.
+- `/hledam list [{kanal}] [{vyhledavani}]` - Vypíše seznam hledání v daném kanálu. Součástí každé položky seznamu bude informace o tom, kdo něco hledá a samotná zpráva od uživatele.
   - Parametry
     - `kanal` - Identifikace kanálu ze kretého se chce vypsat hledání. Volitelný parametr. Pokud není zadán, tak se vypíše hledání v kanálu, kde byl příkaz zavolán.
-- `$hledam {obsah}` - Vytvoření hledání v kanálu, ve kterém byl příkaz zavolán..
+    - `vyhledavani` - Textové vyhledávání ve zprávě. Volitelný parametr. Pokud není zadán, tak se nezohlední.
+- `/hledam nove {zprava}` - Vytvoření hledání v kanálu, ve kterém byl příkaz zavolán.
   - Parametry
-    - `obsah` - Obsah zprávy hledání. Maximální délka zprávy může být 1024 znaků.
-- `$hledam remove {id}` - Odebrání hledání. Odebrat hledání je omezeno pouze na autora daného hledání nebo uživatele s vyššími právy (Administrator nebo Manage Messages).
+    - `zprava` - Obsah zprávy hledání. Maximální délka zprávy může být 1024 znaků.
+- `/hledam smazat {ident}` - Odebrání hledání. Odebrat hledání je omezeno pouze na autora daného hledání nebo uživatele s vyššími právy (Administrator, ManageMessages nebo BotAdmin).
   - Parametry
-    - `id` - ID hledání. Lze zjistit pomocí příkazu `$hledam`
+    - `ident` - Identifikace hledání. Je možné použít záznam z automaticky doplněné nápovědy (autocomplete), která se automaticky generuje, nebo zadat ID samotného záznamu. Automaticky doplněná nápověda nabízí pouze prvních 25 položek v daném kanálu.
+
+*Může se stát, že některá hledání zničeho-nic zmizí. K tomu může dojít pokud bude kanál smazán, bot opustí server nebo uživatel opustí server.*
 
 ## Administrace
 
 Oprávnění uživatelé mají možnost vidět všechna hledání formou webové administrace. Také mnou hromadně mazat hledání.
+Všichni uživatelé mají možnost vidět svá hledání pomocí veřejné webové administrace.

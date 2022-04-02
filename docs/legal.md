@@ -241,6 +241,10 @@ Většina událostí obsahuje v záznamu také data specifické k určitému typ
 - Uživatel na serveru byl aktualizován (přezdívka, nebo umlčení v hlasovém kanálu):
   - Přezdívka před a po změně.
   - Stav umlčení v hlasovém kanálu před a po změně.
+  - Položky měněné z webové administrace (přes API):
+    - Interní poznámka.
+    - Příznaky (Administrátor, přístup do webové administrace).
+    - Minimální čas při SelfUnverify.
 - Role uživatele byly aktualizovány:
   - Seznam rolí, které byly uživateli přidány nebo odebrány.
 - Vlastnosti serveru byly upraveny:
