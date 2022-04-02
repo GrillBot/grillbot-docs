@@ -355,7 +355,7 @@ digraph G {
 	    
 	    "SearchingService" -> "DiscordSocketClient"
 	    "SearchingService" -> "GrillBotContextFactory"
-	    "SearchingService" -> "MessageCache"
+	    "SearchingService" -> "UserService"
 	    
 	    label = "Services"
 	}
@@ -393,7 +393,6 @@ digraph G {
 	    "IEnumerable<ReactionEventHandler>" -> "PointsBoardReactionHandler"
 	    "IEnumerable<ReactionEventHandler>" -> "UserAccessListReactionHandler"
 	    "IEnumerable<ReactionEventHandler>" -> "UnverifyListReactionHandler"
-	    "IEnumerable<ReactionEventHandler>" -> "SearchingReactionHandler"
 	    "IEnumerable<ReactionEventHandler>" -> "RemindPostponeReactionHandler"
 	    "EmoteListReactionHandler" -> "DiscordSocketClient"
 	    "EmoteListReactionHandler" -> "EmoteService"
@@ -408,8 +407,6 @@ digraph G {
 	    "UserAccessListReactionHandler" -> "DiscordSocketClient"
 	    "UnverifyListReactionHandler" -> "DiscordSocketClient"
 	    "UnverifyListReactionHandler" -> "UnverifyService"
-	    "SearchingReactionHandler" -> "SearchingService"
-	    "SearchingReactionHandler" -> "DiscordSocketClient"
 	    "RemindPostponeReactionHandler" -> "GrillBotContextFactory"
 	    "RemindPostponeReactionHandler" -> "IDiscordClient"
 	    
@@ -446,6 +443,7 @@ digraph G {
     	    "MockingModule" -> "MockingService"
     	    "PointsModule" -> "PointsService"
     	    "RemindModule" -> "RemindService"
+    	    "SearchingModule" -> "SearchingService"
     	    
 	        label = "Interactions"
 	    }
@@ -467,9 +465,6 @@ digraph G {
     	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> "UnverifyService"
     	    "ServerModule.GuildManagementSubmodule.GuildReactSubModule"
     	    "ServerModule.GuildManagementSubmodule.GuildRoleInfoSubModule"
-    	    
-    	    "SearchingModule" -> "SearchingService"
-    	    "SearchingModule" -> "UserService"
     	    
     	    "PointsModule" -> "PointsService"
     	    "PointsModule" -> "GrillBotContextFactory"
