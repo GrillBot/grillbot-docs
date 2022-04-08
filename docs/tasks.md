@@ -6,7 +6,6 @@ GrillBot má aktuálně integrovány následující plánované úlohy:
 
 - Archivace a mazání starých záznamů z audit logu (každé 2 týdny).
 - Upozorňování na narozeniny uživatele (každý den v 8:00).
-- Čištění statistik emotikonů, které se již na serverech nenachází (každou hodinu).
 - Údržba cache zpráv v paměti (každých 5 minut).
 - Údržba informace o přihlášených uživatelích do webových administrací (každých 15 minut).
 - Rozesílání upozornění (Reminder) v termínu (každých 5 minut).
@@ -21,11 +20,18 @@ Kromě výše uvedených časů se úlohy, které nejsou definovány pomocí cro
 
 ```cs
 using Quartz;
+using GrillBot.Infrastructure.Jobs;
 
 [DisallowConcurrentExecution]
-public class YourJob : IJob
+public class YourJob : Job
 {
-    public async Task Execute(IJobExecutionContext context)
+    public AuditLogClearingJob(LoggingService loggingService, AuditLogService auditLogService, IDiscordClient discordClient,
+        DiscordInitializationService initializationService)
+        : base(loggingService, auditLogService, discordClient, initializationService)
+    {
+    }
+
+    public override async Task RunAsync(IJobExecutionContext context)
     {
         // Implement.
     }
@@ -33,27 +39,7 @@ public class YourJob : IJob
 ```
 
 Doporučuje se na úlohy atribut `DisallowConcurrentExecution`, aby nedošlo k paralelnímu spuštění jedné úlohy.
-Do úlohy je možné vkládat závislosti pomocí konstruktoru z DI kontejneru. Např.:
-
-```cs
-using Quartz;
-using Microsoft.Extensions.Configuration;
-
-[DisallowConcurrentExecution]
-public class YourJob : IJob
-{
-    private IConfiguration Configuration { get; }
-
-    public YourJob(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
-
-    public async Task Execute(IJobExecutionContext context)
-    {
-        // Implement.
-    }
-}
-```
+Pokud chcete, aby úloha nebyla spuštěna, než dojde ke kompletní inicializaci bota, tak stačí nastavit na třídu úlohy atribut `DisallowUninitialized`.
+Do úlohy je možné vkládat závislosti pomocí konstruktoru z DI kontejneru. Již je tak třeba naimportovat služby pro základní chod úlohy.
 
 - Nakonec je třeba úlohu registrovat v souboru [Startup.cs](https://gitlab.com/grillbot/grillbot/-/blob/master/src/GrillBot/GrillBot.App/Startup.cs). V tomto souboru nalezněte volání funkce `AddQuartz(...)`. Do této funkce po vzoru ostatních úloh doplňte odkaz na úlohu. Přepis funkce je `q.AddTriggeredJob<YourJob>(Configuratin, "Your:Path:To:Time:Configuration", bool)`. Pokud chcete ve vaší funkci použít cron expressions, tak jako poslední parametr zadejte hodnotu `true`. Jinak `false`.
