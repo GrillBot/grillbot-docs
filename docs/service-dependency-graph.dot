@@ -67,10 +67,13 @@ digraph G {
 	        "AuditLogService" -> "FileStorageFactory"
 	        "AuditLogService" -> "DiscordInitializationService"
 	        
-	        "AuditLogClearingJob" -> "GrillBotContextFactory"
-	        "AuditLogClearingJob" -> "FileStorageFactory"
-	        "AuditLogClearingJob" -> "IConfiguration"
 	        "AuditLogClearingJob" -> "LoggingService"
+	        "AuditLogClearingJob" -> "AuditLogService"
+	        "AuditLogClearingJob" -> "IDiscordClient"
+	        "AuditLogClearingJob" -> "GrillBotContextFactory"
+	        "AuditLogClearingJob" -> "IConfiguration"
+	        "AuditLogClearingJob" -> "FileStorageFactory"
+	        "AuditLogClearingJob" -> "DiscordInitializationService"
 	    
 	        label = "AuditLog"
 	    }
@@ -83,10 +86,12 @@ digraph G {
     		    color=white
     	    ];
 	    
-	        "BirthdayCronJob" -> "BirthdayService"
 	        "BirthdayCronJob" -> "IConfiguration"
-	        "BirthdayCronJob" -> "DiscordSocketClient"
+	        "BirthdayCronJob" -> "BirthdayService"
 	        "BirthdayCronJob" -> "LoggingService"
+	        "BirthdayCronJob" -> "AuditLogService"
+	        "BirthdayCronJob" -> "ISocketClient"
+	        "BirthdayCronJob" -> "DiscordInitializationService"
 	        
 	        "BirthdayService" -> "DiscordSocketClient"
 	        "BirthdayService" -> "GrillBotContextFactory"
@@ -157,12 +162,8 @@ digraph G {
     	    "EmoteService" -> "IConfiguration"
     	    "EmoteService" -> "MessageCache"
     	    
-    	    "EmoteStatsCleaningJob" -> "EmoteService"
-    	    "EmoteStatsCleaningJob" -> "LoggingService"
-    	    "EmoteStatsCleaningJob" -> "GrillBotContextFactory"
-    	    "EmoteStatsCleaningJob" -> "DiscordSocketClient"
-    	    "EmoteStatsCleaningJob" -> "AuditLogService"
-    	    "EmoteStatsCleaningJob" -> "DiscordInitializationService"
+    	    "EmoteChainService" -> "IConfiguration"
+	        "EmoteChainService" -> "DiscordSocketClient"
 	    
 	        label = "Emotes"
 	    }
@@ -224,8 +225,11 @@ digraph G {
     	    "MessageCache" -> "DiscordInitializationService"
     	    "MessageCache" -> "GrillBotContextFactory"
     	    
-    	    "MessageCacheCheckCron" -> "MessageCache"
     	    "MessageCacheCheckCron" -> "LoggingService"
+    	    "MessageCacheCheckCron" -> "AuditLogService"
+    	    "MessageCacheCheckCron" -> "IDiscordClient"
+    	    "MessageCacheCheckCron" -> "MessageCache"
+    	    "MessageCacheCheckCron" -> "DiscordInitializationService"
 	    
 	        label = "MessageCache"
 	    }
@@ -252,8 +256,11 @@ digraph G {
     		    color=white
     	    ];
     	    
-    	    "RemindCronJob" -> "RemindService"
     	    "RemindCronJob" -> "LoggingService"
+    	    "RemindCronJob" -> "AuditLogService"
+    	    "RemindCronJob" -> "IDiscordClient"
+    	    "RemindCronJob" -> "RemindService"
+    	    "RemindCronJob" -> "DiscordInitializationService"
     	    
     	    "RemindService" -> "DiscordSocketClient"
     	    "RemindService" -> "GrillBotContextFactory"
@@ -277,9 +284,10 @@ digraph G {
     	    "UnverifyChecker" -> "IConfiguration"
     	    "UnverifyChecker" -> "IWebHostEnvironment"
     	    
-    	    "UnverifyCronJob" -> "UnverifyService"
     	    "UnverifyCronJob" -> "LoggingService"
-    	    "UnverifyCronJob" -> "DiscordSocketClient"
+    	    "UnverifyCronJob" -> "AuditLogService"
+    	    "UnverifyCronJob" -> "IDiscordClient"
+    	    "UnverifyCronJob" -> "UnverifyService"
     	    "UnverifyCronJob" -> "DiscordInitializationService"
     	    
     	    "UnverifyLogger" -> "DiscordSocketClient"
@@ -305,8 +313,11 @@ digraph G {
     		    color=white
     	    ];
     	    
-    	    "OnlineUsersCleanJob" -> "GrillBotContextFactory"
     	    "OnlineUsersCleanJob" -> "LoggingService"
+    	    "OnlineUsersCleanJob" -> "AuditLogService"
+    	    "OnlineUsersCleanJob" -> "IDiscordClient"
+    	    "OnlineUsersCleanJob" -> "GrillBotContextFactory"
+    	    "OnlineUsersCleanJob" -> "DiscordInitializationService"
     	    
     	    "PointsService" -> "DiscordSocketClient"
     	    "PointsService" -> "GrillBotContextFactory"
@@ -336,9 +347,6 @@ digraph G {
 	    "ChannelService" -> "GrillBotContextFactory"
 	    "ChannelService" -> "IConfiguration"
 	    "ChannelService" -> "MessageCache"
-	    
-	    "EmoteChainService" -> "IConfiguration"
-	    "EmoteChainService" -> "DiscordSocketClient"
 	    
 	    "InviteService" -> "DiscordSocketClient"
 	    "InviteService" -> "GrillBotContextFactory"
@@ -401,15 +409,15 @@ digraph G {
 	    "HelpReactionHandler" -> "DiscordSocketClient"
 	    "HelpReactionHandler" -> "IServiceProvider"
 	    "HelpReactionHandler" -> "IConfiguration"
-	    "ChannelBoardReactionHandler" -> "GrillBotContextFactory"
-	    "ChannelBoardReactionHandler" -> "DiscordSocketClient"
+	    "ChannelboardReactionHandler" -> "GrillBotContextFactory"
+	    "ChannelboardReactionHandler" -> "DiscordSocketClient"
 	    "PointsBoardReactionHandler" -> "GrillBotContextFactory"
 	    "PointsBoardReactionHandler" -> "DiscordSocketClient"
+	    "RemindPostponeReactionHandler" -> "GrillBotContextFactory"
+	    "RemindPostponeReactionHandler" -> "IDiscordClient"
 	    "UserAccessListReactionHandler" -> "DiscordSocketClient"
 	    "UnverifyListReactionHandler" -> "DiscordSocketClient"
 	    "UnverifyListReactionHandler" -> "UnverifyService"
-	    "RemindPostponeReactionHandler" -> "GrillBotContextFactory"
-	    "RemindPostponeReactionHandler" -> "IDiscordClient"
 	    
 	    label = "Handlers"
 	}
@@ -433,6 +441,8 @@ digraph G {
     	    "SelfUnverifyModule" -> "SelfUnverifyService"
     	    "SelfUnverifyModule" -> "IConfiguration"
     	    "UserMeModule" -> "UserService"
+    	    "BirthdayModule" -> "BirthdayService"
+    	    "BirthdayModule" -> "IConfiguration"
             "BotModule"
     	    "BotModule.SelfUnverifyConfig" -> "SelfUnverifyService"
             "DuckModule" -> "IHttpClientFactory"
@@ -478,9 +488,6 @@ digraph G {
     	    "HelpModule" -> "IServiceProvider"
     	    
     	    "ChannelModule" -> "GrillBotContextFactory"
-
-    	    "BirthdayModule" -> "BirthdayService"
-    	    "BirthdayModule" -> "IConfiguration"
     	    
     	    "UserModule" -> "UserService"
     	    

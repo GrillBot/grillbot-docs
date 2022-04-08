@@ -4,21 +4,13 @@ Funkcionalita narozenin slouží k oznamování, kdy má kdo narozeniny. Vyhodno
 
 ## Příkazy
 
-_Všechny příkazy počítají s výchozím prefixem `$`. Pokud máte v konfiguraci vlastní prefix, pak jej zohledněte._
+*Všechny příkazy mají jednotnou skupinu `/narozeniny` a jsou integrovány jako "slash commands".*
 
-Příkazy mají jednotnou skupinu příkazů pojmenovanou jako `$birthday`, případně aliasem `$narozeniny`.
-
-- `$birthday {kdy}` - Uložení data narození k uživateli, který použil příkaz. **Datum narození nelze přiřadit jinému uživateli.**
-  - Alias: `$narozeniny {kdy}`
+- `/narozeniny pridat {kdy}` - Uložení data narození k uživateli, který použil příkaz. **Datum narození nelze přiřadit jinému uživateli.**
   - Parametry:
     - `kdy` (DateTime) - Datum narození. Pokud si nepřejete uložit věk, pak zadejte rok `0001`.
-  - Příklad: `$birthday 1997-06-05`
-  - Oprávnění:
-    - Vyžadováno, aby bot měl oprávnění přidávat v kanálu reakce.
-- `$birthday have?` - Zjištění, zda má uživatel uloženo datum narození. **Není možné zjistit, zda má někdo uloženo datum narození jiného uživatele.**
-  - Alias: `$birthday mam?`, `$narozeniny mam?`
+  - Příklad: `/narozeniny pridat 1997-06-05`
+- `/narozeniny mam` - Zjištění, zda má uživatel uloženo datum narození. **Není možné zjistit, zda má někdo uloženo datum narození jiného uživatele.**
   - Příkaz nemá žádné parametry.
-- `$birthday remove` - Smazání data narození uživatele. **Není možné smazat datum narození někomu jinému uživateli.**
-  - Alias: `$birthday gone`, `$birthday pryc`, `$birthday pryč`, `$birthday smazat`. Stejné aliasy je možné použít i při nahrazení prefixu `$birthday` za `$narozeniny`.
-- `$birthday` - Zjišťění, kdo má dnes narozeniny.
-  - Alias: `$narozeniny`
+- `/narozeniny smazat` - Smazání data narození uživatele. **Není možné smazat datum narození někomu jinému uživateli.**
+- `/narozeniny dnes` - Zjišťění, kdo má dnes narozeniny.
