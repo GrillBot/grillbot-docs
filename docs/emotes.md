@@ -6,17 +6,15 @@ Sbírání statistik se provádí tak, že bot automaticky skenuje každou zprá
 
 ## Příkazy
 
-_Všechny příkazy počítají s výchozím prefixem `$`. Pokud máte v konfiguraci vlastní prefix, pak jej zohledněte._
 
-Příkazy mají jednotnou skupinu příkazů pojmenovanou jako `$emote`.
+*Všechny příkazy mají jednotnou skupinu `/emote` a jsou integrovány jako "slash commands".*
 
-- `$emote list [{id/tag/jmeno uzivatele}]` - Jedná se o alias pro `$emote list count desc [{id/tag/jmeno uzivatele}]`.
-- `$emote list count desc [{id/tag/jmeno uzivatele}]` - Statistika použití emotikonů podle počtu použití seřazené sestupně.
-- `$emote list count asc [{id/tag/jmeno uzivatele}]` - Statistika použití emotikonů podle počtu použití seřazené vzestupně.
-- `$emote list lastuse desc [{id/tag/jmeno uzivatele}]` - Statistika použití emotikonů podle data a času posledního použití seřazeno sestupně.
-- `$emote list lastuse asc [{id/tag/jmeno uzivatele}]` - Statistika použití emotikonů podle data a času posledního použití seřazeno vzestupně.
+- `/emote list {order} {direction} [{user}]`
+  - Statistika použití emotikonů.
   - Parametry:
-    - `id/tag/jmeno uzivatele` - Identifikace uživatele. Je možné použít tag, identifikátor, uživatelské jméno případně server alias, pokud nějaký uživatel mám. Volitelný parametr. Pokud není zadán uživatel, pak je statistika za všechny uživatele.
-- `$emote get {emote/id/nazev}` - Získání statistiky emotikonu. Vypíše základní informace o emotikonu, datum a čas prvního a posledního výskytu, dobu od posledního použití, počet použití, počet uživatelů, kteří použili emotikon a TOP10 uživatelů, kteří použili emotikon.
+    - `order` - Podle kterého kritéria se má řadit. Na výběr jsou možnosti podle počtu použití daného emote, nebo podle data a času posledního použití.
+    - `direction` - Zda se má použít vzestupné nebo sestupné řazení.
+    - `user` - Identifikace uživatele. Je možné použít tag, identifikátor, uživatelské jméno případně server alias, pokud nějaký uživatel mám. Volitelný parametr. Pokud není zadán uživatel, pak je statistika za všechny uživatele.
+- `/emote get {emote/id/nazev}` - Získání statistiky emotikonu. Vypíše základní informace o emotikonu, datum a čas prvního a posledního výskytu, dobu od posledního použití, počet použití, počet uživatelů, kteří použili emotikon a TOP10 uživatelů, kteří použili emotikon.
   - Parametry:
     - `emote/id/nazev` - Identifikace emotikonu. Je možné použít samotný emotikon v plném formátu, identifikátor nebo název.

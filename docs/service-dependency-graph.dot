@@ -21,6 +21,10 @@ digraph G {
         "DataController" -> "CommandService"
         "DataController" -> "IConfiguration"
         "DataController" -> "InteractionService"
+        "DataController" -> "EmotesCacheService"
+        "DataController" -> "IMapper"
+        "DocsController"
+        "EmotesController" -> "EmotesApiService"
         "GuildController" -> "GrillBotContext"
         "GuildController" -> "DiscordSocketClient"
         "InviteController" -> "InviteService"
@@ -90,7 +94,7 @@ digraph G {
 	        "BirthdayCronJob" -> "BirthdayService"
 	        "BirthdayCronJob" -> "LoggingService"
 	        "BirthdayCronJob" -> "AuditLogService"
-	        "BirthdayCronJob" -> "ISocketClient"
+	        "BirthdayCronJob" -> "IDiscordClient"
 	        "BirthdayCronJob" -> "DiscordInitializationService"
 	        
 	        "BirthdayService" -> "DiscordSocketClient"
@@ -157,13 +161,24 @@ digraph G {
     		    color=white
     	    ];
     	    
+    	    "EmoteChainService" -> "IConfiguration"
+	        "EmoteChainService" -> "DiscordSocketClient"
+	        
+	        "EmotesApiService" -> "GrillBotContextFactory"
+	        "EmotesApiService" -> "EmotesCacheService"
+	        "EmotesApiService" -> "IMapper"
+	        
+	        "EmotesCacheService" -> "DiscordSocketClient"
+	        
+	        "EmotesCommandService" -> "IServiceProvider"
+	        "EmotesCommandService" -> "GrillBotContextFactory"
+	        "EmotesCommandService" -> "IDiscordClient"
+    	    
     	    "EmoteService" -> "DiscordSocketClient"
     	    "EmoteService" -> "GrillBotContextFactory"
     	    "EmoteService" -> "IConfiguration"
     	    "EmoteService" -> "MessageCache"
-    	    
-    	    "EmoteChainService" -> "IConfiguration"
-	        "EmoteChainService" -> "DiscordSocketClient"
+    	    "EmoteService" -> "EmotesCacheService"
 	    
 	        label = "Emotes"
 	    }
@@ -396,15 +411,12 @@ digraph G {
 	    "ReactionHandler" -> "DiscordInitializationService"
 	    "ReactionHandler" -> "LoggingService"
 	    
-	    "IEnumerable<ReactionEventHandler>" -> "EmoteListReactionHandler"
 	    "IEnumerable<ReactionEventHandler>" -> "HelpReactionHandler"
 	    "IEnumerable<ReactionEventHandler>" -> "ChannelBoardReactionHandler"
 	    "IEnumerable<ReactionEventHandler>" -> "PointsBoardReactionHandler"
 	    "IEnumerable<ReactionEventHandler>" -> "UserAccessListReactionHandler"
 	    "IEnumerable<ReactionEventHandler>" -> "UnverifyListReactionHandler"
 	    "IEnumerable<ReactionEventHandler>" -> "RemindPostponeReactionHandler"
-	    "EmoteListReactionHandler" -> "DiscordSocketClient"
-	    "EmoteListReactionHandler" -> "EmoteService"
 	    "HelpReactionHandler" -> "CommandService"
 	    "HelpReactionHandler" -> "DiscordSocketClient"
 	    "HelpReactionHandler" -> "IServiceProvider"
@@ -447,7 +459,7 @@ digraph G {
     	    "BotModule.SelfUnverifyConfig" -> "SelfUnverifyService"
             "DuckModule" -> "IHttpClientFactory"
     	    "DuckModule" -> "IConfiguration"
-    	    "EmoteModule" -> "EmoteService"
+    	    "EmoteModule" -> "EmotesCommandService"
     	    "MathModule" -> "IHttpClientFactory"
     	    "MemeModule" -> "RandomizationService"
     	    "MemeModule" -> "IConfiguration"
@@ -496,11 +508,6 @@ digraph G {
     	    
     	    "FunverifyModule" -> "UnverifyService"
     	    "FunverifyModule" -> "IConfiguration"
-    	    
-    	    "EmotesModule"
-    	    "EmotesModule.EmoteListSubModule"
-    	    "EmotesModule.EmoteListSubModule.EmoteListByCountSubModule" -> "EmoteService"
-    	    "EmotesModule.EmoteListSubModule.EmoteListByLastUseSubModule" -> "EmoteService"
     	    
 	        label = "TextBased"
 	    }
