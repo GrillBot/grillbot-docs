@@ -6,7 +6,6 @@ Sbírání statistik se provádí tak, že bot automaticky skenuje každou zprá
 
 ## Příkazy
 
-
 *Všechny příkazy mají jednotnou skupinu `/emote` a jsou integrovány jako "slash commands".*
 
 - `/emote list {order} {direction} [{user}]`
