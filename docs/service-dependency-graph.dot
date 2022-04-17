@@ -11,40 +11,23 @@ digraph G {
 		
 		"AuditLogController" -> "AuditLogService"
         "OAuth2Controller" -> "OAuth2Service"
-        "AutoReplyController" -> "AutoReplyService"
-        "ChannelController" -> "DiscordSocketClient"
-        "ChannelController" -> "GrillBotContext"
-        "ChannelController" -> "MessageCache"
-        "ChannelController" -> "ChannelService"
-        "DataController" -> "DiscordSocketClient"
-        "DataController" -> "GrillBotContext"
-        "DataController" -> "CommandService"
-        "DataController" -> "IConfiguration"
-        "DataController" -> "InteractionService"
-        "DataController" -> "EmotesCacheService"
-        "DataController" -> "IMapper"
+        AutoReplyController -> { AutoReplyApiService }
+        ChannelController -> { DiscordSocketClient GrillBotContext MessageCache ChannelService IMapper }
+        DataController -> { DiscordSocketClient GrillBotContext CommandService IConfiguration InteractionService EmotesCacheService IMapper }
         "DocsController"
         "EmotesController" -> "EmotesApiService"
-        "GuildController" -> "GrillBotContext"
-        "GuildController" -> "DiscordSocketClient"
+        GuildController -> { GrillBotContext DiscordSocketClient GuildService IMapper }
         "InviteController" -> "InviteService"
-        "PermissionsController" -> "GrillBotContext"
-        "ReminderController" -> "GrillBotContext"
-        "ReminderController" -> "RemindService"
+        PermissionsController -> { GrillBotContext DiscordSocketClient IMapper }
+        ReminderController -> { GrillBotContext RemindService IMapper }
         "SearchingController" -> "SearchingService"
         "SelfUnverifyController" -> "SelfUnverifyService"
         "SystemController" -> "IWebHostEnvironment"
         "SystemController" -> "DiscordSocketClient"
         "SystemController" -> "GrillBotContext"
         "SystemController" -> "DiscordInitializationService"
-        "UnverifyController" -> "UnverifyService"
-        "UnverifyController" -> "DiscordSocketClient"
-        "UnverifyController" -> "GrillBotContext"
-        "UsersController" -> "GrillBotContext"
-        "UsersController" -> "DiscordSocketClient"
-        "UsersController" -> "CommandsHelpService"
-        "UsersController" -> "ExternalCommandsHelpService"
-        "UsersController" -> "AuditLogService"
+        UnverifyController -> { UnverifyService DiscordSocketClient GrillBotContext IMapper UnverifyApiService }
+        UsersController -> { GrillBotContext DiscordSocketClient CommandsHelpService ExternalCommandsHelpService AuditLogService IMapper }
 		
 		label = "API (Controllers)";
 	}
@@ -57,11 +40,7 @@ digraph G {
 		    color=white
 	    ];
 	    
-	    "AuditLogService" -> "DiscordSocketClient"
-	    "AuditLogService" -> "GrillBotContextFactory"
-	    "AuditLogService" -> "MessageCache"
-	    "AuditLogService" -> "FileStorageFactory"
-	    "AuditLogService" -> "DiscordInitializationService"
+	    AuditLogService -> { DiscordSocketClient GrillBotContextFactory MessageCache FileStorageFactory DiscordInitializationService IMapper }
 	    "AuditLogClearingJob" -> "LoggingService"
 	    "AuditLogClearingJob" -> "AuditLogService"
 	    "AuditLogClearingJob" -> "IDiscordClient"
@@ -105,9 +84,7 @@ digraph G {
         
         "EmoteChainService" -> "IConfiguration"
         "EmoteChainService" -> "DiscordSocketClient"
-        "EmotesApiService" -> "GrillBotContextFactory"
-        "EmotesApiService" -> "EmotesCacheService"
-        "EmotesApiService" -> "IMapper"
+        EmotesApiService -> { GrillBotContextFactory EmotesCacheService IMapper }
         "EmotesCacheService" -> "DiscordSocketClient"
         "EmotesCommandService" -> "IServiceProvider"
         "EmotesCommandService" -> "GrillBotContextFactory"
@@ -120,7 +97,7 @@ digraph G {
 	    
 	    "FileStorageFactory" -> "IConfiguration"
 	    
-	    GuildService -> { DiscordSocketClient GrillBotContextFactory }
+	    GuildService -> { DiscordSocketClient GrillBotContextFactory IMapper }
 	    
 	    "PeepoangryRenderer" -> "FileStorageFactory"
 	    "PeepoloveRenderer" -> "FileStorageFactory"
@@ -163,6 +140,8 @@ digraph G {
 	    "SelfUnverifyService" -> "UnverifyService"
 	    "SelfUnverifyService" -> "GrillBotContextFactory"
 	    
+	    UnverifyApiService -> { GrillBotContextFactory IMapper IDiscordClient }
+	    
 	    "UnverifyChecker" -> "GrillBotContextFactory"
 	    "UnverifyChecker" -> "IConfiguration"
 	    "UnverifyChecker" -> "IWebHostEnvironment"
@@ -202,7 +181,7 @@ digraph G {
 	    "UserService" -> "IConfiguration"
 	    "UserService" -> "DiscordSocketClient"
 	   
-	    
+	    AutoReplyApiService -> { AutoReplyService GrillBotContextFactory IMapper }
 	    "AutoReplyService" -> "IConfiguration"
 	    "AutoReplyService" -> "DiscordSocketClient"
 	    "AutoReplyService" -> "GrillBotContextFactory"
@@ -213,14 +192,8 @@ digraph G {
 	    "BoosterService" -> "IConfiguration"
 	    "BoosterService" -> "DiscordInitializationService"
 	    
-	    "ChannelService" -> "DiscordSocketClient"
-	    "ChannelService" -> "GrillBotContextFactory"
-	    "ChannelService" -> "IConfiguration"
-	    "ChannelService" -> "MessageCache"
-	    
-	    "InviteService" -> "DiscordSocketClient"
-	    "InviteService" -> "GrillBotContextFactory"
-	    "InviteService" -> "AuditLogService"
+	    ChannelService -> { DiscordSocketClient GrillBotContextFactory IConfiguration MessageCache IMapper }
+	    InviteService -> { DiscordSocketClient GrillBotContextFactory AuditLogService IMapper }
 	    
 	    "MockingService" -> "IConfiguration"
 	    "MockingService" -> "RandomizationService"
@@ -232,9 +205,7 @@ digraph G {
 	    
 	    "RandomizationService"
 	    
-	    "SearchingService" -> "DiscordSocketClient"
-	    "SearchingService" -> "GrillBotContextFactory"
-	    "SearchingService" -> "UserService"
+	    SearchingService -> { DiscordSocketClient GrillBotContextFactory UserService IMapper }
 	    
 	    label = "Services"
 	}
