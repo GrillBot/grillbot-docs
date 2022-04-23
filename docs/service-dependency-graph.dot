@@ -9,17 +9,16 @@ digraph G {
 		    color=white
 	    ];
 		
-		"AuditLogController" -> "AuditLogService"
+		AuditLogController -> { AuditLogApiService }
         "OAuth2Controller" -> "OAuth2Service"
         AutoReplyController -> { AutoReplyApiService }
-        ChannelController -> { DiscordSocketClient GrillBotContext MessageCache ChannelService IMapper }
+        ChannelController -> { ChannelApiService }
         DataController -> { DiscordSocketClient GrillBotContext CommandService IConfiguration InteractionService EmotesCacheService IMapper }
-        "DocsController"
         "EmotesController" -> "EmotesApiService"
-        GuildController -> { GrillBotContext DiscordSocketClient GuildService IMapper }
+        GuildController -> { GuildApiService }
         "InviteController" -> "InviteService"
         PermissionsController -> { GrillBotContext DiscordSocketClient IMapper }
-        ReminderController -> { GrillBotContext RemindService IMapper }
+        ReminderController -> { RemindService RemindApiService }
         "SearchingController" -> "SearchingService"
         "SelfUnverifyController" -> "SelfUnverifyService"
         "SystemController" -> "IWebHostEnvironment"
@@ -27,7 +26,7 @@ digraph G {
         "SystemController" -> "GrillBotContext"
         "SystemController" -> "DiscordInitializationService"
         UnverifyController -> { UnverifyService DiscordSocketClient GrillBotContext IMapper UnverifyApiService }
-        UsersController -> { GrillBotContext DiscordSocketClient CommandsHelpService ExternalCommandsHelpService AuditLogService IMapper }
+        UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService }
 		
 		label = "API (Controllers)";
 	}
@@ -40,7 +39,8 @@ digraph G {
 		    color=white
 	    ];
 	    
-	    AuditLogService -> { DiscordSocketClient GrillBotContextFactory MessageCache FileStorageFactory DiscordInitializationService IMapper }
+	    AuditLogService -> { DiscordSocketClient GrillBotContextFactory MessageCache FileStorageFactory DiscordInitializationService }
+	    AuditLogApiService -> { GrillBotContextFactory IMapper FileStorageFactory }
 	    "AuditLogClearingJob" -> "LoggingService"
 	    "AuditLogClearingJob" -> "AuditLogService"
 	    "AuditLogClearingJob" -> "IDiscordClient"
@@ -97,7 +97,8 @@ digraph G {
 	    
 	    "FileStorageFactory" -> "IConfiguration"
 	    
-	    GuildService -> { DiscordSocketClient GrillBotContextFactory IMapper }
+	    GuildApiService -> { GrillBotContextFactory DiscordSocketClient IMapper }
+	    ChannelApiService -> { GrillBotContextFactory IMapper IDiscordClient MessageCache AuditLogService }
 	    
 	    "PeepoangryRenderer" -> "FileStorageFactory"
 	    "PeepoloveRenderer" -> "FileStorageFactory"
@@ -122,19 +123,13 @@ digraph G {
 	    "PermissionsService" -> "GrillBotContextFactory"
 	    "PermissionsService" -> "IServiceProvider"
 	    
-	    "RemindCronJob" -> "LoggingService"
-	    "RemindCronJob" -> "AuditLogService"
-	    "RemindCronJob" -> "IDiscordClient"
-	    "RemindCronJob" -> "RemindService"
-	    "RemindCronJob" -> "DiscordInitializationService"
+	    RemindCronJob -> { LoggingService AuditLogService IDiscordClient RemindService DiscordInitializationService }
+	    RemindService -> { DiscordSocketClient GrillBotContextFactory IConfiguration AuditLogService }
+	    RemindApiService -> { GrillBotContextFactory IMapper }
 	    
-	    "RemindService" -> "DiscordSocketClient"
-	    "RemindService" -> "GrillBotContextFactory"
-	    "RemindService" -> "IConfiguration"
-	    
-	    EmoteSuggestionService -> { SuggestionSessionService GuildService }
+	    EmoteSuggestionService -> { SuggestionSessionService GrillBotContextFactory }
 	    FeatureSuggestionService -> { SuggestionSessionService IConfiguration }
-	    SuggestionJon -> { LoggingService AuditLogService IDiscordClient DiscordInitializationService SuggestionService GrillBotContextFactory }
+	    SuggestionJob -> { LoggingService AuditLogService IDiscordClient DiscordInitializationService SuggestionService GrillBotContextFactory }
 	    SuggestionService -> { EmoteSuggestionService FeatureSuggestionService IDiscordClient SuggestionSessionService }
 	    
 	    "SelfUnverifyService" -> "UnverifyService"
@@ -177,9 +172,8 @@ digraph G {
 	    "PointsService" -> "MessageCache"
 	    "PointsService" -> "RandomizationService"
 	    
-	    "UserService" -> "GrillBotContextFactory"
-	    "UserService" -> "IConfiguration"
-	    "UserService" -> "DiscordSocketClient"
+	    UserService -> { GrillBotContextFactory IConfiguration DiscordSocketClient }
+	    UsersApiService -> { GrillBotContextFactory IMapper IDiscordClient AuditLogService }
 	   
 	    AutoReplyApiService -> { AutoReplyService GrillBotContextFactory IMapper }
 	    "AutoReplyService" -> "IConfiguration"
@@ -192,7 +186,7 @@ digraph G {
 	    "BoosterService" -> "IConfiguration"
 	    "BoosterService" -> "DiscordInitializationService"
 	    
-	    ChannelService -> { DiscordSocketClient GrillBotContextFactory IConfiguration MessageCache IMapper }
+	    ChannelService -> { DiscordSocketClient GrillBotContextFactory IConfiguration MessageCache }
 	    InviteService -> { DiscordSocketClient GrillBotContextFactory AuditLogService IMapper }
 	    
 	    "MockingService" -> "IConfiguration"
