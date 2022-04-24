@@ -25,7 +25,7 @@ digraph G {
         "SystemController" -> "DiscordSocketClient"
         "SystemController" -> "GrillBotContext"
         "SystemController" -> "DiscordInitializationService"
-        UnverifyController -> { UnverifyService DiscordSocketClient GrillBotContext IMapper UnverifyApiService }
+        UnverifyController -> { UnverifyService IDiscordClient IMapper UnverifyApiService }
         UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService }
 		
 		label = "API (Controllers)";
