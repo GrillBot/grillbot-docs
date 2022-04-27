@@ -10,21 +10,19 @@ digraph G {
 	    ];
 		
 		AuditLogController -> { AuditLogApiService }
-        "OAuth2Controller" -> "OAuth2Service"
+        OAuth2Controller -> OAuth2Service
         AutoReplyController -> { AutoReplyApiService }
         ChannelController -> { ChannelApiService }
         DataController -> { DiscordSocketClient GrillBotContext CommandService IConfiguration InteractionService EmotesCacheService IMapper }
-        "EmotesController" -> "EmotesApiService"
+        EmotesController -> EmotesApiService
         GuildController -> { GuildApiService }
-        "InviteController" -> "InviteService"
+        InviteController -> InviteService
         PermissionsController -> { GrillBotContext DiscordSocketClient IMapper }
         ReminderController -> { RemindService RemindApiService }
-        "SearchingController" -> "SearchingService"
-        "SelfUnverifyController" -> "SelfUnverifyService"
-        "SystemController" -> "IWebHostEnvironment"
-        "SystemController" -> "DiscordSocketClient"
-        "SystemController" -> "GrillBotContext"
-        "SystemController" -> "DiscordInitializationService"
+        SearchingController -> SearchingService
+        SelfUnverifyController -> SelfUnverifyService
+        StatisticsController -> { GrillBotContextFactory }
+        SystemController -> { IWebHostEnvironment DiscordSocketClient DiscordInitializationService }
         UnverifyController -> { UnverifyService IDiscordClient IMapper UnverifyApiService }
         UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService }
 		
