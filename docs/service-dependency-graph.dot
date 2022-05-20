@@ -21,7 +21,7 @@ digraph G {
         ReminderController -> { RemindService RemindApiService }
         SearchingController -> SearchingService
         SelfUnverifyController -> SelfUnverifyService
-        StatisticsController -> { GrillBotContextFactory }
+        StatisticsController -> { GrillBotContextFactory GrillBotCacheBuilder }
         SystemController -> { IWebHostEnvironment DiscordSocketClient DiscordInitializationService }
         UnverifyController -> { UnverifyService IDiscordClient IMapper UnverifyApiService }
         UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService RubbergodKarmaService }
@@ -59,7 +59,7 @@ digraph G {
         
         CommandsHelpService -> { DiscordSocketClient CommandService ChannelService IServiceProvider IConfiguration }
         ExternalCommandsHelpService -> { DirectApiService IConfiguration IServiceProvider }
-        DirectApiService -> { DiscordSocketClient IConfiguration IMemoryCache DiscordInitializationService }
+        DirectApiService -> { DiscordSocketClient IConfiguration DiscordInitializationService GrillBotCacheBuilder }
         
         "DiscordHealthCheck" -> "DiscordSocketClient"
         "DiscordInitializationService" -> "ILogger"
@@ -83,7 +83,7 @@ digraph G {
 	    
 	    "FileStorageFactory" -> "IConfiguration"
 	    
-	    GuildApiService -> { GrillBotContextFactory DiscordSocketClient IMapper }
+	    GuildApiService -> { GrillBotContextFactory DiscordSocketClient IMapper GrillBotCacheBuilder }
 	    
 	    ChannelService -> { DiscordSocketClient GrillBotContextFactory IConfiguration MessageCache }
 	    ChannelApiService -> { GrillBotContextFactory IMapper IDiscordClient MessageCache AuditLogService AutoReplyService }
@@ -98,9 +98,7 @@ digraph G {
 	    "LoggingService" -> "GrillBotContextFactory"
 	    "LoggingService" -> "InteractionService"
 	    
-	    "MessageCache" -> "DiscordSocketClient"
-	    "MessageCache" -> "DiscordInitializationService"
-	    "MessageCache" -> "GrillBotContextFactory"
+	    MessageCache -> { DiscordSocketClient DiscordInitializationService GrillBotCacheBuilder }
 	    
 	    "MessageCacheCheckCron" -> "LoggingService"
 	    "MessageCacheCheckCron" -> "AuditLogService"
