@@ -1,6 +1,6 @@
 # GrillBot / Funkce / Narozeniny
 
-Funkcionalita narozenin slouží k oznamování, kdy má kdo narozeniny. Vyhodnocení narozenin probíhá na základě data narození, který si každý uživatel ukldádá sám na pomocí příkazu. Samotné oznámení o narozeninách je možné provést pomocí příkazu, nebo počkat na provedení naplánované úlohy. Ve výchozí konfiguraci se naplánovaná úloha spouští každých 24 hodin.
+Funkcionalita narozenin slouží k oznamování, kdy má kdo narozeniny. Vyhodnocení narozenin probíhá na základě data narození, který si každý uživatel ukldádá sám na pomocí příkazu. Samotné oznámení o narozeninách je možné provést pomocí příkazu, nebo počkat na provedení naplánované úlohy. Ve výchozí konfiguraci se naplánovaná úloha spouští každých 24 hodin (v 8:00 AM).
 
 ## Příkazy
 

@@ -14,7 +14,8 @@ Za účelem správného chodu GrillBot musí uchovávat v databázi informace o 
 
 Data jsou v databázi uchovávany na základě jejich potřeby po různou dobu.
 
-- Záznamy z logování provozu starší, než 4 měsíce jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data uchovány po dobu minimálně dalších 6 měsíců. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně smazat.
+- Záznamy z logování provozu starší, než 12 měsíců jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data uchovány po dobu minimálně dalšího jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně smazat.
+- Záznamy z provozu funkcionality odebírání a vrácení přístupů (dále jen unverify) starší, než 12 měsíců jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data uchovávány po dobu minimálně dalšího jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně smazat.
 - Ostatní výše nezmíněné data jsou v databázi uchovány po dobu existence discord serveru na kterém se bot nachází a to i po opuštění bota ze serveru.
 
 Administrátor serveru je oprávněn provádět pravidelné zálohy celé databáze (kromě výše uvedené automatizované archivace) za účelem zajištění provozuschopnosti služby. Administrátor serveru na kterém běží instance aplikace sám rozhodne, jak dlouho bude držet zálohy.
@@ -81,14 +82,15 @@ GrillBot v databázi o samotném uživateli eviduje následující:
   - Bit 4 (`8`): Informační bit, že je uživatel přihlášen v privátní webové administraci.
   - Bit 5 (`16`): Uživatel má zablokovaný přístup k veřejné administraci.
   - Bit 6 (`32`): Informační bit, že je uživatel přihlášen ve veřejné webové administraci.
-- Datum a čas narození uživatele. Jedná se o datum s volitelnou specifikací roku. Datum narození si zadává a odebírá uživatel sám. Ostatní osoby nemohou s datem narození jiného uživatele vůbec manipulovat. Oprávněné osoby mají přístup pouze k informaci o tom, zda má uživatel datum narození uloženo (ANO/NE). Nevidí konkrétní datum. Uložením data narození dává uživatel souhlas k nakládání s datem narození za účelem prezentace ke dni narozenin prostřednictvím příkazu a automatizovaného upozornění.
+  - Bit 7 (`64`): Veškeré příkazy pro daného uživatele jsou zablokovány.
+- Datum a čas narození uživatele. Jedná se o datum s volitelnou specifikací roku. Datum narození si zadává a odebírá uživatel sám. Ostatní osoby nemohou s datem narození jiného uživatele vůbec manipulovat. Oprávněné osoby mají přístup pouze k informaci o tom, zda má uživatel datum narození uloženo (ANO/NE). Žádný uživatel nevidí konkrétní datum. Uložením data narození dává uživatel souhlas k nakládání s datem narození za účelem prezentace ke dni narozenin prostřednictvím příkazu a automatizovaného upozornění.
 - Interní poznámka, kterou si mohou oprávněné osoby k uživateli napsat pomocí webové administrace.
-- Aktuální uživatelské jméno ze služby Discord.
+- Aktuální uživatelské jméno, diskriminátor a stav přihlášení (Online, Offline, ...) ze služby Discord.
 - Agregované informace o použitých emotikonech.
 - Interní poznámka nastavitelná v privátní administraci. Vidí ji všechny oprávněné osoby. Poznámka není dostupná ve veřejné administraci.
 - Minimální doba, na kterou si uživatel může dát selfunverify. Pokud není nastaveno, tak se na něj vztahuje výchozí nastavení.
 
-Každý uživatel má přístup ke svým informacím pomocí příkazu `$me`, nebo pomocí veřejné administrace. Oprávněné osoby mají přístup ke všem údajům o uživatelích a to pomocí příkazu `$user info`, nebo pomocí webové administrace.
+Každý uživatel má přístup ke svým informacím pomocí příkazu `/me`, nebo pomocí veřejné administrace. Oprávněné osoby mají přístup ke všem údajům o uživatelích a to pomocí příkazu `$user info`, nebo pomocí webové administrace.
 
 ### Statistika používání emotikonů
 
@@ -96,6 +98,7 @@ Statistika o používání různých emotikonů. Vytváří se statistika pouze 
 
 - Jednoznačný identifikátor emotikonu ve formátu `<:nazev:id>`.
 - Identifikace uživatele. Který emoji použil.
+- Identifikace serveru, ve kterém se emote nachází.
 - Počet použití emotikonu.
 - Datum a čas prvního výskytu emotikonu, který bot zaznamenal.
 - Datum a čas posledního výskytu emotikonu, který bot zaznamenal.
@@ -122,6 +125,7 @@ K zajištění konzistence dat je zapotřebí pro každý discord server uchová
 - Identifikátor role, která obsahuje oprávnění, které uzamkne psaní ve všech textových kanálech a nepovolí připojení do hlasových kanálů (Volitelně).
 - Identifikátor administrátorského/systémového kanálu (Volitelně).
 - Identifikátor role, kterou mají "Server booster" uživatelé. Nastavuje se automaticky při startu aplikace.
+- Identifikátor kanálu pro návrhy emotů.
 
 #### Informace o uživateli na serveru
 
@@ -142,7 +146,7 @@ Pro každý textový kanál, který se nachází na serveru a byla na něm prove
 - Název kanálu
 - Typ kanálu
 
-_Identifikátor nadřazeného kanálu se uchovává pouze v případě, že kanál je vlákno._
+_Identifikátor nadřazeného kanálu se uchovává pouze v případě, že se jedná o vlákno._
 
 Za každého uživatele jsou pak u kanálu uloženy následující data:
 
@@ -189,7 +193,10 @@ Logování probíhá formou událostí různých typů. Tyto události jsou:
 | `UserLeft`           | Uživatel opustil server.                                                                                     |
 | `MessageEdited`      | Obsah nějaké zprávy byl upraven.                                                                             |
 | `MessageDeleted`     | Zpráva byla na serveru smazána.                                                                              |
-| `InteractionCommand` | Provedení integrovaného příkazu (Slash command, Message command, User command)                               |
+| `InteractionCommand` | Provedení integrovaného příkazu (Slash command, Message command, User command).                              |
+| `ThreadDeleted`      | Smazání vlákna.                                                                                              |
+| `JobCompleted`       | Dokončení automaticky naplánované úlohy.                                                                     |
+| `API`                | Požadavek na REST API.                                                                                       |
 
 U všech událostí se evidují tyto společné vlastnosti:
 
@@ -215,6 +222,7 @@ Většina událostí obsahuje v záznamu také data specifické k určitému typ
   - Typ chyby, který vznikl při provádění příkazu, pokud se neprovedl správně.
   - Textovou reprezentaci chyby, která vznikla při prováděné příkazu. Pokud se příkaz neprovedl správně.
 - Vytvoření a smazání kanálu:
+  - Identifikátor kanálu
   - Název kanálu.
   - Typ kanálu (Text, Hlasový, Kategorie).
   - Příznak NSFW (**N**ot **S**afe **T**o **W**ork) - Pouze u textových kanálů.
@@ -284,9 +292,35 @@ Většina událostí obsahuje v záznamu také data specifické k určitému typ
   - Příznak, zda příkaz byl proveden úspěšně.
   - Typ chyby, který vznikl při provádění příkazu, pokud se neprovedl správně.
   - Textovou reprezentaci chyby, která vznikla při prováděné příkazu. Pokud se příkaz neprovedl správně.
+- Smazání vlákna
+  - Identifikátor kanálu
+  - Název kanálu.
+  - Časové omezení mezi posíláním zpráv (SlowMode) - Pouze u textových kanálů.
+  - Typ vlákna (Veřejné/Soukromé)
+  - Příznak, že kanál byl archivován.
+  - Časové období pro archivaci.
+  - Příznak, že kanál byl uzamknut.
+- Dokončení naplánované úlohy
+  - Název úlohy.
+  - Výsledek úlohy - Úlohy, které nemají zapsány výsledek se nelogují.
+  - Datum a čas začátku běhu.
+  - Datum a čas konce běhu.
+  - Příznak, že došlo k chybě.
+- API požadavek
+  - Název kontroléru na který směřoval požadavek.
+  - Název akce na který směřoval požadavek.
+  - Datum a čas začátku požadavku.
+  - Datum a čas konce požadavku.
+  - HTTP metoda (GET, POST, ...).
+  - Šablona URL.
+  - Skutečná URL.
+  - Role aktuálně přihlášeného uživatele (není vyplněno, pokud se jedná o nepřihlášený přístup).
+  - Výsledný stavový kód.
+  - Seznam parametrů v URL (QueryString).
+  - Serializovaná data v těle požadavku (pokud byly přítomna).
 
 ### Zpřístupnění
 
-Ke všem výše uvedeným informacím mají přístup pouze oprávněné osoby. Všechny informace jsou čitelné pomocí webové administrace. Oprávněná osoba může provést export záznamu pokud k tomu má patřičný důvod, případně záznam smazat.
+Ke všem výše uvedeným informacím mají přístup pouze oprávněné osoby. Všechny informace jsou čitelné pomocí webové administrace. Oprávněná osoba může provést smazání záznamu pokud k tomu má patřičný důvod.
 
-Uživatel má nárok k exportu a výmazu pouze informací o sobě samém. K výmazu dojde formou anonymizace. Z technických důvodů není možné provést ostré smazání dat. Smazání všech informací může provést pouze oprávněná osoba a na základě písemné žádosti.
+Uživatel má nárok k výmazu pouze informací o sobě samém. K výmazu dojde formou anonymizace. Z technických důvodů není možné provést ostré smazání dat. Smazání všech informací může provést pouze oprávněná osoba a na základě písemné žádosti.

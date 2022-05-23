@@ -17,3 +17,10 @@ Sbírání statistik se provádí tak, že bot automaticky skenuje každou zprá
 - `/emote get {emote/id/nazev}` - Získání statistiky emotikonu. Vypíše základní informace o emotikonu, datum a čas prvního a posledního výskytu, dobu od posledního použití, počet použití, počet uživatelů, kteří použili emotikon a TOP10 uživatelů, kteří použili emotikon.
   - Parametry:
     - `emote/id/nazev` - Identifikace emotikonu. Je možné použít samotný emotikon v plném formátu, identifikátor nebo název.
+
+## Administrace
+
+Oprávnění uživatelé mají možnost vidět veškeré statistiky formou webové administrace. Kromě prezentace také mohou provádět v administraci následující úlohy:
+
+- Smazat statistiku pro daný emote.
+- Sloučit statistiku z již neexistujícího emote do jiného existujícího.
