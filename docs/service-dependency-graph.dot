@@ -39,13 +39,7 @@ digraph G {
 	    
 	    AuditLogService -> { DiscordSocketClient GrillBotContextFactory MessageCache FileStorageFactory DiscordInitializationService }
 	    AuditLogApiService -> { GrillBotContextFactory IMapper FileStorageFactory }
-	    "AuditLogClearingJob" -> "LoggingService"
-	    "AuditLogClearingJob" -> "AuditLogService"
-	    "AuditLogClearingJob" -> "IDiscordClient"
-	    "AuditLogClearingJob" -> "GrillBotContextFactory"
-	    "AuditLogClearingJob" -> "IConfiguration"
-	    "AuditLogClearingJob" -> "FileStorageFactory"
-	    "AuditLogClearingJob" -> "DiscordInitializationService"
+	    AuditLogClearingJob -> { LoggingService AuditLogService IDiscordClient GrillBotContextFactory FileStorageFactory DiscordInitializationService }
 	    
 	    "BirthdayCronJob" -> "IConfiguration"
         "BirthdayCronJob" -> "BirthdayService"
@@ -88,8 +82,8 @@ digraph G {
 	    ChannelService -> { DiscordSocketClient GrillBotContextFactory IConfiguration MessageCache }
 	    ChannelApiService -> { GrillBotContextFactory IMapper IDiscordClient MessageCache AuditLogService AutoReplyService }
 	    
-	    "PeepoangryRenderer" -> "FileStorageFactory"
-	    "PeepoloveRenderer" -> "FileStorageFactory"
+	    PeepoangryRenderer -> { FileStorageFactory ProfilePictureManager }
+	    PeepoloveRenderer -> { FileStorageFactory ProfilePictureManager }
 	    
 	    "LoggingService" -> "DiscordSocketClient"
 	    "LoggingService" -> "CommandService"
@@ -106,7 +100,7 @@ digraph G {
 	    "MessageCacheCheckCron" -> "MessageCache"
 	    "MessageCacheCheckCron" -> "DiscordInitializationService"
 	    
-	    PermissionsCleaner -> { GrillBotContextFactory IDiscordClient }
+	    PermissionsCleaner -> { IDiscordClient }
 	    "PermissionsService" -> "GrillBotContextFactory"
 	    "PermissionsService" -> "IServiceProvider"
 	    
@@ -147,13 +141,7 @@ digraph G {
 	    "OnlineUsersCleanJob" -> "GrillBotContextFactory"
 	    "OnlineUsersCleanJob" -> "DiscordInitializationService"
 	    
-	    "PointsService" -> "DiscordSocketClient"
-	    "PointsService" -> "GrillBotContextFactory"
-	    "PointsService" -> "IConfiguration"
-	    "PointsService" -> "FileStorageFactory"
-	    "PointsService" -> "MessageCache"
-	    "PointsService" -> "RandomizationService"
-	    
+	    PointsService -> { DiscordSocketClient GrillBotContextFactory IConfiguration FileStorageFactory MessageCache RandomizationService ProfilePictureManager }
 	    UserService -> { GrillBotContextFactory IConfiguration DiscordSocketClient }
 	    UsersApiService -> { GrillBotContextFactory IMapper IDiscordClient AuditLogService }
 	    RubbergodKarmaService -> { DirectApiService IDiscordClient IMapper }
@@ -286,9 +274,7 @@ digraph G {
     	    "ServerModule.PinManagementSubmodule" -> "IConfiguration"
     	    "ServerModule.GuildManagementSubmodule.GuildInfoSubModule" -> "GrillBotContextFactory"
     	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule" -> "IConfiguration"
-    	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> "IMemoryCache"
-    	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> "IConfiguration"
-    	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> PermissionsCleaner
+    	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> { IMemoryCache IConfiguration PermissionsCleaner UnverifyService }
     	    "ServerModule.GuildManagementSubmodule.GuildReactSubModule"
     	    "ServerModule.GuildManagementSubmodule.GuildRoleInfoSubModule"
     	    
@@ -297,8 +283,7 @@ digraph G {
     	    
     	    "MockingModule" -> "MockingService"
     	    
-    	    "MemeModule" -> "FileStorageFactory"
-    	    
+    	    MemeModule -> { FileStorageFactory ProfilePictureManager }
     	    HelpModule -> { CommandService IServiceProvider IConfiguration }
     	    
     	    "ChannelModule" -> "GrillBotContextFactory"
@@ -315,5 +300,32 @@ digraph G {
 	    }
 	    
 	    label = "Modules";
+	}
+	
+	subgraph cluster_5 {
+	    style=filled;
+		color=lightgrey;
+		node [
+		    style=filled,
+		    color=white
+	    ];
+	    
+	    GrillBotCacheBuilder -> { IServiceProvider }
+	    ProfilePictureManager -> { GrillBotCacheBuilder }
+	    
+	    label = "Cache";
+	}
+	
+	subgraph cluster_6 {
+	    style=filled;
+		color=lightgrey;
+		node [
+		    style=filled,
+		    color=white
+	    ];
+	    
+	    GrillBotContextFactory -> { IServiceProvider }
+	    
+	    label = "Database";
 	}
 }
