@@ -22,7 +22,7 @@ digraph G {
         SearchingController -> SearchingService
         SelfUnverifyController -> SelfUnverifyService
         StatisticsController -> { GrillBotDatabaseBuilder GrillBotCacheBuilder }
-        SystemController -> { IWebHostEnvironment DiscordSocketClient InitManager }
+        SystemController -> { IWebHostEnvironment DiscordSocketClient InitManager CounterManager }
         UnverifyController -> { UnverifyService IDiscordClient IMapper UnverifyApiService }
         UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService RubbergodKarmaService }
 		
@@ -231,6 +231,7 @@ digraph G {
             DuckModule -> IHttpClientFactory
     	    DuckModule -> IConfiguration
     	    EmoteModule -> EmotesCommandService
+    	    GuildModule -> UserService
     	    ChannelModule -> { GrillBotDatabaseBuilder }
     	    MathModule -> IHttpClientFactory
     	    MemeModule -> RandomizationService
@@ -254,7 +255,6 @@ digraph G {
     	    
     	    "ServerModule" -> "IConfiguration"
     	    "ServerModule.PinManagementSubmodule" -> "IConfiguration"
-    	    "ServerModule.GuildManagementSubmodule.GuildInfoSubModule" -> "GrillBotDatabaseBuilder"
     	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule" -> "IConfiguration"
     	    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> { IMemoryCache IConfiguration PermissionsCleaner UnverifyService }
     	    "ServerModule.GuildManagementSubmodule.GuildReactSubModule"
@@ -291,7 +291,7 @@ digraph G {
 	    ];
 	    
 	    MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder }
-	    ProfilePictureManager -> { GrillBotCacheBuilder }
+	    ProfilePictureManager -> { GrillBotCacheBuilder CounterManager }
 	    GrillBotCacheBuilder -> { IServiceProvider }
 	    
 	    label = "Cache";
@@ -319,6 +319,7 @@ digraph G {
 	    ];
 	    
 	    InitManager -> ILoggerFactory
+	    CounterManager
 	    
 	    label = "Common";
 	}
