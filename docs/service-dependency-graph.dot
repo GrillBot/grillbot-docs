@@ -38,7 +38,7 @@ digraph G {
 	    ];
 	    
 	    AuditLogService -> { DiscordSocketClient GrillBotDatabaseBuilder MessageCacheManager FileStorageFactory InitManager }
-	    AuditLogApiService -> { GrillBotDatabaseBuilder IMapper FileStorageFactory }
+	    AuditLogApiService -> { GrillBotDatabaseBuilder IMapper FileStorageFactory AuditLogService IDiscordClient }
 	    AuditLogClearingJob -> { LoggingService AuditLogService IDiscordClient GrillBotDatabaseBuilder FileStorageFactory InitManager }
 	    
 	    "BirthdayCronJob" -> "IConfiguration"
