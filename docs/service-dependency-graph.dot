@@ -13,18 +13,18 @@ digraph G {
         OAuth2Controller -> OAuth2Service
         AutoReplyController -> { AutoReplyApiService }
         ChannelController -> { ChannelApiService }
-        DataController -> { DiscordSocketClient GrillBotContext CommandService IConfiguration InteractionService EmotesCacheService IMapper }
+        DataController -> { IDiscordClient CommandService IConfiguration InteractionService EmotesCacheService IMapper GrillBotDatabaseBuilder ApiRequestContext }
         EmotesController -> EmotesApiService
         GuildController -> { GuildApiService }
         InviteController -> InviteService
-        PermissionsController -> { GrillBotContext DiscordSocketClient IMapper }
-        ReminderController -> { RemindService RemindApiService }
-        SearchingController -> SearchingService
+        PermissionsController -> { DiscordSocketClient IMapper GrillBotDatabaseBuilder }
+        ReminderController -> { RemindApiService ApiRequestContext }
+        SearchingController -> { SearchingService ApiRequestContext }
         SelfUnverifyController -> SelfUnverifyService
         StatisticsController -> { GrillBotDatabaseBuilder GrillBotCacheBuilder }
         SystemController -> { IWebHostEnvironment DiscordSocketClient InitManager CounterManager }
-        UnverifyController -> { UnverifyService IDiscordClient IMapper UnverifyApiService }
-        UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService RubbergodKarmaService }
+        UnverifyController -> { UnverifyService IDiscordClient IMapper UnverifyApiService ApiRequestContext }
+        UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService RubbergodKarmaService ApiRequestContext }
 		
 		label = "API (Controllers)";
 	}
@@ -37,45 +37,37 @@ digraph G {
 		    color=white
 	    ];
 	    
-	    AuditLogService -> { DiscordSocketClient GrillBotDatabaseBuilder MessageCacheManager FileStorageFactory InitManager }
-	    AuditLogApiService -> { GrillBotDatabaseBuilder IMapper FileStorageFactory AuditLogService IDiscordClient }
-	    AuditLogClearingJob -> { LoggingService AuditLogService IDiscordClient GrillBotDatabaseBuilder FileStorageFactory InitManager }
+	    AuditLogService -> { DiscordSocketClient GrillBotDatabaseBuilder MessageCacheManager FileStorageFactory InitManager AuditLogWriter }
+	    AuditLogApiService -> { GrillBotDatabaseBuilder IMapper FileStorageFactory ApiRequestContext AuditLogWriter }
+	    AuditLogClearingJob -> { LoggingService AuditLogWriter IDiscordClient GrillBotDatabaseBuilder FileStorageFactory InitManager }
+	    AuditLogWriter -> { GrillBotDatabaseBuilder }
 	    
-	    "BirthdayCronJob" -> "IConfiguration"
-        "BirthdayCronJob" -> "BirthdayService"
-        "BirthdayCronJob" -> "LoggingService"
-        "BirthdayCronJob" -> "AuditLogService"
-        "BirthdayCronJob" -> "IDiscordClient"
-        "BirthdayCronJob" -> "InitManager"
-        
-        "BirthdayService" -> "DiscordSocketClient"
-        "BirthdayService" -> "GrillBotDatabaseBuilder"
+	    BirthdayCronJob -> { IConfiguration BirthdayService LoggingService AuditLogWriter IDiscordClient InitManager }
+	    BirthdayService -> { IDiscordClient GrillBotDatabaseBuilder }
         
         CommandsHelpService -> { DiscordSocketClient CommandService ChannelService IServiceProvider IConfiguration }
         ExternalCommandsHelpService -> { DirectApiService IConfiguration IServiceProvider }
         DirectApiService -> { DiscordSocketClient IConfiguration InitManager GrillBotCacheBuilder }
         
         "DiscordHealthCheck" -> "DiscordSocketClient"
-        DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService LoggingService IWebHostEnvironment InitManager InteractionService AuditLogService }
+        DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService LoggingService IWebHostEnvironment InitManager InteractionService AuditLogWriter }
         "DiscordSyncService" -> "DiscordSocketClient"
         "DiscordSyncService" -> "GrillBotDatabaseBuilder"
         "DiscordSyncService" -> "InitManager"
         
         "EmoteChainService" -> "IConfiguration"
         "EmoteChainService" -> "DiscordSocketClient"
-        EmotesApiService -> { GrillBotDatabaseBuilder EmotesCacheService IMapper }
+        EmotesApiService -> { GrillBotDatabaseBuilder EmotesCacheService IMapper ApiRequestContext AuditLogWriter }
         "EmotesCacheService" -> "DiscordSocketClient"
         "EmotesCommandService" -> "IServiceProvider"
         "EmotesCommandService" -> "GrillBotDatabaseBuilder"
         "EmotesCommandService" -> "IDiscordClient"
         EmoteService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration MessageCacheManager EmotesCacheService }
 	    
-	    "FileStorageFactory" -> "IConfiguration"
-	    
 	    GuildApiService -> { GrillBotDatabaseBuilder DiscordSocketClient IMapper GrillBotCacheBuilder }
 	    
 	    ChannelService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration MessageCacheManager }
-	    ChannelApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient MessageCacheManager AuditLogService AutoReplyService }
+	    ChannelApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient MessageCacheManager AutoReplyService ApiRequestContext AuditLogWriter }
 	    
 	    PeepoangryRenderer -> { FileStorageFactory ProfilePictureManager }
 	    PeepoloveRenderer -> { FileStorageFactory ProfilePictureManager }
@@ -87,50 +79,39 @@ digraph G {
 	    "LoggingService" -> "GrillBotDatabaseBuilder"
 	    "LoggingService" -> "InteractionService"
 	    
-	    PermissionsCleaner -> { IDiscordClient }
+	    PermissionsCleaner -> { CounterManager ILogger }
 	    "PermissionsService" -> "GrillBotDatabaseBuilder"
 	    "PermissionsService" -> "IServiceProvider"
 	    
-	    RemindCronJob -> { LoggingService AuditLogService IDiscordClient RemindService InitManager }
-	    RemindService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration AuditLogService }
-	    RemindApiService -> { GrillBotDatabaseBuilder IMapper }
+	    RemindCronJob -> { LoggingService AuditLogWriter IDiscordClient RemindService InitManager }
+	    RemindService -> { IDiscordClient GrillBotDatabaseBuilder IConfiguration }
+	    RemindApiService -> { GrillBotDatabaseBuilder IMapper ApiRequestContext RemindService AuditLogWriter }
 	    
 	    EmoteSuggestionService -> { SuggestionSessionService GrillBotDatabaseBuilder }
-	    FeatureSuggestionService -> { SuggestionSessionService IConfiguration }
-	    SuggestionJob -> { LoggingService AuditLogService IDiscordClient InitManager SuggestionService GrillBotDatabaseBuilder }
+	    FeatureSuggestionService -> { SuggestionSessionService IConfiguration GrillBotDatabaseBuilder }
+	    SuggestionJob -> { LoggingService AuditLogWriter IDiscordClient InitManager SuggestionService GrillBotDatabaseBuilder }
 	    SuggestionService -> { EmoteSuggestionService FeatureSuggestionService IDiscordClient SuggestionSessionService }
 	    
 	    "SelfUnverifyService" -> "UnverifyService"
 	    "SelfUnverifyService" -> "GrillBotDatabaseBuilder"
 	    
-	    UnverifyApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient }
+	    UnverifyApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient ApiRequestContext }
 	    
 	    "UnverifyChecker" -> "GrillBotDatabaseBuilder"
 	    "UnverifyChecker" -> "IConfiguration"
 	    "UnverifyChecker" -> "IWebHostEnvironment"
 	    
-	    "UnverifyCronJob" -> "LoggingService"
-	    "UnverifyCronJob" -> "AuditLogService"
-	    "UnverifyCronJob" -> "IDiscordClient"
-	    "UnverifyCronJob" -> "UnverifyService"
-	    "UnverifyCronJob" -> "InitManager"
-	    
-	    "UnverifyLogger" -> "DiscordSocketClient"
-	    "UnverifyLogger" -> "GrillBotDatabaseBuilder"
+	    UnverifyCronJob -> { LoggingService AuditLogWriter IDiscordClient UnverifyService InitManager }
+	    UnverifyLogger -> { IDiscordClient GrillBotDatabaseBuilder }
 	    
 	    "UnverifyProfileGenerator" -> "GrillBotDatabaseBuilder"
 	    
 	    UnverifyService -> { DiscordSocketClient UnverifyChecker UnverifyProfileGenerator UnverifyLogger GrillBotDatabaseBuilder LoggingService PermissionsCleaner }
+	    OnlineUsersCleanJob -> { LoggingService AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager }
 	    
-	    "OnlineUsersCleanJob" -> "LoggingService"
-	    "OnlineUsersCleanJob" -> "AuditLogService"
-	    "OnlineUsersCleanJob" -> "IDiscordClient"
-	    "OnlineUsersCleanJob" -> "GrillBotDatabaseBuilder"
-	    "OnlineUsersCleanJob" -> "InitManager"
-	    
-	    PointsService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration FileStorageFactory MessageCacheManager RandomizationService ProfilePictureManager }
-	    UserService -> { GrillBotDatabaseBuilder IConfiguration DiscordSocketClient }
-	    UsersApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient AuditLogService }
+	    PointsService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration MessageCacheManager RandomizationService ProfilePictureManager }
+	    UserService -> { GrillBotDatabaseBuilder IConfiguration }
+	    UsersApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient ApiRequestContext AuditLogWriter }
 	    RubbergodKarmaService -> { DirectApiService IDiscordClient IMapper }
 	   
 	    AutoReplyApiService -> { AutoReplyService GrillBotDatabaseBuilder IMapper }
@@ -144,8 +125,8 @@ digraph G {
 	    "BoosterService" -> "IConfiguration"
 	    "BoosterService" -> "InitManager"
 	    
-	    InviteService -> { DiscordSocketClient GrillBotDatabaseBuilder AuditLogService IMapper }
-	    MessageCacheJob -> { LoggingService AuditLogService IDiscordClient InitManager MessageCacheManager }
+	    InviteService -> { DiscordSocketClient GrillBotDatabaseBuilder IMapper AuditLogWriter }
+	    MessageCacheJob -> { LoggingService AuditLogWriter IDiscordClient InitManager MessageCacheManager }
 	    
 	    "MockingService" -> "IConfiguration"
 	    "MockingService" -> "RandomizationService"
@@ -157,7 +138,7 @@ digraph G {
 	    
 	    "RandomizationService"
 	    
-	    SearchingService -> { DiscordSocketClient GrillBotDatabaseBuilder UserService IMapper }
+	    SearchingService -> { IDiscordClient GrillBotDatabaseBuilder UserService IMapper }
 	    
 	    label = "Services"
 	}
@@ -177,12 +158,7 @@ digraph G {
 	    "CommandHandler" -> "AuditLogService"
 	    "CommandHandler" -> "InitManager"
 	    
-	    "InteractionHandler" -> "DiscordSocketClient"
-	    "InteractionHandler" -> "GrillBotDatabaseBuilder"
-	    "InteractionHandler" -> "IServiceProvider"
-	    "InteractionHandler" -> "InitManager"
-	    "InteractionHandler" -> "AuditLogService"
-	    
+	    InteractionHandler -> { DiscordSocketClient IServiceProvider InitManager AuditLogService }
 	    ReactionHandler -> { DiscordSocketClient "IEnumerable<ReactionEventHandler>" MessageCacheManager InitManager LoggingService }
 	    
 	    "IEnumerable<ReactionEventHandler>" -> "HelpReactionHandler"
@@ -290,7 +266,7 @@ digraph G {
 		    color=white
 	    ];
 	    
-	    MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder }
+	    MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder CounterManager }
 	    ProfilePictureManager -> { GrillBotCacheBuilder CounterManager }
 	    GrillBotCacheBuilder -> { IServiceProvider }
 	    
@@ -320,6 +296,8 @@ digraph G {
 	    
 	    InitManager -> ILoggerFactory
 	    CounterManager
+	    FileStorageFactory -> IConfiguration
+	    ApiRequestContext
 	    
 	    label = "Common";
 	}

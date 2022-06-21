@@ -15,7 +15,6 @@ Za účelem správného chodu GrillBot musí uchovávat v databázi informace o 
 Data jsou v databázi uchovávany na základě jejich potřeby po různou dobu.
 
 - Záznamy z logování provozu starší, než 12 měsíců jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data uchovány po dobu minimálně dalšího jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně smazat.
-- Záznamy z provozu funkcionality odebírání a vrácení přístupů (dále jen unverify) starší, než 12 měsíců jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data uchovávány po dobu minimálně dalšího jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně smazat.
 - Ostatní výše nezmíněné data jsou v databázi uchovány po dobu existence discord serveru na kterém se bot nachází a to i po opuštění bota ze serveru.
 
 Administrátor serveru je oprávněn provádět pravidelné zálohy celé databáze (kromě výše uvedené automatizované archivace) za účelem zajištění provozuschopnosti služby. Administrátor serveru na kterém běží instance aplikace sám rozhodne, jak dlouho bude držet zálohy.
