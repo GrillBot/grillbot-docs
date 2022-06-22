@@ -24,7 +24,7 @@ digraph G {
         StatisticsController -> { GrillBotDatabaseBuilder GrillBotCacheBuilder }
         SystemController -> { IWebHostEnvironment DiscordSocketClient InitManager CounterManager }
         UnverifyController -> { UnverifyService IDiscordClient IMapper UnverifyApiService ApiRequestContext }
-        UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService RubbergodKarmaService ApiRequestContext }
+        UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService RubbergodKarmaService ApiRequestContext UserHearthbeatService }
 		
 		label = "API (Controllers)";
 	}
@@ -113,6 +113,7 @@ digraph G {
 	    UserService -> { GrillBotDatabaseBuilder IConfiguration }
 	    UsersApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient ApiRequestContext AuditLogWriter }
 	    RubbergodKarmaService -> { DirectApiService IDiscordClient IMapper }
+	    UserHearthbeatService -> { GrillBotDatabaseBuilder }
 	   
 	    AutoReplyApiService -> { AutoReplyService GrillBotDatabaseBuilder IMapper }
 	    "AutoReplyService" -> "IConfiguration"
