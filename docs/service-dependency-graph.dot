@@ -10,7 +10,7 @@ digraph G {
 	    ];
 		
 		AuditLogController -> { AuditLogApiService }
-        OAuth2Controller -> OAuth2Service
+        AuthController -> { OAuth2Service IDiscordClient }
         AutoReplyController -> { AutoReplyApiService }
         ChannelController -> { ChannelApiService }
         DataController -> { IDiscordClient CommandService IConfiguration InteractionService EmotesCacheService IMapper GrillBotDatabaseBuilder ApiRequestContext }
