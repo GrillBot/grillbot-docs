@@ -15,6 +15,7 @@ digraph G {
         ChannelController -> { ChannelApiService }
         DataController -> { IDiscordClient CommandService IConfiguration InteractionService EmotesCacheService IMapper GrillBotDatabaseBuilder ApiRequestContext }
         EmotesController -> EmotesApiService
+        EmoteSuggestionController -> EmoteSuggestionApiService
         GuildController -> { GuildApiService }
         InviteController -> InviteService
         PermissionsController -> { DiscordSocketClient IMapper GrillBotDatabaseBuilder }
@@ -49,22 +50,18 @@ digraph G {
         ExternalCommandsHelpService -> { DirectApiService IConfiguration IServiceProvider }
         DirectApiService -> { DiscordSocketClient IConfiguration InitManager GrillBotCacheBuilder }
         
-        "DiscordHealthCheck" -> "DiscordSocketClient"
+        DiscordHealthCheck -> DiscordSocketClient
         DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService LoggingService IWebHostEnvironment InitManager InteractionService AuditLogWriter }
-        "DiscordSyncService" -> "DiscordSocketClient"
-        "DiscordSyncService" -> "GrillBotDatabaseBuilder"
-        "DiscordSyncService" -> "InitManager"
+        DiscordSyncService -> { DiscordSocketClient GrillBotDatabaseBuilder InitManager }
         
-        "EmoteChainService" -> "IConfiguration"
-        "EmoteChainService" -> "DiscordSocketClient"
+        EmoteChainService -> { IConfiguration DiscordSocketClient }
         EmotesApiService -> { GrillBotDatabaseBuilder EmotesCacheService IMapper ApiRequestContext AuditLogWriter }
-        "EmotesCacheService" -> "DiscordSocketClient"
-        "EmotesCommandService" -> "IServiceProvider"
-        "EmotesCommandService" -> "GrillBotDatabaseBuilder"
-        "EmotesCommandService" -> "IDiscordClient"
+        EmotesCacheService -> DiscordSocketClient
+        EmotesCommandService -> { IServiceProvider GrillBotDatabaseBuilder IDiscordClient }
         EmoteService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration MessageCacheManager EmotesCacheService }
 	    
 	    GuildApiService -> { GrillBotDatabaseBuilder DiscordSocketClient IMapper GrillBotCacheBuilder }
+	    GuildEventsService -> GrillBotDatabaseBuilder
 	    
 	    ChannelService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration MessageCacheManager }
 	    ChannelApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient MessageCacheManager AutoReplyService ApiRequestContext AuditLogWriter }
@@ -72,41 +69,28 @@ digraph G {
 	    PeepoangryRenderer -> { FileStorageFactory ProfilePictureManager }
 	    PeepoloveRenderer -> { FileStorageFactory ProfilePictureManager }
 	    
-	    "LoggingService" -> "DiscordSocketClient"
-	    "LoggingService" -> "CommandService"
-	    "LoggingService" -> "ILoggerFactory"
-	    "LoggingService" -> "IConfiguration"
-	    "LoggingService" -> "GrillBotDatabaseBuilder"
-	    "LoggingService" -> "InteractionService"
+	    LoggingService -> { DiscordSocketClient CommandService ILoggerFactory IConfiguration GrillBotDatabaseBuilder InteractionService }
 	    
 	    PermissionsCleaner -> { CounterManager ILogger }
-	    "PermissionsService" -> "GrillBotDatabaseBuilder"
-	    "PermissionsService" -> "IServiceProvider"
+	    PermissionsService -> { GrillBotDatabaseBuilder IServiceProvider }
 	    
 	    RemindCronJob -> { LoggingService AuditLogWriter IDiscordClient RemindService InitManager }
 	    RemindService -> { IDiscordClient GrillBotDatabaseBuilder IConfiguration }
 	    RemindApiService -> { GrillBotDatabaseBuilder IMapper ApiRequestContext RemindService AuditLogWriter }
 	    
-	    EmoteSuggestionService -> { SuggestionSessionService GrillBotDatabaseBuilder }
-	    FeatureSuggestionService -> { SuggestionSessionService IConfiguration GrillBotDatabaseBuilder }
-	    SuggestionJob -> { LoggingService AuditLogWriter IDiscordClient InitManager SuggestionService GrillBotDatabaseBuilder }
-	    SuggestionService -> { EmoteSuggestionService FeatureSuggestionService IDiscordClient SuggestionSessionService }
+	    EmoteSuggestionApiService -> { GrillBotDatabaseBuilder IMapper }
+	    EmoteSuggestionService -> { SuggestionSessionService GrillBotDatabaseBuilder IDiscordClient MessageCacheManager }
+	    FeatureSuggestionService -> { SuggestionSessionService IConfiguration }
+	    SuggestionJob -> { LoggingService AuditLogWriter IDiscordClient InitManager EmoteSuggestionService SuggestionSessionService }
 	    
-	    "SelfUnverifyService" -> "UnverifyService"
-	    "SelfUnverifyService" -> "GrillBotDatabaseBuilder"
-	    
+	    SelfUnverifyService -> { UnverifyService GrillBotDatabaseBuilder }
 	    UnverifyApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient ApiRequestContext }
-	    
-	    "UnverifyChecker" -> "GrillBotDatabaseBuilder"
-	    "UnverifyChecker" -> "IConfiguration"
-	    "UnverifyChecker" -> "IWebHostEnvironment"
-	    
+	    UnverifyChecker -> { GrillBotDatabaseBuilder IConfiguration IWebHostEnvironment }
 	    UnverifyCronJob -> { LoggingService AuditLogWriter IDiscordClient UnverifyService InitManager }
 	    UnverifyLogger -> { IDiscordClient GrillBotDatabaseBuilder }
-	    
-	    "UnverifyProfileGenerator" -> "GrillBotDatabaseBuilder"
-	    
+	    UnverifyProfileGenerator -> GrillBotDatabaseBuilder
 	    UnverifyService -> { DiscordSocketClient UnverifyChecker UnverifyProfileGenerator UnverifyLogger GrillBotDatabaseBuilder LoggingService PermissionsCleaner }
+	    
 	    OnlineUsersCleanJob -> { LoggingService AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager }
 	    
 	    PointsService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration MessageCacheManager RandomizationService ProfilePictureManager }
@@ -116,28 +100,16 @@ digraph G {
 	    UserHearthbeatService -> { GrillBotDatabaseBuilder }
 	   
 	    AutoReplyApiService -> { AutoReplyService GrillBotDatabaseBuilder IMapper }
-	    "AutoReplyService" -> "IConfiguration"
-	    "AutoReplyService" -> "DiscordSocketClient"
-	    "AutoReplyService" -> "GrillBotDatabaseBuilder"
-	    "AutoReplyService" -> "InitManager"
+	    AutoReplyService -> { IConfiguration DiscordSocketClient GrillBotDatabaseBuilder InitManager }
 	    
-	    "BoosterService" -> "DiscordSocketClient"
-	    "BoosterService" -> "GrillBotDatabaseBuilder"
-	    "BoosterService" -> "IConfiguration"
-	    "BoosterService" -> "InitManager"
+	    BoosterService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration InitManager }
 	    
 	    InviteService -> { DiscordSocketClient GrillBotDatabaseBuilder IMapper AuditLogWriter }
 	    MessageCacheJob -> { LoggingService AuditLogWriter IDiscordClient InitManager MessageCacheManager }
 	    
-	    "MockingService" -> "IConfiguration"
-	    "MockingService" -> "RandomizationService"
+	    MockingService -> { IConfiguration RandomizationService }
 	    
-	    "OAuth2Service" -> "IConfiguration"
-	    "OAuth2Service" -> "GrillBotDatabaseBuilder"
-	    "OAuth2Service" -> "LoggingService"
-	    "OAuth2Service" -> "IHttpClientFactory"
-	    
-	    "RandomizationService"
+	    OAuth2Service -> { IConfiguration GrillBotDatabaseBuilder LoggingService IHttpClientFactory }
 	    
 	    SearchingService -> { IDiscordClient GrillBotDatabaseBuilder UserService IMapper }
 	    
@@ -152,12 +124,7 @@ digraph G {
 		    color=white
 	    ];
 	    
-	    "CommandHandler" -> "DiscordSocketClient"
-	    "CommandHandler" -> "CommandService"
-	    "CommandHandler" -> "IServiceProvider"
-	    "CommandHandler" -> "IConfiguration"
-	    "CommandHandler" -> "AuditLogService"
-	    "CommandHandler" -> "InitManager"
+	    CommandHandler -> { DiscordSocketClient CommandService IServiceProvider IConfiguration AuditLogService InitManager }
 	    
 	    InteractionHandler -> { DiscordSocketClient IServiceProvider InitManager AuditLogService }
 	    ReactionHandler -> { DiscordSocketClient "IEnumerable<ReactionEventHandler>" MessageCacheManager InitManager LoggingService }
@@ -217,7 +184,7 @@ digraph G {
     	    PointsModule -> PointsService
     	    RemindModule -> RemindService
     	    SearchingModule -> SearchingService
-    	    SuggestionModule -> SuggestionService
+    	    SuggestionModule -> { EmtoeSuggestionService FeatureSuggestionService }
     	    
 	        label = "Interactions"
 	    }
