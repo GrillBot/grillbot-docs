@@ -11,6 +11,7 @@ digraph GrillBot {
     GuildController -> { GuildApiService }
     InviteController -> InviteService
     PermissionsController -> { DiscordSocketClient IMapper GrillBotDatabaseBuilder }
+    PointsController -> { PointsApiService }
     ReminderController -> { RemindApiService ApiRequestContext }
     SearchingController -> { SearchingService ApiRequestContext }
     SelfUnverifyController -> SelfUnverifyService
@@ -19,9 +20,10 @@ digraph GrillBot {
     UnverifyController -> { UnverifyService IDiscordClient IMapper UnverifyApiService ApiRequestContext }
     UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService RubbergodKarmaService ApiRequestContext UserHearthbeatService }
     
+    AuditClearingHelper -> { FileStorageFactory }
     AuditLogService -> { DiscordSocketClient GrillBotDatabaseBuilder MessageCacheManager FileStorageFactory InitManager AuditLogWriter }
     AuditLogApiService -> { GrillBotDatabaseBuilder IMapper FileStorageFactory ApiRequestContext AuditLogWriter }
-    AuditLogClearingJob -> { LoggingService AuditLogWriter IDiscordClient GrillBotDatabaseBuilder FileStorageFactory InitManager }
+    AuditLogClearingJob -> { LoggingService AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager AuditClearingHelper }
     AuditLogWriter -> { GrillBotDatabaseBuilder }
     
     BirthdayCronJob -> { IConfiguration BirthdayService LoggingService AuditLogWriter IDiscordClient InitManager }
@@ -74,7 +76,10 @@ digraph GrillBot {
     
     OnlineUsersCleanJob -> { LoggingService AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager }
     
-    PointsService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration MessageCacheManager RandomizationService ProfilePictureManager }
+    PointsApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient ApiRequestContext }
+    PointsJob -> { LoggingService AuditLogWriter IDiscordClient InitManager PointsService }
+    PointsService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration MessageCacheManager RandomizationService ProfilePictureManager AuditClearingHelper }
+    
     UserService -> { GrillBotDatabaseBuilder IConfiguration }
     UsersApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient ApiRequestContext AuditLogWriter }
     RubbergodKarmaService -> { DirectApiService IDiscordClient IMapper }
@@ -95,7 +100,6 @@ digraph GrillBot {
     SearchingService -> { IDiscordClient GrillBotDatabaseBuilder UserService IMapper }
     
     CommandHandler -> { DiscordSocketClient CommandService IServiceProvider IConfiguration AuditLogService InitManager }
-    
     InteractionHandler -> { DiscordSocketClient IServiceProvider InitManager AuditLogService }
     ReactionHandler -> { DiscordSocketClient "IEnumerable<ReactionEventHandler>" MessageCacheManager InitManager LoggingService }
     
@@ -103,60 +107,41 @@ digraph GrillBot {
     "IEnumerable<ReactionEventHandler>" -> "PointsBoardReactionHandler"
     "IEnumerable<ReactionEventHandler>" -> "UnverifyListReactionHandler"
     "IEnumerable<ReactionEventHandler>" -> "RemindPostponeReactionHandler"
-    "HelpReactionHandler" -> "CommandService"
-    "HelpReactionHandler" -> "DiscordSocketClient"
-    "HelpReactionHandler" -> "IServiceProvider"
-    "HelpReactionHandler" -> "IConfiguration"
-    "PointsBoardReactionHandler" -> "GrillBotDatabaseBuilder"
-    "PointsBoardReactionHandler" -> "DiscordSocketClient"
-    "RemindPostponeReactionHandler" -> "GrillBotDatabaseBuilder"
-    "RemindPostponeReactionHandler" -> "IDiscordClient"
-    "UnverifyListReactionHandler" -> "DiscordSocketClient"
-    "UnverifyListReactionHandler" -> "UnverifyService"
+    HelpReactionHandler -> { CommandService DiscordSocketClient IServiceProvider IConfiguration }
+    PointsBoardReactionHandler -> { GrillBotDatabaseBuilder DiscordSocketClient }
+    RemindPostponeReactionHandler -> { GrillBotDatabaseBuilder IDiscordClient }
+    UnverifyListReactionHandler -> { DiscordSocketClient UnverifyService }
     
-    SelfUnverifyModule -> SelfUnverifyService
-    SelfUnverifyModule -> IConfiguration
-    UserMeModule -> UserService
-    BirthdayModule -> BirthdayService
-    BirthdayModule -> IConfiguration
-    BotModule
-    "BotModule.SelfUnverifyConfig" -> SelfUnverifyService
-    DuckModule -> IHttpClientFactory
-    DuckModule -> IConfiguration
-    EmoteModule -> EmotesCommandService
-    GuildModule -> UserService
-    ChannelModule -> { GrillBotDatabaseBuilder }
-    MathModule -> IHttpClientFactory
-    MemeModule -> RandomizationService
-    MemeModule -> IConfiguration
-    MockingModule -> MockingService
-    PointsModule -> PointsService
-    RemindModule -> RemindService
-    SearchingModule -> SearchingService
-    SuggestionModule -> { EmtoeSuggestionService FeatureSuggestionService }
+    "Inter/SelfUnverifyModule" -> { SelfUnverifyService IConfiguration }
+    "Inter/UserMeModule" -> UserService
+    "Inter/BirthdayModule" -> { BirthdayService IConfiguration }
+    "Inter/BotModule"
+    "Inter/BotModule.SelfUnverifyConfig" -> SelfUnverifyService
+    "Inter/DuckModule" -> { IHttpClientFactory IConfiguration }
+    "Inter/EmoteModule" -> EmotesCommandService
+    "Inter/GuildModule" -> UserService
+    "Inter/ChannelModule" -> { GrillBotDatabaseBuilder }
+    "Inter/MathModule" -> IHttpClientFactory
+    "Inter/MemeModule" -> { RandomizationService IConfiguration }
+    "Inter/MockingModule" -> MockingService
+    "Inter/PointsModule" -> PointsService
+    "Inter/RemindModule" -> RemindService
+    "Inter/SearchingModule" -> SearchingService
+    "Inter/SuggestionModule" -> { EmtoeSuggestionService FeatureSuggestionService }
     
-    "ServerModule" -> "IConfiguration"
-    "ServerModule.PinManagementSubmodule" -> "IConfiguration"
-    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule" -> "IConfiguration"
-    "ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> { IMemoryCache IConfiguration PermissionsCleaner UnverifyService }
-    "ServerModule.GuildManagementSubmodule.GuildReactSubModule"
-    "ServerModule.GuildManagementSubmodule.GuildRoleInfoSubModule"
-    
-    "PointsModule" -> "PointsService"
-    "PointsModule" -> "GrillBotDatabaseBuilder"
-    
-    "MockingModule" -> "MockingService"
-    
-    MemeModule -> { FileStorageFactory ProfilePictureManager }
-    HelpModule -> { CommandService IServiceProvider IConfiguration }
-    
-    "UserModule" -> "UserService"
-    
-    "UnverifyModule" -> "UnverifyService"
-    "UnverifyModule" -> "IConfiguration"
-    
-    "FunverifyModule" -> "UnverifyService"
-    "FunverifyModule" -> "IConfiguration"
+    "Text/ServerModule" -> "IConfiguration"
+    "Text/ServerModule.PinManagementSubmodule" -> "IConfiguration"
+    "Text/ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule" -> "IConfiguration"
+    "Text/ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> { IMemoryCache IConfiguration PermissionsCleaner UnverifyService }
+    "Text/ServerModule.GuildManagementSubmodule.GuildReactSubModule"
+    "Text/ServerModule.GuildManagementSubmodule.GuildRoleInfoSubModule"
+    "Text/PointsModule" -> { PointsService GrillBotDatabaseBuilder }
+    "Text/MockingModule" -> "MockingService"
+    "Text/MemeModule" -> { FileStorageFactory ProfilePictureManager }
+    "Text/HelpModule" -> { CommandService IServiceProvider IConfiguration }
+    "Text/UserModule" -> "UserService"
+    "Text/UnverifyModule" -> { UnverifyService IConfiguration }
+    "Text/FunverifyModule" -> { UnverifyService IConfiguration }
     
     MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder CounterManager }
     ProfilePictureManager -> { GrillBotCacheBuilder CounterManager }

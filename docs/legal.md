@@ -132,10 +132,15 @@ Pro každého uživatele na serveru je nutné evidovat (kromě výše uvedených
 
 - Povinné identifikátory (Serveru, uživatele, ...)
 - Kód použité pozvánky
-- Počet bodů, které uživatel obdržel svojí aktivitou.
 - Počet reakcí, které uživatel obdržel a udělali.
 - Datum a čas poslední inkrementace bodů z reakce a ze zprávy (dvě hodnoty data a času).
 - Přezdívka (pokud ji má nastavenou).
+
+#### Body
+
+Aktivita za kterou uživatel dostává body se ukládá formou transakcí a sumářů. 1 transakce reprezentuje zprávu nebo reakci za kterou uživatel obdržel body. Z těchto transakcí se pak generují tzv. denní sumáře, které pomáhají k jednoduššímu vyčítání bodů jednotlivých uživatelů.
+
+Body mají datum expirace. To je nyní 1 rok od data a času přiřazení bodů. Všechny transakce a sumáře starší než 1.5 roku budou archivovány a z databáze smazány.
 
 #### Kanály
 
