@@ -78,7 +78,7 @@ digraph GrillBot {
     
     PointsApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient ApiRequestContext }
     PointsJob -> { LoggingService AuditLogWriter IDiscordClient InitManager PointsService }
-    PointsService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration MessageCacheManager RandomizationService ProfilePictureManager AuditClearingHelper }
+    PointsService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration MessageCacheManager RandomizationService ProfilePictureManager }
     
     UserService -> { GrillBotDatabaseBuilder IConfiguration }
     UsersApiService -> { GrillBotDatabaseBuilder IMapper IDiscordClient ApiRequestContext AuditLogWriter }

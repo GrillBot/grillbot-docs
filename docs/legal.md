@@ -140,7 +140,9 @@ Pro každého uživatele na serveru je nutné evidovat (kromě výše uvedených
 
 Aktivita za kterou uživatel dostává body se ukládá formou transakcí a sumářů. 1 transakce reprezentuje zprávu nebo reakci za kterou uživatel obdržel body. Z těchto transakcí se pak generují tzv. denní sumáře, které pomáhají k jednoduššímu vyčítání bodů jednotlivých uživatelů.
 
-Body mají datum expirace. To je nyní 1 rok od data a času přiřazení bodů. Všechny transakce a sumáře starší než 1.5 roku budou archivovány a z databáze smazány.
+Body mají datum expirace. To je nyní 1 rok od data a času přiřazení bodů. Všechny transakce a sumáře starší než 1.5 roku budou sloučeny do jedné velké transakce/sumáře. Sloučené transakce/sumáře se zohledňují pouze v leaderboardu ve veřejné administraci.
+
+Oprávněné osoby mají možnost si zobrazit transakce v privátní administraci (běžné i sloučené).
 
 #### Kanály
 
