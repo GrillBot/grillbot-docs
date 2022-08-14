@@ -16,7 +16,7 @@ digraph GrillBot {
     SearchingController -> { SearchingService ApiRequestContext }
     SelfUnverifyController -> SelfUnverifyService
     StatisticsController -> { GrillBotDatabaseBuilder GrillBotCacheBuilder }
-    SystemController -> { IWebHostEnvironment DiscordSocketClient InitManager CounterManager }
+    SystemController -> { IWebHostEnvironment DiscordSocketClient InitManager CounterManager EventManager }
     UnverifyController -> { UnverifyService IDiscordClient IMapper UnverifyApiService ApiRequestContext }
     UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService RubbergodKarmaService ApiRequestContext UserHearthbeatService }
     
@@ -34,7 +34,7 @@ digraph GrillBot {
     DirectApiService -> { DiscordSocketClient IConfiguration InitManager GrillBotCacheBuilder }
     
     DiscordHealthCheck -> DiscordSocketClient
-    DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService LoggingService IWebHostEnvironment InitManager InteractionService AuditLogWriter }
+    DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService LoggingService IWebHostEnvironment InitManager InteractionService AuditLogWriter EventManager }
     DiscordSyncService -> { DiscordSocketClient GrillBotDatabaseBuilder InitManager }
     
     EmoteChainService -> { IConfiguration DiscordSocketClient }
@@ -149,6 +149,7 @@ digraph GrillBot {
     
     GrillBotDatabaseBuilder -> { IServiceProvider }
     
+    EventManager -> { DiscordSocketClient InteractionService CommandService }
     InitManager -> ILoggerFactory
     FileStorageFactory -> IConfiguration
 }
