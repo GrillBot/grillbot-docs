@@ -9,6 +9,7 @@
 - [Plánované úlohy](docs/tasks.md)
 - [Graf závilostí](docs/service-dependency.md) - Graf závislostí jednotlivých služeb v kódu.
 - [Návrhy](docs/suggestions.md)
+- [Databáze](docs/database.md)
 
 ## Odkazy
 
