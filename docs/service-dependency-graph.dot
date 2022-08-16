@@ -21,7 +21,7 @@ digraph GrillBot {
     UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService RubbergodKarmaService ApiRequestContext UserHearthbeatService }
     
     AuditClearingHelper -> { FileStorageFactory }
-    AuditLogService -> { DiscordSocketClient GrillBotDatabaseBuilder MessageCacheManager FileStorageFactory InitManager AuditLogWriter }
+    AuditLogService -> { DiscordSocketClient GrillBotDatabaseBuilder InitManager AuditLogWriter IServiceProvider }
     AuditLogApiService -> { GrillBotDatabaseBuilder IMapper FileStorageFactory ApiRequestContext AuditLogWriter }
     AuditLogClearingJob -> { LoggingService AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager AuditClearingHelper }
     AuditLogWriter -> { GrillBotDatabaseBuilder }
