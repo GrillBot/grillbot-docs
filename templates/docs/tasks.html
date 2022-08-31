@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block sub_page %} Plánované úlohy {% endblock %}
+
+{% block content %}
+<p>Cílem plánovaných úloh je provádění automatických operací bez interakce uživatele.</p>
+<p>
+    GrillBot má aktuálně integrovány následující plánované úlohy:
+<ul>
+    <li>Archivace a mazání starých záznamů z audit logu (každé 2 týdny).</li>
+    <li>Upozorňování na narozeniny uživatele (každý den v 8:00).</li>
+    <li>Údržba cache zpráv v paměti (každých 5 minut).</li>
+    <li>Údržba informace o přihlášených uživatelích do webových administrací (každých 15 minut).</li>
+    <li>Rozesílání upozornění (Reminder) v termínu (každých 5 minut).</li>
+    <li>Vrácení přístupu po skončení unverify/selfunverify (každých 30 vteřin).</li>
+</ul>
+
+Kromě výše uvedených časů se úlohy, které nejsou definovány pomocí cron expression, spouští ještě při startu aplikace. Tyto úlohy se
+nastavují v konfiguračním souboru (<code>appsettings.json</code>).
+</p>
+
+<h3 class="fw-light">Vytvoření nové naplánované úlohy</h3>
+<ul>
+    <li>Je třeba nadefinovat v konfiguračním souboru <code>appsettings.json</code>, jak často (nebo kdy) se má úloha spouštět. Je možné
+        zadat hodnotu ve formátu pro objekt typu <a
+            href="https://docs.microsoft.com/cs-cz/dotnet/api/system.timespan?view=net-6.0">TimeSpan</a>, nebo jako cron
+        expression specifický přímo pro Quartz.NET. <a
+            href="https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html#example-cron-expressions">Cron
+            examples</a>.
+    </li>
+    <li>Implementovat příslušnou úlohu. Viz kód níže:</li>
+</ul>
+
+<pre>
+using Quartz;
+using GrillBot.Infrastructure.Jobs;
+
+[DisallowConcurrentExecution]
+public class YourJob : Job
+{
+    public YourJob(AuditLogWriter auditLogWriter, IDiscordClient discordClient, InitManager initManager, LoggingManager loggingManager)
+        : base(auditLogWriter, discordClient, initManager, loggingManager)
+    {
+    }
+
+    public override async Task RunAsync(IJobExecutionContext context)
+    {
+        // Your implementation
+    }
+}
+</pre>
+
+<p>
+    Doporučuje se na úlohy atribut <code>DisallowConcurrentExecution</code>, aby nedošlo k paralelnímu spuštění jedné úlohy.
+    Pokud chcete, aby úloha nebyla spuštěna, než dojde ke kompletní inicializaci bota, tak stačí nastavit na třídu úlohy atribut
+    <code>DisallowUninitialized</code>.
+    Do úlohy je možné vkládat závislosti pomocí konstruktoru z DI kontejneru. Již je tak třeba naimportovat služby pro základní chod úlohy.
+</p>
+
+<ul>
+    <li>
+        Nakonec je třeba úlohu registrovat v souboru <a
+            href="https://gitlab.com/grillbot/grillbot/-/blob/master/src/GrillBot/GrillBot.App/Startup.cs">Startup.cs</a> V tomto souboru
+        nalezněte volání funkce <code>AddQuartz(...)</code>. Do této funkce po vzoru ostatních úloh doplňte odkaz na úlohu. Přepis funkce je
+        <code>q.AddTriggeredJob(Configuration, "Your:Path:To:Time:Configuration", bool)</code>. Pokud chcete ve vaší funkci použít cron
+        expressions, tak jako poslední parametr zadejte hodnotu <code>true</code>, jinak <code>false</code>.
+    </li>
+</ul>
+
+{% endblock %}

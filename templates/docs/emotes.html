@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block sub_page %} Správa a statistika emotů {% endblock %}
+
+{% block content %}
+<p>
+    GrillBot sbírá statistiky použitých emotikonů. Díky tomu lze například snadno zjišťovat, které emotikony jsou nepoužívané, atd.<br>
+    Sbírání statistik se provádí tak, že bot automaticky skenuje každou zprávu a loguje každé použití emotikonu. Každá statistická položka
+    se váže na daný emotikon a uživatele, který emotikon použil.
+</p>
+
+<h3 class="fw-light">Příkazy</h3>
+<i>Všechny příkazy mají jednotnou skupinu <code>/emote</code> a jsou integrovány jako "slash commands".</i>
+<ul>
+    <li>
+        <code>/emote list {order} {direction} [{user}]</code>
+        - Statistika použití emotikonů.
+        <ul>
+            <li>
+                Parametry:
+                <ul>
+                    <li><code>order</code> - Podle kterého kritéria se má řadit. Na výběr jsou možnosti podle počtu použití daného emote,
+                        nebo podle data a času posledního použití.</li>
+                    <li><code>direction</code> - Zda se má použít vzestupné nebo sestupné řazení.</li>
+                    <li><code>user</code> - Identifikace uživatele. Je možné použít tag, identifikátor, uživatelské jméno případně server
+                        alias, pokud nějaký uživatel mám. Volitelný parametr. Pokud není zadán uživatel, pak je statistika za všechny
+                        uživatele.</li>
+                    <li><code>order</code> - Podle kterého kritéria se má řadit. Na výběr jsou možnosti podle počtu použití daného emote,
+                        nebo podle data a času posledního použití.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <code>/emote get {emote/id/nazev}</code>
+        - Získání statistiky emotikonu. Vypíše základní informace o emotikonu, datum a čas prvního a posledního výskytu, dobu od posledního
+        použití, počet použití, počet uživatelů, kteří použili emotikon a TOP10 uživatelů, kteří použili emotikon.
+        <ul>
+            <li>
+                Parametry:
+                <ul>
+                    <li><code>emote/id/nazev</code> - Identifikace emotikonu. Je možné použít samotný emotikon v plném formátu,
+                        identifikátor nebo název.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<h3 class="fw-light">Administrace</h3>
+<p>
+    Oprávnění uživatelé mají možnost vidět veškeré statistiky formou webové administrace. Kromě prezentace také mohou provádět v
+    administraci následující úlohy:
+
+<ul>
+    <li>Smazat statistiku pro daný emote.</li>
+    <li>Sloučit statistiku z již neexistujícího emote do jiného existujícího.</li>
+</ul>
+</p>
+{% endblock %}

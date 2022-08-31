@@ -52,6 +52,7 @@ digraph GrillBot {
     
     PeepoangryRenderer -> { FileStorageFactory ProfilePictureManager }
     PeepoloveRenderer -> { FileStorageFactory ProfilePictureManager }
+    RendererFactory -> { FileStorageFactory ProfilePictureManager }
     WithoutAccidentRenderer -> { FileStorageFactory ProfilePictureManager }
     
     PermissionsCleaner -> { CounterManager ILogger }
@@ -89,7 +90,7 @@ digraph GrillBot {
     AutoReplyService -> { IConfiguration DiscordSocketClient GrillBotDatabaseBuilder InitManager }
     
     BoosterService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration InitManager }
-    DiscordExceptionHandler -> { IDiscordClient IConfiguration FileStorageFactory ProfilePictureManager }
+    DiscordExceptionHandler -> { IDiscordClient IConfiguration FileStorageFactory RendererFactory }
     InviteService -> { DiscordSocketClient GrillBotDatabaseBuilder IMapper AuditLogWriter }
     MessageCacheJob -> { AuditLogWriter IDiscordClient InitManager MessageCacheManager LoggingManager }
     

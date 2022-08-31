@@ -1,0 +1,537 @@
+{% extends 'base.html' %}
+{% block sub_page %} Ustanovení {% endblock %}
+
+{% block content %}
+<p>
+    GrillBot je aplikace s vyhrazenými právy. Zdrojový kód aplikace je veřejný ke čtení a je umožněno do něj přispívat bez omezení. Použití
+    částí kódu z aplikace je umožněno za podmínky uvedení autora u zdrojového kódu.<br>
+    Administrátor discord serveru je oprávněn přidat běžící instanci aplikace až po písemném povolení vlastníkem aplikace. Současně také
+    spuštění vlastní instance za jiným účelem, než vývoj aplikace je možné až po písemném povolení vlastníkem.<br>
+    Vlastníkem aplikace je skupina osob, kteří jsou členy skupiny <a href="https://gitlab.com/groups/grillbot/-/group_members"
+        target="_blank">GrillBot</a> v systému GitLab. Tyto osoby mohou udělit povolení k užívání aplikace.<br>
+    Uživatel, který se připojí na Discord server, kde se také nachází bot automaticky souhlasí se sběrem dat popsaných na této stránce.
+</p>
+
+<h3 class="fw-light">Sběr a uchovávání dat</h3>
+<p>
+    Za účelem správného chodu GrillBot musí uchovávat v databázi informace o uživatelích na discord serveru, záznamy (logy) a další.
+</p>
+
+<p>
+    Data jsou v databázi uchovávany na základě jejich potřeby po různou dobu.
+<ul>
+    <li>
+        Záznamy z logování provozu starší, než 12 měsíců jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data
+        uchovány po
+        dobu minimálně dalšího jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně smazat.
+    </li>
+    <li>
+        Ostatní výše nezmíněné data jsou v databázi uchovány po dobu existence discord serveru na kterém se bot nachází a to i po opuštění
+        bota ze serveru.
+    </li>
+</ul>
+</p>
+
+<p>
+    Administrátor serveru je oprávněn provádět pravidelné zálohy celé databáze (kromě výše uvedené automatizované archivace) za účelem
+    zajištění provozuschopnosti služby. Administrátor serveru na kterém běží instance aplikace sám rozhodne, jak dlouho bude držet zálohy.
+</p>
+
+<h3 class="fw-light">Unverify (dočasné odebrání přístupu)</h3>
+<p>
+    Unverify uchovává k uživateli jeho aktuální stav, pokud má uživatel zrovna odebraný přístup. Aktuální stav unverify je po jeho skončení
+    automaticky fyzicky smazán. K aktuálnímu stavu jsou uchovány následující data:
+<ul>
+    <li>Povinné identifikátory (identifikátor serveru, uživatele, ...)</li>
+    <li>Datum a čas odebrání a konce odebrání přístupu.</li>
+    <li>Důvod odebrání přístupu.</li>
+    <li>Seznam rolí, které mají být uživateli navráceny.</li>
+    <li>Seznam kanálů, do kterých má být uživateli navrácen přístup.</li>
+</ul>
+</p>
+
+<h4 class="fw-light">Logování unverify</h4>
+<p>
+    Kromě aktuálního stavu unverify je také uchováván log provedených operací nad unverify. Tyto záznamy jsou uchovávány v databázi k tomu
+    určené tabulce. Uchovávají se tyto typy záznamů:
+<ul>
+    <li>Odebrání přístupu (Oprávněná osoba provedla odebrání přístupu)</li>
+    <li>Vlastní odebrání přístupu (Uživatel sám sobě odebral přístup)</li>
+    <li>Automatické vrácení přístupu (Uživateli skončila doba odebrání přístupu)</li>
+    <li>Předčasné vrácení přístupu (Uživateli oprávněná osoba vrátila přístup)</li>
+    <li>Aktualizace doby odebrání přístupu (Oprávněná osoba změnila uživateli dobu odebrání přístupu)</li>
+    <li>Obnovení původního stavu (Oprávněná osoba obnovila uživateli původní stav před odebráním přístupu)</li>
+</ul>
+
+Každý záznam bez ohledu na jeho typ (z výše uvedených) obsahuje následující data:
+<ul>
+    <li>Unikátní identifikátor operace</li>
+    <li>Identifikace uživatele, který operaci provedl</li>
+    <li>Identifikace uživatele nad kterým byla operace provedena</li>
+    <li>Identifikace serveru ve kterém byla tato operace provedena</li>
+    <li>Typ záznamu</li>
+    <li>Datum a čas zaevidování operace</li>
+    <li>Data konkrétní operace</li>
+</ul>
+
+Mezi konkrétní data se řadí následující:
+<ul>
+    <li>Odebrání přístupu a vlastní odebrání přístupu</li>
+    <li>Počáteční a koncové datum odebrání přístupu</li>
+    <li>Důvod odebrání přístupu</li>
+    <li>Seznam kanálů, které nebyly procesem odebrání přístupu v danou chvíli ovlivněny</li>
+    <li>Seznam kanálů, ke kterým uživatel ztratil přístup</li>
+    <li>Seznam rolí, které byly uživateli ponechány</li>
+    <li>Seznam rolí, které byly uživateli odebrány</li>
+    <li>Automatické vrácení přístupu, předčasné vrácení přístupu a obnovení původního stavu</li>
+    <li>Seznam kanálů, které uživatel obdržel zpět</li>
+    <li>Seznam rolí, které uživatel obdržel zpět</li>
+    <li>Aktualizace doby odebrání přístupu</li>
+    <li>Nový čas začátku a konce odebrání přístupu</li>
+</ul>
+
+K záznamům o odebrání přístupu je možné přistoupit pomocí rozhraní REST API, případně pomocí uživatelského rozhraní, které využívá tohoto
+REST API. Uživatelé mají přístup k těm záznamům, které ukazují provedení nad jeho účtem. Oprávněné osoby mohou vidět všechny záznamy.
+</p>
+
+<h3 class="fw-light">Obecné informace o uživateli</h3>
+<p>
+    GrillBot v databázi o samotném uživateli eviduje následující:
+<ul>
+    <li>Jednoznačný identifikátor ve službě Discord</li>
+    <li>
+        Pomocné příznaky (bitová maska)
+        <ul>
+            <li>Bit 1 (<code>1</code>): Umožňuje uživateli hned po vlastníkovi bota mít nejvyšší oprávnění a může obsluhovat všechny metody
+                dostupné pomocí příkazů ve službě Discord</li>
+            <li>Bit 2 (<code>2</code>): Umožňuje uživateli přístup do webové administrace, kam se přihlašuje pomocí OAuth2 přihlášení služby
+                Discord</li>
+            <li>Bit 3 (<code>4</code>): Pomocný bit rozlišující uživatele a boty</li>
+            <li>Bit 4 (<code>8</code>): Informační bit, že je uživatel přihlášen v privátní webové administraci</li>
+            <li>Bit 5 (<code>16</code>): Uživatel má zablokovaný přístup k veřejné administraci</li>
+            <li>Bit 6 (<code>32</code>): Informační bit, že je uživatel přihlášen ve veřejné webové administraci</li>
+            <li>Bit 7 (<code>64</code>): Veškeré příkazy pro daného uživatele jsou zablokovány</li>
+            <li>Bit 8 (<code>128</code>): Pro tohoto uživatele se nepočítají body za aktivitu.</li>
+        </ul>
+    </li>
+    <li>
+        Datum a čas narození uživatele. Jedná se o datum s volitelnou specifikací roku. Datum narození si zadává a odebírá uživatel sám.
+        Ostatní osoby nemohou s datem narození jiného uživatele vůbec manipulovat. Oprávněné osoby mají přístup pouze k informaci o tom, zda
+        má uživatel datum narození uloženo (ANO/NE). Žádný uživatel nevidí konkrétní datum. Uložením data narození dává uživatel souhlas k
+        nakládání s datem narození za účelem prezentace ke dni narozenin prostřednictvím příkazu a automatizovaného upozornění.
+    </li>
+    <li>Interní poznámka, kterou si mohou oprávněné osoby k uživateli napsat pomocí privátní webové administrace. Poznámka není dostupná ve
+        veřejné administraci.</li>
+    <li>Aktuální uživatelské jméno, diskriminátor a stav přihlášení (Online, Offline, ...) ze služby Discord</li>
+    <li>Agregované informace o použitých emotikonech</li>
+    <li>Minimální doba, na kterou si uživatel může dát selfunverify. Pokud není nastaveno, tak se na něj vztahuje výchozí nastavení.</li>
+</ul>
+
+Každý uživatel má přístup ke svým informacím pomocí příkazu <code>/me</code>, nebo pomocí veřejné administrace. Oprávněné osoby mají přístup
+ke všem údajům o uživatelích a to pomocí příkazu <code>$user info</code>, nebo pomocí privátní webové administrace.
+</p>
+
+<h3 class="fw-light">Statistika používání emotikonů</h3>
+<p>
+    Statistika o používání různých emotikonů. Vytváří se statistika pouze k emotikonům, ke kterým má bot přístup. Tato statistika se sbírá
+    ze zpráv i reakcí. Neuchovávají se unicode emoji. U každé statistiky je uchováno:
+<ul>
+    <li>Jednoznačný identifikátor emotikonu ve formátu <code>&lt;:nazev:id&gt;</code></li>
+    <li>Identifikace uživatele, který emoji použil</li>
+    <li>Identifikace serveru, ve kterém se emote nachází</li>
+    <li>Počet použití emotikonu</li>
+    <li>Datum a čas prvního výskytu emotikonu, který bot zaznamenal</li>
+    <li>Datum a čas posledního výskytu emotikonu, který bot zaznamenal</li>
+</ul>
+</p>
+
+<h3 class="fw-light">Upozorňování</h3>
+<p>
+    Aby bylo možné provádět upozornění uživatele k určitému datu za pomocí feature "Remind", pak musí bot ukládat následující:
+<ul>
+    <li>Jednoznačný identifikátor v databázové tabulce</li>
+    <li>Identifikace uživatele, který zprávu k upozornění založil</li>
+    <li>Identifikace uživatele, který zprávu k upozornění má obdržet</li>
+    <li>Identifikace původní zprávy za účelem možnosti vytvářet kopie tohoto upozornění za pomocí reakcí</li>
+    <li>Identifikace zprávy upozornění za účelem odložení</li>
+    <li>Datum a čas, kdy se má upozornění odeslat</li>
+    <li>Obsah zprávy</li>
+    <li>Počet odložení</li>
+</ul>
+</p>
+
+<h3 class="fw-light">Informace o serveru</h3>
+<p>
+    K zajištění konzistence dat je zapotřebí pro každý discord server uchovávat:
+<ul>
+    <li>Identifikátor serveru</li>
+    <li>Název serveru</li>
+    <li>Identifikátor role, která obsahuje oprávnění, které uzamkne psaní ve všech textových kanálech a nepovolí připojení do hlasových
+        kanálů (Volitelně)</li>
+    <li>Identifikátor administrátorského/systémového kanálu (Volitelně)</li>
+    <li>Identifikátor role, kterou mají "Server booster" uživatelé. Nastavuje se automaticky při startu aplikace</li>
+    <li>Identifikátor kanálu pro návrhy emotů</li>
+    <li>Identifikátor kanálu pro veřejná hlasování</li>
+</ul>
+</p>
+
+<h3 class="fw-light">Informace o uživateli na serveru</h3>
+<p>
+    Pro každého uživatele na serveru je nutné evidovat (kromě výše uvedených informací o uživateli jako takovém):
+<ul>
+    <li>Povinné identifikátory (Serveru, uživatele, ...)</li>
+    <li>Kód použité pozvánky</li>
+    <li>Počet reakcí, které uživatel obdržel a udělil</li>
+    <li>Datum a čas poslední inkrementace bodů z reakce a ze zprávy (dvě hodnoty typu DateTime)</li>
+    <li>Přezdívka (pokud ji má nastavenou)</li>
+</ul>
+</p>
+
+<h3 class="fw-light">Body</h3>
+<p>
+    Aktivita za kterou uživatel dostává body se ukládá formou transakcí a sumářů. 1 transakce reprezentuje zprávu nebo reakci za kterou
+    uživatel obdržel body. Z těchto transakcí se pak generují tzv. denní sumáře, které pomáhají k jednoduššímu vyčítání bodů jednotlivých
+    uživatelů.<br>
+    Body mají datum expirace. To je nyní 1 rok od data a času přiřazení bodů. Všechny transakce a sumáře starší než 1.5 roku budou sloučeny
+    do jedné velké transakce/sumáře. Sloučené transakce/sumáře se zohledňují pouze v leaderboardu ve veřejné administraci.<br>
+    Oprávněné osoby mají možnost si zobrazit transakce v privátní administraci (běžné i sloučené).
+</p>
+
+<h3 class="fw-light">Kanály</h3>
+<p>
+    Pro každý textový kanál, který se nachází na serveru a byla na něm provedena nějaká aktivita se ukládá:
+<ul>
+    <li>Povinné identifikátory (serveru a kanálu)</li>
+    <li>Identifikátor nadřazeného kanálu, pokud se jedná o vlákno.</li>
+    <li>Název kanálu</li>
+    <li>Typ kanálu</li>
+    <li>
+        Pomocné příznaky (bitová maska)
+        <ul>
+            <li>Bit 1 (<code>1</code>): Kanál je skryt ze všech statistik s výjimkou privátní administrace.</li>
+            <li>Bit 2 (<code>2</code>): Provádění všech příkazů v kanálech je zakázáno.</li>
+            <li>Bit 3 (<code>4</code>): Kanál byl smazán (nebo vlákno bylo archivováno)</li>
+            <li>Bit 4 (<code>8</code>): Automatické odpovědi jsou v daném kanálu zakázány.</li>
+            <li>Bit 5 (<code>16</code>): Počítání bodů v daném kanálu je deaktivováno.</li>
+        </ul>
+    </li>
+</ul>
+Za každého uživatele jsou pak u kanálu uloženy následující data:
+<ul>
+    <li>Povinné identifikátory (kanálu, serveru, uživatele)</li>
+    <li>Počet zpráv v kanálu</li>
+    <li>Datum a čas první zaznamenané zprávy v kanálu</li>
+    <li>Datum a čas poslední zaznamenané zprávy v kanálu</li>
+</ul>
+</p>
+
+<h3 class="fw-light">Pozvánky</h3>
+<p>
+    Když se uživatel připojí na server, tak se automaticky provede detekce, kterou pozvánku použil. Tato pozvánka je poté uložena v
+    databázi. K této pozvánce se uchovává:
+<ul>
+    <li>Jednoznačné identifikátory</li>
+    <li>Unikátní kód pozvánky</li>
+    <li>Serveru, ke kterému pozvánka patří</li>
+    <li>Uživatele, který pozvánku založil</li>
+    <li>Datum a čas vytvoření pozvánky</li>
+</ul>
+Pokud se uživatel připojí pomocí tzv. <i>Vanity url</i> (speciální pozvánky s vlastním (negenerovaným) kódem), pak se u takové pozvánky
+neukládá kdo takovou pozvánku založil a kdy ji založil.
+</p>
+
+<h3 class="fw-light">Logování provozu</h3>
+<p>
+    Logování provozu se provádí za účelem zabezpečení bezproblémového chodu serveru a případného dohledávání nepovolených aktivit.
+    Logování probíhá formou událostí různých typů. Tyto události jsou:
+<table class="table table-striped table-bordered table-sm">
+    <thead>
+        <tr>
+            <th>Typ</th>
+            <th>Popis</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td><code>Info</code></td>
+            <td>Textová zpráva informačního charakteru. Zapisuje se zde například informace o načtených pozvánek při startu.</td>
+        </tr>
+        <tr>
+            <td><code>Warning</code></td>
+            <td>Varování, že došlo k nějaké události, které by měla být věnována pozornost, ale nemá fatální charakter.</td>
+        </tr>
+        <tr>
+            <td><code>Error</code></td>
+            <td>Při běhu aplikace došlo k chybě.</td>
+        </tr>
+        <tr>
+            <td><code>Command</code></td>
+            <td>Provedení příkazu.</td>
+        </tr>
+        <tr>
+            <td><code>ChannelCreated</code>, <code>ChannelDeleted</code>, <code>ChannelUpdated</code></td>
+            <td>Vytvoření/Smazání/Úprava kanálu</td>
+        </tr>
+        <tr>
+            <td><code>EmojiDeleted</code></td>
+            <td>Smazání emotikonu ze serveru.</td>
+        </tr>
+        <tr>
+            <td><code>OverwriteCreated</code>, <code>OverwriteDeleted</code>, <code>OverwriteUpdated</code></td>
+            <td>Vytvoření/Smazání/Úprava přístupové výjimky do kanálu</td>
+        </tr>
+        <tr>
+            <td><code>Unban</code></td>
+            <td>Odblokování uživatele a umožnění se připojit na server.</td>
+        </tr>
+        <tr>
+            <td><code>MemberUpdated</code></td>
+            <td>Uživatel aktualizován (přezdívka, nebo umlčení v hlasovém kanálu, nebo vlastnosti v databázi)</td>
+        </tr>
+        <tr>
+            <td><code>MemberRoleUpdated</code></td>
+            <td>Role uživatele byly aktualizovány</td>
+        </tr>
+        <tr>
+            <td><code>GuildUpdated</code></td>
+            <td>Vlastnosti serveru byly upraveny</td>
+        </tr>
+        <tr>
+            <td><code>UserLeft</code></td>
+            <td>Uživatel opustil server</td>
+        </tr>
+        <tr>
+            <td><code>MessageEdited</code></td>
+            <td>Obsah zprávy byl upraven</td>
+        </tr>
+        <tr>
+            <td><code>MessageDeleted</code></td>
+            <td>Zpráva byla na serveru smazána</td>
+        </tr>
+        <tr>
+            <td><code>InteractionCommand</code></td>
+            <td>Provedení integrovaného příkazu (Slash command, Message command, User command)</td>
+        </tr>
+        <tr>
+            <td><code>ThreadDeleted</code></td>
+            <td>Smazání vlákna</td>
+        </tr>
+        <tr>
+            <td><code>JobCompleted</code></td>
+            <td>Dokončení automaticky naplánované úlohy</td>
+        </tr>
+        <tr>
+            <td><code>API</code></td>
+            <td>Požadavek na REST API</td>
+        </tr>
+    </tbody>
+</table>
+
+U všech událostí se evidují tyto společné vlastnosti:
+<ul>
+    <li>Povinné identifikátory</li>
+    <li>Unikátní identifikátor záznamu</li>
+    <li>Identifikátor serveru, na kterém událost vznikla</li>
+    <li>Identifikátor uživatele, který událost vyvolal</li>
+    <li>Identifikátor záznamu z audit logu služby discord (pokud k vytvoření záznamu dopomohl)</li>
+    <li>Identifikátor kanálu, ke kterému se vztahuje záznam</li>
+    <li>Datum a čas zaevidování záznamu</li>
+    <li>Typ události (viz tabulka výše)</li>
+    <li>Seznam souborů, které k události náleží</li>
+</ul>
+</p>
+
+<h4 class="fw-light">Popis jednotlivých událostí</h4>
+<p>
+    Většina událostí obsahuje v záznamu také data specifické k určitému typu události. Ve většině případů se jedná o JSON data.
+<ul>
+    <li>Informační zprávy, varování a chyby obsahují textový řetězec s obsahem zprávy. Neobsahují JSON data.</li>
+    <li>
+        Provedení příkazu
+        <ul>
+            <li>Identifikaci příkazu, který byl prováděn.</li>
+            <li>Obsah zprávy, který vyvolal příkaz.</li>
+            <li>Příznak, zda příkaz byl proveden úspěšně.</li>
+            <li>Typ chyby, který vznikl při provádění příkazu, pokud se neprovedl správně.</li>
+            <li>Důvod chyby, která vznikla při provádění příkazu. Pokud se příkaz neprovedl správně.</li>
+            <li>Doba trvání provedení příkazu.</li>
+            <li>Obsah výjimky, pokud došlo k chybě.</li>
+        </ul>
+    </li>
+    <li>
+        Vytvoření a smazání kanálu
+        <ul>
+            <li>Identifikátor kanálu</li>
+            <li>Název kanálu</li>
+            <li>Typ kanálu (Text, Hlasový, Kategorie)</li>
+            <li>Příznak NSFW (<b>N</b>ot <b>S</b>afe <b>T</b>o <b>W</b>ork) - Pouze u textových kanálů</li>
+            <li>Bitrate - Pouze u hlasových kanálů</li>
+            <li>Časové omezení mezi posíláním zpráv (SlowMode) - Pouze u textových kanálů</li>
+            <li>Popis kanálu</li>
+        </ul>
+    </li>
+    <li>
+        Úprava kanálu
+        <ul>
+            <li>V případě změny kanálu se uchovávají stejné informace jako u vytvoření a smazání, jen se drží verze před a po úpravě.</li>
+        </ul>
+    </li>
+    <li>
+        Smazání emotikonu ze serveru
+        <ul>
+            <li>Identifikátor emotikonu</li>
+            <li>Název emotikonu</li>
+        </ul>
+    </li>
+    <li>
+        Vytvoření a smazání přístupové výjimky do kanálu
+        <ul>
+            <li>Typ přístupové výjimky (Role, Uživatel)</li>
+            <li>Identifikátor cíle výjimky</li>
+            <li>Hodnota reprezentující povolené možnosti</li>
+            <li>Hodnota reprezentující zakázané možnosti</li>
+        </ul>
+    </li>
+    <li>
+        Aktualizace přístupové výjimky do kanálu
+        <ul>
+            <li>Drží se stejné informace jako u vytvoření a smazání, jen se navíc drží verze před a po úpravě.</li>
+        </ul>
+    </li>
+    <li>
+        Odblokování uživatele a umožnění se připojit na server
+        <ul>
+            <li>
+                Základní informace o uživateli, který byl odblokován:
+                <ul>
+                    <li>Jednoznačný identifikátor</li>
+                    <li>Uživatelské jméno</li>
+                    <li>Zjednodušený identifikátor</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        Uživatel na serveru byl aktualizován, nebo se změnily jeho vlastnosti v databázi (<i>Informace se drží v páru před a po změně</i>)
+        <ul>
+            <li>Přezdívka na serveru</li>
+            <li>Stav umlčení v hlasovém kanálu</li>
+            <li>Interní poznámka</li>
+            <li>Minimální čas pro selfunverify</li>
+            <li>Příznaky</li>
+        </ul>
+    </li>
+    <li>
+        Role uživatele byly aktualizovány
+        <ul>
+            <li>Seznam rolí, které byly uživateli přidány nebo odebrány.</li>
+        </ul>
+    </li>
+    <li>
+        Vlastnosti serveru byly upraveny (<i>Všechny změny se drží v páru (před a po změně)</i>)
+        <ul>
+            <li>Výchozí nastavení upozornění</li>
+            <li>Popis serveru</li>
+            <li>Název univerzální pozvánky (Vanity URL)</li>
+            <li>Zda byla změněna grafika serveru (banner, ikona, ...)</li>
+            <li>Identifikátor hlasového regionu</li>
+            <li>Vlastník serveru</li>
+            <li>Kanál pro veřejná oznámení</li>
+            <li>Kanál pro pravidla</li>
+            <li>Systémový kanál</li>
+            <li>Hlasový kanál pro neaktivní uživatele</li>
+            <li>Časový limit po kterém bude uživatel přesunut do kanálu pro neaktivní</li>
+            <li>Název serveru</li>
+            <li>Dvoufázové ověřování</li>
+        </ul>
+    </li>
+    <li>
+        Uživatel opustil server
+        <ul>
+            <li>Počet členů na serveru po tom, co uživatel opustil server</li>
+            <li>Zda bylo opuštění serveru způsobeno vyhozením (s nebo bez možnosti návratu) a důvod</li>
+            <li>Základní informace o uživateli</li>
+        </ul>
+    </li>
+    <li>
+        Obsah zprávy byl upraven
+        <ul>
+            <li>Obsah zprávy před a po</li>
+            <li>Odkaz na zprávu</li>
+        </ul>
+    </li>
+    <li>
+        Zpráva byla na serveru smazána
+        <ul>
+            <li>Obsah zprávy</li>
+            <li>Autor zprávy. Základní informace o uživateli</li>
+            <li>Datum a čas vytvoření zprávy</li>
+            <li>Textový obsah zprávy</li>
+        </ul>
+    </li>
+    <li>
+        Integrovaný příkaz
+        <ul>
+            <li>Název příkazu, modulu a metody svázané s příkazem.</li>
+            <li>Seznam parametrů</li>
+            <li>V každém parametru se ukládá: Název parametru, typ (Bool, Int, Double, String, Kanál, Role, Uživatel a Zpráva) a hodnota.
+            </li>
+            <li>Příznak, že bot odpověděl.</li>
+            <li>Příznak, že bot měl k dispozici platný token ke službě Discord.</li>
+            <li>Příznak, zda příkaz byl proveden úspěšně.</li>
+            <li>Typ chyby, který vznikl při provádění příkazu, pokud se neprovedl správně.</li>
+            <li>Textovou reprezentaci chyby, která vznikla při prováděné příkazu. Pokud se příkaz neprovedl správně.</li>
+            <li>Dobu provedení příkazu</li>
+            <li>Obsah výjimky, pokud příkaz skončil chybou.</li>
+        </ul>
+    </li>
+    <li>
+        Smazání vlákna
+        <ul>
+            <li>Identifikátor kanálu</li>
+            <li>Název kanálu.</li>
+            <li>Časové omezení mezi posíláním zpráv (SlowMode) - Pouze u textových kanálů.</li>
+            <li>Typ vlákna (Veřejné/Soukromé)</li>
+            <li>Příznak, že kanál byl archivován.</li>
+            <li>Časové období pro archivaci.</li>
+            <li>Příznak, že kanál byl uzamknut.</li>
+        </ul>
+    </li>
+    <li>
+        Dokončení naplánované úlohy
+        <ul>
+            <li>Název úlohy.</li>
+            <li>Výsledek úlohy - Úlohy, které nemají zapsány výsledek se nelogují.</li>
+            <li>Datum a čas začátku běhu.</li>
+            <li>Datum a čas konce běhu.</li>
+            <li>Příznak, že došlo k chybě.</li>
+        </ul>
+    </li>
+    <li>
+        API požadavek
+        <ul>
+            <li>Název kontroléru na který směřoval požadavek</li>
+            <li>Název akce na který směřoval požadavek</li>
+            <li>Datum a čas začátku požadavku</li>
+            <li>Datum a čas konce požadavku</li>
+            <li>HTTP metoda (GET, POST, ...)</li>
+            <li>Šablona URL</li>
+            <li>Skutečná URL</li>
+            <li>Role aktuálně přihlášeného uživatele (není vyplněno, pokud se jedná o nepřihlášený přístup)</li>
+            <li>Výsledný stavový kód</li>
+            <li>Seznam parametrů v URL (QueryString)</li>
+            <li>Serializovaná data v těle požadavku (pokud byly přítomna)</li>
+        </ul>
+    </li>
+</ul>
+</p>
+
+<h3 class="fw-light">Zpřístupnění</h3>
+<p>
+    Ke všem výše uvedeným informacím mají přístup pouze oprávněné osoby. Všechny informace jsou čitelné pomocí webové administrace.
+    Oprávněná osoba může provést smazání záznamu pokud k tomu má patřičný důvod.<br>
+    Uživatel má nárok k výmazu pouze informací o sobě samém. K výmazu dojde formou anonymizace. Z technických důvodů není možné provést
+    ostré smazání dat. Smazání všech informací může provést pouze oprávněná osoba a na základě písemné žádosti.
+</p>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block sub_page %} Graf závislostí {% endblock %}
+
+{% block content %}
+<div class="diagram">
+    <a href="/static/di-graph.svg" target="_blank">Otevřít v plném rozlišení</a>
+    <img src="/static/di-graph.svg" alt="Graf závislostí" />
+</div>
+{% endblock %}

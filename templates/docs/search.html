@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block sub_page %} Hledání {% endblock %}
+
+{% block content %}
+<p>
+    Zjednodušená forma inzerce, kdy uživatel v kanálu něco hledá. Může to být cokoliv. Od nějakého produktu, až po týmy.<br>
+    Data se v databázi ukládají do tabulky `SearchItems` a jsou mapována na entitu
+    <a href="https://gitlab.com/grillbot/grillbot/-/blob/master/src/GrillBot/GrillBot.Database/Entity/SearchItem.cs">SearchItem</a>.
+</p>
+
+<h3 class="fw-light">Příkazy</h3>
+<p>
+    <i>Všechny příkazy mají jednotnou skupinu <code>/hledam</code> a jsou integrovány jako "slash commands".</i>
+<ul>
+    <li>
+        <code>/hledam list [{kanal}] [{vyhledavani}]</code>
+        - Vypíše seznam hledání v daném kanálu. Součástí každé položky seznamu bude informace o tom, kdo něco hledá a samotná zpráva od
+        uživatele.
+        <ul>
+            <li>
+                Parametry:
+                <ul>
+                    <li><code>kanal</code> - Identifikace kanálu ze kretého se chce vypsat hledání. Volitelný parametr. Pokud není zadán,
+                        tak se vypíše hledání v kanálu, kde byl příkaz zavolán.</li>
+                    <li><code>vyhledavani</code> - Textové vyhledávání ve zprávě. Volitelný parametr. Pokud není zadán, tak se nezohlední.
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <code>/hledam nove {zprava}</code>
+        - Vytvoření hledání v kanálu, ve kterém byl příkaz zavolán.
+        <ul>
+            <li>
+                Parametry:
+                <ul>
+                    <li><code>zprava</code> - Obsah zprávy hledání. Maximální délka zprávy může být 1024 znaků.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <code>/hledam smazat {ident}</code>
+        - Odebrání hledání. Odebrat hledání je omezeno pouze na autora daného hledání nebo uživatele s vyššími právy (Administrator,
+        ManageMessages nebo BotAdmin).
+        <ul>
+            <li>
+                Parametry:
+                <ul>
+                    <li><code>ident</code> - Identifikace hledání. Je možné použít záznam z automaticky doplněné nápovědy (autocomplete),
+                        která se automaticky generuje, nebo zadat ID samotného záznamu. Automaticky doplněná nápověda nabízí pouze prvních
+                        25 položek v daném kanálu.</li>
+                </ul>
+            </li>
+            <li>Příklad: <code>/narozeniny pridat 1997-06-05</code></li>
+        </ul>
+    </li>
+</ul>
+<i>Může se stát, že některá hledání zničeho-nic zmizí. K tomu může dojít pokud bude kanál smazán, bot opustí server nebo uživatel opustí
+    server.</i>
+</p>
+
+<h3 class="fw-light">Administrace</h3>
+<p>
+    Oprávnění uživatelé mají možnost vidět všechna hledání formou webové administrace. Také mnou hromadně mazat hledání.
+    Všichni uživatelé mají možnost vidět svá hledání pomocí veřejné webové administrace.
+</p>
+{% endblock %}

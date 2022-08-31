@@ -1,0 +1,17 @@
+.text-lighter-success {
+    color: lightgreen;
+}
+
+.text-lighter-danger {
+    color: lightcoral;
+}
+
+.diagram img {
+    max-width: 100%;
+}
+
+pre {
+    background: lightgray;
+    border-radius: 15px;
+    padding: 10px 20px;
+}
