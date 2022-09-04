@@ -3,6 +3,7 @@ from flask import Flask, render_template, send_from_directory
 import helper
 from datetime import datetime, timezone
 import sys
+from data.data_source import page_to_data_source
 
 DATETIME_FORMAT = "%d. %m. %Y %H:%M:%S"
 app = Flask(__name__)
@@ -31,12 +32,14 @@ def homepage():
 @app.route("/docs/<path:filename>")
 def docs_page(filename):
     path = f"docs/{filename}.html"
+    data = page_to_data_source[filename] if filename in page_to_data_source else None
     return render_template(
         path,
         home_page=False,
         last_modification=helper.get_modification_date(
             app.template_folder, path, DATETIME_FORMAT
         ),
+        data=data.get_data() if data is not None else dict()
     )
 
 

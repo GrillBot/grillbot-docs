@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block sub_page %} Knihovny třetích stran (NuGet) {% endblock %}
+
+{% block content %}
+
+<ul>
+    {% for item in data['dependencies'] %}
+    <li>
+        <a href="{{data['dependencies'][item]['link']}}" target="_blank">{{item}}</a>
+        <ul>
+            {% for package in data['dependencies'][item]['packages'] %}
+            <li>
+                <a href="{{package['url']}}">{{package['name']}}</a> ({{package['version']}})
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
