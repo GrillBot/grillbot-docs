@@ -10,7 +10,7 @@ digraph GrillBot {
     EmoteSuggestionController -> EmoteSuggestionApiService
     GuildController -> { GuildApiService }
     InviteController -> InviteService
-    PermissionsController -> { DiscordSocketClient IMapper GrillBotDatabaseBuilder }
+    PermissionsController -> { IDiscordClient IMapper GrillBotDatabaseBuilder }
     PointsController -> { PointsApiService }
     ReminderController -> { RemindApiService ApiRequestContext }
     SearchingController -> { SearchingService ApiRequestContext }
