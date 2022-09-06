@@ -15,7 +15,7 @@ digraph GrillBot {
     ReminderController -> { RemindApiService ApiRequestContext }
     SearchingController -> { SearchingService ApiRequestContext }
     SelfUnverifyController -> SelfUnverifyService
-    StatisticsController -> { GrillBotDatabaseBuilder GrillBotCacheBuilder }
+    StatisticsController -> { GrillBotDatabaseBuilder GrillBotCacheBuilder EventManager }
     SystemController -> { IWebHostEnvironment DiscordSocketClient InitManager CounterManager EventManager }
     UnverifyController -> { UnverifyService IDiscordClient IMapper UnverifyApiService ApiRequestContext }
     UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService RubbergodKarmaService ApiRequestContext UserHearthbeatService }
