@@ -11,7 +11,7 @@ digraph GrillBot {
     GuildController -> { GuildApiService }
     InviteController -> InviteService
     PermissionsController -> { IDiscordClient IMapper GrillBotDatabaseBuilder }
-    PointsController -> { PointsApiService }
+    PointsController -> { PointsApiService ApiRequestContext }
     ReminderController -> { RemindApiService ApiRequestContext }
     SearchingController -> { SearchingService ApiRequestContext }
     SelfUnverifyController -> SelfUnverifyService
