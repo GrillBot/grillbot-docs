@@ -18,7 +18,7 @@ digraph GrillBot {
     StatisticsController -> { GrillBotDatabaseBuilder GrillBotCacheBuilder EventManager }
     SystemController -> { IWebHostEnvironment DiscordSocketClient InitManager CounterManager EventManager }
     UnverifyController -> { UnverifyService IDiscordClient IMapper UnverifyApiService ApiRequestContext }
-    UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService RubbergodKarmaService ApiRequestContext UserHearthbeatService }
+    UsersController -> { CommandsHelpService ExternalCommandsHelpService UsersApiService RubbergodKarmaService ApiRequestContext UserHearthbeatService BirthdayService IConfiguration }
     
     AuditClearingHelper -> { FileStorageFactory }
     AuditLogService -> { DiscordSocketClient GrillBotDatabaseBuilder InitManager AuditLogWriter IServiceProvider }
