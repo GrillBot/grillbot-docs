@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block sub_page %} Direct API {% endblock %}
+
+{% block content %}
+<p>
+    Direct API je metoda komunikace mezi boty pomocí discord serveru a kanálu. Pracuje na principu "send-and-reply". Což znamená, že jeden
+    bot pošle do kanálu k tomu určenému zprávu ve formátu JSON a očekává odpověď od jiného bota.
+</p>
+
+<h5>Obsah požadavku</h5>
+<p>
+    Požadavek musí být ve formátu <a href="https://www.json.org/json-en.html">JSON</a>, kde základní objekt vypadá následovně:
+<pre>{
+    "method": "string", // Název volané metody
+    "parameters": {
+        "key": "value" // Seznam parametrů. Parametrem může být jakákoliv entita podporovaná serializovatelná pomocí JSON.
+    }
+}</pre>
+Požadavek musí být odeslán vždy jako zpráva, kde obsahem bude serializovaný požadavek (<code>```json\n{your_JSON}```</code>), kde hodnota
+<code>{your_JSON}</code> je serializovaný požadavek.
+</p>
+
+<h5>Obsah odpovědi</h5>
+<p>
+    Odpověď může být jakýkov řetězec. Očekává se, že oproti požadavku bude odpověď dlouhá nad limit zprávy, tudíž se očekává, že odpověď
+    bude odeslána jako soubor. Každá odpověď musí obsahovat (pomocí reply) vazbu na zprávu s požadavkem.
+</p>
+
+<h5>Doporučení</h5>
+<ul>
+    <li>Pro komunikaci mezi boty vyberte kanál, do kterého nemohou psát ostatní uživatelé.</li>
+    <li>Ošetřete komunikaci, aby se boti nepokoušely přijmout/zpracovat požadavky od neoprávněných uživatelů.</li>
+    <li>Neočekávejte, že odpověď dorazí hned. Teoreticky nemusí dorazit vůbec. Doporučuje se využít událostí a implementace cache na
+        předávání dat mezi vlákny/událostmi. Nezapomeňte na timeout, aby se nečekalo na zprávu do nekonečna.</li>
+    <li>Při přijetí zprávy si ošetřete, že zpráva přišla od oprávněného bota, v oprávněném kanálu, obsahuje reply a (pokud se jedná o
+        odpověď) obsahuje přílohu.</li>
+</ul>
+
+<div class="alert bg-warning">Aktuálně GrillBot podporuje pouze komunikaci s botem Rubbergod. GrillBot odesílá požadavky a Rubbergod odesílá
+    odpovědi.</div>
+{% endblock %}

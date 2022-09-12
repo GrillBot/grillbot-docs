@@ -1,7 +1,7 @@
 from fileinput import filename
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template
 import helper
-from datetime import datetime, timezone
+from datetime import datetime
 import sys
 from data.data_source import page_to_data_source
 
@@ -33,14 +33,17 @@ def homepage():
 def docs_page(filename):
     path = f"docs/{filename}.html"
     data = page_to_data_source[filename] if filename in page_to_data_source else None
-    return render_template(
-        path,
-        home_page=False,
-        last_modification=helper.get_modification_date(
-            app.template_folder, path, DATETIME_FORMAT
-        ),
-        data=data.get_data() if data is not None else dict()
-    )
+    try:
+        return render_template(
+            path,
+            home_page=False,
+            last_modification=helper.get_modification_date(
+                app.template_folder, path, DATETIME_FORMAT
+            ),
+            data=data.get_data() if data is not None else dict()
+        )
+    except FileNotFoundError:
+        return f'<h1>Template not found</h1><p>Missing template with name <code>{filename}</code>.</p>', 404
 
 
 if __name__ == "__main__":
