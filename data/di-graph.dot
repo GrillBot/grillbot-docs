@@ -9,7 +9,7 @@ digraph GrillBot {
     EmotesController -> EmotesApiService
     EmoteSuggestionController -> EmoteSuggestionApiService
     GuildController -> { GuildApiService }
-    InviteController -> InviteService
+    InviteController -> { InviteService ApiRequestContext }
     PermissionsController -> { IDiscordClient IMapper GrillBotDatabaseBuilder }
     PointsController -> { PointsApiService ApiRequestContext }
     ReminderController -> { RemindApiService ApiRequestContext }
@@ -91,7 +91,7 @@ digraph GrillBot {
     
     BoosterService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration InitManager }
     DiscordExceptionHandler -> { IDiscordClient IConfiguration FileStorageFactory RendererFactory }
-    InviteService -> { DiscordSocketClient GrillBotDatabaseBuilder IMapper AuditLogWriter }
+    InviteService -> { DiscordSocketClient GrillBotDatabaseBuilder IMapper AuditLogWriter InviteManager }
     MessageCacheJob -> { AuditLogWriter IDiscordClient InitManager MessageCacheManager LoggingManager }
     
     MockingService -> { IConfiguration RandomizationService }
@@ -144,6 +144,7 @@ digraph GrillBot {
     "Text/UnverifyModule" -> { UnverifyService IConfiguration }
     "Text/FunverifyModule" -> { UnverifyService IConfiguration }
     
+    InviteManager -> { GrillBotCacheBuilder CounterManager }
     MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder CounterManager }
     ProfilePictureManager -> { GrillBotCacheBuilder CounterManager }
     GrillBotCacheBuilder -> { IServiceProvider }
