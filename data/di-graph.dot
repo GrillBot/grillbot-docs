@@ -91,6 +91,9 @@ digraph GrillBot {
     "Api.V2.GetRubbergodUserKarma" -> { ApiRequestContext IDirectApiService IDiscordClient IMapper }
     "Api.V2.GetTodayBirthdayInfo" -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient IConfiguration ITextsManager }
     
+    "Commands.Emojization" -> { ITextsManager }
+    "Commands.ImageCreator" -> { FileStorageFactory ProfilePictureManager }
+    
     AuditLogController -> { IServiceProvider }
     AuthController -> { IServiceProvider }
     AutoReplyController -> { IServiceProvider }
@@ -201,7 +204,7 @@ digraph GrillBot {
     "Inter/GuildModule" -> { UserService ITextsManager GuildHelper }
     "Inter/ChannelModule" -> { GrillBotDatabaseBuilder ITextsManager FormatHelper }
     "Inter/MathModule" -> { IHttpClientFactory ITextsManager }
-    "Inter/MemeModule" -> { RandomizationService IConfiguration ITextsManager }
+    "Inter/MemeModule" -> { RandomizationService IConfiguration ITextsManager IServiceProvider }
     "Inter/MockingModule" -> MockingService
     "Inter/PointsModule" -> PointsService
     "Inter/RemindModule" -> { RemindService ITextsManager IServiceProvider }
@@ -216,7 +219,6 @@ digraph GrillBot {
     "Text/ServerModule.GuildManagementSubmodule.GuildRoleInfoSubModule"
     "Text/PointsModule" -> { PointsService GrillBotDatabaseBuilder }
     "Text/MockingModule" -> "MockingService"
-    "Text/MemeModule" -> { FileStorageFactory ProfilePictureManager }
     "Text/HelpModule" -> { CommandService IServiceProvider IConfiguration }
     "Text/UserModule" -> "UserService"
     "Text/UnverifyModule" -> { UnverifyService IConfiguration }
