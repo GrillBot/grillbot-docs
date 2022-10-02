@@ -57,8 +57,8 @@ digraph GrillBot {
     "Api.V1.Points.ServiceIncrementPoints" -> { ApiRequestContext PointsService IDiscordClient ITextsManager }
     "Api.V1.Points.ServiceTransferPoints" -> { ApiRequestContext PointsService IDiscordClient ITextsManager }
     
-    "Api.V1.Points.GetReminderList" -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
-    "Api.V1.Points.CancelRemind" -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriter IDiscordClient ITextsManager }
+    "Api.V1.Reminder.GetReminderList" -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
+    "Api.V1.Reminder.CancelRemind" -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriter IDiscordClient ITextsManager }
     
     "Api.V1.Searching.GetSearchingList" -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
     "Api.V1.Searching.RemoveSearches" -> { ApiRequestContext GrillBotDatabaseBuilder }
@@ -95,6 +95,7 @@ digraph GrillBot {
     
     "Commands.Emojization" -> { ITextsManager }
     "Commands.ImageCreator" -> { FileStorageFactory ProfilePictureManager }
+    "Commands.PointsLeaderboard" -> { GrillBotDatabaseBuilder ITextsManager FormatHelper }
     
     AuditLogController -> { IServiceProvider }
     AuthController -> { IServiceProvider }
@@ -188,11 +189,9 @@ digraph GrillBot {
     ReactionHandler -> { DiscordSocketClient "IEnumerable<ReactionEventHandler>" IMessageCacheManager InitManager LoggingManager }
     
     "IEnumerable<ReactionEventHandler>" -> "HelpReactionHandler"
-    "IEnumerable<ReactionEventHandler>" -> "PointsBoardReactionHandler"
     "IEnumerable<ReactionEventHandler>" -> "UnverifyListReactionHandler"
     "IEnumerable<ReactionEventHandler>" -> "RemindPostponeReactionHandler"
     HelpReactionHandler -> { CommandService DiscordSocketClient IServiceProvider IConfiguration }
-    PointsBoardReactionHandler -> { GrillBotDatabaseBuilder DiscordSocketClient }
     RemindPostponeReactionHandler -> { GrillBotDatabaseBuilder IDiscordClient }
     UnverifyListReactionHandler -> { DiscordSocketClient UnverifyService }
     
@@ -208,7 +207,7 @@ digraph GrillBot {
     "Inter/MathModule" -> { IHttpClientFactory ITextsManager }
     "Inter/MemeModule" -> { RandomizationService IConfiguration ITextsManager IServiceProvider }
     "Inter/MockingModule" -> MockingService
-    "Inter/PointsModule" -> PointsService
+    "Inter/PointsModule" -> { PointsService IServiceProvider }
     "Inter/RemindModule" -> { RemindService ITextsManager IServiceProvider }
     "Inter/SearchingModule" -> { SearchingService ITextsManager IServiceProvider }
     "Inter/SuggestionModule" -> { EmoteSuggestionService FeatureSuggestionService ITextsManager }
@@ -219,7 +218,6 @@ digraph GrillBot {
     "Text/ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> { IMemoryCache IConfiguration PermissionsCleaner UnverifyService }
     "Text/ServerModule.GuildManagementSubmodule.GuildReactSubModule"
     "Text/ServerModule.GuildManagementSubmodule.GuildRoleInfoSubModule"
-    "Text/PointsModule" -> { PointsService GrillBotDatabaseBuilder }
     "Text/MockingModule" -> "MockingService"
     "Text/HelpModule" -> { CommandService IServiceProvider IConfiguration }
     "Text/UserModule" -> "UserService"
