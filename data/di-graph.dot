@@ -54,6 +54,8 @@ digraph GrillBot {
     "Api.V1.Points.GetSummaries" -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
     "Api.V1.Points.GetSummaryGraphData" -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
     "Api.V1.Points.GetTransactionList" -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
+    "Api.V1.Points.ServiceIncrementPoints" -> { ApiRequestContext PointsService IDiscordClient ITextsManager }
+    "Api.V1.Points.ServiceTransferPoints" -> { ApiRequestContext PointsService IDiscordClient ITextsManager }
     
     "Api.V1.Points.GetReminderList" -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
     "Api.V1.Points.CancelRemind" -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriter IDiscordClient ITextsManager }
@@ -165,7 +167,7 @@ digraph GrillBot {
     OnlineUsersCleanJob -> { AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager }
     
     PointsJob -> { AuditLogWriter IDiscordClient InitManager PointsService LoggingManager }
-    PointsService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration IMessageCacheManager RandomizationService ProfilePictureManager }
+    PointsService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration IMessageCacheManager RandomizationService ProfilePictureManager ITextsManager }
     
     UserService -> { GrillBotDatabaseBuilder IConfiguration }
     UserHearthbeatService -> { GrillBotDatabaseBuilder }
