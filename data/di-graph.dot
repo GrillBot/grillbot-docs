@@ -43,7 +43,7 @@ digraph GrillBot {
     "Api.V1.Guild.GetGuildDetail" -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient GrillBotCacheBuilder ITextsManager }
     "Api.V1.Guild.GetGuildList" -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient }
     "Api.V1.Guild.GetRoles" -> { ApiRequestContext IDiscordClient }
-    "Api.V1.Guild.UpdateGuild" -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder GetGuildDetail ITextsManager }
+    "Api.V1.Guild.UpdateGuild" -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder "Api.V1.Guild.GetGuildDetail" ITextsManager }
     
     "Api.V1.Invite.GetInviteList" -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
     "Api.V1.Invite.GetMetadataCount" -> { ApiRequestContext InviteManager }
