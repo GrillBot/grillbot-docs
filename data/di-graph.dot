@@ -218,7 +218,6 @@ digraph GrillBot {
     "Text/ServerModule.GuildManagementSubmodule.GuildPermissionsSubModule.GuildUselessPermissionsSubModule" -> { IMemoryCache IConfiguration PermissionsCleaner UnverifyService }
     "Text/ServerModule.GuildManagementSubmodule.GuildReactSubModule"
     "Text/ServerModule.GuildManagementSubmodule.GuildRoleInfoSubModule"
-    "Text/MockingModule" -> "MockingService"
     "Text/HelpModule" -> { CommandService IServiceProvider IConfiguration }
     "Text/UserModule" -> "UserService"
     "Text/UnverifyModule" -> { UnverifyService IConfiguration }
