@@ -356,6 +356,7 @@ digraph GrillBot {
                 SelfUnverifyModule
                 UserMeModule
                 UserModule
+                AdminModule
                 BirthdayModule
                 BotModule
                 SelfUnverifyConfig
@@ -788,4 +789,5 @@ digraph GrillBot {
 	UselessPermissionsSubModule -> { IServiceProvider }
 	PinModule -> { IServiceProvider }
 	RoleModule -> { IServiceProvider }
+	AdminModule -> { ITextsManager IServiceProvider }
 }
