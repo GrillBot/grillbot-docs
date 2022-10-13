@@ -257,6 +257,7 @@ digraph GrillBot {
                 PurgePins
                 RolesReader
                 Commands_SendMessageToChannel[label="SendMessageToChannel"]
+                UserInfo
             }
         }
         
@@ -387,7 +388,6 @@ digraph GrillBot {
              
                 FunverifyModule
                 UnverifyModule
-                TextBased_UserModule[label="UserModule"]
                 HelpModule
             }
         }
@@ -709,7 +709,7 @@ digraph GrillBot {
 	SearchingPaginationHandler -> { GrillBotDatabaseBuilder GetSearchingList }
 	UnverifyListReactionHandler -> { DiscordSocketClient UnverifyService }
 	SelfUnverifyModule -> { IConfiguration ITextsManager UnverifyService }
-	UserMeModule -> { UserService }
+	UserMeModule -> { IServiceProvider }
 	BirthdayModule -> { BirthdayService ITextsManager IServiceProvider }
 	BotModule -> { ITextsManager }
 	SelfUnverifyConfig -> { ITextsManager IServiceProvider }
@@ -726,7 +726,6 @@ digraph GrillBot {
 	SuggestionModule -> { EmoteSuggestionService FeatureSuggestionService ITextsManager }
 	FunverifyModule -> { UnverifyService IConfiguration }
 	UnverifyModule -> { UnverifyService IConfiguration }
-	TextBased_UserModule -> { UserService }
 	HelpModule -> { CommandService IServiceProvider IConfiguration }
 	MessageDeletedEvent -> { IMessageCacheManager FileStorageFactory }
 	MessageEditedEvent -> { IMessageCacheManager IDiscordClient }
@@ -766,7 +765,7 @@ digraph GrillBot {
 	PointsService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration IMessageCacheManager RandomizationService ProfilePictureManager ITextsManager }
 	OnlineUsersCleanJob -> { AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager }
 	UserHearthbeatService -> { GrillBotDatabaseBuilder }
-	UserService -> { GrillBotDatabaseBuilder IConfiguration }
+	UserService -> { GrillBotDatabaseBuilder }
 	AutoReplyService -> { IConfiguration DiscordSocketClient GrillBotDatabaseBuilder InitManager }
 	BoosterService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration InitManager }
 	DiscordExceptionHandler -> { IDiscordClient IConfiguration FileStorageFactory RendererFactory }
@@ -790,4 +789,6 @@ digraph GrillBot {
 	PinModule -> { IServiceProvider }
 	RoleModule -> { IServiceProvider }
 	AdminModule -> { ITextsManager IServiceProvider }
+	UserInfo -> { GrillBotDatabaseBuilder IConfiguration ITextsManager }
+	UserModule -> { IServiceProvider }
 }
