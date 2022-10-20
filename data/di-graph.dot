@@ -257,7 +257,16 @@ digraph GrillBot {
                 PurgePins
                 RolesReader
                 Commands_SendMessageToChannel[label="SendMessageToChannel"]
+                UserAccessList
                 UserInfo
+                
+                 subgraph cluster_3_1_1_1 {
+                    node[style=filled];
+                    label="Unverify";
+                    color=lightblue;
+                    
+                    UnverifyList
+                }
             }
         }
         
@@ -346,7 +355,7 @@ digraph GrillBot {
                 RemindPostponeReactionHandler
                 SearchingAutoCompleteHandler
                 SearchingPaginationHandler
-                UnverifyListReactionHandler
+                UnverifyListPaginationHandler
             }
             
             subgraph cluster_3_5_2 {
@@ -379,6 +388,7 @@ digraph GrillBot {
                 RoleModule
                 SearchingModule
                 SuggestionModule
+                UnverifyModule
             }
             
             subgraph cluster_3_5_3 {
@@ -386,8 +396,6 @@ digraph GrillBot {
                 label="TextBased";
                 color=yellow;
              
-                FunverifyModule
-                UnverifyModule
                 HelpModule
             }
         }
@@ -707,7 +715,6 @@ digraph GrillBot {
 	RemindPostponeReactionHandler -> { GrillBotDatabaseBuilder IDiscordClient }
 	SearchingAutoCompleteHandler -> { SearchingService }
 	SearchingPaginationHandler -> { GrillBotDatabaseBuilder GetSearchingList }
-	UnverifyListReactionHandler -> { DiscordSocketClient UnverifyService }
 	SelfUnverifyModule -> { IConfiguration ITextsManager UnverifyService }
 	UserMeModule -> { IServiceProvider }
 	BirthdayModule -> { BirthdayService ITextsManager IServiceProvider }
@@ -724,8 +731,6 @@ digraph GrillBot {
 	RemindModule -> { RemindService ITextsManager IServiceProvider }
 	SearchingModule -> { SearchingService ITextsManager IServiceProvider }
 	SuggestionModule -> { EmoteSuggestionService FeatureSuggestionService ITextsManager }
-	FunverifyModule -> { UnverifyService IConfiguration }
-	UnverifyModule -> { UnverifyService IConfiguration }
 	HelpModule -> { CommandService IServiceProvider IConfiguration }
 	MessageDeletedEvent -> { IMessageCacheManager FileStorageFactory }
 	MessageEditedEvent -> { IMessageCacheManager IDiscordClient }
@@ -791,4 +796,8 @@ digraph GrillBot {
 	AdminModule -> { ITextsManager IServiceProvider }
 	UserInfo -> { GrillBotDatabaseBuilder IConfiguration ITextsManager }
 	UserModule -> { IServiceProvider }
+	UnverifyList -> { GrillBotDatabaseBuilder ITextsManager FormatHelper }
+	UnverifyListPaginationHandler -> { UnverifyList }
+	UnverifyModule -> { IServiceProvider }
+	UserAccessList -> { ITextsManager }
 }
