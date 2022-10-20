@@ -108,7 +108,6 @@ digraph GrillBot {
                     color=lightblue;
                     
                     CreateExplicitPermission
-                    GetCommandsHelp
                     GetCommandsList
                     GetExplicitPermissionList
                     GetExternalCommands
@@ -348,8 +347,7 @@ digraph GrillBot {
                 node[style=filled];
                 label="Implementations";
                 color=yellow;
-                
-                HelpReactionHandler
+
                 PointsBoardPaginationHandler
                 RemindAutoCompleteHandler
                 RemindPostponeReactionHandler
@@ -389,14 +387,6 @@ digraph GrillBot {
                 SearchingModule
                 SuggestionModule
                 UnverifyModule
-            }
-            
-            subgraph cluster_3_5_3 {
-                node[style=filled];
-                label="TextBased";
-                color=yellow;
-             
-                HelpModule
             }
         }
         
@@ -595,7 +585,7 @@ digraph GrillBot {
 	}
 	
 	InitManager -> { ILoggerFactory }
-	EventManager -> { DiscordSocketClient InteractionService CommandService }
+	EventManager -> { DiscordSocketClient InteractionService }
 	LoggingManager -> { DiscordSocketClient CommandService InteractionService IServiceProvider }
 	CommonLoggerHandler -> { ILoggerFactory }
 	FormatHelper -> { ITextsManager }
@@ -624,8 +614,7 @@ digraph GrillBot {
 	ApiV1_SendMessageToChannel -> { ApiRequestContext ITextsManager IDiscordClient IMessageCacheManager }
 	UpdateChannel -> { ApiRequestContext GrillBotDatabaseBuilder AutoReplyService AuditLogWriter ITextsManager }
 	CreateExplicitPermission -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
-	GetCommandsHelp -> { ApiRequestContext IDiscordClient CommandService ChannelService IServiceProvider IConfiguration }
-	GetCommandsList -> { ApiRequestContext CommandService InteractionService IConfiguration }
+	GetCommandsList -> { ApiRequestContext InteractionService IConfiguration }
 	GetExplicitPermissionList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient }
 	GetExternalCommands -> { ApiRequestContext ExternalCommandsHelpService }
 	RemoveExplicitPermission -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
@@ -709,7 +698,6 @@ digraph GrillBot {
 	ExceptionFilter -> { ApiRequest AuditLogWriter ApiRequestContext LoggingManager }
 	RequestFilter -> { ApiRequest ApiRequestContext IDiscordClient UserHearthbeatService }
 	ResultFilter -> { ApiRequest AuditLogWriter ApiRequestContext }
-	HelpReactionHandler -> { CommandService DiscordSocketClient IServiceProvider IConfiguration }
 	PointsBoardPaginationHandler -> { PointsLeaderboard }
 	RemindAutoCompleteHandler -> { RemindService }
 	RemindPostponeReactionHandler -> { GrillBotDatabaseBuilder IDiscordClient }
@@ -731,7 +719,6 @@ digraph GrillBot {
 	RemindModule -> { RemindService ITextsManager IServiceProvider }
 	SearchingModule -> { SearchingService ITextsManager IServiceProvider }
 	SuggestionModule -> { EmoteSuggestionService FeatureSuggestionService ITextsManager }
-	HelpModule -> { CommandService IServiceProvider IConfiguration }
 	MessageDeletedEvent -> { IMessageCacheManager FileStorageFactory }
 	MessageEditedEvent -> { IMessageCacheManager IDiscordClient }
 	AuditClearingHelper -> { FileStorageFactory }
