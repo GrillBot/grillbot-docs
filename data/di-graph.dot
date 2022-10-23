@@ -12,6 +12,7 @@ digraph GrillBot {
 		CommonLoggerHandler
 		ITextsManager -> TextsManager
 		CounterManager
+		IEmoteCache -> EmoteCache
 		FormatHelper
 		GuildHelper
 		FileStorageFactory
@@ -249,6 +250,7 @@ digraph GrillBot {
                 
                 CleanChannelMessages
                 Emojization
+                GetChannelboard
                 ImageCreator
                 PermissionsCleaner
                 PermissionsReader
@@ -354,6 +356,7 @@ digraph GrillBot {
                 SearchingAutoCompleteHandler
                 SearchingPaginationHandler
                 UnverifyListPaginationHandler
+                ChannelboardPaginationHandler
             }
             
             subgraph cluster_3_5_2 {
@@ -468,7 +471,6 @@ digraph GrillBot {
              
                 EmoteChainService
                 EmoteService
-                EmotesCacheService
                 EmotesCommandService
             }
             
@@ -620,9 +622,9 @@ digraph GrillBot {
 	RemoveExplicitPermission -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
 	SetExplicitPermissionState -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
 	GetEmoteSuggestionsList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
-	GetStatsOfEmotes -> { ApiRequestContext EmotesCacheService GrillBotDatabaseBuilder IMapper }
-	GetSupportedEmotes -> { ApiRequestContext EmotesCacheService IMapper }
-	MergeStats -> { ApiRequestContext EmotesCacheService GrillBotDatabaseBuilder AuditLogWriter }
+	GetStatsOfEmotes -> { ApiRequestContext IEmoteCache GrillBotDatabaseBuilder IMapper }
+	GetSupportedEmotes -> { ApiRequestContext IEmoteCache IMapper }
+	MergeStats -> { ApiRequestContext IEmoteCache GrillBotDatabaseBuilder AuditLogWriter }
 	RemoveStats -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriter }
 	GetAvailableGuilds -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient }
 	GetGuildDetail -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient GrillBotCacheBuilder ITextsManager }
@@ -735,8 +737,7 @@ digraph GrillBot {
 	DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService IWebHostEnvironment InitManager InteractionService AuditLogWriter EventManager LoggingManager }
 	DiscordSyncService -> { DiscordSocketClient GrillBotDatabaseBuilder InitManager }
 	EmoteChainService -> { IConfiguration DiscordSocketClient }
-	EmoteService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration IMessageCacheManager EmotesCacheService }
-	EmotesCacheService -> { DiscordSocketClient }
+	EmoteService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration IMessageCacheManager IEmoteCache }
 	EmotesCommandService -> { IServiceProvider GrillBotDatabaseBuilder IDiscordClient }
 	GuildEventsService -> { GrillBotDatabaseBuilder }
 	PermissionsService -> { GrillBotDatabaseBuilder IServiceProvider }
@@ -787,4 +788,7 @@ digraph GrillBot {
 	UnverifyListPaginationHandler -> { UnverifyList }
 	UnverifyModule -> { IServiceProvider }
 	UserAccessList -> { ITextsManager }
+	GetChannelboard -> { GrillBotDatabaseBuilder ITextsManager FormatHelper }
+	ChannelboardPaginationHandler -> { GetChannelboard }
+	EmoteCache -> { DiscordSocketClient }
 }
