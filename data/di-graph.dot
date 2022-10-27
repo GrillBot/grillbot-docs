@@ -241,6 +241,16 @@ digraph GrillBot {
                 
                 GetRubbergodUserKarma
                 GetTodayBirthdayInfo
+                
+                subgraph cluster_3_1_2_1 {
+                    node[style=filled];
+                    label="Events";
+                    color=lightblue;
+                    
+                    CancelScheduledEvent
+                    CreateScheduledEvent
+                    UpdateScheduledEvent
+                }
             }
             
             subgraph cluster_3_1_3 {
@@ -261,7 +271,7 @@ digraph GrillBot {
                 UserAccessList
                 UserInfo
                 
-                 subgraph cluster_3_1_1_1 {
+                 subgraph cluster_3_1_3_1 {
                     node[style=filled];
                     label="Unverify";
                     color=lightblue;
@@ -789,4 +799,7 @@ digraph GrillBot {
 	ChannelboardPaginationHandler -> { GetChannelboard }
 	EmoteCache -> { DiscordSocketClient }
 	RemindPostponeHandler -> { GrillBotDatabaseBuilder }
+	CancelScheduledEvent -> { ApiRequestContext IDiscordClient ITextsManager }
+	CreateScheduledEvent -> { ApiRequestContext IDiscordClient ITextsManager }
+	UpdateScheduledEvent -> { ApiRequestContext IDiscordClient ITextsManager }
 }
