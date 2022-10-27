@@ -189,6 +189,7 @@ digraph GrillBot {
                     
                     GetApiStatistics
                     GetAuditLogStatistics
+                    GetAvgTimes
                     GetCommandStatistics
                     GetDatabaseStatus
                     GetEventStatistics
@@ -802,4 +803,5 @@ digraph GrillBot {
 	CancelScheduledEvent -> { ApiRequestContext IDiscordClient ITextsManager }
 	CreateScheduledEvent -> { ApiRequestContext IDiscordClient ITextsManager }
 	UpdateScheduledEvent -> { ApiRequestContext IDiscordClient ITextsManager }
+	GetAvgTimes -> { ApiRequestContext GrillBotDatabaseBuilder }
 }
