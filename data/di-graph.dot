@@ -272,6 +272,7 @@ digraph GrillBot {
                 Commands_SendMessageToChannel[label="SendMessageToChannel"]
                 UserAccessList
                 UserInfo
+                UnsuccessCommandAttempt
                 
                  subgraph cluster_3_1_3_1 {
                     node[style=filled];
@@ -696,8 +697,8 @@ digraph GrillBot {
 	SystemController -> { IServiceProvider }
 	UnverifyController -> { IServiceProvider }
 	UsersController -> { IServiceProvider }
-	CommandHandler -> { DiscordSocketClient CommandService IServiceProvider IConfiguration AuditLogService InitManager }
-	InteractionHandler -> { DiscordSocketClient IServiceProvider InteractionService InitManager AuditLogService }
+	CommandHandler -> { DiscordSocketClient CommandService IServiceProvider IConfiguration InitManager }
+	InteractionHandler -> { DiscordSocketClient IServiceProvider InteractionService InitManager AuditLogService UnsuccessCommandAttempt }
 	RequireEmoteSuggestionChannelAttribute -> { GrillBotDatabaseBuilder }
 	RequireValidEmoteSuggestions -> { GrillBotDatabaseBuilder }
 	RequireUserPermsAttribute -> { PermissionsService }
@@ -735,7 +736,7 @@ digraph GrillBot {
 	BirthdayService -> { GrillBotDatabaseBuilder }
 	ChannelService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration IMessageCacheManager }
 	ExternalCommandsHelpService -> { IDirectApiService IConfiguration IServiceProvider }
-	DirectApiService -> { DiscordSocketClient IConfiguration InitManager GrillBotCacheBuilder }
+	DirectApiService -> { DiscordSocketClient IConfiguration }
 	DiscordHealthCheck -> { DiscordSocketClient }
 	DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService IWebHostEnvironment InitManager InteractionService AuditLogWriter EventManager LoggingManager }
 	DiscordSyncService -> { DiscordSocketClient GrillBotDatabaseBuilder InitManager }
@@ -799,4 +800,5 @@ digraph GrillBot {
 	UpdateScheduledEvent -> { ApiRequestContext IDiscordClient ITextsManager }
 	GetAvgTimes -> { ApiRequestContext GrillBotDatabaseBuilder }
 	CooldownCheckAttribute -> { CooldownManager ITextsManager }
+	UnsuccessCommandAttempt -> { ITextsManager InteractionService IDirectApiService GrillBotDatabaseBuilder AuditLogService }
 }
