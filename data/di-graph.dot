@@ -18,6 +18,7 @@ digraph GrillBot {
 		FileStorageFactory
 		ApiRequestContext
 		ApiRequest
+		CooldownManager
 	}
 	
 	 subgraph cluster_1 {
@@ -326,8 +327,9 @@ digraph GrillBot {
                 label="Preconditions";
                 color=yellow;
                 
+                CooldownCheckAttribute
                 RequireEmoteSuggestionChannelAttribute
-                RequireGuildEventAttribute
+                RequireValidEmoteSuggestions
                 RequireUserPermsAttribute
             }
             
@@ -483,14 +485,7 @@ digraph GrillBot {
                 EmoteService
                 EmotesCommandService
             }
-            
-            subgraph cluster_3_6_8 {
-                node[style=filled];
-                label="Guild";
-                color=yellow;
-             
-                GuildEventsService
-            }
+
             
             subgraph cluster_3_6_9 {
                 node[style=filled];
@@ -704,7 +699,7 @@ digraph GrillBot {
 	CommandHandler -> { DiscordSocketClient CommandService IServiceProvider IConfiguration AuditLogService InitManager }
 	InteractionHandler -> { DiscordSocketClient IServiceProvider InteractionService InitManager AuditLogService }
 	RequireEmoteSuggestionChannelAttribute -> { GrillBotDatabaseBuilder }
-	RequireGuildEventAttribute -> { GuildEventsService }
+	RequireValidEmoteSuggestions -> { GrillBotDatabaseBuilder }
 	RequireUserPermsAttribute -> { PermissionsService }
 	ExceptionFilter -> { ApiRequest AuditLogWriter ApiRequestContext LoggingManager }
 	RequestFilter -> { ApiRequest ApiRequestContext IDiscordClient UserHearthbeatService }
@@ -713,22 +708,22 @@ digraph GrillBot {
 	RemindAutoCompleteHandler -> { RemindService }
 	SearchingAutoCompleteHandler -> { SearchingService }
 	SearchingPaginationHandler -> { GrillBotDatabaseBuilder GetSearchingList }
-	SelfUnverifyModule -> { IConfiguration ITextsManager UnverifyService }
+	SelfUnverifyModule -> { IConfiguration UnverifyService IServiceProvider }
 	UserMeModule -> { IServiceProvider }
-	BirthdayModule -> { BirthdayService ITextsManager IServiceProvider }
-	BotModule -> { ITextsManager }
+	BirthdayModule -> { BirthdayService IServiceProvider }
+	BotModule -> { IServiceProvider }
 	SelfUnverifyConfig -> { ITextsManager IServiceProvider }
-	ChannelModule -> { GrillBotDatabaseBuilder ITextsManager FormatHelper IServiceProvider }
-	DuckModule -> { IHttpClientFactory IConfiguration ITextsManager }
-	EmoteModule -> { EmotesCommandService ITextsManager }
-	GuildModule -> { UserService ITextsManager GuildHelper }
-	MathModule -> { IHttpClientFactory ITextsManager }
-	MemeModule -> { RandomizationService IConfiguration ITextsManager IServiceProvider }
-	MockingModule -> { MockingService }
+	ChannelModule -> { GrillBotDatabaseBuilder FormatHelper IServiceProvider }
+	DuckModule -> { IHttpClientFactory IConfiguration IServiceProvider }
+	EmoteModule -> { EmotesCommandService IServiceProvider }
+	GuildModule -> { UserService GuildHelper IServiceProvider }
+	MathModule -> { IHttpClientFactory IServiceProvider }
+	MemeModule -> { RandomizationService IConfiguration IServiceProvider }
+	MockingModule -> { MockingService IServiceProvider }
 	PointsModule -> { PointsService IServiceProvider }
-	RemindModule -> { RemindService ITextsManager IServiceProvider }
-	SearchingModule -> { SearchingService ITextsManager IServiceProvider }
-	SuggestionModule -> { EmoteSuggestionService FeatureSuggestionService ITextsManager }
+	RemindModule -> { RemindService IServiceProvider }
+	SearchingModule -> { SearchingService IServiceProvider }
+	SuggestionModule -> { EmoteSuggestionService FeatureSuggestionService IServiceProvider }
 	MessageDeletedEvent -> { IMessageCacheManager FileStorageFactory }
 	MessageEditedEvent -> { IMessageCacheManager IDiscordClient }
 	AuditClearingHelper -> { FileStorageFactory }
@@ -747,7 +742,6 @@ digraph GrillBot {
 	EmoteChainService -> { IConfiguration DiscordSocketClient }
 	EmoteService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration IMessageCacheManager IEmoteCache }
 	EmotesCommandService -> { IServiceProvider GrillBotDatabaseBuilder IDiscordClient }
-	GuildEventsService -> { GrillBotDatabaseBuilder }
 	PermissionsService -> { GrillBotDatabaseBuilder IServiceProvider }
 	RemindCronJob -> { AuditLogWriter IDiscordClient InitManager LoggingManager FinishRemind GrillBotDatabaseBuilder }
 	RemindHelper -> { IDiscordClient ITextsManager }
@@ -784,12 +778,12 @@ digraph GrillBot {
 	PurgePins -> { ITextsManager }
 	RolesReader -> { FormatHelper ITextsManager }
 	Commands_SendMessageToChannel -> { IHttpClientFactory ApiV1_SendMessageToChannel ITextsManager }
-	MessageClearSubModule -> { ITextsManager }
+	MessageClearSubModule -> { IServiceProvider }
 	PermissionsRemoveSubModule -> { IServiceProvider }
 	UselessPermissionsSubModule -> { IServiceProvider }
 	PinModule -> { IServiceProvider }
 	RoleModule -> { IServiceProvider }
-	AdminModule -> { ITextsManager IServiceProvider }
+	AdminModule -> { IServiceProvider }
 	UserInfo -> { GrillBotDatabaseBuilder IConfiguration ITextsManager }
 	UserModule -> { IServiceProvider }
 	UnverifyList -> { GrillBotDatabaseBuilder ITextsManager FormatHelper }
@@ -804,4 +798,5 @@ digraph GrillBot {
 	CreateScheduledEvent -> { ApiRequestContext IDiscordClient ITextsManager }
 	UpdateScheduledEvent -> { ApiRequestContext IDiscordClient ITextsManager }
 	GetAvgTimes -> { ApiRequestContext GrillBotDatabaseBuilder }
+	CooldownCheckAttribute -> { CooldownManager ITextsManager }
 }
