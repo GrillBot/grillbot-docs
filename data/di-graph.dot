@@ -530,7 +530,6 @@ digraph GrillBot {
              
                 EmoteSuggestionService
                 EmoteSuggestionsEventManager
-                FeatureSuggestionService
                 SuggestionSessionService
                 SuggestionJob
             }
@@ -740,7 +739,7 @@ digraph GrillBot {
 	PointsModule -> { PointsService IServiceProvider }
 	RemindModule -> { RemindService IServiceProvider }
 	SearchingModule -> { SearchingService IServiceProvider }
-	SuggestionModule -> { EmoteSuggestionService FeatureSuggestionService IServiceProvider }
+	SuggestionModule -> { EmoteSuggestionService IServiceProvider }
 	MessageDeletedEvent -> { IMessageCacheManager FileStorageFactory }
 	MessageEditedEvent -> { IMessageCacheManager IDiscordClient }
 	AuditClearingHelper -> { FileStorageFactory }
@@ -765,7 +764,6 @@ digraph GrillBot {
 	RemindService -> { IDiscordClient GrillBotDatabaseBuilder IConfiguration ITextsManager }
 	EmoteSuggestionService -> { SuggestionSessionService GrillBotDatabaseBuilder IDiscordClient IMessageCacheManager }
 	EmoteSuggestionsEventManager -> { DiscordSocketClient EmoteSuggestionService IMessageCacheManager }
-	FeatureSuggestionService -> { SuggestionSessionService IConfiguration }
 	SuggestionJob -> { AuditLogWriter IDiscordClient InitManager EmoteSuggestionService SuggestionSessionService LoggingManager }
 	UnverifyChecker -> { GrillBotDatabaseBuilder IConfiguration IWebHostEnvironment ITextsManager }
 	UnverifyCronJob -> { AuditLogWriter IDiscordClient UnverifyService InitManager LoggingManager }
