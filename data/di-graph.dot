@@ -436,6 +436,7 @@ digraph GrillBot {
                 
                 MessageDeletedEvent
                 MessageEditedEvent
+                ThreadDeletedEvent
                 AuditClearingHelper
                 AuditLogClearingJob
                 AuditLogLoggingHandler
@@ -636,7 +637,7 @@ digraph GrillBot {
 	GetChannelUsers -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 	GetChannelboard -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
 	ApiV1_SendMessageToChannel -> { ApiRequestContext ITextsManager IDiscordClient IMessageCacheManager }
-	UpdateChannel -> { ApiRequestContext GrillBotDatabaseBuilder AutoReplyService AuditLogWriter ITextsManager }
+	UpdateChannel -> { ApiRequestContext GrillBotDatabaseBuilder AutoReplyService AuditLogWriter ITextsManager AuditLogService }
 	CreateExplicitPermission -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
 	GetCommandsList -> { ApiRequestContext InteractionService IConfiguration }
 	GetExplicitPermissionList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient }
@@ -818,4 +819,5 @@ digraph GrillBot {
 	GetScheduledJobs -> { ApiRequestContext GrillBotDatabaseBuilder ISchedulerFactory }
 	RunScheduledJob -> { ApiRequestContext ISchedulerFactory }
 	ScheduledJobsController -> { IServiceProvider }
+	ThreadDeletedEvent -> { GrillBotDatabaseBuilder }
 }
