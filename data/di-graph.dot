@@ -777,7 +777,7 @@ digraph GrillBot {
 	OnlineUsersCleanJob -> { AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager }
 	UserHearthbeatService -> { GrillBotDatabaseBuilder }
 	UserService -> { GrillBotDatabaseBuilder }
-	AutoReplyService -> { IConfiguration DiscordSocketClient GrillBotDatabaseBuilder InitManager }
+	AutoReplyService -> { DiscordSocketClient GrillBotDatabaseBuilder InitManager }
 	BoosterService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration InitManager }
 	DiscordExceptionHandler -> { IDiscordClient IConfiguration FileStorageFactory RendererFactory }
 	InviteService -> { DiscordSocketClient GrillBotDatabaseBuilder AuditLogWriter InviteManager IServiceProvider }
