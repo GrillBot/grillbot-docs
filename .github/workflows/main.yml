@@ -35,3 +35,4 @@ jobs:
       uses: actions-hub/stylelint@master
       env:
         IDENT_SPACE: 4
+        PATTERN: "**/*.css"
