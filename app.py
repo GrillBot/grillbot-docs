@@ -1,4 +1,3 @@
-from fileinput import filename
 from flask import Flask, render_template
 import helper
 from datetime import datetime
