@@ -725,7 +725,7 @@ digraph GrillBot {
 	RemindAutoCompleteHandler -> { RemindService }
 	SearchingAutoCompleteHandler -> { SearchingService }
 	SearchingPaginationHandler -> { GrillBotDatabaseBuilder GetSearchingList }
-	SelfUnverifyModule -> { IConfiguration UnverifyService IServiceProvider }
+	SelfUnverifyModule -> { UnverifyService IServiceProvider }
 	UserMeModule -> { IServiceProvider }
 	BirthdayModule -> { BirthdayService IServiceProvider }
 	BotModule -> { IServiceProvider }
