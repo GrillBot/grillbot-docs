@@ -30,8 +30,3 @@ jobs:
   
     - name: Run flake8
       run: flake8 .
-      
-    - name: Run CSS linter
-      uses: actions-hub/stylelint@master
-      env:
-        CONFIG_PATH: .
