@@ -33,6 +33,3 @@ jobs:
       
     - name: Run CSS linter
       uses: actions-hub/stylelint@master
-      env:
-        PATTERN: "**/*.css"
-        INDENT_SPACES: 4
