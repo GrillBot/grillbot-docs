@@ -1,5 +1,7 @@
 FROM alpine:3.5 as graph-rendering
 
+LABEL org.opencontainers.image.source https://github.com/grillbot/grillbot-docs
+
 RUN mkdir /graphviz
 RUN apk update && apk add graphviz ttf-dejavu
 RUN rm -rf /var/cache/apk/*
