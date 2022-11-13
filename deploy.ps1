@@ -1,5 +1,4 @@
 git pull --rebase;
 git push -u origin;
-git push -u gitlab;
-docker build -t registry.gitlab.com/grillbot/grillbot-docs .
-docker push registry.gitlab.com/grillbot/grillbot-docs
+docker build -t ghcr.io/grillbot/grillbot-docs .
+docker push ghcr.io/grillbot/grillbot-docs
