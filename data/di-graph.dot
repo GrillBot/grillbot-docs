@@ -165,6 +165,18 @@ digraph GrillBot {
                     ServiceTransferPoints
                 }
                 
+                subgraph cluster_3_1_1_9 {
+                    node[style=filled];
+                    label="PublicApiClients";
+                    color=lightblue;
+                    
+                    CreateClient
+                    DeleteClient
+                    GetClientsList
+                    GetPublicApiMethods
+                    UpdateClient
+                }
+                
                 subgraph cluster_3_1_1_10 {
                     node[style=filled];
                     label="Reminder";
@@ -308,6 +320,7 @@ digraph GrillBot {
             InviteController
             PermissionsController
             PointsController
+            PublicApiClientsController
             ReminderController
             ScheduledJobsController
             SearchingController
@@ -820,4 +833,10 @@ digraph GrillBot {
 	RunScheduledJob -> { ApiRequestContext ISchedulerFactory }
 	ScheduledJobsController -> { IServiceProvider }
 	ThreadDeletedEvent -> { GrillBotDatabaseBuilder }
+	CreateClient -> { ApiRequestContext GrillBotDatabaseBuilder }
+	DeleteClient -> { ApiRequestContext GrillBotDatabaseBuilder }
+	GetClientsList -> { ApiRequestContext GrillBotDatabaseBuilder }
+	GetPublicApiMethods -> { ApiRequestContext }
+	PublicApiClientsController -> { IServiceProvider }
+	UpdateClient -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
 }

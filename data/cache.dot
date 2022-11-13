@@ -2,21 +2,6 @@ digraph ER {
     rankdir=LR
     node[shape=plain]
     
-    DirectApiMessages [label=<
-        <table border="0" cellborder="1" cellspacing="0">
-            <tr><td><i><b>DirectApiMessages</b></i></td></tr>
-            <tr>
-                <td port="Id">&lt;&lt;PK&gt;&gt; Id (character varying (30))</td>
-            </tr>
-            <tr>
-                <td port="ExpireAt">ExpireAt (timestamp without time zone)</td>
-            </tr>
-            <tr>
-                <td port="JsonData">JsonData (text)</td>
-            </tr>
-        </table>
-    >];
-    
     InviteMetadata [label=<
         <table border="0" cellborder="1" cellspacing="0">
             <tr><td><i><b>InviteMetadata</b></i></td></tr>

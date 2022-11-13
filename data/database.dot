@@ -2,6 +2,24 @@ digraph ER {
     rankdir=LR
     node[shape=plain]
     
+    ApiClients [label=<
+        <table border="0" cellborder="1" cellspacing="0">
+            <tr><td><i><b>ApiClients</b></i></td></tr>
+            <tr>
+                <td port="Id">&lt;&lt;PK&gt;&gt; Id (text)</td>
+            </tr>
+            <tr>
+                <td port="AllowedMethods">AllowedMethods (jsonb)</td>
+            </tr>
+            <tr>
+                <td port="UseCount">UseCount (integer)</td>
+            </tr>
+            <tr>
+                <td port="LastUse">LastUse (timestamp without time zone)</td>
+            </tr>
+        </table>
+    >];
+    
     AuditLogFiles [label=<
         <table border="0" cellborder="1" cellspacing="0">
             <tr><td><i><b>AuditLogFiles</b></i></td></tr>
