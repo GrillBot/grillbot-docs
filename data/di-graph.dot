@@ -828,7 +828,7 @@ digraph GrillBot {
 	UpdateScheduledEvent -> { ApiRequestContext IDiscordClient ITextsManager }
 	GetAvgTimes -> { ApiRequestContext GrillBotDatabaseBuilder }
 	CooldownCheckAttribute -> { CooldownManager ITextsManager }
-	UnsuccessCommandAttempt -> { ITextsManager InteractionService IDirectApiService GrillBotDatabaseBuilder AuditLogService }
+	UnsuccessCommandAttempt -> { ITextsManager InteractionService IDirectApiService GrillBotDatabaseBuilder AuditLogService DataCacheManager }
 	GetScheduledJobs -> { ApiRequestContext GrillBotDatabaseBuilder ISchedulerFactory }
 	RunScheduledJob -> { ApiRequestContext ISchedulerFactory }
 	ScheduledJobsController -> { IServiceProvider }
