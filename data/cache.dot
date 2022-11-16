@@ -2,6 +2,21 @@ digraph ER {
     rankdir=LR
     node[shape=plain]
     
+    DataCacheItem [label=<
+        <table border="0" cellborder="1" cellspacing="0">
+            <tr><td><i><b>DataCacheItem</b></i></td></tr>
+            <tr>
+                <td port="Key">&lt;&lt;PK&gt;&gt; Key (text)</td>
+            </tr>
+            <tr>
+                <td port="Value">Value (text)</td>
+            </tr>
+            <tr>
+                <td port="ValidTo">ValidTo (timestamp without time zone)</td>
+            </tr>
+        </table>
+    >];
+    
     InviteMetadata [label=<
         <table border="0" cellborder="1" cellspacing="0">
             <tr><td><i><b>InviteMetadata</b></i></td></tr>

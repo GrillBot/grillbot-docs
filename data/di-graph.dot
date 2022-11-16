@@ -39,6 +39,7 @@ digraph GrillBot {
         IMessageCacheManager -> MessageCacheManager
         InviteManager
         ProfilePictureManager
+        DataCacheManager
 	}
 	
 	subgraph cluster_3 {
@@ -515,8 +516,8 @@ digraph GrillBot {
                 node[style=filled];
                 label="Images";
                 color=yellow;
-             
-                RendererFactory
+
+                WithoutAccidentRenderer
             }
             
             subgraph cluster_3_6_10 {
@@ -792,7 +793,7 @@ digraph GrillBot {
 	UserService -> { GrillBotDatabaseBuilder }
 	AutoReplyService -> { DiscordSocketClient GrillBotDatabaseBuilder InitManager }
 	BoosterService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration InitManager }
-	DiscordExceptionHandler -> { IDiscordClient IConfiguration FileStorageFactory RendererFactory }
+	DiscordExceptionHandler -> { IDiscordClient IConfiguration IServiceProvider }
 	InviteService -> { DiscordSocketClient GrillBotDatabaseBuilder AuditLogWriter InviteManager IServiceProvider }
 	MessageCacheJob -> { AuditLogWriter IDiscordClient InitManager IMessageCacheManager LoggingManager }
 	MockingService -> { IConfiguration RandomizationService }
@@ -800,7 +801,6 @@ digraph GrillBot {
 	MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder CounterManager }
 	InviteManager -> { GrillBotCacheBuilder CounterManager }
 	ProfilePictureManager -> { GrillBotCacheBuilder CounterManager }
-	RendererFactory -> { FileStorageFactory ProfilePictureManager }
 	CleanChannelMessages -> { ITextsManager }
 	PermissionsCleaner -> { PermissionsReader }
 	PermissionsReader -> { GrillBotDatabaseBuilder ITextsManager }
@@ -839,4 +839,6 @@ digraph GrillBot {
 	GetPublicApiMethods -> { ApiRequestContext }
 	PublicApiClientsController -> { IServiceProvider }
 	UpdateClient -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
+	DataCacheManager -> { GrillBotCacheBuilder }
+	WithoutAccidentRenderer -> { ProfilePictureManager DataCacheManager }
 }

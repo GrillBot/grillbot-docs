@@ -13,10 +13,10 @@ class DependencyDataSource(DataSource):
     def __init__(self) -> None:
         self.csproj_files = [
             "https://gitlab.com/grillbot/grillbot/-/raw/master/src/GrillBot/GrillBot.App/GrillBot.App.csproj",
-            "https://gitlab.com/grillbot/grillbot/-/raw/master/src/GrillBot/GrillBot.Data/GrillBot.Data.csproj",
-            "https://gitlab.com/grillbot/grillbot/-/raw/master/src/GrillBot/GrillBot.Database/GrillBot.Database.csproj",
             "https://gitlab.com/grillbot/grillbot/-/raw/master/src/GrillBot/GrillBot.Cache/GrillBot.Cache.csproj",
             "https://gitlab.com/grillbot/grillbot/-/raw/master/src/GrillBot/GrillBot.Common/GrillBot.Common.csproj",
+            "https://gitlab.com/grillbot/grillbot/-/raw/master/src/GrillBot/GrillBot.Data/GrillBot.Data.csproj",
+            "https://gitlab.com/grillbot/grillbot/-/raw/master/src/GrillBot/GrillBot.Database/GrillBot.Database.csproj",
             "https://gitlab.com/grillbot/grillbot/-/raw/master/src/GrillBot/GrillBot.Tests/GrillBot.Tests.csproj",
         ]
         self.cached_data = None
