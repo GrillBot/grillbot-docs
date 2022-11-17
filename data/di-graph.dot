@@ -520,14 +520,6 @@ digraph GrillBot {
                 WithoutAccidentRenderer
             }
             
-            subgraph cluster_3_6_10 {
-                node[style=filled];
-                label="Permissions";
-                color=yellow;
-
-                PermissionsService
-            }
-            
             subgraph cluster_3_6_11 {
                 node[style=filled];
                 label="Reminder";
@@ -731,7 +723,7 @@ digraph GrillBot {
 	InteractionHandler -> { DiscordSocketClient IServiceProvider InteractionService InitManager AuditLogService UnsuccessCommandAttempt }
 	RequireEmoteSuggestionChannelAttribute -> { GrillBotDatabaseBuilder }
 	RequireValidEmoteSuggestions -> { GrillBotDatabaseBuilder }
-	RequireUserPermsAttribute -> { PermissionsService }
+	RequireUserPermsAttribute -> { ITextsManager GrillBotDatabaseBuilder }
 	ExceptionFilter -> { ApiRequest AuditLogWriter ApiRequestContext LoggingManager }
 	RequestFilter -> { ApiRequest ApiRequestContext IDiscordClient UserHearthbeatService }
 	ResultFilter -> { ApiRequest AuditLogWriter ApiRequestContext }
@@ -773,7 +765,6 @@ digraph GrillBot {
 	EmoteChainService -> { IConfiguration DiscordSocketClient }
 	EmoteService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration IMessageCacheManager IEmoteCache }
 	EmotesCommandService -> { IServiceProvider GrillBotDatabaseBuilder IDiscordClient }
-	PermissionsService -> { GrillBotDatabaseBuilder IServiceProvider }
 	RemindCronJob -> { AuditLogWriter IDiscordClient InitManager LoggingManager FinishRemind GrillBotDatabaseBuilder }
 	RemindHelper -> { IDiscordClient ITextsManager }
 	RemindService -> { IDiscordClient GrillBotDatabaseBuilder IConfiguration ITextsManager }
