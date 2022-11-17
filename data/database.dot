@@ -194,24 +194,6 @@ digraph ER {
         </table>
     >];
     
-    ExplicitPermissions [label=<
-        <table border="0" cellborder="1" cellspacing="0">
-            <tr><td><i><b>ExplicitPermissions</b></i></td></tr>
-            <tr>
-                <td port="TargetId">&lt;&lt;PK&gt;&gt; TargetId (character varying (30))</td>
-            </tr>
-            <tr>
-                <td port="IsRole">IsRole (boolean)</td>
-            </tr>
-            <tr>
-                <td port="Command">&lt;&lt;PK&gt;&gt; Command (character varying (255))</td>
-            </tr>
-            <tr>
-                <td port="State">State (integer)</td>
-            </tr>
-        </table>
-    >];
-    
     GuildEvent [label=<
         <table border="0" cellborder="1" cellspacing="0">
             <tr><td><i><b>GuildEvent</b></i></td></tr>

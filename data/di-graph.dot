@@ -110,12 +110,7 @@ digraph GrillBot {
                     label="Command";
                     color=lightblue;
                     
-                    CreateExplicitPermission
-                    GetCommandsList
-                    GetExplicitPermissionList
                     GetExternalCommands
-                    RemoveExplicitPermission
-                    SetExplicitPermissionState
                 }
                 
                 subgraph cluster_3_1_1_6 {
@@ -319,7 +314,6 @@ digraph GrillBot {
             EmotesController
             GuildController
             InviteController
-            PermissionsController
             PointsController
             PublicApiClientsController
             ReminderController
@@ -644,12 +638,7 @@ digraph GrillBot {
 	GetChannelboard -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
 	ApiV1_SendMessageToChannel -> { ApiRequestContext ITextsManager IDiscordClient IMessageCacheManager }
 	UpdateChannel -> { ApiRequestContext GrillBotDatabaseBuilder AutoReplyService AuditLogWriter ITextsManager AuditLogService }
-	CreateExplicitPermission -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
-	GetCommandsList -> { ApiRequestContext InteractionService IConfiguration }
-	GetExplicitPermissionList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient }
 	GetExternalCommands -> { ApiRequestContext ExternalCommandsHelpService }
-	RemoveExplicitPermission -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
-	SetExplicitPermissionState -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
 	GetEmoteSuggestionsList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 	GetStatsOfEmotes -> { ApiRequestContext IEmoteCache GrillBotDatabaseBuilder IMapper }
 	GetSupportedEmotes -> { ApiRequestContext IEmoteCache IMapper }
@@ -710,7 +699,6 @@ digraph GrillBot {
 	EmotesController -> { IServiceProvider }
 	GuildController -> { IServiceProvider }
 	InviteController -> { IServiceProvider }
-	PermissionsController -> { IServiceProvider }
 	PointsController -> { IServiceProvider }
 	ReminderController -> { IServiceProvider }
 	SearchingController -> { IServiceProvider }
