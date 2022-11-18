@@ -189,6 +189,7 @@ digraph GrillBot {
                     
                     GetScheduledJobs
                     RunScheduledJob
+                    UpdateJob
                 }
                 
                 subgraph cluster_3_1_1_13 {
@@ -196,7 +197,7 @@ digraph GrillBot {
                     label="Searching";
                     color=lightblue;
                     
-                    GetSearchingList
+                    ApiV1_GetSearchingList[label="GetSearchingList"]
                     RemoveSearches
                 }
                 
@@ -290,12 +291,20 @@ digraph GrillBot {
                 UserInfo
                 UnsuccessCommandAttempt
                 
-                 subgraph cluster_3_1_3_1 {
+                subgraph cluster_3_1_3_1 {
+                    node[style=filled];
+                    label="Searching";
+                    color=lightblue;
+                    
+                    UnverifyList
+                }
+                
+                subgraph cluster_3_1_3_2 {
                     node[style=filled];
                     label="Unverify";
                     color=lightblue;
                     
-                    UnverifyList
+                    GetSearchingList
                 }
             }
         }
@@ -661,7 +670,7 @@ digraph GrillBot {
 	ServiceTransferPoints -> { ApiRequestContext PointsService IDiscordClient ITextsManager }
 	FinishRemind -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriter IDiscordClient ITextsManager }
 	GetReminderList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
-	GetSearchingList -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
+	ApiV1_GetSearchingList -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
 	RemoveSearches -> { ApiRequestContext GrillBotDatabaseBuilder }
 	GetApiStatistics -> { ApiRequestContext GrillBotDatabaseBuilder }
 	GetAuditLogStatistics -> { ApiRequestContext GrillBotDatabaseBuilder }
@@ -718,7 +727,7 @@ digraph GrillBot {
 	PointsBoardPaginationHandler -> { PointsLeaderboard }
 	RemindAutoCompleteHandler -> { RemindService }
 	SearchingAutoCompleteHandler -> { SearchingService }
-	SearchingPaginationHandler -> { GrillBotDatabaseBuilder GetSearchingList }
+	SearchingPaginationHandler -> { GetSearchingList }
 	SelfUnverifyModule -> { UnverifyService IServiceProvider }
 	UserMeModule -> { IServiceProvider }
 	BirthdayModule -> { BirthdayService IServiceProvider }
@@ -738,11 +747,11 @@ digraph GrillBot {
 	MessageDeletedEvent -> { IMessageCacheManager FileStorageFactory }
 	MessageEditedEvent -> { IMessageCacheManager IDiscordClient }
 	AuditClearingHelper -> { FileStorageFactory }
-	AuditLogClearingJob -> { AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager AuditClearingHelper LoggingManager }
+	AuditLogClearingJob -> { IServiceProvider AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager AuditClearingHelper LoggingManager }
 	AuditLogLoggingHandler -> { AuditLogWriter IConfiguration }
 	AuditLogService -> { DiscordSocketClient GrillBotDatabaseBuilder InitManager AuditLogWriter IServiceProvider }
 	AuditLogWriter -> { GrillBotDatabaseBuilder }
-	BirthdayCronJob -> { IConfiguration AuditLogWriter IDiscordClient InitManager LoggingManager GetTodayBirthdayInfo GrillBotDatabaseBuilder }
+	BirthdayCronJob -> { IServiceProvider IConfiguration AuditLogWriter IDiscordClient InitManager LoggingManager GetTodayBirthdayInfo GrillBotDatabaseBuilder }
 	BirthdayService -> { GrillBotDatabaseBuilder }
 	ChannelService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration IMessageCacheManager }
 	ExternalCommandsHelpService -> { IDirectApiService IConfiguration IServiceProvider }
@@ -753,28 +762,28 @@ digraph GrillBot {
 	EmoteChainService -> { IConfiguration DiscordSocketClient }
 	EmoteService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration IMessageCacheManager IEmoteCache }
 	EmotesCommandService -> { IServiceProvider GrillBotDatabaseBuilder IDiscordClient }
-	RemindCronJob -> { AuditLogWriter IDiscordClient InitManager LoggingManager FinishRemind GrillBotDatabaseBuilder }
+	RemindCronJob -> { IServiceProvider AuditLogWriter IDiscordClient InitManager LoggingManager FinishRemind GrillBotDatabaseBuilder }
 	RemindHelper -> { IDiscordClient ITextsManager }
 	RemindService -> { IDiscordClient GrillBotDatabaseBuilder IConfiguration ITextsManager }
 	EmoteSuggestionService -> { SuggestionSessionService GrillBotDatabaseBuilder IDiscordClient IMessageCacheManager }
 	EmoteSuggestionsEventManager -> { DiscordSocketClient EmoteSuggestionService IMessageCacheManager }
-	SuggestionJob -> { AuditLogWriter IDiscordClient InitManager EmoteSuggestionService SuggestionSessionService LoggingManager }
+	SuggestionJob -> { IServiceProvider AuditLogWriter IDiscordClient InitManager EmoteSuggestionService SuggestionSessionService LoggingManager }
 	UnverifyChecker -> { GrillBotDatabaseBuilder IConfiguration IWebHostEnvironment ITextsManager }
-	UnverifyCronJob -> { AuditLogWriter IDiscordClient UnverifyService InitManager LoggingManager }
+	UnverifyCronJob -> { IServiceProvider AuditLogWriter IDiscordClient UnverifyService InitManager LoggingManager }
 	UnverifyLogger -> { IDiscordClient GrillBotDatabaseBuilder }
 	UnverifyMessageGenerator -> { ITextsManager }
 	UnverifyProfileGenerator -> { GrillBotDatabaseBuilder ITextsManager }
 	UnverifyService -> { DiscordSocketClient UnverifyChecker UnverifyProfileGenerator UnverifyLogger GrillBotDatabaseBuilder LoggingManager ITextsManager UnverifyMessageGenerator IDiscordClient }
-	PointsJob -> { AuditLogWriter IDiscordClient InitManager PointsService LoggingManager }
+	PointsJob -> { IServiceProvider AuditLogWriter IDiscordClient InitManager PointsService LoggingManager }
 	PointsService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration IMessageCacheManager RandomizationService ProfilePictureManager ITextsManager }
-	OnlineUsersCleanJob -> { AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager }
+	OnlineUsersCleanJob -> { IServicerProvider AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager }
 	UserHearthbeatService -> { GrillBotDatabaseBuilder }
 	UserService -> { GrillBotDatabaseBuilder }
 	AutoReplyService -> { DiscordSocketClient GrillBotDatabaseBuilder InitManager }
 	BoosterService -> { DiscordSocketClient GrillBotDatabaseBuilder IConfiguration InitManager }
 	DiscordExceptionHandler -> { IDiscordClient IConfiguration IServiceProvider }
 	InviteService -> { DiscordSocketClient GrillBotDatabaseBuilder AuditLogWriter InviteManager IServiceProvider }
-	MessageCacheJob -> { AuditLogWriter IDiscordClient InitManager IMessageCacheManager LoggingManager }
+	MessageCacheJob -> { IServiceProvider AuditLogWriter IDiscordClient InitManager IMessageCacheManager LoggingManager }
 	MockingService -> { IConfiguration RandomizationService }
 	SearchingService -> { GrillBotDatabaseBuilder UserService IServiceProvider }
 	MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder CounterManager }
@@ -808,7 +817,7 @@ digraph GrillBot {
 	GetAvgTimes -> { ApiRequestContext GrillBotDatabaseBuilder }
 	CooldownCheckAttribute -> { CooldownManager ITextsManager }
 	UnsuccessCommandAttempt -> { ITextsManager InteractionService IDirectApiService GrillBotDatabaseBuilder AuditLogService DataCacheManager }
-	GetScheduledJobs -> { ApiRequestContext GrillBotDatabaseBuilder ISchedulerFactory }
+	GetScheduledJobs -> { ApiRequestContext GrillBotDatabaseBuilder ISchedulerFactory DataCacheManager }
 	RunScheduledJob -> { ApiRequestContext ISchedulerFactory }
 	ScheduledJobsController -> { IServiceProvider }
 	ThreadDeletedEvent -> { GrillBotDatabaseBuilder }
@@ -820,4 +829,6 @@ digraph GrillBot {
 	UpdateClient -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
 	DataCacheManager -> { GrillBotCacheBuilder }
 	WithoutAccidentRenderer -> { ProfilePictureManager DataCacheManager }
+	UpdateJob -> { ApiRequestContext DataCacheManager ISchedulerFactory ITextsManager }
+	GetSearchingList -> { ApiV1_GetSearchingList GrillBotDatabaseBuilder ITextsManager }
 }
