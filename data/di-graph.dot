@@ -293,7 +293,7 @@ digraph GrillBot {
                 
                 subgraph cluster_3_1_3_1 {
                     node[style=filled];
-                    label="Searching";
+                    label="Unverify";
                     color=lightblue;
                     
                     UnverifyList
@@ -301,7 +301,7 @@ digraph GrillBot {
                 
                 subgraph cluster_3_1_3_2 {
                     node[style=filled];
-                    label="Unverify";
+                    label="Searching";
                     color=lightblue;
                     
                     GetSearchingList
