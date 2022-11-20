@@ -689,7 +689,7 @@ digraph GrillBot {
 	RecoverState -> { ApiRequestContext UnverifyService }
 	RemoveKeepables -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
 	RemoveUnverify -> { ApiRequestContext IDiscordClient UnverifyService ITextsManager }
-	UpdateUnverify -> { ApiRequestContext IDiscordClient UnverifyService ITextsManager }
+	UpdateUnverify -> { ApiRequestContext IDiscordClient ITextsManager GrillBotDatabaseBuilder UnverifyLogger UnverifyMessageGenerator }
 	GetAvailableUsers -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder }
 	GetUserDetail -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient ITextsManager }
 	GetUserList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient }
