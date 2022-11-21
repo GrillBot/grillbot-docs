@@ -179,7 +179,7 @@ digraph GrillBot {
                     color=lightblue;
                     
                     FinishRemind
-                    GetReminderList
+                    ApiV1_GetReminderList
                 }
                 
                 subgraph cluster_3_1_1_12 {
@@ -277,6 +277,7 @@ digraph GrillBot {
                 label="Commands";
                 color=yellow;
                 
+                ChannelInfo
                 CleanChannelMessages
                 Emojization
                 GetChannelboard
@@ -293,13 +294,24 @@ digraph GrillBot {
                 
                 subgraph cluster_3_1_3_1 {
                     node[style=filled];
+                    label="Reminder";
+                    color=lightblue;
+                    
+                    CopyRemind
+                    CreateRemind
+                    GetReminderList
+                    GetSuggestions
+                }
+                
+                subgraph cluster_3_1_3_2 {
+                    node[style=filled];
                     label="Unverify";
                     color=lightblue;
                     
                     UnverifyList
                 }
                 
-                subgraph cluster_3_1_3_2 {
+                subgraph cluster_3_1_3_3 {
                     node[style=filled];
                     label="Searching";
                     color=lightblue;
@@ -392,6 +404,7 @@ digraph GrillBot {
                 PointsBoardPaginationHandler
                 RemindAutoCompleteHandler
                 RemindPostponeHandler
+                RemindPaginationHandler
                 SearchingAutoCompleteHandler
                 SearchingPaginationHandler
                 UnverifyListPaginationHandler
@@ -530,7 +543,6 @@ digraph GrillBot {
              
                 RemindCronJob
                 RemindHelper
-                RemindService
             }
             
             subgraph cluster_3_6_12 {
@@ -669,7 +681,7 @@ digraph GrillBot {
 	ServiceIncrementPoints -> { ApiRequestContext PointsService IDiscordClient ITextsManager }
 	ServiceTransferPoints -> { ApiRequestContext PointsService IDiscordClient ITextsManager }
 	FinishRemind -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriter IDiscordClient ITextsManager }
-	GetReminderList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
+	ApiV1_GetReminderList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 	ApiV1_GetSearchingList -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
 	RemoveSearches -> { ApiRequestContext GrillBotDatabaseBuilder }
 	GetApiStatistics -> { ApiRequestContext GrillBotDatabaseBuilder }
@@ -725,7 +737,7 @@ digraph GrillBot {
 	RequestFilter -> { ApiRequest ApiRequestContext IDiscordClient UserHearthbeatService }
 	ResultFilter -> { ApiRequest AuditLogWriter ApiRequestContext }
 	PointsBoardPaginationHandler -> { PointsLeaderboard }
-	RemindAutoCompleteHandler -> { RemindService }
+	RemindAutoCompleteHandler -> { GetSuggestions }
 	SearchingAutoCompleteHandler -> { SearchingService }
 	SearchingPaginationHandler -> { GetSearchingList }
 	SelfUnverifyModule -> { UnverifyService IServiceProvider }
@@ -733,7 +745,7 @@ digraph GrillBot {
 	BirthdayModule -> { BirthdayService IServiceProvider }
 	BotModule -> { IServiceProvider }
 	SelfUnverifyConfig -> { ITextsManager IServiceProvider }
-	ChannelModule -> { GrillBotDatabaseBuilder FormatHelper IServiceProvider }
+	ChannelModule -> { IServiceProvider }
 	DuckModule -> { IHttpClientFactory IConfiguration IServiceProvider }
 	EmoteModule -> { EmotesCommandService IServiceProvider }
 	GuildModule -> { UserService GuildHelper IServiceProvider }
@@ -741,7 +753,7 @@ digraph GrillBot {
 	MemeModule -> { RandomizationService IConfiguration IServiceProvider }
 	MockingModule -> { MockingService IServiceProvider }
 	PointsModule -> { PointsService IServiceProvider }
-	RemindModule -> { RemindService IServiceProvider }
+	RemindModule -> { IServiceProvider }
 	SearchingModule -> { SearchingService IServiceProvider }
 	SuggestionModule -> { EmoteSuggestionService IServiceProvider }
 	MessageDeletedEvent -> { IMessageCacheManager FileStorageFactory }
@@ -764,7 +776,6 @@ digraph GrillBot {
 	EmotesCommandService -> { IServiceProvider GrillBotDatabaseBuilder IDiscordClient }
 	RemindCronJob -> { IServiceProvider AuditLogWriter IDiscordClient InitManager LoggingManager FinishRemind GrillBotDatabaseBuilder }
 	RemindHelper -> { IDiscordClient ITextsManager }
-	RemindService -> { IDiscordClient GrillBotDatabaseBuilder IConfiguration ITextsManager }
 	EmoteSuggestionService -> { SuggestionSessionService GrillBotDatabaseBuilder IDiscordClient IMessageCacheManager }
 	EmoteSuggestionsEventManager -> { DiscordSocketClient EmoteSuggestionService IMessageCacheManager }
 	SuggestionJob -> { IServiceProvider AuditLogWriter IDiscordClient InitManager EmoteSuggestionService SuggestionSessionService LoggingManager }
@@ -831,4 +842,10 @@ digraph GrillBot {
 	WithoutAccidentRenderer -> { ProfilePictureManager DataCacheManager }
 	UpdateJob -> { ApiRequestContext DataCacheManager ISchedulerFactory ITextsManager }
 	GetSearchingList -> { ApiV1_GetSearchingList GrillBotDatabaseBuilder ITextsManager }
+	CopyRemind -> { GrillBotDatabaseBuilder ITextsManager CreateRemind }
+	CreateRemind -> { ITextsManager IConfiguration FormatHelper GrillBotDatabaseBuilder }
+	GetSuggestions -> { GrillBotDatabaseBuilder ITextsManager }
+	GetReminderList -> { ApiV1_GetReminderList ITextsManager GrillBotDatabaseBuilder }
+	RemindPaginationHandler -> { GetReminderList }
+	ChannelInfo -> { ITextsManager FormatHelper GrillBotDatabaseBuilder }
 }
