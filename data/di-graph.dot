@@ -567,6 +567,7 @@ digraph GrillBot {
                 UnverifyMessageGenerator
                 UnverifyProfileGenerator
                 UnverifyService
+                UnverifyHelper
             }
             
             subgraph cluster_3_6_14 {
@@ -700,7 +701,7 @@ digraph GrillBot {
 	KeepableExists -> { ApiRequestContext GrillBotDatabaseBuilder }
 	RecoverState -> { ApiRequestContext UnverifyService }
 	RemoveKeepables -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
-	RemoveUnverify -> { ApiRequestContext IDiscordClient UnverifyService ITextsManager }
+	RemoveUnverify -> { ApiRequestContext IDiscordClient ITextsManager GrillBotDatabaseBuilder UnverifyMessageGenerator UnverifyLogger LoggingManager UnverifyHelper }
 	UpdateUnverify -> { ApiRequestContext IDiscordClient ITextsManager GrillBotDatabaseBuilder UnverifyLogger UnverifyMessageGenerator }
 	GetAvailableUsers -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder }
 	GetUserDetail -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient ITextsManager }
@@ -780,7 +781,7 @@ digraph GrillBot {
 	EmoteSuggestionsEventManager -> { DiscordSocketClient EmoteSuggestionService IMessageCacheManager }
 	SuggestionJob -> { IServiceProvider AuditLogWriter IDiscordClient InitManager EmoteSuggestionService SuggestionSessionService LoggingManager }
 	UnverifyChecker -> { GrillBotDatabaseBuilder IConfiguration IWebHostEnvironment ITextsManager }
-	UnverifyCronJob -> { IServiceProvider AuditLogWriter IDiscordClient UnverifyService InitManager LoggingManager }
+	UnverifyCronJob -> { IServiceProvider AuditLogWriter IDiscordClient InitManager LoggingManager RemoveUnverify GrillBotDatabaseBuilder }
 	UnverifyLogger -> { IDiscordClient GrillBotDatabaseBuilder }
 	UnverifyMessageGenerator -> { ITextsManager }
 	UnverifyProfileGenerator -> { GrillBotDatabaseBuilder ITextsManager }
@@ -848,4 +849,5 @@ digraph GrillBot {
 	GetReminderList -> { ApiV1_GetReminderList ITextsManager GrillBotDatabaseBuilder }
 	RemindPaginationHandler -> { GetReminderList }
 	ChannelInfo -> { ITextsManager FormatHelper GrillBotDatabaseBuilder }
+	UnverifyHelper -> { GrillBotDatabaseBuilder }
 }
