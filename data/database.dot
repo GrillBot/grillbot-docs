@@ -9,6 +9,9 @@ digraph ER {
                 <td port="Id">&lt;&lt;PK&gt;&gt; Id (text)</td>
             </tr>
             <tr>
+                <td port="Name">Name (character varying (30))</td>
+            </tr>
+            <tr>
                 <td port="AllowedMethods">AllowedMethods (jsonb)</td>
             </tr>
             <tr>
