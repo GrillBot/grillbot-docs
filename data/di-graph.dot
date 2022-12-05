@@ -221,7 +221,7 @@ digraph GrillBot {
                     color=lightblue;
                     
                     ChangeBotStatus
-                    GetDiagnostics
+                    GetDashboard
                     GetEventLog
                 }
                 
@@ -692,7 +692,6 @@ digraph GrillBot {
 	GetEventStatistics -> { ApiRequestContext EventManager }
 	GetUnverifyStatistics -> { ApiRequestContext GrillBotDatabaseBuilder }
 	ChangeBotStatus -> { ApiRequestContext InitManager }
-	GetDiagnostics -> { ApiRequestContext InitManager CounterManager IWebHostEnvironment IDiscordClient }
 	GetEventLog -> { ApiRequestContext EventManager }
 	AddKeepables -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
 	GetCurrentUnverifies -> { ApiRequestContext UnverifyService IMapper }
@@ -799,7 +798,7 @@ digraph GrillBot {
 	MockingService -> { IConfiguration RandomizationService }
 	SearchingService -> { GrillBotDatabaseBuilder UserService IServiceProvider }
 	MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder CounterManager }
-	InviteManager -> { GrillBotCacheBuilder CounterManager }
+	InviteManager -> { GrillBotCacheBuilder CounterManager }F
 	ProfilePictureManager -> { GrillBotCacheBuilder CounterManager }
 	CleanChannelMessages -> { ITextsManager }
 	PermissionsCleaner -> { PermissionsReader }
@@ -850,4 +849,5 @@ digraph GrillBot {
 	RemindPaginationHandler -> { GetReminderList }
 	ChannelInfo -> { ITextsManager FormatHelper GrillBotDatabaseBuilder }
 	UnverifyHelper -> { GrillBotDatabaseBuilder }
+	GetDashboard -> { ApiRequestContext IWebHostEnvironment IDiscordClient InitManager CounterManager GrillBotDatabaseBuilder LoggingManager }
 }
