@@ -293,39 +293,6 @@ digraph ER {
         </table>
     >];
     
-    PointsTransactionSummaries [label=<
-        <table border="0" cellborder="1" cellspacing="0">
-            <tr><td><i><b>PointsTransactionSummaries</b></i></td></tr>
-            <tr>
-                <td port="GuildId">&lt;&lt;PK&gt;&gt; GuildId (character varying (30))</td>
-            </tr>
-            <tr>
-                <td port="UserId">&lt;&lt;PK&gt;&gt; UserId (character varying (30))</td>
-            </tr>
-            <tr>
-                <td port="Day">&lt;&lt;PK&gt;&gt; Day (timestamp without time zone)</td>
-            </tr>
-            <tr>
-                <td port="MessagePoints">MessagePoints (bigint)</td>
-            </tr>
-            <tr>
-                <td port="ReactionPoints">ReactionPoints (bigint)</td>
-            </tr>
-            <tr>
-                <td port="MergeRangeFrom">MergeRangeFrom (timestamp without time zone)</td>
-            </tr>
-            <tr>
-                <td port="MergeRangeTo">MergeRangeTo (timestamp without time zone)</td>
-            </tr>
-            <tr>
-                <td port="MergedItemsCount">MergedItemsCount (integer)</td>
-            </tr>
-            <tr>
-                <td port="IsMerged">&lt;&lt;PK&gt;&gt; IsMerged (boolean)</td>
-            </tr>
-        </table>
-    >];
-    
     PointsTransactions [label=<
         <table border="0" cellborder="1" cellspacing="0">
             <tr><td><i><b>PointsTransactions</b></i></td></tr>
@@ -579,7 +546,4 @@ digraph ER {
     
     PointsTransactions:GuildId -> Guilds:Id
     PointsTransactions:UserId -> GuildUsers:UserId
-    
-    PointsTransactionSummaries:GuildId -> Guilds:Id
-    PointsTransactionSummaries:UserId -> GuildUsers:UserId
 }

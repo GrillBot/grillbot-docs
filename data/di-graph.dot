@@ -155,8 +155,7 @@ digraph GrillBot {
                     
                     ComputeUserPoints
                     GetPointsLeaderboard
-                    GetSummaries
-                    GetSummaryGraphData
+                    GetPointsGraphData
                     GetTransactionList
                     ServiceIncrementPoints
                     ServiceTransferPoints
@@ -285,7 +284,6 @@ digraph GrillBot {
                 ImageCreator
                 PermissionsCleaner
                 PermissionsReader
-                PointsLeaderboard
                 PurgePins
                 RolesReader
                 Commands_SendMessageToChannel[label="SendMessageToChannel"]
@@ -294,6 +292,15 @@ digraph GrillBot {
                 UnsuccessCommandAttempt
                 
                 subgraph cluster_3_1_3_1 {
+                    node[style=filled];
+                    label="Points";
+                    color=lightblue;
+                    
+                    PointsLeaderboard
+                    PointsImage
+                }
+                
+                subgraph cluster_3_1_3_2 {
                     node[style=filled];
                     label="Reminder";
                     color=lightblue;
@@ -304,7 +311,7 @@ digraph GrillBot {
                     GetSuggestions
                 }
                 
-                subgraph cluster_3_1_3_2 {
+                subgraph cluster_3_1_3_3 {
                     node[style=filled];
                     label="Unverify";
                     color=lightblue;
@@ -312,7 +319,7 @@ digraph GrillBot {
                     UnverifyList
                 }
                 
-                subgraph cluster_3_1_3_3 {
+                subgraph cluster_3_1_3_4 {
                     node[style=filled];
                     label="Searching";
                     color=lightblue;
@@ -590,21 +597,28 @@ digraph GrillBot {
         
         subgraph cluster_3_6 {
             node [style=filled];
+            label="Jobs";
+            color=black;
+            
+            PointsJob
+        }
+        
+        subgraph cluster_3_7 {
+            node [style=filled];
             label="Managers";
             color=black;
             
             AuditLogManager
             AutoReplyManager
             EmoteChainManager
-            PointsRecalculationManager
         }
         
-        subgraph cluster_3_7 {
+        subgraph cluster_3_8 {
             node [style=filled];
             label="Modules";
             color=black;
             
-            subgraph cluster_3_7_1 {
+            subgraph cluster_3_8_1 {
                 node[style=filled];
                 label="Implementations";
                 color=yellow;
@@ -619,7 +633,7 @@ digraph GrillBot {
                 ChannelboardPaginationHandler
             }
             
-            subgraph cluster_3_7_2 {
+            subgraph cluster_3_8_2 {
                 node[style=filled];
                 label="Interactions";
                 color=yellow;
@@ -653,7 +667,7 @@ digraph GrillBot {
             }
         }
         
-        subgraph cluster_3_8 {
+        subgraph cluster_3_9 {
             node [style=filled];
             label="Services";
             color=black;
@@ -664,7 +678,7 @@ digraph GrillBot {
             RandomizationService
             SearchingService
             
-            subgraph cluster_3_8_1 {
+            subgraph cluster_3_9_1 {
                 node[style=filled];
                 label="AuditLog";
                 color=yellow;
@@ -676,7 +690,7 @@ digraph GrillBot {
                 AuditLogWriter
             }
             
-            subgraph cluster_3_8_2 {
+            subgraph cluster_3_9_2 {
                 node[style=filled];
                 label="Birthday";
                 color=yellow;
@@ -685,7 +699,7 @@ digraph GrillBot {
                 BirthdayService
             }
             
-            subgraph cluster_3_8_3 {
+            subgraph cluster_3_9_3 {
                 node[style=filled];
                 label="CommandsHelp";
                 color=yellow;
@@ -693,7 +707,7 @@ digraph GrillBot {
                 ExternalCommandsHelpService
             }
             
-            subgraph cluster_3_8_4 {
+            subgraph cluster_3_9_4 {
                 node[style=filled];
                 label="DirectApi";
                 color=yellow;
@@ -701,17 +715,16 @@ digraph GrillBot {
                 IDirectApiService -> DirectApiService
             }
             
-            subgraph cluster_3_8_5 {
+            subgraph cluster_3_9_5 {
                 node[style=filled];
                 label="Discord";
                 color=yellow;
                 
                 DiscordHealthCheck
                 DiscordService
-                DiscordSyncService
             }
             
-            subgraph cluster_3_8_6 {
+            subgraph cluster_3_9_6 {
                 node[style=filled];
                 label="Emotes";
                 color=yellow;
@@ -719,8 +732,7 @@ digraph GrillBot {
                 EmotesCommandService
             }
 
-            
-            subgraph cluster_3_8_7 {
+            subgraph cluster_3_9_7 {
                 node[style=filled];
                 label="Images";
                 color=yellow;
@@ -728,7 +740,7 @@ digraph GrillBot {
                 WithoutAccidentRenderer
             }
             
-            subgraph cluster_3_8_8 {
+            subgraph cluster_3_9_8 {
                 node[style=filled];
                 label="Reminder";
                 color=yellow;
@@ -737,7 +749,7 @@ digraph GrillBot {
                 RemindHelper
             }
             
-            subgraph cluster_3_8_9 {
+            subgraph cluster_3_9_9 {
                 node[style=filled];
                 label="Suggestion";
                 color=yellow;
@@ -747,7 +759,7 @@ digraph GrillBot {
                 SuggestionJob
             }
             
-            subgraph cluster_3_8_10 {
+            subgraph cluster_3_9_10 {
                 node[style=filled];
                 label="Unverify";
                 color=yellow;
@@ -761,12 +773,11 @@ digraph GrillBot {
                 UnverifyHelper
             }
             
-            subgraph cluster_3_8_11 {
+            subgraph cluster_3_9_11 {
                 node[style=filled];
                 label="User";
                 color=yellow;
              
-                PointsJob
                 PointsService
                 OnlineUsersCleanJob
                 UserHearthbeatService
@@ -867,8 +878,7 @@ digraph GrillBot {
 	RefreshMetadata -> { ApiRequestContext IDiscordClient InviteManager AuditLogWriter }
 	ComputeUserPoints -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient IMapper }
 	GetPointsLeaderboard -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
-	GetSummaries -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
-	GetSummaryGraphData -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
+	GetPointsGraphData -> { ApiRequestContext GrillBotDatabaseBuilder }
 	GetTransactionList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 	ServiceIncrementPoints -> { ApiRequestContext PointsService IDiscordClient ITextsManager }
 	ServiceTransferPoints -> { ApiRequestContext PointsService IDiscordClient ITextsManager }
@@ -942,7 +952,7 @@ digraph GrillBot {
 	MathModule -> { IHttpClientFactory IServiceProvider }
 	MemeModule -> { RandomizationService IConfiguration IServiceProvider }
 	MockingModule -> { MockingService IServiceProvider }
-	PointsModule -> { PointsService IServiceProvider }
+	PointsModule -> { IServiceProvider }
 	RemindModule -> { IServiceProvider }
 	SearchingModule -> { SearchingService IServiceProvider }
 	SuggestionModule -> { EmoteSuggestionService IServiceProvider }
@@ -957,7 +967,6 @@ digraph GrillBot {
 	DirectApiService -> { DiscordSocketClient IConfiguration }
 	DiscordHealthCheck -> { DiscordSocketClient }
 	DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService IWebHostEnvironment InteractionService AuditLogWriter LoggingManager EventLogManager EventManager }
-	DiscordSyncService -> { DiscordSocketClient GrillBotDatabaseBuilder InitManager }
 	EmotesCommandService -> { IServiceProvider GrillBotDatabaseBuilder IDiscordClient }
 	RemindCronJob -> { IServiceProvider AuditLogWriter IDiscordClient InitManager LoggingManager FinishRemind GrillBotDatabaseBuilder }
 	RemindHelper -> { IDiscordClient ITextsManager }
@@ -970,7 +979,7 @@ digraph GrillBot {
 	UnverifyProfileGenerator -> { GrillBotDatabaseBuilder ITextsManager }
 	UnverifyService -> { DiscordSocketClient UnverifyChecker UnverifyProfileGenerator UnverifyLogger GrillBotDatabaseBuilder LoggingManager ITextsManager UnverifyMessageGenerator IDiscordClient }
 	PointsJob -> { IServiceProvider AuditLogWriter IDiscordClient InitManager PointsService LoggingManager }
-	PointsService -> { GrillBotDatabaseBuilder IConfiguration RandomizationService ProfilePictureManager ITextsManager }
+	PointsService -> { GrillBotDatabaseBuilder IConfiguration RandomizationService ITextsManager }
 	OnlineUsersCleanJob -> { IServiceProvider AuditLogWriter IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager }
 	UserHearthbeatService -> { GrillBotDatabaseBuilder }
 	UserService -> { GrillBotDatabaseBuilder }
@@ -1034,12 +1043,12 @@ digraph GrillBot {
 	ChannelMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient IConfiguration }
 	EmoteMessageDeletedHandler -> { EmoteHelper IConfiguration IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
 	EmoteSuggestionsMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder }
-	PointsMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder PointsRecalculationManager }
+	PointsMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder }
 	AutoReplyHandler -> { AutoReplyManager }
 	ChannelMessageReceivedHandler -> { IDiscordClient IConfiguration GrillBotDatabaseBuilder }
 	EmoteChainHandler -> { EmoteChainManager }
     EmoteMessageReceivedHandler -> { EmoteHelper IDiscordClient IConfiguration GrillBotDatabaseBuilder }
-    PointsMessageReceivedHandler -> { PointsHelper GrillBotDatabaseBuilder PointsRecalculationManager }
+    PointsMessageReceivedHandler -> { PointsHelper GrillBotDatabaseBuilder }
     UnsucessCommandHandler -> { IConfiguration CommandService IDiscordClient IServiceProvider UnsuccessCommandAttempt }
     UserPresenceSynchronizationHandler -> { GrillBotDatabaseBuilder }
     AutoReplyReadyHandler -> { AutoReplyManager }
@@ -1052,7 +1061,6 @@ digraph GrillBot {
     PointsHelper -> { IConfiguration IDiscordClient RandomizationService }
     AutoReplyManager -> { GrillBotDatabaseBuilder }
     EmoteChainManager -> { IConfiguration }
-    PointsRecalculationManager -> { GrillBotDatabaseBuilder }
     EventManager -> { IDiscordClient IServiceProvider InitManager CounterManager InteractionService }
     AuditUserRoleUpdatedHandler -> { AuditLogManager CounterManager GrillBotDatabaseBuilder AuditLogWriter }
     AuditUserUpdatedHandler -> { CounterManager AuditLogWriter }
@@ -1072,9 +1080,9 @@ digraph GrillBot {
     ChannelHelper -> { GrillBotDatabaseBuilder IDiscordClient }
     SyncThreadDeletedHandler -> { GrillBotDatabaseBuilder }
     EmoteStatsReactionRemovedHandler -> { EmoteHelper IMessageCacheManager GrillBotDatabaseBuilder }
-    PointsReactionRemovedHandler -> { GrillBotDatabaseBuilder PointsRecalculationManager }
+    PointsReactionRemovedHandler -> { GrillBotDatabaseBuilder }
     EmoteStatsReactionAddedHandler -> { EmoteHelper IMessageCacheManager GrillBotDatabaseBuilder }
-    PointsReactionAddedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder PointsHelper PointsRecalculationManager }
+    PointsReactionAddedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder PointsHelper }
     AuditChannelDestroyedHandler -> { CounterManager AuditLogWriter }
     SyncChannelDestroyedHandler -> { GrillBotDatabaseBuilder }
     SyncUserUpdatedHandler -> { GrillBotDatabaseBuilder }
@@ -1084,4 +1092,5 @@ digraph GrillBot {
     AuditMessageUpdatedHandler -> { IMessageCacheManager AuditLogWriter }
     AuditChannelCreatedHandler -> { CounterManager AuditLogWriter }
     AuditInteractionCommandHandler -> { AuditLogWriter }
+    PointsImage -> { GrillBotDatabaseBuilder ProfilePictureManager }
 }
