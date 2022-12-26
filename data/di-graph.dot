@@ -293,6 +293,16 @@ digraph GrillBot {
                 
                 subgraph cluster_3_1_3_1 {
                     node[style=filled];
+                    label="Birthday";
+                    color=lightblue;
+                    
+                    AddBirthday
+                    HaveBirthday
+                    RemoveBirthday
+                }
+                
+                subgraph cluster_3_1_3_2 {
+                    node[style=filled];
                     label="Points";
                     color=lightblue;
                     
@@ -300,7 +310,7 @@ digraph GrillBot {
                     PointsImage
                 }
                 
-                subgraph cluster_3_1_3_2 {
+                subgraph cluster_3_1_3_3 {
                     node[style=filled];
                     label="Reminder";
                     color=lightblue;
@@ -311,7 +321,7 @@ digraph GrillBot {
                     GetSuggestions
                 }
                 
-                subgraph cluster_3_1_3_3 {
+                subgraph cluster_3_1_3_4 {
                     node[style=filled];
                     label="Unverify";
                     color=lightblue;
@@ -319,7 +329,7 @@ digraph GrillBot {
                     UnverifyList
                 }
                 
-                subgraph cluster_3_1_3_4 {
+                subgraph cluster_3_1_3_5 {
                     node[style=filled];
                     label="Searching";
                     color=lightblue;
@@ -617,6 +627,7 @@ digraph GrillBot {
             color=black;
             
             AuditLogClearingJob
+            BirthdayCronJob
             PointsJob
         }
         
@@ -698,22 +709,13 @@ digraph GrillBot {
             
             subgraph cluster_3_9_1 {
                 node[style=filled];
-                label="Birthday";
-                color=yellow;
-                
-                BirthdayCronJob
-                BirthdayService
-            }
-            
-            subgraph cluster_3_9_2 {
-                node[style=filled];
                 label="CommandsHelp";
                 color=yellow;
                 
                 ExternalCommandsHelpService
             }
             
-            subgraph cluster_3_9_3 {
+            subgraph cluster_3_9_2 {
                 node[style=filled];
                 label="DirectApi";
                 color=yellow;
@@ -721,7 +723,7 @@ digraph GrillBot {
                 IDirectApiService -> DirectApiService
             }
             
-            subgraph cluster_3_9_4 {
+            subgraph cluster_3_9_3 {
                 node[style=filled];
                 label="Discord";
                 color=yellow;
@@ -730,7 +732,7 @@ digraph GrillBot {
                 DiscordService
             }
             
-            subgraph cluster_3_9_5 {
+            subgraph cluster_3_9_4 {
                 node[style=filled];
                 label="Emotes";
                 color=yellow;
@@ -738,7 +740,7 @@ digraph GrillBot {
                 EmotesCommandService
             }
 
-            subgraph cluster_3_9_6 {
+            subgraph cluster_3_9_5 {
                 node[style=filled];
                 label="Images";
                 color=yellow;
@@ -746,7 +748,7 @@ digraph GrillBot {
                 WithoutAccidentRenderer
             }
             
-            subgraph cluster_3_9_7 {
+            subgraph cluster_3_9_6 {
                 node[style=filled];
                 label="Reminder";
                 color=yellow;
@@ -755,7 +757,7 @@ digraph GrillBot {
                 RemindHelper
             }
             
-            subgraph cluster_3_9_8 {
+            subgraph cluster_3_9_7 {
                 node[style=filled];
                 label="Suggestion";
                 color=yellow;
@@ -765,7 +767,7 @@ digraph GrillBot {
                 SuggestionJob
             }
             
-            subgraph cluster_3_9_9 {
+            subgraph cluster_3_9_8 {
                 node[style=filled];
                 label="Unverify";
                 color=yellow;
@@ -779,7 +781,7 @@ digraph GrillBot {
                 UnverifyHelper
             }
             
-            subgraph cluster_3_9_10 {
+            subgraph cluster_3_9_9 {
                 node[style=filled];
                 label="User";
                 color=yellow;
@@ -948,7 +950,7 @@ digraph GrillBot {
 	SearchingPaginationHandler -> { GetSearchingList }
 	SelfUnverifyModule -> { UnverifyService IServiceProvider }
 	UserMeModule -> { IServiceProvider }
-	BirthdayModule -> { BirthdayService IServiceProvider }
+	BirthdayModule -> { IServiceProvider }
 	BotModule -> { IServiceProvider }
 	SelfUnverifyConfig -> { ITextsManager IServiceProvider }
 	ChannelModule -> { IServiceProvider }
@@ -965,8 +967,7 @@ digraph GrillBot {
 	AuditLogClearingJob -> { GrillBotDatabaseBuilder IServiceProvider FileStorageFactory AuditLogWriteManager IDiscordClient InitManager LoggingManager }
 	AuditLogLoggingHandler -> { AuditLogWriteManager IConfiguration }
 	AuditLogWriteManager -> { GrillBotDatabaseBuilder }
-	BirthdayCronJob -> { IServiceProvider IConfiguration AuditLogWriteManager IDiscordClient InitManager LoggingManager GetTodayBirthdayInfo GrillBotDatabaseBuilder }
-	BirthdayService -> { GrillBotDatabaseBuilder }
+	BirthdayCronJob -> { IConfiguration IDiscordClient GetTodayBirthdayInfo GrillBotDatabaseBuilder IServiceProvider InitManager LoggingManager }
 	ExternalCommandsHelpService -> { IDirectApiService IConfiguration IServiceProvider }
 	DirectApiService -> { DiscordSocketClient IConfiguration }
 	DiscordHealthCheck -> { DiscordSocketClient }
@@ -1098,4 +1099,7 @@ digraph GrillBot {
     PointsImage -> { GrillBotDatabaseBuilder ProfilePictureManager }
     SyncJoinedGuildHandler -> { GrillBotDatabaseBuilder }
     DeleteInvite -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
+    AddBirthday -> { GrillBotDatabaseBuilder }
+    HaveBirthday -> { GrillBotDatabaseBuilder }
+    RemoveBirthday -> { GrillBotDatabaseBuilder }
 }
