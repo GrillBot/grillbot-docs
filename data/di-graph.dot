@@ -19,6 +19,7 @@ digraph GrillBot {
 		ApiRequestContext
 		ApiRequest
 		CooldownManager
+		RandomizationManager
 	}
 	
 	 subgraph cluster_1 {
@@ -282,6 +283,7 @@ digraph GrillBot {
                 Emojization
                 GetChannelboard
                 ImageCreator
+                Mock
                 PermissionsCleaner
                 PermissionsReader
                 PurgePins
@@ -442,6 +444,7 @@ digraph GrillBot {
                 color=yellow;
                 
                 AuditLogLoggingHandler
+                DiscordExceptionHandler
             }
             
             subgraph cluster_3_3_9 {
@@ -628,6 +631,7 @@ digraph GrillBot {
             
             AuditLogClearingJob
             BirthdayCronJob
+            MessageCacheJob
             PointsJob
         }
         
@@ -701,10 +705,6 @@ digraph GrillBot {
             label="Services";
             color=black;
             
-            DiscordExceptionHandler
-            MessageCacheJob
-            MockingService
-            RandomizationService
             SearchingService
             
             subgraph cluster_3_9_1 {
@@ -888,8 +888,8 @@ digraph GrillBot {
 	GetPointsLeaderboard -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
 	GetPointsGraphData -> { ApiRequestContext GrillBotDatabaseBuilder }
 	GetTransactionList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
-	ServiceIncrementPoints -> { ApiRequestContext PointsService IDiscordClient ITextsManager }
-	ServiceTransferPoints -> { ApiRequestContext PointsService IDiscordClient ITextsManager }
+	ServiceIncrementPoints -> { ApiRequestContext IDiscordClient ITextsManager GrillBotDatabaseBuilder PointsHelper }
+	ServiceTransferPoints -> { ApiRequestContext IDiscordClient ITextsManager GrillBotDatabaseBuilder PointsHelper }
 	FinishRemind -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriteManager IDiscordClient ITextsManager }
 	ApiV1_GetReminderList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 	ApiV1_GetSearchingList -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
@@ -958,8 +958,8 @@ digraph GrillBot {
 	EmoteModule -> { EmotesCommandService IServiceProvider }
 	GuildModule -> { UserService GuildHelper IServiceProvider }
 	MathModule -> { IHttpClientFactory IServiceProvider }
-	MemeModule -> { RandomizationService IConfiguration IServiceProvider }
-	MockingModule -> { MockingService IServiceProvider }
+	MemeModule -> { RandomizationManager IConfiguration IServiceProvider }
+	MockingModule -> { IServiceProvider }
 	PointsModule -> { IServiceProvider }
 	RemindModule -> { IServiceProvider }
 	SearchingModule -> { SearchingService IServiceProvider }
@@ -984,13 +984,12 @@ digraph GrillBot {
 	UnverifyProfileGenerator -> { GrillBotDatabaseBuilder ITextsManager }
 	UnverifyService -> { DiscordSocketClient UnverifyChecker UnverifyProfileGenerator UnverifyLogger GrillBotDatabaseBuilder LoggingManager ITextsManager UnverifyMessageGenerator IDiscordClient }
 	PointsJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager PointsService LoggingManager }
-	PointsService -> { GrillBotDatabaseBuilder IConfiguration RandomizationService ITextsManager }
+	PointsService -> { GrillBotDatabaseBuilder IConfiguration RandomizationManager }
 	OnlineUsersCleanJob -> { IServiceProvider AuditLogWriteManager IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager }
 	UserHearthbeatService -> { GrillBotDatabaseBuilder }
 	UserService -> { GrillBotDatabaseBuilder }
 	DiscordExceptionHandler -> { IDiscordClient IConfiguration IServiceProvider }
 	MessageCacheJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager IMessageCacheManager LoggingManager }
-	MockingService -> { IConfiguration RandomizationService }
 	SearchingService -> { GrillBotDatabaseBuilder UserService IServiceProvider }
 	MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder CounterManager }
 	InviteManager -> { GrillBotCacheBuilder CounterManager }
@@ -1062,7 +1061,7 @@ digraph GrillBot {
     UserInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
     DownloadHelper -> { CounterManager IHttpClientFactory }
     EmoteHelper -> { IDiscordClient }
-    PointsHelper -> { IConfiguration IDiscordClient RandomizationService }
+    PointsHelper -> { IConfiguration IDiscordClient RandomizationManager }
     AutoReplyManager -> { GrillBotDatabaseBuilder }
     EmoteChainManager -> { IConfiguration }
     EventManager -> { IDiscordClient IServiceProvider InitManager CounterManager InteractionService }
@@ -1102,4 +1101,5 @@ digraph GrillBot {
     AddBirthday -> { GrillBotDatabaseBuilder }
     HaveBirthday -> { GrillBotDatabaseBuilder }
     RemoveBirthday -> { GrillBotDatabaseBuilder }
+    Mock -> { IConfiguration RandomizationManager }
 }
