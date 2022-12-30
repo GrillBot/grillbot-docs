@@ -645,6 +645,7 @@ digraph GrillBot {
             AuditLogWriteManager
             AutoReplyManager
             EmoteChainManager
+            HearthbeatManager
         }
         
         subgraph cluster_3_8 {
@@ -788,7 +789,6 @@ digraph GrillBot {
                 color=yellow;
              
                 PointsService
-                UserHearthbeatService
                 UserService
             }
         }
@@ -942,7 +942,7 @@ digraph GrillBot {
 	RequireValidEmoteSuggestions -> { GrillBotDatabaseBuilder }
 	RequireUserPermsAttribute -> { ITextsManager GrillBotDatabaseBuilder }
 	ExceptionFilter -> { ApiRequest AuditLogWriteManager ApiRequestContext LoggingManager }
-	RequestFilter -> { ApiRequest ApiRequestContext IDiscordClient UserHearthbeatService }
+	RequestFilter -> { ApiRequest ApiRequestContext IDiscordClient HearthbeatManager }
 	ResultFilter -> { ApiRequest AuditLogWriteManager ApiRequestContext }
 	PointsBoardPaginationHandler -> { PointsLeaderboard }
 	RemindAutoCompleteHandler -> { GetSuggestions }
@@ -986,7 +986,6 @@ digraph GrillBot {
 	PointsJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager PointsService LoggingManager }
 	PointsService -> { GrillBotDatabaseBuilder IConfiguration RandomizationManager }
 	OnlineUsersCleanJob -> { IServiceProvider AuditLogWriteManager IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager }
-	UserHearthbeatService -> { GrillBotDatabaseBuilder }
 	UserService -> { GrillBotDatabaseBuilder }
 	DiscordExceptionHandler -> { IDiscordClient IConfiguration IServiceProvider }
 	MessageCacheJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager IMessageCacheManager LoggingManager }
@@ -1102,4 +1101,5 @@ digraph GrillBot {
     HaveBirthday -> { GrillBotDatabaseBuilder }
     RemoveBirthday -> { GrillBotDatabaseBuilder }
     Mock -> { IConfiguration RandomizationManager }
+    HearthbeatManager -> { GrillBotDatabaseBuilder }
 }
