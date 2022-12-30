@@ -632,6 +632,7 @@ digraph GrillBot {
             AuditLogClearingJob
             BirthdayCronJob
             MessageCacheJob
+            OnlineUsersCleanJob
             PointsJob
         }
         
@@ -787,7 +788,6 @@ digraph GrillBot {
                 color=yellow;
              
                 PointsService
-                OnlineUsersCleanJob
                 UserHearthbeatService
                 UserService
             }
