@@ -305,6 +305,14 @@ digraph GrillBot {
                 
                 subgraph cluster_3_1_3_2 {
                     node[style=filled];
+                    label="Emotes";
+                    color=lightblue;
+                    
+                    GetEmotesList
+                }
+                
+                subgraph cluster_3_1_3_3 {
+                    node[style=filled];
                     label="Points";
                     color=lightblue;
                     
@@ -312,7 +320,7 @@ digraph GrillBot {
                     PointsImage
                 }
                 
-                subgraph cluster_3_1_3_3 {
+                subgraph cluster_3_1_3_4 {
                     node[style=filled];
                     label="Reminder";
                     color=lightblue;
@@ -323,7 +331,7 @@ digraph GrillBot {
                     GetSuggestions
                 }
                 
-                subgraph cluster_3_1_3_4 {
+                subgraph cluster_3_1_3_5 {
                     node[style=filled];
                     label="Unverify";
                     color=lightblue;
@@ -331,7 +339,7 @@ digraph GrillBot {
                     UnverifyList
                 }
                 
-                subgraph cluster_3_1_3_5 {
+                subgraph cluster_3_1_3_6 {
                     node[style=filled];
                     label="Searching";
                     color=lightblue;
@@ -666,6 +674,7 @@ digraph GrillBot {
                 SearchingPaginationHandler
                 UnverifyListPaginationHandler
                 ChannelboardPaginationHandler
+                EmotesListPaginationHandler
             }
             
             subgraph cluster_3_8_2 {
@@ -972,7 +981,7 @@ digraph GrillBot {
 	DirectApiService -> { DiscordSocketClient IConfiguration }
 	DiscordHealthCheck -> { DiscordSocketClient }
 	DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService IWebHostEnvironment InteractionService AuditLogWriteManager LoggingManager EventLogManager EventManager }
-	EmotesCommandService -> { IServiceProvider GrillBotDatabaseBuilder IDiscordClient }
+	EmotesCommandService -> { GrillBotDatabaseBuilder IDiscordClient }
 	RemindCronJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager LoggingManager FinishRemind GrillBotDatabaseBuilder }
 	RemindHelper -> { IDiscordClient ITextsManager }
 	EmoteSuggestionService -> { SuggestionSessionService GrillBotDatabaseBuilder IDiscordClient IMessageCacheManager }
@@ -1102,4 +1111,6 @@ digraph GrillBot {
     RemoveBirthday -> { GrillBotDatabaseBuilder }
     Mock -> { IConfiguration RandomizationManager }
     HearthbeatManager -> { GrillBotDatabaseBuilder }
+    EmotesListPaginationHandler -> { GetEmotesList }
+    GetEmotesList -> { GetStatsOfEmotes ITextsManager }
 }
