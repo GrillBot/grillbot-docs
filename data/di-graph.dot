@@ -308,6 +308,7 @@ digraph GrillBot {
                     label="Emotes";
                     color=lightblue;
                     
+                    EmoteInfo
                     GetEmotesList
                 }
                 
@@ -742,16 +743,8 @@ digraph GrillBot {
                 DiscordHealthCheck
                 DiscordService
             }
-            
-            subgraph cluster_3_9_4 {
-                node[style=filled];
-                label="Emotes";
-                color=yellow;
-             
-                EmotesCommandService
-            }
 
-            subgraph cluster_3_9_5 {
+            subgraph cluster_3_9_4 {
                 node[style=filled];
                 label="Images";
                 color=yellow;
@@ -759,7 +752,7 @@ digraph GrillBot {
                 WithoutAccidentRenderer
             }
             
-            subgraph cluster_3_9_6 {
+            subgraph cluster_3_9_5 {
                 node[style=filled];
                 label="Reminder";
                 color=yellow;
@@ -768,7 +761,7 @@ digraph GrillBot {
                 RemindHelper
             }
             
-            subgraph cluster_3_9_7 {
+            subgraph cluster_3_9_6 {
                 node[style=filled];
                 label="Suggestion";
                 color=yellow;
@@ -778,7 +771,7 @@ digraph GrillBot {
                 SuggestionJob
             }
             
-            subgraph cluster_3_9_8 {
+            subgraph cluster_3_9_7 {
                 node[style=filled];
                 label="Unverify";
                 color=yellow;
@@ -792,7 +785,7 @@ digraph GrillBot {
                 UnverifyHelper
             }
             
-            subgraph cluster_3_9_9 {
+            subgraph cluster_3_9_8 {
                 node[style=filled];
                 label="User";
                 color=yellow;
@@ -964,7 +957,7 @@ digraph GrillBot {
 	SelfUnverifyConfig -> { ITextsManager IServiceProvider }
 	ChannelModule -> { IServiceProvider }
 	DuckModule -> { IHttpClientFactory IConfiguration IServiceProvider }
-	EmoteModule -> { EmotesCommandService IServiceProvider }
+	EmoteModule -> { IServiceProvider }
 	GuildModule -> { UserService GuildHelper IServiceProvider }
 	MathModule -> { IHttpClientFactory IServiceProvider }
 	MemeModule -> { RandomizationManager IConfiguration IServiceProvider }
@@ -981,7 +974,6 @@ digraph GrillBot {
 	DirectApiService -> { DiscordSocketClient IConfiguration }
 	DiscordHealthCheck -> { DiscordSocketClient }
 	DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService IWebHostEnvironment InteractionService AuditLogWriteManager LoggingManager EventLogManager EventManager }
-	EmotesCommandService -> { GrillBotDatabaseBuilder IDiscordClient }
 	RemindCronJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager LoggingManager FinishRemind GrillBotDatabaseBuilder }
 	RemindHelper -> { IDiscordClient ITextsManager }
 	EmoteSuggestionService -> { SuggestionSessionService GrillBotDatabaseBuilder IDiscordClient IMessageCacheManager }
@@ -1113,4 +1105,5 @@ digraph GrillBot {
     HearthbeatManager -> { GrillBotDatabaseBuilder }
     EmotesListPaginationHandler -> { GetEmotesList }
     GetEmotesList -> { GetStatsOfEmotes ITextsManager }
+    EmoteInfo -> { GrillBotDatabaseBuilder IDiscordClient ITextsManager FormatHelper }
 }
