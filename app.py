@@ -2,7 +2,7 @@ from flask import Flask, render_template
 import helper
 from datetime import datetime
 import sys
-from data.data_source import page_to_data_source
+from src.data_source import page_to_data_source
 
 DATETIME_FORMAT = "%d. %m. %Y %H:%M:%S"
 app = Flask(__name__)

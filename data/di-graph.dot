@@ -319,6 +319,16 @@ digraph GrillBot {
                     
                     PointsLeaderboard
                     PointsImage
+                    
+                    subgraph cluster_3_1_3_3_1 {
+                        node[style=filled];
+                        label="Chart";
+                        color=lightblue;
+                        
+                        GuildChartRenderer
+                        PointsChart
+                        UsersChartRenderer
+                    }
                 }
                 
                 subgraph cluster_3_1_3_4 {
@@ -743,8 +753,16 @@ digraph GrillBot {
                 DiscordHealthCheck
                 DiscordService
             }
-
+            
             subgraph cluster_3_9_4 {
+                node[style=filled];
+                label="Graphics";
+                color=yellow;
+                
+                IGraphicsClient -> GraphicsClient
+            }
+
+            subgraph cluster_3_9_5 {
                 node[style=filled];
                 label="Images";
                 color=yellow;
@@ -752,7 +770,7 @@ digraph GrillBot {
                 WithoutAccidentRenderer
             }
             
-            subgraph cluster_3_9_5 {
+            subgraph cluster_3_9_6 {
                 node[style=filled];
                 label="Reminder";
                 color=yellow;
@@ -761,7 +779,7 @@ digraph GrillBot {
                 RemindHelper
             }
             
-            subgraph cluster_3_9_6 {
+            subgraph cluster_3_9_7 {
                 node[style=filled];
                 label="Suggestion";
                 color=yellow;
@@ -771,7 +789,7 @@ digraph GrillBot {
                 SuggestionJob
             }
             
-            subgraph cluster_3_9_7 {
+            subgraph cluster_3_9_8 {
                 node[style=filled];
                 label="Unverify";
                 color=yellow;
@@ -785,7 +803,7 @@ digraph GrillBot {
                 UnverifyHelper
             }
             
-            subgraph cluster_3_9_8 {
+            subgraph cluster_3_9_9 {
                 node[style=filled];
                 label="User";
                 color=yellow;
@@ -1080,7 +1098,7 @@ digraph GrillBot {
     AuditGuildUpdatedHandler -> { CounterManager AuditLogWriteManager }
     SyncGuildUpdatedHandler -> { GrillBotDatabaseBuilder }
     AuditThreadDeletedHandler -> { ChannelHelper CounterManager AuditLogWriteManager GrillBotDatabaseBuilder }
-    ChannelHelper -> { GrillBotDatabaseBuilder IDiscordClienty }
+    ChannelHelper -> { GrillBotDatabaseBuilder IDiscordClient }
     SyncThreadDeletedHandler -> { GrillBotDatabaseBuilder }
     EmoteStatsReactionRemovedHandler -> { EmoteHelper IMessageCacheManager GrillBotDatabaseBuilder }
     PointsReactionRemovedHandler -> { GrillBotDatabaseBuilder }
@@ -1106,4 +1124,8 @@ digraph GrillBot {
     EmotesListPaginationHandler -> { GetEmotesList }
     GetEmotesList -> { GetStatsOfEmotes ITextsManager }
     EmoteInfo -> { GrillBotDatabaseBuilder IDiscordClient ITextsManager FormatHelper }
+    GuildChartRenderer -> { ITextsManager IGraphicsClient }
+    PointsChart -> { GrillBotDatabaseBuilder IServiceProvider GuildChartRenderer UsersChartRenderer }
+    UsersChartRenderer -> { ITextsManager IGraphicsClient RandomizationManager }
+    GraphicsClient -> { IHttpClientFactory CounterManager }
 }

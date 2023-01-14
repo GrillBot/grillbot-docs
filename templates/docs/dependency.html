@@ -3,12 +3,13 @@
 
 {% block content %}
 
+<h3 class="fw-normal">GrillBot</h3>
 <ul>
-    {% for item in data['dependencies'] %}
+    {% for item in data['dotnet'] %}
     <li>
-        <a href="{{data['dependencies'][item]['link']}}" target="_blank">{{item}}</a>
+        <a href="{{data['dotnet'][item]['link']}}" target="_blank">{{item}}</a>
         <ul>
-            {% for package in data['dependencies'][item]['packages'] %}
+            {% for package in data['dotnet'][item]['packages'] %}
             <li>
                 <a href="{{package['url']}}">{{package['name']}}</a> ({{package['version']}})
             </li>
@@ -16,6 +17,78 @@
         </ul>
     </li>
     {% endfor %}
+</ul>
+
+<h3 class="fw-normal">GrillBot - Graphics</h3>
+<ul>
+    <li>
+        Produkční balíčky
+        <ul>
+            {% for item in data['graphics']['production'] %}
+            <li>
+                <a href="{{item['url']}}">{{item['name']}}</a> ({{item['version']}})
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        Vývojové balíčky
+        <ul>
+            {% for item in data['graphics']['development'] %}
+            <li>
+                <a href="{{item['url']}}">{{item['name']}}</a> ({{item['version']}})
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
+
+<h3 class="fw-normal">GrillBot - Private web</h3>
+<ul>
+    <li>
+        Produkční balíčky
+        <ul>
+            {% for item in data['private-web']['production'] %}
+            <li>
+                <a href="{{item['url']}}">{{item['name']}}</a> ({{item['version']}})
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        Vývojové balíčky
+        <ul>
+            {% for item in data['private-web']['development'] %}
+            <li>
+                <a href="{{item['url']}}">{{item['name']}}</a> ({{item['version']}})
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
+
+<h3 class="fw-normal">GrillBot - Public web</h3>
+<ul>
+    <li>
+        Produkční balíčky
+        <ul>
+            {% for item in data['public-web']['production'] %}
+            <li>
+                <a href="{{item['url']}}">{{item['name']}}</a> ({{item['version']}})
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        Vývojové balíčky
+        <ul>
+            {% for item in data['public-web']['development'] %}
+            <li>
+                <a href="{{item['url']}}">{{item['name']}}</a> ({{item['version']}})
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
 </ul>
 
 {% endblock %}

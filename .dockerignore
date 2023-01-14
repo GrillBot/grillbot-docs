@@ -6,3 +6,5 @@
 **/__pycache__
 docker.ps1
 docker.sh
+deploy.ps1
+debug.ps1

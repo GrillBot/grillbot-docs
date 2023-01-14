@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block sub_page %} Body {% endblock %}
+
+{% block content %}
+<p>Každá aktivita na serveru je odměňována určitým množstvím bodů. Za každou zprávu uživatel obdrží 15 - 25 bodů a za každou reakci uživatel
+    obdrží 0 - 15 bodů.</p>
+<p>Získání bodů je omezeno časovým limitem. Mezi zprávami, které se započítají je časová mezera 1 minuta a mezi reakcemi 30 vteřin.</p>
+<p>Body jsou koncipovány stylem transakcí a každá transakce je platná maximálně 1 rok. Všechny transakce starší než 1 rok a 2 měsíce se
+    slučují do větších transakcí, aby se snížil počet transakcí bez následku ztráty bodů.</p>
+
+<h3 class="fw-light">Příkazy</h3>
+<i>Všechny příkazy mají jednotnou skupinu <code>/body (/points)</code> a jsou integrovány jako "slash commands".</i>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Příkaz</th>
+            <th>Popis</th>
+            <th>Parametry</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="white-space: nowrap;">
+                <code>/points where [{user}]</code><br>
+                <code>/body kde [{uzivatel}]</code>
+            </td>
+            <td>Zjištění aktuálního stavu bodů uživatele.</td>
+            <td>
+                <ul>
+                    <li><code>user/uzivatel</code> - Identifikace uživatele u kterého je požadováno zjistit body. Volitelný parametr. Pokud
+                        nebude zadán, tak se bere uživatel, který zavolal příkaz.</li>
+                </ul>
+
+            </td>
+        </tr>
+        <tr>
+            <td style="white-space: nowrap;">
+                <code>/points board</code><br>
+                <code>/body board</code>
+            </td>
+            <td>TOP 10 leaderboard v počtu bodů.</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="white-space: nowrap;">
+                <code>/points chart {type} {filter} {users}</code><br>
+                <code>/body chart {type} {filter} {users}</code>
+            </td>
+            <td>Vykreslení grafů historie bodů uživatelů nebo za celý server.</td>
+            <td>
+                <ul>
+                    <li><code>type/typ</code> - Typ grafu, který se má vykreslit. Je na výběr mezi grafem za celý server a grafem za
+                        jednotlivé uživatele.</li>
+                    <li>
+                        <code>filter</code> - Určení, které grafy si uživatel přeje vidět.
+                        <ul>
+                            <li>Messages - Zobrazit graf pouze za zprávy.</li>
+                            <li>Reactions - Zobrazit graf pouze za reakce.</li>
+                            <li>Summary - Zobrazit graf kombinující zprávy a reakce.</li>
+                            <li>All - Zobrazit všechny grafy.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 class="fw-light">Webová administrace</h3>
+<p>
+    Oprávnění uživatelé mohou vidět jednotlivé transakce bodů ve webové administraci. V administraci je také možné udělit bonusové body,
+    případně převádět body mezi uživateli.
+</p>
+<h3 class="fw-light">Veřejná administrace</h3>
+<p>
+    Ve veřejné administraci mohou vidět všichni uživatelé kompletní statistiku bodů. Jsou zde vidět i celkové body včetně expirovaných bodů.
+</p>
+
+{% endblock %}
