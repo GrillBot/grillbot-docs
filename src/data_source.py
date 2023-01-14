@@ -13,9 +13,15 @@ class DependencyDataSource(DataSource):
     def get_data(self) -> dict:
         return {
             "dotnet": self.dotnet.get_data(),
-            "graphics": node.NodeDependencyList('https://raw.githubusercontent.com/GrillBot/grillbot-graphics/main/package.json').get_data(),
-            "private-web": node.NodeDependencyList('https://raw.githubusercontent.com/GrillBot/grillbot-private-web/master/package.json').get_data(),
-            "public-web": node.NodeDependencyList('https://raw.githubusercontent.com/GrillBot/grillbot-public-web/master/package.json').get_data()
+            "graphics": node.NodeDependencyList(
+                "https://raw.githubusercontent.com/GrillBot/grillbot-graphics/main/package.json"
+            ).get_data(),
+            "private-web": node.NodeDependencyList(
+                "https://raw.githubusercontent.com/GrillBot/grillbot-private-web/master/package.json"
+            ).get_data(),
+            "public-web": node.NodeDependencyList(
+                "https://raw.githubusercontent.com/GrillBot/grillbot-public-web/master/package.json"
+            ).get_data(),
         }
 
 

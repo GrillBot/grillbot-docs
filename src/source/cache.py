@@ -27,4 +27,5 @@ class Cache:
             return None
         return self.data[key].data
 
+
 cache = Cache()
