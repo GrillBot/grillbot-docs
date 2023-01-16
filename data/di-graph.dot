@@ -740,21 +740,13 @@ digraph GrillBot {
             
             subgraph cluster_3_9_1 {
                 node[style=filled];
-                label="CommandsHelp";
-                color=yellow;
-                
-                ExternalCommandsHelpService
-            }
-            
-            subgraph cluster_3_9_2 {
-                node[style=filled];
                 label="DirectApi";
                 color=yellow;
                 
                 IDirectApiService -> DirectApiService
             }
             
-            subgraph cluster_3_9_3 {
+            subgraph cluster_3_9_2 {
                 node[style=filled];
                 label="Discord";
                 color=yellow;
@@ -763,7 +755,7 @@ digraph GrillBot {
                 DiscordService
             }
             
-            subgraph cluster_3_9_4 {
+            subgraph cluster_3_9_3 {
                 node[style=filled];
                 label="Graphics";
                 color=yellow;
@@ -771,7 +763,7 @@ digraph GrillBot {
                 IGraphicsClient -> GraphicsClient
             }
 
-            subgraph cluster_3_9_5 {
+            subgraph cluster_3_9_4 {
                 node[style=filled];
                 label="Images";
                 color=yellow;
@@ -779,7 +771,7 @@ digraph GrillBot {
                 WithoutAccidentRenderer
             }
             
-            subgraph cluster_3_9_6 {
+            subgraph cluster_3_9_5 {
                 node[style=filled];
                 label="Reminder";
                 color=yellow;
@@ -788,7 +780,7 @@ digraph GrillBot {
                 RemindHelper
             }
             
-            subgraph cluster_3_9_7 {
+            subgraph cluster_3_9_6 {
                 node[style=filled];
                 label="Suggestion";
                 color=yellow;
@@ -798,7 +790,7 @@ digraph GrillBot {
                 SuggestionJob
             }
             
-            subgraph cluster_3_9_8 {
+            subgraph cluster_3_9_7 {
                 node[style=filled];
                 label="Unverify";
                 color=yellow;
@@ -890,7 +882,7 @@ digraph GrillBot {
 	GetChannelboard -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
 	ApiV1_SendMessageToChannel -> { ApiRequestContext ITextsManager IDiscordClient IMessageCacheManager }
 	UpdateChannel -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriteManager ITextsManager AutoReplyManager ChannelHelper }
-	GetExternalCommands -> { ApiRequestContext ExternalCommandsHelpService }
+	GetExternalCommands -> { ApiRequestContext IDirectApiService }
 	GetEmoteSuggestionsList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 	GetStatsOfEmotes -> { ApiRequestContext GrillBotDatabaseBuilder IMapper EmoteHelper }
 	GetSupportedEmotes -> { ApiRequestContext IMapper EmoteHelper }
@@ -988,7 +980,6 @@ digraph GrillBot {
 	AuditLogLoggingHandler -> { AuditLogWriteManager IConfiguration }
 	AuditLogWriteManager -> { GrillBotDatabaseBuilder }
 	BirthdayCronJob -> { IConfiguration IDiscordClient GetTodayBirthdayInfo GrillBotDatabaseBuilder IServiceProvider InitManager LoggingManager }
-	ExternalCommandsHelpService -> { IDirectApiService IConfiguration IServiceProvider }
 	DirectApiService -> { DiscordSocketClient IConfiguration }
 	DiscordHealthCheck -> { DiscordSocketClient }
 	DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService IWebHostEnvironment InteractionService AuditLogWriteManager LoggingManager EventLogManager EventManager }
