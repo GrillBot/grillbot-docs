@@ -673,7 +673,7 @@ digraph GrillBot {
             AuditLogWriteManager
             AutoReplyManager
             EmoteChainManager
-            HearthbeatManager
+            UserManager
         }
         
         subgraph cluster_3_8 {
@@ -818,7 +818,6 @@ digraph GrillBot {
                 color=yellow;
              
                 PointsService
-                UserService
             }
         }
 	}
@@ -971,7 +970,7 @@ digraph GrillBot {
 	RequireValidEmoteSuggestions -> { GrillBotDatabaseBuilder }
 	RequireUserPermsAttribute -> { ITextsManager GrillBotDatabaseBuilder }
 	ExceptionFilter -> { ApiRequest AuditLogWriteManager ApiRequestContext LoggingManager }
-	RequestFilter -> { ApiRequest ApiRequestContext IDiscordClient HearthbeatManager }
+	RequestFilter -> { ApiRequest ApiRequestContext IDiscordClient UserManager }
 	ResultFilter -> { ApiRequest AuditLogWriteManager ApiRequestContext }
 	PointsBoardPaginationHandler -> { PointsLeaderboard }
 	RemindAutoCompleteHandler -> { GetSuggestions }
@@ -985,7 +984,7 @@ digraph GrillBot {
 	ChannelModule -> { IServiceProvider }
 	DuckModule -> { IHttpClientFactory IConfiguration IServiceProvider }
 	EmoteModule -> { IServiceProvider }
-	GuildModule -> { UserService GuildHelper IServiceProvider }
+	GuildModule -> { UserManager GuildHelper IServiceProvider }
 	MathModule -> { IHttpClientFactory IServiceProvider }
 	MemeModule -> { RandomizationManager IConfiguration IServiceProvider }
 	MockingModule -> { IServiceProvider }
@@ -1014,10 +1013,9 @@ digraph GrillBot {
 	PointsJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager PointsService LoggingManager }
 	PointsService -> { GrillBotDatabaseBuilder IConfiguration RandomizationManager }
 	OnlineUsersCleanJob -> { IServiceProvider AuditLogWriteManager IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager }
-	UserService -> { GrillBotDatabaseBuilder }
 	DiscordExceptionHandler -> { IDiscordClient IConfiguration IServiceProvider }
 	MessageCacheJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager IMessageCacheManager LoggingManager }
-	SearchingService -> { GrillBotDatabaseBuilder UserService IServiceProvider }
+	SearchingService -> { GrillBotDatabaseBuilder UserManager IServiceProvider }
 	MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder CounterManager }
 	InviteManager -> { GrillBotCacheBuilder CounterManager }
 	ProfilePictureManager -> { GrillBotCacheBuilder CounterManager }
@@ -1129,7 +1127,7 @@ digraph GrillBot {
     HaveBirthday -> { GrillBotDatabaseBuilder }
     RemoveBirthday -> { GrillBotDatabaseBuilder }
     Mock -> { IConfiguration RandomizationManager }
-    HearthbeatManager -> { GrillBotDatabaseBuilder }
+    UserManager -> { GrillBotDatabaseBuilder }
     EmotesListPaginationHandler -> { GetEmotesList }
     GetEmotesList -> { GetStatsOfEmotes ITextsManager }
     EmoteInfo -> { GrillBotDatabaseBuilder IDiscordClient ITextsManager FormatHelper }
