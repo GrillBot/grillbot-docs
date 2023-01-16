@@ -204,6 +204,14 @@ digraph GrillBot {
                 
                 subgraph cluster_3_1_1_14 {
                     node[style=filled];
+                    label="Services";
+                    color=lightblue;
+                    
+                    GetGraphicsServiceInfo
+                }
+                
+                subgraph cluster_3_1_1_15 {
+                    node[style=filled];
                     label="Statistics";
                     color=lightblue;
                     
@@ -216,7 +224,7 @@ digraph GrillBot {
                     GetUnverifyStatistics
                 }
                 
-                subgraph cluster_3_1_1_15 {
+                subgraph cluster_3_1_1_16 {
                     node[style=filled];
                     label="System";
                     color=lightblue;
@@ -226,7 +234,7 @@ digraph GrillBot {
                     GetEventLog
                 }
                 
-                subgraph cluster_3_1_1_16 {
+                subgraph cluster_3_1_1_17 {
                     node[style=filled];
                     label="Unverify";
                     color=lightblue;
@@ -242,7 +250,7 @@ digraph GrillBot {
                     UpdateUnverify
                 }
                 
-                subgraph cluster_3_1_1_17 {
+                subgraph cluster_3_1_1_18 {
                     node[style=filled];
                     label="User";
                     color=lightblue;
@@ -380,6 +388,7 @@ digraph GrillBot {
             ScheduledJobsController
             SearchingController
             SelfUnverifyController
+            ServicesController
             StatisticsController
             SystemController
             UnverifyController
@@ -1059,7 +1068,7 @@ digraph GrillBot {
 	RemindPaginationHandler -> { GetReminderList }
 	ChannelInfo -> { ITextsManager FormatHelper GrillBotDatabaseBuilder }
 	UnverifyHelper -> { GrillBotDatabaseBuilder }
-	GetDashboard -> { ApiRequestContext IWebHostEnvironment IDiscordClient InitManager CounterManager GrillBotDatabaseBuilder LoggingManager }
+	GetDashboard -> { ApiRequestContext IWebHostEnvironment IDiscordClient InitManager CounterManager GrillBotDatabaseBuilder LoggingManager IGraphicsClient }
 	AuditMessageDeletedHandler -> { IMessageCacheManager FileStorageFactory AuditLogWriteManager CounterManager DownloadHelper }
 	ChannelMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient IConfiguration }
 	EmoteMessageDeletedHandler -> { EmoteHelper IConfiguration IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
@@ -1128,4 +1137,6 @@ digraph GrillBot {
     PointsChart -> { GrillBotDatabaseBuilder IServiceProvider GuildChartRenderer UsersChartRenderer }
     UsersChartRenderer -> { ITextsManager IGraphicsClient RandomizationManager }
     GraphicsClient -> { IHttpClientFactory CounterManager }
+    GetGraphicsServiceInfo -> { ApiRequestContext IGraphicsClient LoggingManager }
+    ServicesController -> { IServiceProvider }
 }
