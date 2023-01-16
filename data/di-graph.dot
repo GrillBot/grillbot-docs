@@ -811,14 +811,6 @@ digraph GrillBot {
                 UnverifyService
                 UnverifyHelper
             }
-            
-            subgraph cluster_3_9_9 {
-                node[style=filled];
-                label="User";
-                color=yellow;
-             
-                PointsService
-            }
         }
 	}
 	
@@ -1010,8 +1002,7 @@ digraph GrillBot {
 	UnverifyMessageGenerator -> { ITextsManager }
 	UnverifyProfileGenerator -> { GrillBotDatabaseBuilder ITextsManager }
 	UnverifyService -> { DiscordSocketClient UnverifyChecker UnverifyProfileGenerator UnverifyLogger GrillBotDatabaseBuilder LoggingManager ITextsManager UnverifyMessageGenerator IDiscordClient }
-	PointsJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager PointsService LoggingManager }
-	PointsService -> { GrillBotDatabaseBuilder IConfiguration RandomizationManager }
+	PointsJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager LoggingManager GrillBotDatabaseBuilder }
 	OnlineUsersCleanJob -> { IServiceProvider AuditLogWriteManager IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager }
 	DiscordExceptionHandler -> { IDiscordClient IConfiguration IServiceProvider }
 	MessageCacheJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager IMessageCacheManager LoggingManager }
