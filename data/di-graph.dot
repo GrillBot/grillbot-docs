@@ -618,6 +618,7 @@ digraph GrillBot {
             EmoteHelper
             PointsHelper
             ChannelHelper
+            RemindHelper
         }
         
         subgraph cluster_3_5 {
@@ -665,6 +666,7 @@ digraph GrillBot {
             MessageCacheJob
             OnlineUsersCleanJob
             PointsJob
+            RemindCronJob
         }
         
         subgraph cluster_3_7 {
@@ -774,15 +776,6 @@ digraph GrillBot {
             
             subgraph cluster_3_9_5 {
                 node[style=filled];
-                label="Reminder";
-                color=yellow;
-             
-                RemindCronJob
-                RemindHelper
-            }
-            
-            subgraph cluster_3_9_6 {
-                node[style=filled];
                 label="Suggestion";
                 color=yellow;
              
@@ -791,7 +784,7 @@ digraph GrillBot {
                 SuggestionJob
             }
             
-            subgraph cluster_3_9_7 {
+            subgraph cluster_3_9_6 {
                 node[style=filled];
                 label="Unverify";
                 color=yellow;
