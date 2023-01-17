@@ -347,23 +347,26 @@ digraph GrillBot {
                     CopyRemind
                     CreateRemind
                     GetReminderList
-                    GetSuggestions
+                    Reminder_GetSuggestions[label="GetSuggestions"]
                 }
                 
                 subgraph cluster_3_1_3_5 {
+                    node[style=filled];
+                    label="Searching";
+                    color=lightblue;
+                    
+                    CreateSearch
+                    GetSearchingList
+                    Searching_GetSuggestions[label="GetSuggestions"]
+                    RemoveSearch
+                }
+                
+                subgraph cluster_3_1_3_6 {
                     node[style=filled];
                     label="Unverify";
                     color=lightblue;
                     
                     UnverifyList
-                }
-                
-                subgraph cluster_3_1_3_6 {
-                    node[style=filled];
-                    label="Searching";
-                    color=lightblue;
-                    
-                    GetSearchingList
                 }
             }
         }
@@ -736,8 +739,6 @@ digraph GrillBot {
             label="Services";
             color=black;
             
-            SearchingService
-            
             subgraph cluster_3_9_1 {
                 node[style=filled];
                 label="DirectApi";
@@ -958,7 +959,7 @@ digraph GrillBot {
 	ResultFilter -> { ApiRequest AuditLogWriteManager ApiRequestContext }
 	PointsBoardPaginationHandler -> { PointsLeaderboard }
 	RemindAutoCompleteHandler -> { GetSuggestions }
-	SearchingAutoCompleteHandler -> { SearchingService }
+	SearchingAutoCompleteHandler -> { Searching_GetSuggestions }
 	SearchingPaginationHandler -> { GetSearchingList }
 	SelfUnverifyModule -> { UnverifyService IServiceProvider }
 	UserMeModule -> { IServiceProvider }
@@ -974,7 +975,7 @@ digraph GrillBot {
 	MockingModule -> { IServiceProvider }
 	PointsModule -> { IServiceProvider }
 	RemindModule -> { IServiceProvider }
-	SearchingModule -> { SearchingService IServiceProvider }
+	SearchingModule -> { IServiceProvider }
 	SuggestionModule -> { EmoteSuggestionService IServiceProvider }
 	AuditLogClearingJob -> { GrillBotDatabaseBuilder IServiceProvider FileStorageFactory AuditLogWriteManager IDiscordClient InitManager LoggingManager }
 	AuditLogLoggingHandler -> { AuditLogWriteManager IConfiguration }
@@ -997,7 +998,6 @@ digraph GrillBot {
 	OnlineUsersCleanJob -> { IServiceProvider AuditLogWriteManager IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager }
 	DiscordExceptionHandler -> { IDiscordClient IConfiguration IServiceProvider }
 	MessageCacheJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager IMessageCacheManager LoggingManager }
-	SearchingService -> { GrillBotDatabaseBuilder UserManager IServiceProvider }
 	MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder CounterManager }
 	InviteManager -> { GrillBotCacheBuilder CounterManager }
 	ProfilePictureManager -> { GrillBotCacheBuilder CounterManager }
@@ -1119,4 +1119,7 @@ digraph GrillBot {
     GraphicsClient -> { IHttpClientFactory CounterManager }
     GetGraphicsServiceInfo -> { ApiRequestContext IGraphicsClient LoggingManager }
     ServicesController -> { IServiceProvider }
+    CreateSearch -> { GrillBotDatabaseBuilder }
+    GetSuggestions -> { UserManager ApiV1_GetSearchingList }
+    RemoveSearch -> { UserManager GrillBotDatabaseBuilder ITextsManager }
 }
