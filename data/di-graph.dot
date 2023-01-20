@@ -367,6 +367,7 @@ digraph GrillBot {
                     color=lightblue;
                     
                     UnverifyList
+                    SetUnverify
                 }
             }
         }
@@ -476,6 +477,7 @@ digraph GrillBot {
                 
                 AuditLogLoggingHandler
                 DiscordExceptionHandler
+                WithoutAccidentRenderer
             }
             
             subgraph cluster_3_3_9 {
@@ -590,6 +592,7 @@ digraph GrillBot {
                 color=yellow;
                 
                 AuditUserLeftHandler
+                UnverifyUserLeftHandler
             }
             
             subgraph cluster_3_3_21 {
@@ -619,6 +622,7 @@ digraph GrillBot {
             PointsHelper
             ChannelHelper
             RemindHelper
+            UnverifyHelper
         }
         
         subgraph cluster_3_5 {
@@ -667,6 +671,7 @@ digraph GrillBot {
             OnlineUsersCleanJob
             PointsJob
             RemindCronJob
+            UnverifyCronJob
         }
         
         subgraph cluster_3_7 {
@@ -679,6 +684,10 @@ digraph GrillBot {
             AutoReplyManager
             EmoteChainManager
             UserManager
+            UnverifyLogManager
+            UnverifyProfileGenerator
+            UnverifyMessageManager
+            UnverifyCheckManager
         }
         
         subgraph cluster_3_8 {
@@ -765,16 +774,8 @@ digraph GrillBot {
                 
                 IGraphicsClient -> GraphicsClient
             }
-
-            subgraph cluster_3_9_4 {
-                node[style=filled];
-                label="Images";
-                color=yellow;
-
-                WithoutAccidentRenderer
-            }
             
-            subgraph cluster_3_9_5 {
+            subgraph cluster_3_9_4 {
                 node[style=filled];
                 label="Suggestion";
                 color=yellow;
@@ -782,20 +783,6 @@ digraph GrillBot {
                 EmoteSuggestionService
                 SuggestionSessionService
                 SuggestionJob
-            }
-            
-            subgraph cluster_3_9_6 {
-                node[style=filled];
-                label="Unverify";
-                color=yellow;
-             
-                UnverifyChecker
-                UnverifyCronJob
-                UnverifyLogger
-                UnverifyMessageGenerator
-                UnverifyProfileGenerator
-                UnverifyService
-                UnverifyHelper
             }
         }
 	}
@@ -909,14 +896,14 @@ digraph GrillBot {
 	ChangeBotStatus -> { ApiRequestContext InitManager }
 	GetEventLog -> { ApiRequestContext EventLogManager }
 	AddKeepables -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
-	GetCurrentUnverifies -> { ApiRequestContext UnverifyService IMapper }
+	GetCurrentUnverifies -> { ApiRequestContext IMapper IDiscordClient GrillBotDatabaseBuilder }
 	GetKeepablesList -> { ApiRequestContext GrillBotDatabaseBuilder }
 	GetLogs -> { ApiRequestContext IDiscordClient IMapper GrillBotDatabaseBuilder }
 	KeepableExists -> { ApiRequestContext GrillBotDatabaseBuilder }
-	RecoverState -> { ApiRequestContext UnverifyService }
+	RecoverState -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager IDiscordClient UnverifyLogManager }
 	RemoveKeepables -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
-	RemoveUnverify -> { ApiRequestContext IDiscordClient ITextsManager GrillBotDatabaseBuilder UnverifyMessageGenerator UnverifyLogger LoggingManager UnverifyHelper }
-	UpdateUnverify -> { ApiRequestContext IDiscordClient ITextsManager GrillBotDatabaseBuilder UnverifyLogger UnverifyMessageGenerator }
+	RemoveUnverify -> { ApiRequestContext IDiscordClient ITextsManager GrillBotDatabaseBuilder UnverifyMessageManager UnverifyLogManager LoggingManager UnverifyHelper }
+	UpdateUnverify -> { ApiRequestContext IDiscordClient ITextsManager GrillBotDatabaseBuilder UnverifyLogManager UnverifyMessageManager }
 	GetAvailableUsers -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder }
 	GetUserDetail -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient ITextsManager }
 	GetUserList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient }
@@ -954,7 +941,7 @@ digraph GrillBot {
 	RemindAutoCompleteHandler -> { GetSuggestions }
 	SearchingAutoCompleteHandler -> { Searching_GetSuggestions }
 	SearchingPaginationHandler -> { GetSearchingList }
-	SelfUnverifyModule -> { UnverifyService IServiceProvider }
+	SelfUnverifyModule -> { IServiceProvider }
 	UserMeModule -> { IServiceProvider }
 	BirthdayModule -> { IServiceProvider }
 	BotModule -> { IServiceProvider }
@@ -981,12 +968,11 @@ digraph GrillBot {
 	RemindHelper -> { IDiscordClient ITextsManager }
 	EmoteSuggestionService -> { SuggestionSessionService GrillBotDatabaseBuilder IDiscordClient IMessageCacheManager }
 	SuggestionJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager EmoteSuggestionService SuggestionSessionService LoggingManager }
-	UnverifyChecker -> { GrillBotDatabaseBuilder IConfiguration IWebHostEnvironment ITextsManager }
+	UnverifyCheckManager -> { GrillBotDatabaseBuilder IConfiguration IWebHostEnvironment ITextsManager }
 	UnverifyCronJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager LoggingManager RemoveUnverify GrillBotDatabaseBuilder }
-	UnverifyLogger -> { IDiscordClient GrillBotDatabaseBuilder }
-	UnverifyMessageGenerator -> { ITextsManager }
-	UnverifyProfileGenerator -> { GrillBotDatabaseBuilder ITextsManager }
-	UnverifyService -> { DiscordSocketClient UnverifyChecker UnverifyProfileGenerator UnverifyLogger GrillBotDatabaseBuilder LoggingManager ITextsManager UnverifyMessageGenerator IDiscordClient }
+	UnverifyLogManager -> { IDiscordClient GrillBotDatabaseBuilder }
+	UnverifyMessageManager -> { ITextsManager }
+	UnverifyProfileManager -> { GrillBotDatabaseBuilder ITextsManager }
 	PointsJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager LoggingManager GrillBotDatabaseBuilder }
 	OnlineUsersCleanJob -> { IServiceProvider AuditLogWriteManager IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager }
 	DiscordExceptionHandler -> { IDiscordClient IConfiguration IServiceProvider }
@@ -1031,7 +1017,7 @@ digraph GrillBot {
 	PublicApiClientsController -> { IServiceProvider }
 	UpdateClient -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
 	DataCacheManager -> { GrillBotCacheBuilder }
-	WithoutAccidentRenderer -> { ProfilePictureManager DataCacheManager }
+	WithoutAccidentRenderer -> { ProfilePictureManager DataCacheManager IGraphicsClient }
 	UpdateJob -> { ApiRequestContext DataCacheManager ISchedulerFactory ITextsManager }
 	GetSearchingList -> { ApiV1_GetSearchingList GrillBotDatabaseBuilder ITextsManager }
 	CopyRemind -> { GrillBotDatabaseBuilder ITextsManager CreateRemind }
@@ -1115,4 +1101,6 @@ digraph GrillBot {
     CreateSearch -> { GrillBotDatabaseBuilder }
     GetSuggestions -> { UserManager ApiV1_GetSearchingList }
     RemoveSearch -> { UserManager GrillBotDatabaseBuilder ITextsManager }
+    UnverifyUserLeftHandler -> { GrillBotDatabaseBuilder }
+    SetUnverify -> { UnverifyHelper UnverifyCheckManager UnverifyProfileManager UnverifyMessageManager UnverifyLogManager LoggingManager GrillBotDatabaseBuilder }
 }
