@@ -79,4 +79,22 @@ digraph ER {
             </tr>
         </table>
     >];
+    
+    EmoteSuggestionMetadata [label=<
+        <table border="0" cellborder="1" cellspacing="0">
+            <tr><td><i><b>EmoteSuggestionMetadata</b></i></td></tr>
+            <tr>
+                <td port="Id">&lt;&lt;PK&gt;&gt; Id (character varying)</td>
+            </tr>
+            <tr>
+                <td port="CreatedAt">CreatedAt (timestamp without time zone)</td>
+            </tr>
+            <tr>
+                <td port="DataContent">DataContent (bytea)</td>
+            </tr>
+            <tr>
+                <td port="Filename">Filename (character varying (200))</td>
+            </tr>
+        </table>
+    >];
 }

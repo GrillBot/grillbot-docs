@@ -20,6 +20,14 @@ digraph GrillBot {
 		ApiRequest
 		CooldownManager
 		RandomizationManager
+		
+		subgraph cluster_0_1 {
+            node [style=filled];
+            label="Services";
+            color=black;
+            
+            IGraphicsClient -> GraphicsClient
+		}
 	}
 	
 	 subgraph cluster_1 {
@@ -41,6 +49,7 @@ digraph GrillBot {
         InviteManager
         ProfilePictureManager
         DataCacheManager
+        EmoteSuggestionManager
 	}
 	
 	subgraph cluster_3 {
@@ -322,13 +331,24 @@ digraph GrillBot {
                 
                 subgraph cluster_3_1_3_3 {
                     node[style=filled];
+                    label="EmoteSuggestion";
+                    color=lightblue;
+                    
+                    FormSubmitted
+                    InitSuggestion
+                    ProcessToVote
+                    SetApprove
+                }
+                
+                subgraph cluster_3_1_3_4 {
+                    node[style=filled];
                     label="Points";
                     color=lightblue;
                     
                     PointsLeaderboard
                     PointsImage
                     
-                    subgraph cluster_3_1_3_3_1 {
+                    subgraph cluster_3_1_3_4_1 {
                         node[style=filled];
                         label="Chart";
                         color=lightblue;
@@ -339,7 +359,7 @@ digraph GrillBot {
                     }
                 }
                 
-                subgraph cluster_3_1_3_4 {
+                subgraph cluster_3_1_3_5 {
                     node[style=filled];
                     label="Reminder";
                     color=lightblue;
@@ -350,7 +370,7 @@ digraph GrillBot {
                     Reminder_GetSuggestions[label="GetSuggestions"]
                 }
                 
-                subgraph cluster_3_1_3_5 {
+                subgraph cluster_3_1_3_6 {
                     node[style=filled];
                     label="Searching";
                     color=lightblue;
@@ -361,7 +381,7 @@ digraph GrillBot {
                     RemoveSearch
                 }
                 
-                subgraph cluster_3_1_3_6 {
+                subgraph cluster_3_1_3_7 {
                     node[style=filled];
                     label="Unverify";
                     color=lightblue;
@@ -619,6 +639,7 @@ digraph GrillBot {
             
             DownloadHelper
             EmoteHelper
+            EmoteSuggestionHelper
             PointsHelper
             ChannelHelper
             RemindHelper
@@ -672,6 +693,7 @@ digraph GrillBot {
             PointsJob
             RemindCronJob
             UnverifyCronJob
+            SuggestionJob
         }
         
         subgraph cluster_3_7 {
@@ -765,24 +787,6 @@ digraph GrillBot {
                 
                 DiscordHealthCheck
                 DiscordService
-            }
-            
-            subgraph cluster_3_9_3 {
-                node[style=filled];
-                label="Graphics";
-                color=yellow;
-                
-                IGraphicsClient -> GraphicsClient
-            }
-            
-            subgraph cluster_3_9_4 {
-                node[style=filled];
-                label="Suggestion";
-                color=yellow;
-             
-                EmoteSuggestionService
-                SuggestionSessionService
-                SuggestionJob
             }
         }
 	}
@@ -956,7 +960,7 @@ digraph GrillBot {
 	PointsModule -> { IServiceProvider }
 	RemindModule -> { IServiceProvider }
 	SearchingModule -> { IServiceProvider }
-	SuggestionModule -> { EmoteSuggestionService IServiceProvider }
+	SuggestionModule -> { IServiceProvider }
 	AuditLogClearingJob -> { GrillBotDatabaseBuilder IServiceProvider FileStorageFactory AuditLogWriteManager IDiscordClient InitManager LoggingManager }
 	AuditLogLoggingHandler -> { AuditLogWriteManager IConfiguration }
 	AuditLogWriteManager -> { GrillBotDatabaseBuilder }
@@ -966,8 +970,7 @@ digraph GrillBot {
 	DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService IWebHostEnvironment InteractionService AuditLogWriteManager LoggingManager EventLogManager EventManager }
 	RemindCronJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager LoggingManager FinishRemind GrillBotDatabaseBuilder }
 	RemindHelper -> { IDiscordClient ITextsManager }
-	EmoteSuggestionService -> { SuggestionSessionService GrillBotDatabaseBuilder IDiscordClient IMessageCacheManager }
-	SuggestionJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager EmoteSuggestionService SuggestionSessionService LoggingManager }
+	SuggestionJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager LoggingManager EmoteSuggestionManager EmoteSuggestionHelper GrillBotDatabaseBuilder IMessageCacheManager ITextsManager }
 	UnverifyCheckManager -> { GrillBotDatabaseBuilder IConfiguration IWebHostEnvironment ITextsManager }
 	UnverifyCronJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager LoggingManager RemoveUnverify GrillBotDatabaseBuilder }
 	UnverifyLogManager -> { IDiscordClient GrillBotDatabaseBuilder }
@@ -1103,4 +1106,10 @@ digraph GrillBot {
     RemoveSearch -> { UserManager GrillBotDatabaseBuilder ITextsManager }
     UnverifyUserLeftHandler -> { GrillBotDatabaseBuilder }
     SetUnverify -> { UnverifyHelper UnverifyCheckManager UnverifyProfileManager UnverifyMessageManager UnverifyLogManager LoggingManager GrillBotDatabaseBuilder }
+    EmoteSuggestionManager -> { GrillBotCacheBuilder }
+    InitSuggestion -> { ITextsManager DownloadHelper EmoteSuggestionManager }
+    EmoteSuggestionHelper -> { ITextsManager }
+    FormSubmitted -> { EmoteSuggestionManager ITextsManager GrillBotDatabaseBuilder EmoteSuggestionHelper }
+    ProcessToVote -> { GrillBotDatabaseBuilder ITextsManager EmoteSuggestionHelper IMessageCacheManager IDiscordClient }
+    SetApprove -> { GrillBotDatabaseBuilder IMessageCacheManager IDiscordClient ITextsManager EmoteSuggestionHelper }
 }
