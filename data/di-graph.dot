@@ -295,6 +295,7 @@ digraph GrillBot {
                 label="Commands";
                 color=yellow;
                 
+                BotInfo
                 ChannelInfo
                 CleanChannelMessages
                 Emojization
@@ -308,7 +309,6 @@ digraph GrillBot {
                 Commands_SendMessageToChannel[label="SendMessageToChannel"]
                 UserAccessList
                 UserInfo
-                UnsuccessCommandAttempt
                 
                 subgraph cluster_3_1_3_1 {
                     node[style=filled];
@@ -840,7 +840,7 @@ digraph GrillBot {
 	
 	InitManager -> { ILoggerFactory }
 	EventLogManager -> { DiscordSocketClient InteractionService }
-	LoggingManager -> { DiscordSocketClient CommandService InteractionService IServiceProvider }
+	LoggingManager -> { DiscordSocketClient InteractionService IServiceProvider }
 	CommonLoggerHandler -> { ILoggerFactory }
 	FormatHelper -> { ITextsManager }
 	GuildHelper -> { ITextsManager }
@@ -965,9 +965,9 @@ digraph GrillBot {
 	AuditLogLoggingHandler -> { AuditLogWriteManager IConfiguration }
 	AuditLogWriteManager -> { GrillBotDatabaseBuilder }
 	BirthdayCronJob -> { IConfiguration IDiscordClient GetTodayBirthdayInfo GrillBotDatabaseBuilder IServiceProvider InitManager LoggingManager }
-	DirectApiService -> { DiscordSocketClient IConfiguration }
+	DirectApiService -> { IDiscordClient IConfiguration DownloadHelper }
 	DiscordHealthCheck -> { DiscordSocketClient }
-	DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider CommandService IWebHostEnvironment InteractionService AuditLogWriteManager LoggingManager EventLogManager EventManager }
+	DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider IWebHostEnvironment InteractionService AuditLogWriteManager LoggingManager EventLogManager EventManager InteractionHandler }
 	RemindCronJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager LoggingManager FinishRemind GrillBotDatabaseBuilder }
 	RemindHelper -> { IDiscordClient ITextsManager }
 	SuggestionJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager LoggingManager EmoteSuggestionManager EmoteSuggestionHelper GrillBotDatabaseBuilder IMessageCacheManager ITextsManager }
@@ -1009,7 +1009,6 @@ digraph GrillBot {
 	UpdateScheduledEvent -> { ApiRequestContext IDiscordClient ITextsManager }
 	GetAvgTimes -> { ApiRequestContext GrillBotDatabaseBuilder }
 	CooldownCheckAttribute -> { CooldownManager ITextsManager }
-	UnsuccessCommandAttempt -> { ITextsManager InteractionService IDirectApiService GrillBotDatabaseBuilder DataCacheManager ChannelHelper }
 	GetScheduledJobs -> { ApiRequestContext GrillBotDatabaseBuilder ISchedulerFactory DataCacheManager }
 	RunScheduledJob -> { ApiRequestContext ISchedulerFactory }
 	ScheduledJobsController -> { IServiceProvider }
@@ -1032,16 +1031,16 @@ digraph GrillBot {
 	UnverifyHelper -> { GrillBotDatabaseBuilder }
 	GetDashboard -> { ApiRequestContext IWebHostEnvironment IDiscordClient InitManager CounterManager GrillBotDatabaseBuilder LoggingManager IGraphicsClient }
 	AuditMessageDeletedHandler -> { IMessageCacheManager FileStorageFactory AuditLogWriteManager CounterManager DownloadHelper }
-	ChannelMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient IConfiguration }
-	EmoteMessageDeletedHandler -> { EmoteHelper IConfiguration IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
+	ChannelMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
+	EmoteMessageDeletedHandler -> { EmoteHelper IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
 	EmoteSuggestionsMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder }
 	PointsMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder }
 	AutoReplyHandler -> { AutoReplyManager }
-	ChannelMessageReceivedHandler -> { IDiscordClient IConfiguration GrillBotDatabaseBuilder }
+	ChannelMessageReceivedHandler -> { IDiscordClient GrillBotDatabaseBuilder }
 	EmoteChainHandler -> { EmoteChainManager }
-    EmoteMessageReceivedHandler -> { EmoteHelper IDiscordClient IConfiguration GrillBotDatabaseBuilder }
+    EmoteMessageReceivedHandler -> { EmoteHelper IDiscordClient GrillBotDatabaseBuilder }
     PointsMessageReceivedHandler -> { PointsHelper GrillBotDatabaseBuilder }
-    UnsucessCommandHandler -> { IConfiguration CommandService IDiscordClient IServiceProvider UnsuccessCommandAttempt }
+    UnsucessCommandHandler -> { ITextsManager InteractionService IDirectApiService GrillBotDatabaseBuilder DataCacheManager ChannelHelper }
     UserPresenceSynchronizationHandler -> { GrillBotDatabaseBuilder }
     AutoReplyReadyHandler -> { AutoReplyManager }
     ChannelInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
@@ -1112,4 +1111,5 @@ digraph GrillBot {
     FormSubmitted -> { EmoteSuggestionManager ITextsManager GrillBotDatabaseBuilder EmoteSuggestionHelper }
     ProcessToVote -> { GrillBotDatabaseBuilder ITextsManager EmoteSuggestionHelper IMessageCacheManager IDiscordClient }
     SetApprove -> { GrillBotDatabaseBuilder IMessageCacheManager IDiscordClient ITextsManager EmoteSuggestionHelper }
+    BotInfo -> { ITextsManager }
 }
