@@ -386,6 +386,7 @@ digraph GrillBot {
                     label="Unverify";
                     color=lightblue;
                     
+                    SelfUnverifyKeepables
                     UnverifyList
                     SetUnverify
                 }
@@ -1112,4 +1113,5 @@ digraph GrillBot {
     ProcessToVote -> { GrillBotDatabaseBuilder ITextsManager EmoteSuggestionHelper IMessageCacheManager IDiscordClient }
     SetApprove -> { GrillBotDatabaseBuilder IMessageCacheManager IDiscordClient ITextsManager EmoteSuggestionHelper }
     BotInfo -> { ITextsManager }
+    SelfUnverifyKeepables -> { GetKeepablesList ITextsManager }
 }
