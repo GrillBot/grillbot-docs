@@ -28,6 +28,7 @@ digraph GrillBot {
             
             IGraphicsClient -> GraphicsClient
             IKachnaOnlineClient -> KachnaOnlineClient
+            IMathClient -> MathClient
 		}
 	}
 	
@@ -309,6 +310,7 @@ digraph GrillBot {
                 PurgePins
                 RolesReader
                 Commands_SendMessageToChannel[label="SendMessageToChannel"]
+                SolveExpression
                 UserAccessList
                 UserInfo
                 
@@ -965,7 +967,7 @@ digraph GrillBot {
 	DuckModule -> { IServiceProvider }
 	EmoteModule -> { IServiceProvider }
 	GuildModule -> { IServiceProvider }
-	MathModule -> { IHttpClientFactory IServiceProvider }
+	MathModule -> { IServiceProvider }
 	MemeModule -> { RandomizationManager IConfiguration IServiceProvider }
 	MockingModule -> { IServiceProvider }
 	PointsModule -> { IServiceProvider }
@@ -1127,4 +1129,6 @@ digraph GrillBot {
     DuckInfo -> { IKachnaOnlineClient ITextsManager IConfiguration LoggingManager }
     KachnaOnlineClient -> { IHttpClientFactory CounterManager }
     GuildInfo -> { GuildHelper UserManager ITextsManager }
+    MathClient -> { CounterManager IHttpClientFactory }
+    SolveExpression -> { IMathClient ITextsManager }
 }
