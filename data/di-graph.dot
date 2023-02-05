@@ -344,13 +344,21 @@ digraph GrillBot {
                 
                 subgraph cluster_3_1_3_4 {
                     node[style=filled];
+                    label="Guild";
+                    color=lightblue;
+                    
+                    GuildInfo
+                }
+                
+                subgraph cluster_3_1_3_5 {
+                    node[style=filled];
                     label="Points";
                     color=lightblue;
                     
                     PointsLeaderboard
                     PointsImage
                     
-                    subgraph cluster_3_1_3_4_1 {
+                    subgraph cluster_3_1_3_5_1 {
                         node[style=filled];
                         label="Chart";
                         color=lightblue;
@@ -361,7 +369,7 @@ digraph GrillBot {
                     }
                 }
                 
-                subgraph cluster_3_1_3_5 {
+                subgraph cluster_3_1_3_6 {
                     node[style=filled];
                     label="Reminder";
                     color=lightblue;
@@ -372,7 +380,7 @@ digraph GrillBot {
                     Reminder_GetSuggestions[label="GetSuggestions"]
                 }
                 
-                subgraph cluster_3_1_3_6 {
+                subgraph cluster_3_1_3_7 {
                     node[style=filled];
                     label="Searching";
                     color=lightblue;
@@ -383,7 +391,7 @@ digraph GrillBot {
                     RemoveSearch
                 }
                 
-                subgraph cluster_3_1_3_7 {
+                subgraph cluster_3_1_3_8 {
                     node[style=filled];
                     label="Unverify";
                     color=lightblue;
@@ -956,7 +964,7 @@ digraph GrillBot {
 	ChannelModule -> { IServiceProvider }
 	DuckModule -> { IServiceProvider }
 	EmoteModule -> { IServiceProvider }
-	GuildModule -> { UserManager GuildHelper IServiceProvider }
+	GuildModule -> { IServiceProvider }
 	MathModule -> { IHttpClientFactory IServiceProvider }
 	MemeModule -> { RandomizationManager IConfiguration IServiceProvider }
 	MockingModule -> { IServiceProvider }
@@ -1118,4 +1126,5 @@ digraph GrillBot {
     SelfUnverifyKeepables -> { GetKeepablesList ITextsManager }
     DuckInfo -> { IKachnaOnlineClient ITextsManager IConfiguration LoggingManager }
     KachnaOnlineClient -> { IHttpClientFactory CounterManager }
+    GuildInfo -> { GuildHelper UserManager ITextsManager }
 }
