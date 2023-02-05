@@ -27,6 +27,7 @@ digraph GrillBot {
             color=black;
             
             IGraphicsClient -> GraphicsClient
+            IKachnaOnlineClient -> KachnaOnlineClient
 		}
 	}
 	
@@ -298,6 +299,7 @@ digraph GrillBot {
                 BotInfo
                 ChannelInfo
                 CleanChannelMessages
+                DuckInfo
                 Emojization
                 GetChannelboard
                 ImageCreator
@@ -952,7 +954,7 @@ digraph GrillBot {
 	BotModule -> { IServiceProvider }
 	SelfUnverifyConfig -> { ITextsManager IServiceProvider }
 	ChannelModule -> { IServiceProvider }
-	DuckModule -> { IHttpClientFactory IConfiguration IServiceProvider }
+	DuckModule -> { IServiceProvider }
 	EmoteModule -> { IServiceProvider }
 	GuildModule -> { UserManager GuildHelper IServiceProvider }
 	MathModule -> { IHttpClientFactory IServiceProvider }
@@ -1114,4 +1116,6 @@ digraph GrillBot {
     SetApprove -> { GrillBotDatabaseBuilder IMessageCacheManager IDiscordClient ITextsManager EmoteSuggestionHelper }
     BotInfo -> { ITextsManager }
     SelfUnverifyKeepables -> { GetKeepablesList ITextsManager }
+    DuckInfo -> { IKachnaOnlineClient ITextsManager IConfiguration LoggingManager }
+    KachnaOnlineClient -> { IHttpClientFactory CounterManager }
 }
