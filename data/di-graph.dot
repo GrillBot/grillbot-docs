@@ -493,6 +493,7 @@ digraph GrillBot {
                 color=yellow;
                 
                 AuditInteractionCommandHandler
+                UpdateUserLanguageHandler
             }
             
             subgraph cluster_3_3_7 {
@@ -1131,4 +1132,5 @@ digraph GrillBot {
     GuildInfo -> { GuildHelper UserManager ITextsManager }
     MathClient -> { CounterManager IHttpClientFactory }
     SolveExpression -> { IMathClient ITextsManager }
+    UpdateUserLanguageHandler -> { GrillBotDatabaseBuilder }
 }
