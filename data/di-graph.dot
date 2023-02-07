@@ -1097,7 +1097,7 @@ digraph GrillBot {
     AuditMessageUpdatedHandler -> { IMessageCacheManager AuditLogWriteManager }
     AuditChannelCreatedHandler -> { CounterManager AuditLogWriteManager }
     AuditInteractionCommandHandler -> { AuditLogWriteManager }
-    PointsImage -> { GrillBotDatabaseBuilder ProfilePictureManager }
+    PointsImage -> { GrillBotDatabaseBuilder ProfilePictureManager IGraphicsClient }
     SyncJoinedGuildHandler -> { GrillBotDatabaseBuilder }
     DeleteInvite -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
     AddBirthday -> { GrillBotDatabaseBuilder }
