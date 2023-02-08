@@ -929,7 +929,7 @@ digraph GrillBot {
 	GetRubbergodUserKarma -> { ApiRequestContext IDirectApiService IDiscordClient IMapper }
 	GetTodayBirthdayInfo -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient IConfiguration ITextsManager }
 	Emojization -> { ITextsManager }
-	ImageCreator -> { FileStorageFactory ProfilePictureManager }
+	ImageCreator -> { ProfilePictureManager IGraphicsClient }
 	PointsLeaderboard -> { GrillBotDatabaseBuilder ITextsManager FormatHelper }
 	AuditLogController -> { IServiceProvider }
 	AuthController -> { IServiceProvider }

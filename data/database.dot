@@ -497,6 +497,9 @@ digraph ER {
             <tr>
                 <td port="Status">Status (integer)</td>
             </tr>
+            <tr>
+                <td port="Language">Language (character varying (50))</td>
+            </tr>
         </table>
     >];
     
