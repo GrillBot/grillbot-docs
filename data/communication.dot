@@ -1,0 +1,29 @@
+digraph GrillBotInfrastructure {
+    rankdir=LR
+    
+    subgraph cluster_0 {
+        color=Darkgreen
+        
+        Bot
+        Graphics
+        Docs
+        
+        label = "Internal GrillBot infrastructure";
+    }
+
+    subgraph cluster_1 {
+        color=blue
+        
+        KachnaOnline
+        MathJs[label="Math.JS"]
+        Rubbergod
+        
+        label = "Third party services";
+    }
+  
+    Docs -> Bot [label="GET /health"]
+    Bot -> MathJs [label="POST /"]
+    Bot -> KachnaOnline [label="GET /api/states/current"]
+    Bot -> Graphics [label="HEAD /health\nPOST /chart\nGET /metrics\nGET /info\nPOST /image/without-accident\nPOST /image/points\nPOST /image/peepo/angry\nPOST /image/peepo/love"]
+    Rubbergod -> Bot [label="GET /api/user/birthday/today"]
+}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block sub_page %} Schéma komunikace služeb {% endblock %}
+
+{% block content %}
+<div class="diagram">
+    <p>Schéma popisující jak jednotlivé služby spolu komunikují a které endpointy/metody jsou volány. Schéma nepopisuje komunikaci frontendových klientů s API.</p>
+    
+    <a href="/static/communication.svg" target="_blank">Otevřít v plném rozlišení</a>
+    <img src="/static/communication.svg" alt="Schéma komunikace služeb" />
+</div>
+{% endblock %}
