@@ -7,8 +7,8 @@
     částí kódu z aplikace je umožněno za podmínky uvedení autora u zdrojového kódu.<br>
     Administrátor discord serveru je oprávněn přidat běžící instanci aplikace až po písemném povolení vlastníkem aplikace. Současně také
     spuštění vlastní instance za jiným účelem, než vývoj aplikace je možné až po písemném povolení vlastníkem.<br>
-    Vlastníkem aplikace je skupina osob, kteří jsou členy skupiny <a href="https://gitlab.com/groups/grillbot/-/group_members"
-        target="_blank">GrillBot</a> v systému GitLab. Tyto osoby mohou udělit povolení k užívání aplikace.<br>
+    Vlastníkem aplikace je skupina osob, kteří jsou členy skupiny <a href="https://github.com/orgs/GrillBot/people"
+        target="_blank">GrillBot</a> v GitHub. Tyto osoby mohou udělit povolení k užívání aplikace.<br>
     Uživatel, který se připojí na Discord server, kde se také nachází bot automaticky souhlasí se sběrem dat popsaných na této stránce.
 </p>
 
@@ -187,14 +187,23 @@ ke všem údajům o uživatelích a to pomocí příkazu <code>$user info</code>
 </ul>
 </p>
 
+<h3 class="fw-light">Přezdívky</h3>
+<p>
+    Provádí se evidence každé přezdívky, kterou kdy uživatel měl na serveru. Eviduje se:
+<ul>
+    <li>Povinné identifikátory (Serveru, uživatele)</li>
+    <li>Pořadí</li>
+    <li>Samotná přezdívka.</li>
+</ul>
+Duplicitní přezdívky se nezapisují, tudíž z těchto dat nelze vyčíst, kdy uživatel měl kterou přezdívku. To lze pouze s pomocí audit logu.
+</p>
+
 <h3 class="fw-light">Body</h3>
 <p>
-    Aktivita za kterou uživatel dostává body se ukládá formou transakcí a sumářů. 1 transakce reprezentuje zprávu nebo reakci za kterou
-    uživatel obdržel body. Z těchto transakcí se pak generují tzv. denní sumáře, které pomáhají k jednoduššímu vyčítání bodů jednotlivých
-    uživatelů.<br>
+    Aktivita za kterou uživatel dostává body se ukládá formou transakcí. 1 transakce reprezentuje zprávu nebo reakci za kterou
+    uživatel obdržel body.<br>
     Na body se vztahuje expirace. Ta je nyní 1 rok od data a času přiřazení bodů. Všechny transakce a sumáře starší než 1.5 roku budou
-    sloučeny do jedné velké transakce, případně do jednoho velkého sumáře. Sloučené transakce/sumáře se zohledňují pouze v leaderboardu ve
-    veřejné administraci.<br>
+    sloučeny do jedné velké transakce. Sloučené transakce se zohledňují pouze v leaderboardu ve veřejné administraci.<br>
     Oprávněné osoby mají možnost si zobrazit transakce v privátní administraci (běžné i sloučené). Oprávněné osoby mají také možnost provést
     servisní úkony s body. Mohou uživateli "darovat" body, případně převést body od jiného uživatele.
 </p>
@@ -446,6 +455,12 @@ U všech událostí se evidují tyto společné vlastnosti:
             <li>Časový limit po kterém bude uživatel přesunut do kanálu pro neaktivní</li>
             <li>Název serveru</li>
             <li>Dvoufázové ověřování</li>
+            <li>Úroveň ověření</li>
+            <li>Úroveň skenování explicitního obsahu</li>
+            <li>Funkcionalita serveru</li>
+            <li>Úroveň (Boost level)</li>
+            <li>Interní příznaky</li>
+            <li>Úroveň NSFW</li>
         </ul>
     </li>
     <li>
@@ -470,6 +485,7 @@ U všech událostí se evidují tyto společné vlastnosti:
             <li>Autor zprávy. Základní informace o uživateli</li>
             <li>Datum a čas vytvoření zprávy</li>
             <li>Textový obsah zprávy</li>
+            <li>Informace o embedech</li>
         </ul>
     </li>
     <li>
@@ -486,6 +502,7 @@ U všech událostí se evidují tyto společné vlastnosti:
             <li>Textovou reprezentaci chyby, která vznikla při prováděné příkazu. Pokud se příkaz neprovedl správně.</li>
             <li>Dobu provedení příkazu</li>
             <li>Obsah výjimky, pokud příkaz skončil chybou.</li>
+            <li>Jazyk</li>
         </ul>
     </li>
     <li>
@@ -523,7 +540,11 @@ U všech událostí se evidují tyto společné vlastnosti:
             <li>Role aktuálně přihlášeného uživatele (není vyplněno, pokud se jedná o nepřihlášený přístup)</li>
             <li>Výsledný stavový kód</li>
             <li>Seznam parametrů v URL (QueryString)</li>
-            <li>Serializovaná data v těle požadavku (pokud byly přítomna)</li>
+            <li>Jazyk</li>
+            <li>Typ API (V1/V2)</li>
+            <li>HTTP hlavičky</li>
+            <li>Otisk uživatele</li>
+            <li>IP adresa</li>
         </ul>
     </li>
 </ul>

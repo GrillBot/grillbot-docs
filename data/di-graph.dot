@@ -474,6 +474,7 @@ digraph GrillBot {
                 AuditUserRoleUpdatedHandler
                 AuditUserUpdatedHandler
                 ServerBoosterHandler
+                UserNicknameUpdatedHandler
                 UserUpdatedSyncHandler
             }
             
@@ -1133,4 +1134,5 @@ digraph GrillBot {
     MathClient -> { CounterManager IHttpClientFactory }
     SolveExpression -> { IMathClient ITextsManager }
     UpdateUserLanguageHandler -> { GrillBotDatabaseBuilder }
+    UserNicknameUpdatedHandler -> { GrillBotDatabaseBuilder }
 }

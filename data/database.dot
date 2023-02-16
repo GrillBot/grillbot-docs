@@ -293,6 +293,24 @@ digraph ER {
         </table>
     >];
     
+    Nicknames [label=<
+        <table border="0" cellborder="1" cellspacing="0">
+            <tr><td><i><b>Nicknames</b></i></td></tr>
+            <tr>
+                <td port="GuildId">&lt;&lt;PK&gt;&gt; GuildId (character varying (30))</td>
+            </tr>
+            <tr>
+                <td port="UserId">&lt;&lt;PK&gt;&gt; UserId (character varying (30))</td>
+            </tr>
+            <tr>
+                <td port="Id">Id (bigint)</td>
+            </tr>
+            <tr>
+                <td port="NicknameValue">NicknameValue (character varying (32))</td>
+            </tr>
+        </table>
+    >];
+    
     PointsTransactions [label=<
         <table border="0" cellborder="1" cellspacing="0">
             <tr><td><i><b>PointsTransactions</b></i></td></tr>
@@ -549,4 +567,7 @@ digraph ER {
     
     PointsTransactions:GuildId -> Guilds:Id
     PointsTransactions:UserId -> GuildUsers:UserId
+    
+    Nicknames:GuildId -> Guilds:Id
+    Nicknames:UserId -> GuildUsers:UserId
 }
