@@ -232,6 +232,7 @@ digraph GrillBot {
                     GetCommandStatistics
                     GetDatabaseStatus
                     GetEventStatistics
+                    GetOperationStats
                     GetUnverifyStatistics
                 }
                 
@@ -1135,4 +1136,5 @@ digraph GrillBot {
     SolveExpression -> { IMathClient ITextsManager }
     UpdateUserLanguageHandler -> { GrillBotDatabaseBuilder }
     UserNicknameUpdatedHandler -> { GrillBotDatabaseBuilder }
+    GetOperationStats -> { ApiRequestContext CounterManager }
 }
