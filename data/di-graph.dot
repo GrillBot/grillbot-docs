@@ -29,6 +29,7 @@ digraph GrillBot {
             IGraphicsClient -> GraphicsClient
             IKachnaOnlineClient -> KachnaOnlineClient
             IMathClient -> MathClient
+            IRubbergodServiceClient -> RubbergodServiceClient
 		}
 	}
 	
@@ -219,6 +220,7 @@ digraph GrillBot {
                     color=lightblue;
                     
                     GetGraphicsServiceInfo
+                    GetRubbergodServiceInfo
                 }
                 
                 subgraph cluster_3_1_1_15 {
@@ -281,6 +283,7 @@ digraph GrillBot {
                 
                 GetRubbergodUserKarma
                 GetTodayBirthdayInfo
+                StoreKarma
                 
                 subgraph cluster_3_1_2_1 {
                     node[style=filled];
@@ -645,6 +648,7 @@ digraph GrillBot {
                 color=yellow;
                 
                 SyncUserUpdatedHandler
+                SyncUserInServicesHandler
             }
         }
         
@@ -790,14 +794,6 @@ digraph GrillBot {
             
             subgraph cluster_3_9_1 {
                 node[style=filled];
-                label="DirectApi";
-                color=yellow;
-                
-                IDirectApiService -> DirectApiService
-            }
-            
-            subgraph cluster_3_9_2 {
-                node[style=filled];
                 label="Discord";
                 color=yellow;
                 
@@ -883,7 +879,7 @@ digraph GrillBot {
 	GetChannelboard -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
 	ApiV1_SendMessageToChannel -> { ApiRequestContext ITextsManager IDiscordClient IMessageCacheManager }
 	UpdateChannel -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriteManager ITextsManager AutoReplyManager ChannelHelper }
-	GetExternalCommands -> { ApiRequestContext IDirectApiService }
+	GetExternalCommands -> { ApiRequestContext IRubbergodServiceClient }
 	GetEmoteSuggestionsList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 	GetStatsOfEmotes -> { ApiRequestContext GrillBotDatabaseBuilder IMapper EmoteHelper }
 	GetSupportedEmotes -> { ApiRequestContext IMapper EmoteHelper }
@@ -928,7 +924,7 @@ digraph GrillBot {
 	GetUserDetail -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient ITextsManager }
 	GetUserList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient }
 	UpdateUser -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriteManager ITextsManager }
-	GetRubbergodUserKarma -> { ApiRequestContext IDirectApiService IDiscordClient IMapper }
+	GetRubbergodUserKarma -> { ApiRequestContext IRubbergodServiceClient }
 	GetTodayBirthdayInfo -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient IConfiguration ITextsManager }
 	Emojization -> { ITextsManager }
 	ImageCreator -> { ProfilePictureManager IGraphicsClient }
@@ -981,7 +977,6 @@ digraph GrillBot {
 	AuditLogLoggingHandler -> { AuditLogWriteManager IConfiguration }
 	AuditLogWriteManager -> { GrillBotDatabaseBuilder }
 	BirthdayCronJob -> { IConfiguration IDiscordClient GetTodayBirthdayInfo GrillBotDatabaseBuilder IServiceProvider InitManager LoggingManager }
-	DirectApiService -> { IDiscordClient IConfiguration DownloadHelper }
 	DiscordHealthCheck -> { DiscordSocketClient }
 	DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider IWebHostEnvironment InteractionService AuditLogWriteManager LoggingManager EventLogManager EventManager InteractionHandler }
 	RemindCronJob -> { IServiceProvider AuditLogWriteManager IDiscordClient InitManager LoggingManager FinishRemind GrillBotDatabaseBuilder }
@@ -1045,7 +1040,7 @@ digraph GrillBot {
 	RemindPaginationHandler -> { GetReminderList }
 	ChannelInfo -> { ITextsManager FormatHelper GrillBotDatabaseBuilder }
 	UnverifyHelper -> { GrillBotDatabaseBuilder }
-	GetDashboard -> { ApiRequestContext IWebHostEnvironment IDiscordClient InitManager CounterManager GrillBotDatabaseBuilder LoggingManager IGraphicsClient }
+	GetDashboard -> { ApiRequestContext IWebHostEnvironment IDiscordClient InitManager CounterManager GrillBotDatabaseBuilder LoggingManager IGraphicsClient IRubbergodServiceClient }
 	AuditMessageDeletedHandler -> { IMessageCacheManager FileStorageFactory AuditLogWriteManager CounterManager DownloadHelper }
 	ChannelMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
 	EmoteMessageDeletedHandler -> { EmoteHelper IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
@@ -1056,7 +1051,7 @@ digraph GrillBot {
 	EmoteChainHandler -> { EmoteChainManager }
     EmoteMessageReceivedHandler -> { EmoteHelper IDiscordClient GrillBotDatabaseBuilder }
     PointsMessageReceivedHandler -> { PointsHelper GrillBotDatabaseBuilder }
-    UnsucessCommandHandler -> { ITextsManager InteractionService IDirectApiService GrillBotDatabaseBuilder DataCacheManager ChannelHelper }
+    UnsucessCommandHandler -> { ITextsManager InteractionService GrillBotDatabaseBuilder DataCacheManager ChannelHelper IRubbergodServiceClient }
     UserPresenceSynchronizationHandler -> { GrillBotDatabaseBuilder }
     AutoReplyReadyHandler -> { AutoReplyManager }
     ChannelInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
@@ -1137,4 +1132,8 @@ digraph GrillBot {
     UpdateUserLanguageHandler -> { GrillBotDatabaseBuilder }
     UserNicknameUpdatedHandler -> { GrillBotDatabaseBuilder }
     GetOperationStats -> { ApiRequestContext CounterManager }
+    GetRubbergodServiceInfo -> { ApiRequestContext IRubbergodServiceClient LoggingManager }
+    RubbergodServiceClient -> { CounterManager IHttpClientFactory }
+    StoreKarma -> { ApiRequestContext IRubbergodServiceClient }
+    SyncUserInServicesHandler -> { IRubbergodServiceClient }
 }
