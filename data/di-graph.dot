@@ -1136,4 +1136,6 @@ digraph GrillBot {
     RubbergodServiceClient -> { CounterManager IHttpClientFactory }
     StoreKarma -> { ApiRequestContext IRubbergodServiceClient }
     SyncUserInServicesHandler -> { IRubbergodServiceClient }
+    MessageModule -> { IServiceProvider }
+    PermissionsModule -> { IServiceProvider }
 }
