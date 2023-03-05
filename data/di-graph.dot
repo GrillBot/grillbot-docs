@@ -66,6 +66,8 @@ digraph GrillBot {
             label="Actions";
             color=black;
             
+            ApiBridgeAction
+            
             subgraph cluster_3_1_1 {
                 node[style=filled];
                 label="API V1";
@@ -281,9 +283,7 @@ digraph GrillBot {
                 label="API V2";
                 color=yellow;
                 
-                GetRubbergodUserKarma
                 GetTodayBirthdayInfo
-                StoreKarma
                 
                 subgraph cluster_3_1_2_1 {
                     node[style=filled];
@@ -612,6 +612,7 @@ digraph GrillBot {
                 color=yellow;
                 
                 SyncThreadUpdatedHandler
+                ForumThreadTagsUpdated
             }
             
             subgraph cluster_3_3_19 {
@@ -713,6 +714,8 @@ digraph GrillBot {
             RemindCronJob
             UnverifyCronJob
             SuggestionJob
+            CacheCleanerJob
+            UnverifyLogArchivationJob
         }
         
         subgraph cluster_3_7 {
@@ -923,7 +926,6 @@ digraph GrillBot {
 	GetUserDetail -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient ITextsManager }
 	GetUserList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient }
 	UpdateUser -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriteManager ITextsManager }
-	GetRubbergodUserKarma -> { ApiRequestContext IRubbergodServiceClient }
 	GetTodayBirthdayInfo -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient IConfiguration ITextsManager }
 	Emojization -> { ITextsManager }
 	ImageCreator -> { ProfilePictureManager IGraphicsClient }
@@ -1130,10 +1132,13 @@ digraph GrillBot {
     UserNicknameUpdatedHandler -> { GrillBotDatabaseBuilder }
     GetOperationStats -> { ApiRequestContext CounterManager }
     RubbergodServiceClient -> { CounterManager IHttpClientFactory }
-    StoreKarma -> { ApiRequestContext IRubbergodServiceClient }
     SyncUserInServicesHandler -> { IRubbergodServiceClient }
     MessageModule -> { IServiceProvider }
     PermissionsModule -> { IServiceProvider }
     FileServiceClient -> { CounterManager IHttpClientFactory }
     GetServiceInfo -> { ApiRequestContext IGraphicsClient IRubbergodServiceClient IFileServiceClient LoggingManager }
+    CacheCleanerJob -> { IServiceProvider GrillBotCacheBuilder IDiscordClient InitManager LoggingManager }
+    ForumThreadTagsUpdated -> { CounterManager AuditLogWriteManager GrillBotDatabaseBuilder }
+    UnverifyLogArchivationJob -> { IServiceProvider GrillBotDatabaseBuilder FileStorageFactory IDiscordClient InitManager LoggingManager }
+    ApiBridgeAction -> { ApiRequestContext IServiceProvider IRubbergodServiceClient }
 }
