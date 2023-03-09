@@ -310,7 +310,7 @@ digraph GrillBot {
                 ImageCreator
                 Mock
                 PermissionsCleaner
-                PermissionsReader
+                PermissionSetter
                 PurgePins
                 RolesReader
                 Commands_SendMessageToChannel[label="SendMessageToChannel"]
@@ -729,7 +729,7 @@ digraph GrillBot {
             EmoteChainManager
             UserManager
             UnverifyLogManager
-            UnverifyProfileGenerator
+            UnverifyProfileManager
             UnverifyMessageManager
             UnverifyCheckManager
         }
@@ -778,7 +778,7 @@ digraph GrillBot {
                 MockingModule
                 PermissionsModule
                 PermissionsRemoveSubModule
-                UselessPermissionsSubModule
+                PermissionsSetSubModule
                 PinModule
                 PointsModule
                 RemindModule
@@ -955,7 +955,7 @@ digraph GrillBot {
 	RequestFilter -> { ApiRequest ApiRequestContext IDiscordClient UserManager }
 	ResultFilter -> { ApiRequest AuditLogWriteManager ApiRequestContext }
 	PointsBoardPaginationHandler -> { PointsLeaderboard }
-	RemindAutoCompleteHandler -> { GetSuggestions }
+	RemindAutoCompleteHandler -> { Reminder_GetSuggestions }
 	SearchingAutoCompleteHandler -> { Searching_GetSuggestions }
 	SearchingPaginationHandler -> { GetSearchingList }
 	SelfUnverifyModule -> { IServiceProvider }
@@ -996,14 +996,11 @@ digraph GrillBot {
 	InviteManager -> { GrillBotCacheBuilder CounterManager }
 	ProfilePictureManager -> { GrillBotCacheBuilder CounterManager }
 	CleanChannelMessages -> { ITextsManager }
-	PermissionsCleaner -> { PermissionsReader }
-	PermissionsReader -> { GrillBotDatabaseBuilder ITextsManager }
 	PurgePins -> { ITextsManager }
 	RolesReader -> { FormatHelper ITextsManager }
 	Commands_SendMessageToChannel -> { IHttpClientFactory ApiV1_SendMessageToChannel ITextsManager }
 	MessageClearSubModule -> { IServiceProvider }
 	PermissionsRemoveSubModule -> { IServiceProvider }
-	UselessPermissionsSubModule -> { IServiceProvider }
 	PinModule -> { IServiceProvider }
 	RoleModule -> { IServiceProvider }
 	AdminModule -> { IServiceProvider }
@@ -1036,7 +1033,7 @@ digraph GrillBot {
 	GetSearchingList -> { ApiV1_GetSearchingList GrillBotDatabaseBuilder ITextsManager }
 	CopyRemind -> { GrillBotDatabaseBuilder ITextsManager CreateRemind }
 	CreateRemind -> { ITextsManager IConfiguration FormatHelper GrillBotDatabaseBuilder }
-	GetSuggestions -> { GrillBotDatabaseBuilder ITextsManager }
+	Reminder_GetSuggestions -> { GrillBotDatabaseBuilder ITextsManager }
 	GetReminderList -> { ApiV1_GetReminderList ITextsManager GrillBotDatabaseBuilder }
 	RemindPaginationHandler -> { GetReminderList }
 	ChannelInfo -> { ITextsManager FormatHelper GrillBotDatabaseBuilder }
@@ -1111,7 +1108,7 @@ digraph GrillBot {
     UsersChartRenderer -> { ITextsManager IGraphicsClient RandomizationManager }
     GraphicsClient -> { IHttpClientFactory CounterManager }
     CreateSearch -> { GrillBotDatabaseBuilder }
-    GetSuggestions -> { UserManager ApiV1_GetSearchingList }
+    Searching_GetSuggestions -> { UserManager ApiV1_GetSearchingList }
     RemoveSearch -> { UserManager GrillBotDatabaseBuilder ITextsManager }
     UnverifyUserLeftHandler -> { GrillBotDatabaseBuilder }
     SetUnverify -> { UnverifyHelper UnverifyCheckManager UnverifyProfileManager UnverifyMessageManager UnverifyLogManager LoggingManager GrillBotDatabaseBuilder }
@@ -1141,4 +1138,5 @@ digraph GrillBot {
     ForumThreadTagsUpdated -> { CounterManager AuditLogWriteManager GrillBotDatabaseBuilder }
     UnverifyLogArchivationJob -> { IServiceProvider GrillBotDatabaseBuilder FileStorageFactory IDiscordClient InitManager LoggingManager }
     ApiBridgeAction -> { ApiRequestContext IServiceProvider IRubbergodServiceClient }
+    PermissionsSetSubModule -> { IServiceProvider }
 }
