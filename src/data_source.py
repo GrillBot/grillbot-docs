@@ -22,6 +22,9 @@ class DependencyDataSource(DataSource):
             "public-web": node.NodeDependencyList(
                 "https://raw.githubusercontent.com/GrillBot/grillbot-public-web/master/package.json"
             ).get_data(),
+            "karma-web": node.NodeDependencyList(
+                "https://raw.githubusercontent.com/GrillBot/karma-web/master/package.json"
+            ).get_data(),
         }
 
 

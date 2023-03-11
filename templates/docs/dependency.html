@@ -91,4 +91,28 @@
     </li>
 </ul>
 
+<h3 class="fw-normal">GrillBot - Karma web</h3>
+<ul>
+    <li>
+        Produkční balíčky
+        <ul>
+            {% for item in data['karma-web']['production'] %}
+            <li>
+                <a href="{{item['url']}}">{{item['name']}}</a> ({{item['version']}})
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        Vývojové balíčky
+        <ul>
+            {% for item in data['karma-web']['development'] %}
+            <li>
+                <a href="{{item['url']}}">{{item['name']}}</a> ({{item['version']}})
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
+
 {% endblock %}
