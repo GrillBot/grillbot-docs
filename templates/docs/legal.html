@@ -22,8 +22,13 @@
 <ul>
     <li>
         Záznamy z logování provozu starší, než 12 měsíců jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data
-        uchovány po
-        dobu minimálně dalšího jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně smazat.
+        uchovány po dobu minimálně dalšího jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně
+        smazat.
+    </li>
+    <li>
+        Záznamy z logování odebrání a vrácení přístupu starší, než 24 měsíců jsou zálohovány na diskové úložiště a z databáze smazány. Na
+        disku jsou data uchovávány po dobu minimálně dalšáho jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo
+        data nenávratně smazat.
     </li>
     <li>
         Ostatní výše nezmíněné data jsou v databázi uchovány po dobu existence discord serveru na kterém se bot nachází a to i po opuštění
@@ -336,6 +341,14 @@ neukládá kdo takovou pozvánku založil a kdy ji založil.
             <td><code>API</code></td>
             <td>Požadavek na REST API</td>
         </tr>
+        <tr>
+            <td><code>ThreadUpdated</code></td>
+            <td>Úpravy provedené ve vláknu.</td>
+        </tr>
+        <tr>
+            <td><code>ServiceApiCall</code></td>
+            <td>Volání interní služby.</td>
+        </tr>
     </tbody>
 </table>
 
@@ -545,6 +558,25 @@ U všech událostí se evidují tyto společné vlastnosti:
             <li>HTTP hlavičky</li>
             <li>Otisk uživatele</li>
             <li>IP adresa</li>
+        </ul>
+    </li>
+    <li>
+        Vlákno upraveno
+        <ul>
+            <li>Identifikátor vlákna</li>
+            <li>Název vlákna</li>
+            <li>Zpoždění (slowmode)</li>
+            <li>Typ vlákna</li>
+            <li>Zda je vlákno archivováno</li>
+            <li>Doba archivace</li>
+            <li>Zda je vlákno uzamknuto</li>
+            <li>Tagy (ve fórech)</li>
+        </ul>
+    </li>
+    <li>
+        Volání interní služby
+        <ul>
+            <li>... Bude doplněno ...</li>
         </ul>
     </li>
 </ul>

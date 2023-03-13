@@ -228,9 +228,6 @@ digraph ER {
                 <td port="UsedInviteCode">UsedInviteCode (character varying (20))</td>
             </tr>
             <tr>
-                <td port="Points">Points (bigint)</td>
-            </tr>
-            <tr>
                 <td port="GivenReactions">GivenReactions (bigint)</td>
             </tr>
             <tr>
