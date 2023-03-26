@@ -308,39 +308,6 @@ digraph ER {
         </table>
     >];
     
-    PointsTransactions [label=<
-        <table border="0" cellborder="1" cellspacing="0">
-            <tr><td><i><b>PointsTransactions</b></i></td></tr>
-            <tr>
-                <td port="GuildId">&lt;&lt;PK&gt;&gt; GuildId (character varying (30))</td>
-            </tr>
-            <tr>
-                <td port="UserId">&lt;&lt;PK&gt;&gt; UserId (character varying (30))</td>
-            </tr>
-            <tr>
-                <td port="MessageId">&lt;&lt;PK&gt;&gt; MessageId (character varying (30))</td>
-            </tr>
-            <tr>
-                <td port="AssignedAt">AssignedAt (timestamp without time zone)</td>
-            </tr>
-            <tr>
-                <td port="Points">Points (integer)</td>
-            </tr>
-            <tr>
-                <td port="ReactionId">&lt;&lt;PK&gt;&gt; ReactionId (character varying (255))</td>
-            </tr>
-            <tr>
-                <td port="MergeRangeFrom">MergeRangeFrom (timestamp without time zone)</td>
-            </tr>
-            <tr>
-                <td port="MergeRangeTo">MergeRangeTo (timestamp without time zone)</td>
-            </tr>
-            <tr>
-                <td port="MergedItemsCount">MergedItemsCount (integer)</td>
-            </tr>
-        </table>
-    >];
-    
     Reminders [label=<
         <table border="0" cellborder="1" cellspacing="0">
             <tr><td><i><b>Reminders</b></i></td></tr>
@@ -561,9 +528,6 @@ digraph ER {
     
     EmoteSuggestions:GuildId -> Guilds:Id
     EmoteSuggestions:FromUserId -> GuildUsers:UserId
-    
-    PointsTransactions:GuildId -> Guilds:Id
-    PointsTransactions:UserId -> GuildUsers:UserId
     
     Nicknames:GuildId -> Guilds:Id
     Nicknames:UserId -> GuildUsers:UserId

@@ -9,6 +9,7 @@ digraph GrillBotInfrastructure {
         Docs
         RubbergodService
         FileService
+        PointsService
         
         label = "Internal GrillBot infrastructure";
     }
@@ -26,8 +27,9 @@ digraph GrillBotInfrastructure {
     Docs -> Bot [label="GET /health"]
     Bot -> MathJs [label="POST /"]
     Bot -> KachnaOnline [label="GET /api/states/current"]
-    Bot -> Graphics [label="HEAD /health\nPOST /chart\nGET /metrics\nGET /info\nPOST /image/without-accident\nPOST /image/points\nPOST /image/peepo/angry\nPOST /image/peepo/love"]
-    Bot -> RubbergodService[label="HEAD /health\nGET /api/diag\nPATCH /api/user/{memberId}\nGET /api/karma\nPOST /api/karma"]
+    Bot -> Graphics
+    Bot -> RubbergodService
+    Bot -> PointsService
     Rubbergod -> Bot [label="GET /api/user/birthday/today\nPOST /api/user/karma/store"]
-    Bot -> FileService [label="POST /api/data\nGET /api/data\nGET /api/data/link\nDELETE /api/data\nGET /api/diag"]
+    Bot -> FileService
 }
