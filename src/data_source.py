@@ -14,16 +14,16 @@ class DependencyDataSource(DataSource):
         return {
             "dotnet": self.dotnet.get_data(),
             "graphics": node.NodeDependencyList(
-                "https://raw.githubusercontent.com/GrillBot/grillbot-graphics/main/package.json"
+                "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/Graphics/package.json"
             ).get_data(),
             "private-web": node.NodeDependencyList(
-                "https://raw.githubusercontent.com/GrillBot/grillbot-private-web/master/package.json"
+                "https://raw.githubusercontent.com/GrillBot/GrillBot.Web/master/src/PrivateAdmin/package.json"
             ).get_data(),
             "public-web": node.NodeDependencyList(
-                "https://raw.githubusercontent.com/GrillBot/grillbot-public-web/master/package.json"
+                "https://raw.githubusercontent.com/GrillBot/GrillBot.Web/master/src/PublicAdmin/package.json"
             ).get_data(),
             "karma-web": node.NodeDependencyList(
-                "https://raw.githubusercontent.com/GrillBot/karma-web/master/package.json"
+                "https://raw.githubusercontent.com/GrillBot/GrillBot.Web/master/src/KarmaWeb/package.json"
             ).get_data(),
         }
 

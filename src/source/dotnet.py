@@ -14,9 +14,10 @@ class DotnetDependencyList:
             "https://raw.githubusercontent.com/GrillBot/grillbot/master/src/GrillBot.Common/GrillBot.Common.csproj",
             "https://raw.githubusercontent.com/GrillBot/grillbot/master/src/GrillBot.Data/GrillBot.Data.csproj",
             "https://raw.githubusercontent.com/GrillBot/grillbot/master/src/GrillBot.Database/GrillBot.Database.csproj",
-            "https://raw.githubusercontent.com/GrillBot/rubbergodService/master/RubbergodService/RubbergodService.csproj",  # noqa: E501
-            "https://raw.githubusercontent.com/GrillBot/rubbergodService/master/RubbergodService.Data/RubbergodService.Data.csproj",  # noqa: E501
-            "https://raw.githubusercontent.com/GrillBot/fileService/master/FileService/FileService.csproj"
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/RubbergodService/RubbergodService/RubbergodService.csproj",  # noqa: E501
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/FileService/FileService/FileService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Core/master/GrillBot.Core/GrillBot.Core.csproj",
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/PointsService/PointsService.csproj"
         ]
         self.cache = cache
         self.cache_key = "dotnet_dependency_list"
