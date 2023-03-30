@@ -20,6 +20,7 @@ digraph GrillBotInfrastructure {
         KachnaOnline
         MathJs[label="Math.JS"]
         Rubbergod
+        AzureStorageAccount[label="Azure Storage Account"]
         
         label = "Third party services";
     }
@@ -32,4 +33,5 @@ digraph GrillBotInfrastructure {
     Bot -> PointsService
     Rubbergod -> Bot [label="GET /api/user/birthday/today\nPOST /api/user/karma/store"]
     Bot -> FileService
+    FileService -> AzureStorageAccount
 }
