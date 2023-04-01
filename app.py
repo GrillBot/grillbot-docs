@@ -6,7 +6,7 @@ from src.data_source import page_to_data_source
 
 DATETIME_FORMAT = "%d. %m. %Y %H:%M:%S"
 app = Flask(__name__)
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 300
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 300
 
 
 @app.context_processor
@@ -16,13 +16,14 @@ def context_processor():
         loaded_at=datetime.now().strftime(DATETIME_FORMAT),
     )
 
+
 @app.after_request
 def after_request(response: Response) -> Response:
-    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
-    response.headers['X-Xss-Protection'] = '1; mode=block'
-    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-Xss-Protection"] = "1; mode=block"
+    response.headers["X-Content-Type-Options"] = "nosniff"
 
-    return response;
+    return response
 
 
 @app.route("/")
@@ -47,10 +48,13 @@ def docs_page(filename):
             last_modification=helper.get_modification_date(
                 app.template_folder, path, DATETIME_FORMAT
             ),
-            data=data.get_data() if data is not None else dict()
+            data=data.get_data() if data is not None else dict(),
         )
     except FileNotFoundError:
-        return f'<h1>Template not found</h1><p>Missing template with name <code>{filename}</code>.</p>', 404
+        return (
+            f"<h1>Template not found</h1><p>Missing template with name <code>{filename}</code>.</p>",
+            404,
+        )
 
 
 if __name__ == "__main__":
