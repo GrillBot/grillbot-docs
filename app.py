@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, Response, render_template
 import helper
 from datetime import datetime
 import sys
@@ -15,6 +15,14 @@ def context_processor():
         grillbot_online=helper.is_grillbot_online(),
         loaded_at=datetime.now().strftime(DATETIME_FORMAT),
     )
+
+@app.after_request
+def after_request(response: Response) -> Response:
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-Xss-Protection'] = '1; mode=block'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+
+    return response;
 
 
 @app.route("/")
