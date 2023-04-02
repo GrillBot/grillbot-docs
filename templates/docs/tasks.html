@@ -6,12 +6,15 @@
 <p>
     GrillBot má aktuálně integrovány následující plánované úlohy:
 <ul>
-    <li>Archivace a mazání starých záznamů z audit logu (každé 2 týdny).</li>
+    <li>Archivace a mazání starých záznamů z audit logu (každé 2 dny).</li>
     <li>Upozorňování na narozeniny uživatele (každý den v 8:00).</li>
     <li>Údržba cache zpráv v paměti (každých 5 minut).</li>
     <li>Údržba informace o přihlášených uživatelích do webových administrací (každých 15 minut).</li>
     <li>Rozesílání upozornění (Reminder) v termínu (každých 5 minut).</li>
     <li>Vrácení přístupu po skončení unverify/selfunverify (každých 30 vteřin).</li>
+    <li>Údržba cache databáze (každých 5 minut)</li>
+    <li>Slučování transakcí bodů (každé 2 hodiny)</li>
+    <li>Archivace a mazání starých záznamů z unverify logu (každé 2 dny)</li>
 </ul>
 
 Kromě výše uvedených časů se úlohy, které nejsou definovány pomocí cron expression, spouští ještě při startu aplikace. Tyto úlohy se
@@ -37,8 +40,7 @@ using GrillBot.Infrastructure.Jobs;
 [DisallowConcurrentExecution]
 public class YourJob : Job
 {
-    public YourJob(AuditLogWriter auditLogWriter, IDiscordClient discordClient, InitManager initManager, LoggingManager loggingManager)
-        : base(auditLogWriter, discordClient, initManager, loggingManager)
+    public YourJob(IServiceProvider provider) : base(provider)
     {
     }
 
@@ -52,8 +54,8 @@ public class YourJob : Job
 <p>
     Doporučuje se na úlohy atribut <code>DisallowConcurrentExecution</code>, aby nedošlo k paralelnímu spuštění jedné úlohy.
     Pokud chcete, aby úloha nebyla spuštěna, než dojde ke kompletní inicializaci bota, tak stačí nastavit na třídu úlohy atribut
-    <code>DisallowUninitialized</code>.
-    Do úlohy je možné vkládat závislosti pomocí konstruktoru z DI kontejneru. Již je tak třeba naimportovat služby pro základní chod úlohy.
+    <code>DisallowUninitialized</code>. Do úlohy je možné vkládat závislosti pomocí konstruktoru z DI kontejneru. Již je tak třeba
+    naimportovat služby pro základní chod úlohy.
 </p>
 
 <ul>

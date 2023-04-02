@@ -1,0 +1,174 @@
+digraph GrillBot {
+    rankdir=LR
+	
+	subgraph cluster_0 {
+		node [style=filled];
+		label = "RubbergodService";
+		color=blue
+		
+        subgraph cluster_3_1 {
+            node [style=filled];
+            label="Actions";
+            color=black;
+            
+            GetKarmaPageAction
+            RefreshUserAction
+            SendDirectApiAction
+            StoreKarmaAction
+        }
+        
+        subgraph cluster_3_2 {
+            node [style=filled];
+            label="Controllers";
+            color=black;
+            
+            DiagnosticController
+            DirectApiController
+            KarmaController
+            UserController
+        }
+        
+        subgraph cluster_3_3 {
+            node [style=filled];
+            label="Core"
+            color=black
+            
+            subgraph cluster_3_3_1 {
+                node [style=filled];
+                label="Entity"
+                color=black;
+                
+                RubbergodServiceContext
+            }
+            
+            subgraph cluster_3_3_2 {
+                node [style=filled];
+                label="Providers"
+                color=black;
+                
+                StatisticsProvider
+            }
+            
+            subgraph cluster_3_3_3 {
+                node [style=filled];
+                label="Repository"
+                color=black
+                
+                RubbergodServiceRepository
+            }
+        }
+        
+        subgraph cluster_4 {
+	        node [style=filled];
+            label="DirectApi";
+            color=black;
+	        
+	        DirectApiClient
+	    }
+	    
+	    subgraph cluster_5 {
+	        node [style=filled];
+            label="Discord";
+            color=black;
+	        
+	        DiscordLogManager
+	        DiscordManager
+	    }
+	    
+	    subgraph cluster_6 {
+	        node [style=filled];
+            label="MemberSynchronization";
+            color=black;
+	        
+	        MemberSyncQueue
+	        MemberSyncService
+	    }
+	}
+	
+	subgraph cluster_4 {
+	    node [style=filled];
+	    label = "GrillBot.Core";
+	    color=blue
+	    
+	    subgraph cluster_4_1 {
+	        node [style=filled];
+            label="Managers";
+            color=black;
+            
+            subgraph cluster_4_1_1 {
+	            node [style=filled];
+                label="Discord";
+                color=black;
+                
+                IEmoteManager
+	        }
+            
+            subgraph cluster_4_1_2 {
+	            node [style=filled];
+                label="Performance";
+                color=black;
+                
+                ICounterManager
+	        }
+	        
+	        subgraph cluster_4_1_3 {
+	            node [style=filled];
+                label="Random";
+                color=black;
+                
+                IRandomManager
+	        }
+	    }
+	    
+	    subgraph cluster_4_2 {
+	        node [style=filled];
+            label="Services";
+            color=black;
+	        
+	        subgraph cluster_4_3 {
+	            node [style=filled];
+                label="Diagnostics";
+                color=black;
+	            
+	            IDiagnosticsProvider
+	        }
+	    }
+	}
+	
+	subgraph cluster_100 {
+	    node[style=filled];
+	    label = ".NET"
+	    color=green
+	    
+	    IConfiguration
+	    IServiceProvider
+	    DbContextOptions
+	    ILoggerFactory
+	    IMemoryCache
+	    ILogger
+	}
+	
+	subgraph cluster_101 {
+	    node[style=filled];
+	    label = "Discord.NET"
+	    color=purple
+	    
+	    IDiscordClient
+	}
+	
+	GetKarmaPageAction -> { RubbergodServiceRepository }
+	RefreshUserAction -> { MemberSyncQueue }
+	SendDirectApiAction -> { IConfiguration DirectApiClient ICounterManager }
+	StoreKarmaAction -> { MemberSyncQueue RubbergodServiceRepository }
+	DiagnosticController -> { IDiagnosticsProvider }
+	DirectApiController -> { IServiceProvider }
+	KarmaController -> { IServiceProvider }
+	UserController -> { IServiceProvider }
+	StatisticsProvider -> { RubbergodServiceRepository }
+	RubbergodServiceRepository -> { RubbergodServiceContext ICounterManager }
+	RubbergodServiceContext -> { DbContextOptions }
+	DirectApiClient -> { IDiscordClient IConfiguration }
+	DiscordLogManager -> { IDiscordClient ILoggerFactory }
+	DiscordManager ->{ IDiscordClient IConfiguration IMemoryCache ICounterManager }
+	MemberSyncService -> { MemberSyncQueue IServiceProvider ILogger }
+}

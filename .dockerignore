@@ -4,7 +4,9 @@
 **/docker-compose*
 **/Dockerfile*
 **/__pycache__
-docker.ps1
-docker.sh
-deploy.ps1
 debug.ps1
+.git/
+.github/
+**/.flake8
+**/.gitignore
+**/README.md

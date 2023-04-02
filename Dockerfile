@@ -1,4 +1,4 @@
-FROM alpine:3.5 as graph-rendering
+FROM alpine:3.17.3 as graph-rendering
 
 LABEL org.opencontainers.image.source https://github.com/grillbot/grillbot-docs
 
@@ -10,7 +10,7 @@ RUN for file in $(find /graphviz -name "*.dot"); do \
     dot -Tsvg $file -o $(echo $file | cut -d'.' -f1).svg; \
     done
 
-FROM python:3.9-alpine as flask_docs
+FROM python:3.11-alpine as flask_docs
 
 EXPOSE 80
 ENV TZ=Europe/Prague

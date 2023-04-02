@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block sub_page %} Služba {{data['name']}} {% endblock %}
+
+{% block content %}
+<p>{{data['description']}}</p>
+
+{% if 'swagger_url' in data %}
+<p>Swagger dokumentace je dostupná <a href="{{data['swagger_url']}}">zde</a>.</p>
+{% endif %}
+
+{% if not data['is_public'] %}
+<b>Nejedná se o službu, kterou lze volat z internetu.</b>
+{% endif %}
+
+{% if 'database' in data %}
+{% for db in data['database'] %}
+<div>
+    <h3>{{db}}</h3>
+    <img src="{{data['database'][db]}}" alt="{{db}}" class="diagram">
+</div>
+{% endfor%}
+{% endif %}
+
+{% if 'di_graph' in data %}
+<div>
+    <h3>Dependency injection</h3>
+    <img src="{{data['di_graph']}}" alt="DI" class="diagram">
+</div>
+{% endif %}
+
+{% if 'api_description' in data %}
+<div>
+    <h3>Popis API</h3>
+
+    <table class="table table-sm table-responsive-md table-bordered auto-column-width">
+        <thead>
+            <tr>
+                <th>URI</th>
+                <th>Návratové kódy</th>
+                <th>Typ obsahu</th>
+                <th>Popis</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data['api_description'] %}
+            <tr>
+                {% for col in row %}
+                <td>{{col|safe}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% if 'dependencies' in data %}
+<div>
+    <h3>Závislosti</h3>
+
+    <ul>
+        {% for dep in data['dependencies'] %}
+        <li>
+            <a href="{{dep['url']}}">{{dep['name']}} ({{dep['version']}})</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% endblock %}

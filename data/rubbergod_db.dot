@@ -1,0 +1,40 @@
+digraph ER {
+    rankdir=LR
+    node[shape=plain]
+    
+    Karma [label=<
+        <table border="0" cellborder="1" cellspacing="0">
+            <tr><td><i><b>Karma</b></i></td></tr>
+            <tr>
+                <td port="MemberId">&lt;&lt;PK&gt;&gt; MemberId (character varying (32))</td>
+            </tr>
+            <tr>
+                <td port="KarmaValue">KarmaValue (integer)</td>
+            </tr>
+            <tr>
+                <td port="Positive">Positive (integer)</td>
+            </tr>
+            <tr>
+                <td port="Negative">Negative (integer)</td>
+            </tr>
+        </table>
+    >];
+    
+    Membercache [label=<
+        <table border="0" cellborder="1" cellspacing="0">
+            <tr><td><i><b>MemberCache</b></i></td></tr>
+            <tr>
+                <td port="UserId">&lt;&lt;PK&gt;&gt; UserId (character varying (32))</td>
+            </tr>
+            <tr>
+                <td port="Username">Username (character varying (32))</td>
+            </tr>
+            <tr>
+                <td port="Discriminator">Discriminator (character varying (4))</td>
+            </tr>
+            <tr>
+                <td port="AvatarUrl">AvatarUrl (text)</td>
+            </tr>
+        </table>
+    >];
+}

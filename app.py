@@ -1,8 +1,11 @@
-from flask import Flask, Response, render_template
+from flask import Flask, Response, render_template, redirect
 import helper
 from datetime import datetime
 import sys
-from src.data_source import page_to_data_source
+from src.service_provider import ServiceProvider
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 DATETIME_FORMAT = "%d. %m. %Y %H:%M:%S"
 app = Flask(__name__)
@@ -40,7 +43,6 @@ def homepage():
 @app.route("/docs/<path:filename>")
 def docs_page(filename):
     path = f"docs/{filename}.html"
-    data = page_to_data_source[filename] if filename in page_to_data_source else None
     try:
         return render_template(
             path,
@@ -48,13 +50,29 @@ def docs_page(filename):
             last_modification=helper.get_modification_date(
                 app.template_folder, path, DATETIME_FORMAT
             ),
-            data=data.get_data() if data is not None else dict(),
+            data=dict()
         )
     except FileNotFoundError:
         return (
             f"<h1>Template not found</h1><p>Missing template with name <code>{filename}</code>.</p>",
             404,
         )
+
+
+@app.route("/services/<string:service>")
+def services_page(service: str):
+    data = ServiceProvider(service).get_data()
+    if data is None:
+        return redirect("/")
+
+    return render_template(
+        "docs/service.html",
+        home_page=False,
+        last_modification=helper.get_modification_date(
+            app.template_folder, "docs/service.html", DATETIME_FORMAT
+        ),
+        data=data,
+    )
 
 
 if __name__ == "__main__":

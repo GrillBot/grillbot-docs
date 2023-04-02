@@ -6,7 +6,7 @@
     color: lightcoral;
 }
 
-.diagram img {
+.diagram img, img.diagram {
     max-width: 100%;
 }
 
@@ -14,4 +14,17 @@ pre {
     background: lightgray;
     border-radius: 15px;
     padding: 10px 20px;
+}
+
+table.auto-column-width tr td,
+table.auto-column-width tr th {
+    white-space: nowrap;
+    padding-right: 20px;
+}
+table.auto-column-width tr td:last-child,
+table.auto-column-width tr th:last-child {
+    width: 100%;
+}
+table.auto-column-width tr th.sortable {
+    padding-right: 10px;
 }

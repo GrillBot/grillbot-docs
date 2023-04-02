@@ -234,12 +234,6 @@ digraph ER {
                 <td port="ObtainedReactions">ObtainedReactions (bigint)</td>
             </tr>
             <tr>
-                <td port="LastPointsMessageIncrement">LastPointsMessageIncrement (timestamp without timezone)</td>
-            </tr>
-            <tr>
-                <td port="LastPointsReactionIncrement">LastPointsReactionIncrement (timestamp without timezone)</td>
-            </tr>
-            <tr>
                 <td port="Nickname">Nickname (character varying (32))</td>
             </tr>
         </table>

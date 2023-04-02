@@ -25,13 +25,13 @@ digraph GrillBotInfrastructure {
         label = "Third party services";
     }
   
-    Docs -> Bot [label="GET /health"]
-    Bot -> MathJs [label="POST /"]
-    Bot -> KachnaOnline [label="GET /api/states/current"]
+    Docs -> Bot
+    Bot -> MathJs
+    Bot -> KachnaOnline
     Bot -> Graphics
     Bot -> RubbergodService
     Bot -> PointsService
-    Rubbergod -> Bot [label="GET /api/user/birthday/today\nPOST /api/user/karma/store"]
+    Rubbergod -> Bot
     Bot -> FileService
     FileService -> AzureStorageAccount
 }

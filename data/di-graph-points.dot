@@ -1,0 +1,148 @@
+digraph GrillBot {
+    rankdir=LR
+	
+	subgraph cluster_0 {
+		node [style=filled];
+		label = "RubbergodService";
+		color=blue
+		
+        subgraph cluster_3_1 {
+            node [style=filled];
+            label="Actions";
+            color=black;
+            
+            AdminCreateTransactionAction
+            AdminListAction
+            ChartAction
+            CreateTransactionAction
+            CurrentPointsStatusAction
+            DeleteTransactionsAction
+            LeaderboardAction
+            MergeTransactionsAction
+            SynchronizationAction
+            TransactionExistsAction
+            TransferPointsAction
+        }
+        
+        subgraph cluster_3_2 {
+            node [style=filled];
+            label="Controllers";
+            color=black;
+            
+            AdminController
+            ChartController
+            DiagnosticController
+            LeaderboardController
+            MergeController
+            StatusController
+            SynchronizationController
+            TransactionController
+        }
+        
+        subgraph cluster_3_3 {
+            node [style=filled];
+            label="Core"
+            color=black
+            
+            subgraph cluster_3_3_1 {
+                node [style=filled];
+                label="Entity"
+                color=black;
+                
+                PointsServiceContext
+            }
+            
+            subgraph cluster_3_3_2 {
+                node [style=filled];
+                label="Providers"
+                color=black;
+                
+                StatisticsProvider
+            }
+            
+            subgraph cluster_3_3_3 {
+                node [style=filled];
+                label="Repository"
+                color=black
+                
+                PointsServiceRepository
+            }
+        }
+	}
+	
+	subgraph cluster_4 {
+	    node [style=filled];
+	    label = "GrillBot.Core";
+	    color=blue
+	    
+	    subgraph cluster_4_1 {
+	        node [style=filled];
+            label="Managers";
+            color=black;
+            
+            subgraph cluster_4_1_2 {
+	            node [style=filled];
+                label="Performance";
+                color=black;
+                
+                ICounterManager
+	        }
+	        
+	        subgraph cluster_4_1_3 {
+	            node [style=filled];
+                label="Random";
+                color=black;
+                
+                IRandomManager
+	        }
+	    }
+	    
+	    subgraph cluster_4_2 {
+	        node [style=filled];
+            label="Services";
+            color=black;
+	        
+	        subgraph cluster_4_3 {
+	            node [style=filled];
+                label="Diagnostics";
+                color=black;
+	            
+	            IDiagnosticsProvider
+	        }
+	    }
+	}
+	
+	subgraph cluster_100 {
+	    node[style=filled];
+	    label = ".NET"
+	    color=green
+	    
+	    IServiceProvider
+	    DbContextOptions
+	    ILogger
+	    IOptions
+	}
+	
+	AdminCreateTransactionAction -> { PointsServiceRepository }
+	AdminListAction -> { PointsServiceRepository }
+	ChartAction -> { PointsServiceRepository }
+	CreateTransactionAction -> { PointsServiceRepository IOptions IRandomManager }
+	CurrentPointsStatusAction -> { PointsServiceRepository }
+	DeleteTransactionsAction -> { PointsServiceRepository }
+	LeaderboardAction -> { PointsServiceRepository }
+	MergeTransactionsAction -> { PointsServiceRepository IOptions }
+	SynchronizationAction -> { PointsServiceRepository }
+	TransactionExistsAction -> { PointsServiceRepository }
+	TransferPointsAction -> { PointsServiceRepository }
+	AdminController -> { IServiceProvider }
+	ChartController -> { IServiceProvider }
+	DiagnosticController -> { IDiagnosticsProvider }
+	LeaderboardController -> { IServiceProvider }
+	MergeController -> { IServiceProvider }
+	StatusController -> { IServiceProvider }
+	SynchronizationController -> { IServiceProvider }
+	TransactionController -> { IServiceProvider }
+	PointsServiceContext -> { DbContextOptions }
+	StatisticsProvider -> { PointsServiceRepository }
+	PointsServiceRepository -> { PointsServiceContext ICounterManager }
+}

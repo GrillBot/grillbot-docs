@@ -1,0 +1,100 @@
+digraph FileService {
+    rankdir=LR
+	
+	subgraph cluster_0 {
+		node [style=filled];
+		label = "FileService";
+		color=blue
+		
+        subgraph cluster_3_1 {
+            node [style=filled];
+            label="Actions";
+            color=black;
+            
+            DeleteFileAction
+            DownloadFileAction
+            GenerateLinkAction
+            UploadFileAction
+        }
+        
+        subgraph cluster_3_2 {
+            node [style=filled];
+            label="Cache";
+            color=black;
+            
+            StorageCacheManager
+        }
+        
+        subgraph cluster_3_3 {
+            node [style=filled];
+            label="Controllers";
+            color=black;
+            
+            DataController
+            DiagnosticController
+        }
+        
+        subgraph cluster_3_4 {
+            node [style=filled];
+            label="Factory"
+            color=black
+            
+            BlobContainerFactory
+        }
+	}
+	
+	subgraph cluster_4 {
+	    node [style=filled];
+	    label = "GrillBot.Core";
+	    color=blue
+	    
+	    subgraph cluster_4_1 {
+	        node [style=filled];
+            label="Managers";
+            color=black;
+            
+            subgraph cluster_4_1_2 {
+	            node [style=filled];
+                label="Performance";
+                color=black;
+                
+                ICounterManager
+	        }
+	    }
+	    
+	    subgraph cluster_4_2 {
+	        node [style=filled];
+            label="Services";
+            color=black;
+	        
+	        subgraph cluster_4_3 {
+	            node [style=filled];
+                label="Diagnostics";
+                color=black;
+	            
+	            IDiagnosticsProvider
+	        }
+	    }
+	}
+	
+	subgraph cluster_100 {
+	    node[style=filled];
+	    label = ".NET"
+	    color=green
+	    
+	    IConfiguration
+	    IServiceProvider
+	    IMemoryCache
+	    BlobContainerClient -> BlobContainerFactory
+	    IWebHostEnvironment
+	}
+	
+	DeleteFileAction -> { ICounterManager BlobContainerClient StorageCacheManager }
+	DownloadFileAction -> { BlobContainerClient StorageCacheManager ICounterManager }
+	GenerateLinkAction -> { StorageCacheManager BlobContainerClient }
+	UploadFileAction -> { ICounterManager BlobContainerClient }
+	DataController -> { IServiceProvider }
+	DiagnosticController -> { IDiagnosticsProvider }
+	StorageCacheManager -> { IMemoryCache ICounterManager }
+	BlobContainerFactory -> { IConfiguration IWebHostEnvironment }
+}

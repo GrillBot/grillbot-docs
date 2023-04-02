@@ -1,38 +1,79 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2 class="fw-light">Dokumentace</h2>
-<div class="d-flex">
-    <ul>
-        <li><a href="/docs/legal">Ustanovení</a> o sběru dat</li>
-        <li><a href="/docs/birthday">Narozeniny</a></li>
-        <li><a href="/docs/emotes">Správa a statistika emotů</a></li>
-        <li><a href="/docs/search">Hledání</a></li>
-        <li><a href="/docs/suggestions">Návrhy</a></li>
-    </ul>
-    <ul>
-        <li><a href="/docs/tasks">Plánované úlohy</a></li>
-        <li><a href="/docs/services">Služby</a></li>
-        <li><a href="/docs/points">Body</a></li>
-    </ul>
+<div class="row">
+    <div class="col-md">
+        <h2 class="fw-light">Dokumentace</h2>
+        <div class="d-flex">
+            <ul>
+                <li><a href="/docs/legal">Ustanovení</a> o sběru dat</li>
+                <li><a href="/docs/birthday">Narozeniny</a></li>
+                <li><a href="/docs/emotes">Správa a statistika emotů</a></li>
+                <li><a href="/docs/search">Hledání</a></li>
+                <li><a href="/docs/suggestions">Návrhy</a></li>
+            </ul>
+            <ul>
+                <li><a href="/docs/tasks">Plánované úlohy</a></li>
+                <li><a href="/docs/services">Služby</a></li>
+                <li><a href="/docs/points">Body</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md">
+        <h2 class="fw-light">Služby</h2>
+        <div class="row">
+            <div class="col-md">
+                <h4 class="fw-normal">Interní</h4>
+                <ul>
+                    <li>
+                        <a href="/services/grillbot">GrillBot</a>
+                    </li>
+                    <li>
+                        <a href="/services/graphics">GraphicsService</a>
+                    </li>
+                    <li>
+                        <a href="/services/rubbergod">RubbergodService</a>
+                    </li>
+                    <li>
+                        <a href="/services/file">FileService</a>
+                    </li>
+                    <li>
+                        <a href="/services/points">PointsService</a>
+                    </li>
+                    <li>Benefit store (in the planning phase)</li>
+                </ul>
+            </div>
+            <div class="col-md">
+                <h4 class="fw-normal">Třetí strany</h4>
+                <ul>
+                    <li>
+                        <a href="https://su.fit.vutbr.cz/kachna">KachnaOnline</a>
+                    </li>
+                    <li>
+                        <a href="https://mathjs.org/">Math.JS</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/Toaster192/rubbergod">Rubbergod</a>
+                    </li>
+                    <li>
+                        <a href="https://azure.microsoft.com/en-us/products/storage/blobs/">Azure Blob Storage</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
 <h2 class="fw-light">Ostatní</h2>
 <ul>
-    <li><a href="/docs/di-graph">Graf závislostí</a> jednotlivých služeb v dependency injection.</li>
-    <li><a href="/docs/database">Schéma databáze</a></li>
-    <li><a href="/docs/cache">Schéma cache</a></li>
-    <li><a href="/docs/dependency">Knihovny třetích stran</a></li>
     <li><a href="/docs/communication">Schéma komunikace služeb</a></li>
     <li><a href="https://stats.uptimerobot.com/vQ40jHEJr3" target="_blank"><b>Aktuání stav bota</b></a></li>
 </ul>
 
 <h2 class="fw-light">Dodatečné odkazy</h2>
 <ul>
-    <li><a href="https://grillbot.cloud/swagger/index.html?urls.primaryName=v1" target="_blank">Specifikace rozhraní REST API</a> pro webové
-        administrace</li>
-    <li><a href="https://grillbot.cloud/swagger/index.html?urls.primaryName=v2" target="_blank">Specifikace rozhraní REST API</a> pro
-        aplikace třetích stran</li>
+    <li><a href="https://grillbot.cloud/swagger/index.html" target="_blank">Specifikace rozhraní REST API</a></li>
     <li><a href="https://github.com/grillbot" target="_blank">GitHub</a> repozitář se zdrojovými kódy</li>
     <li><a href="https://grillbot.cloud" target="_blank">Administrace</a> pro oprávněné osoby (primárně administrátory bota)</li>
     <li><a href="https://public.grillbot.cloud" target="_blank">Administrace</a> určená pro běžné uživatele</li>
