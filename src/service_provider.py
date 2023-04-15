@@ -183,6 +183,12 @@ api_descriptions = {
             "TOP N statistika bodů.",
         ),
         build_api_description(
+            "GET /api/leaderboard/{guildId}/count",
+            [200, 400],
+            ["application/json"],
+            "Celkový počet dostupných záznamů v leaderboardu.",
+        ),
+        build_api_description(
             "POST /api/merge",
             [200, 204],
             ["application/json"],
@@ -195,7 +201,13 @@ api_descriptions = {
             "Stav platných bodů uživatele",
         ),
         build_api_description(
-            "GET /api/status/{guildId}/{userId}",
+            "GET /api/status/{guildId}/{userId}/image",
+            [200],
+            ["application/json"],
+            "Stav platných bodů uživatele pro vykreslení obrázku.",
+        ),
+        build_api_description(
+            "GET /api/status/{guildId}/{userId}/expired",
             [200],
             ["application/json"],
             "Stav expirovaných bodů uživatele",
