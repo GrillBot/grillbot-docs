@@ -1,0 +1,261 @@
+ApiClients: {
+  shape: sql_table
+
+  Id: text {constraint: primary_key}
+  Name: character varying (30)
+  AllowedMethods: jsonb
+  UseCount: integer
+  LastUse: timestamp without time zone
+}
+
+AuditLogFiles: {
+  shape: sql_table
+
+  Id: bigint {constraint: primary_key}
+  AuditLogItemId: bigint {constraint: foreign_key}
+  Filename: character varying (255)
+  Size: bigint
+}
+
+AuditLogFiles.AuditLogItemId -> AuditLogs.Id
+
+AuditLogs: {
+  shape: sql_table
+
+  Id: bigint {constraint: primary_key}
+  CreatedAt: timestamp without time zone
+  GuildId: character varying (30) {constraint: foreign_key}
+  ProcessedUserId: character varying (30) {constraint: foreign_key}
+  DiscordAuditLogItemId: text
+  Data: text
+  Type: integer
+  ChannelId: character varying (30) {constraint: foreign_key}
+}
+
+AuditLogs.GuildId -> Guilds.Id
+AuditLogs.ProcessedUserId -> Users.Id
+AuditLogs.ProcessedUserId -> GuildUsers.UserId
+AuditLogs.ChannelId -> Channels.ChannelId
+
+AutoReplies: {
+  shape: sql_table
+
+  Id: bigint {constraint: primary_key}
+  Template: text
+  Reply: text
+  Flags: bigint
+}
+
+Channels: {
+  shape: sql_table
+
+  GuildId: character varying (30) {constraint: primary_key}
+  ChannelId: character varying (30) {constraint: primary_key}
+  Name: character varying (100)
+  ChannelType: integer
+  ParentChannelId: charater varying (30) {constraint: foreign_key}
+  Flags: bigint
+  RolePermissionsCount: integer
+  UserPermissionsCount: integer
+}
+
+Channels.GuildId -> Guilds.Id
+Channels.ParentChannelId -> Channels.ChannelId
+
+EmoteSuggestions: {
+  shape: sql_table
+
+  Id: bigint {constraint: primary_key}
+  SuggestionMessageId: character varying (30)
+  VoteMessageId: character varying (30)
+  CreatedAt: timestamp without time zone
+  VoteEndsAt: timestamp without time zone
+  ImageData: bytea
+  GuildId: character varying (30) {constraint: foreign_key}
+  FromUserId: character varying (30) {constraint: foreign_key}
+  Filename: character varying (255)
+  Description: character varying (1024)
+  ApprovedForVote: boolean
+  VoteFinished: boolean
+  CommunityApproved: boolean
+  DownVotes: integer
+  UpVotes: integer
+}
+
+EmoteSuggestions.GuildId -> Guilds.Id
+EmoteSuggestions.FromUserId -> GuildUsers.UserId
+
+Emotes: {
+  shape: sql_table
+
+  EmoteId: character varying (255) {constraint: primary_key}
+  UserId: character varying (30) {constraint: primary_key}
+  UseCount: bigint
+  FirstOccurenceAt: timestamp without time zone
+  LastOccurenceAt: timestamp without time zone
+  GuildId: character varying (30) {constraint: foreign_key}
+}
+
+Emotes.UserId -> GuildUsers.UserId
+Emotes.GuildId -> Guilds.Id
+
+GuildEvent: {
+  shape: sql_table
+
+  Id: text {constraint: primary_key}
+  GuildId: character varying (30) {constraint: primary_key}
+  From: timestamp without time zone
+  To: timestamp without time zone
+}
+
+GuildEvent.GuildId -> Guilds.Id
+
+GuildUsers: {
+  shape: sql_table
+
+  UserId: character varying (30) {constraint: primary_key}
+  GuildId: character varying (30) {constraint: primary_key}
+  UsedInviteCode: character varying (20) {constraint: foreign_key}
+  GivenReactions: bigint
+  ObtainedReactions: bigint
+  Nickname: character varying (32)
+}
+
+GuildUsers.UserId -> Users.Id
+GuildUsers.GuildId -> Guilds.Id
+GuildUsers.UsedInviteCode -> Invites.Code
+
+Guilds: {
+  shape: sql_table
+
+  Id: character varying (30) {constraint: primary_key}
+  Name: character varying (100)
+  MuteRoleId: character varying (30)
+  AdminChannelId: character varying (30)
+  BoosterRoleId: character varying (30)
+  EmoteSuggestionChannelId: character varying(30)
+  VoteChannelId: character varying (30)
+}
+
+Invites: {
+  shape: sql_table
+
+  Code: character varying (10) {constraint: primary_key}
+  CreatedAt: timestamp without time zone
+  CreatorId: character varying (30) {constraint: foreign_key}
+  GuildId: character varying (30) {constraint: foreign_key}
+}
+
+Invites.CreatorId -> GuildUsers.UserId
+Invites.GuildId -> Guilds.Id
+
+Nicknames: {
+  shape: sql_table
+
+  GuildId: character varying (30) {constraint: primary_key}
+  UserId: character varying (30) {constraint: primary_key}
+  Id: bigint {constraint: primary_key}
+  NicknameValue: character varying (32)
+}
+
+Nicknames.GuildId -> Guilds.Id
+Nicknames.UserId -> GuildUsers.UserId
+
+Reminders: {
+  shape: sql_table
+
+  Id: bigint {constraint: primary_key}
+  FromUserId: character varying (30) {constraint: foreign_key}
+  ToUserId: character varying (30) {constraint: foreign_key}
+  At: timestamp without time zone
+  Message: text
+  Postpone: integer
+  OriginalMessageId: character varying (30)
+  RemindMessageId: character varying (30)
+}
+
+Reminders.FromUserId -> GuildUsers.UserId
+Reminders.ToUserId -> GuildUsers.UserId
+
+SearchItems: {
+  shape: sql_table
+
+  Id: bigint {constraint: primary_key}
+  UserId: character varying (30) {constraint: foreign_key}
+  GuildId: character varying (30) {constraint: foreign_key}
+  ChannelId: character varying (30) {constraint: foreign_key}
+  MessageContent: character varying (1024)
+}
+
+SearchItems.UserId -> GuildUsers.UserId
+SearchItems.GuildId -> Guilds.Id
+SearchItems.ChannelId -> Channels.ChannelId
+
+SelfUnverifyKeepables: {
+  shape: sql_table
+
+  GroupName: character varying(100) {constraint: primary_key}
+  Name: character varying(100) {constraint: primary_key}
+}
+
+Unverifies: {
+  shape: sql_table
+
+  GuildId: character varying (30) {constraint: primary_key}
+  UserId: character varying (30) {constraint: primary_key}
+  StartAt: timestamp without time zone
+  EndAt: timestamp without time zone
+  Reason: text
+  Roles: jsonb
+  Channels: jsonb
+  SetOperationId: bigint
+}
+
+Unverifies.GuildId -> Guilds.Id
+Unverifies.UserId -> GuildUsers.UserId
+Unverifies.SetOperationId -> UnverifyLogs.Id
+
+UnverifyLogs: {
+  shape: sql_table
+
+  Id: bigint {constraint: primary_key}
+  Operation: integer
+  GuildId: character varying (30) {constraint: foreign_key}
+  FromUserId: character varying (30) {constraint: foreign_key}
+  ToUserId: character varying (30) {constraint: foreign_key}
+  CreatedAt: timestamp without time zone
+  Data: text
+}
+
+UnverifyLogs.GuildId -> Guilds.Id
+UnverifyLogs.FromUserId -> GuildUsers.UserId
+UnverifyLogs.ToUserId -> GuildUsers.UserId
+
+UserChannels: {
+  shape: sql_table
+
+  ChannelId: character varying (30) {constraint: primary_key}
+  GuildId: character varying (30) {constraint: primary_key}
+  UserId: character varying (30) {constraint: primary_key}
+  Count: bigint
+  FirstMessageAt: timestamp without time zone
+  LastMessageat: timestamp without time zone
+}
+
+UserChannels.ChannelId -> Channels.ChannelId
+UserChannels.GuildId -> Guilds.Id
+UserChannels.UserId -> GuildUsers.UserId
+
+Users: {
+  shape: sql_table
+
+  Id: character varying (30) {constraint: primary_key}
+  Flags: bigint
+  Birthday: timestamp without time zone
+  Note: text
+  Username: character varying (30)
+  SelfUnverifyMinimalTime: text
+  Discriminator: character varying (4)
+  Status: integer
+  Language: character varying (50)
+}

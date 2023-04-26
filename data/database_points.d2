@@ -1,0 +1,33 @@
+Channels: {
+  shape: sql_table
+
+  Id: character varying (30) {constraint: primary_key}
+  GuildId: character varying (30) {constraint: primary_key}
+  IsDeleted: boolean
+  PointsDisabled: boolean
+}
+
+Transactions: {
+  shape: sql_table
+
+  GuildId: character varying (30) {constraint: primary_key}
+  UserId: character varying (30) {constraint: primary_key}
+  MessageId: character varying (30) {constraint: primary_key}
+  ReactionId: character varying (30) {constraint: primary_key}
+  MergedCount: integer
+  MergeRangeFrom: timestamp with time zone
+  MergeRangeTo: timestamp with time zone
+  CreatedAt: timestamp with time zone
+  Value: integer
+}
+
+Users: {
+  shape: sql_table
+
+  Id: character varying (30) {constraint: primary_key}
+  GuildId: character varying (30) {constraint: primary_key}
+  PointsDisabled: boolean
+  LastReactionIncrement: datetime with time zone
+  LastMessageIncrement: datetime with time zone
+  IsUser: boolean
+}

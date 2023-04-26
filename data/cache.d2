@@ -1,0 +1,46 @@
+DataCache: {
+  shape: sql_table
+
+  Key: text {constraint: primary_key}
+  Value: text
+  ValidTo: timestamp without time zone
+}
+
+InviteMetadata: {
+  shape: sql_table
+
+  GuildId: character varying (30)
+  Code: character varying (10)
+  Uses: integer
+  IsVanity: boolean
+  CreatorId: character varying (30)
+  CreatedAt: timestamp without time zone
+}
+
+MessageIndex: {
+  shape: sql_table
+
+  MessageId: character varying (30) {constraint: primary_key}
+  ChannelId: character varying (30)
+  AuthorId: character varying (30)
+  GuildId: character varying (30)
+}
+
+ProfilePictures: {
+  shape: sql_table
+
+  UserId: character varying (30)
+  Size: tinyint
+  AvatarId: character varying (255)
+  IsAnimated: boolean
+  Data: bytea
+}
+
+EmoteSuggestionMetadata: {
+  shape: sql_table
+
+  Id: character varying (1024) {constraint: primary_key}
+  CreatedAt: timestamp without time zone
+  DataContent: bytea
+  Filename: character varying (200)
+}
