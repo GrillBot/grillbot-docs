@@ -1,0 +1,109 @@
+digraph ImageProcessingService {
+    rankdir=LR
+	
+	subgraph cluster_0 {
+		node [style=filled];
+		label = "ImageProcessingService";
+		color=blue
+		
+        subgraph cluster_3_1 {
+            node [style=filled];
+            label="Actions";
+            color=black;
+            
+            ChartAction
+            PeepoAngryAction
+            PeepoLoveAction
+            PointsAction
+            WithoutAccidentAction
+        }
+        
+        subgraph cluster_3_2 {
+            node [style=filled];
+            label="Caching";
+            color=black;
+            
+            ChartCache
+            PeepoCache
+            PointsCache
+            WithoutAccidentCache
+        }
+        
+        subgraph cluster_3_3 {
+            node [style=filled];
+            label="Controllers";
+            color=black;
+            
+            DiagnosticController
+            ImageController
+        }
+        
+        subgraph cluster_3_4 {
+            node [style=filled];
+            label="Core";
+            color=black;
+            
+            subgraph cluster_3_4_1 {
+                node [style=filled];
+                label="GraphicsService"
+                color=black;
+                
+                IGraphicsClient -> GraphicsClient
+            }
+        }
+	}
+	
+	subgraph cluster_4 {
+	    node [style=filled];
+	    label = "GrillBot.Core";
+	    color=blue
+	    
+	    subgraph cluster_4_1 {
+	        node [style=filled];
+            label="Managers";
+            color=black;
+            
+            subgraph cluster_4_1_2 {
+	            node [style=filled];
+                label="Performance";
+                color=black;
+                
+                ICounterManager
+	        }
+	    }
+	    
+	    subgraph cluster_4_2 {
+	        node [style=filled];
+            label="Services";
+            color=black;
+	        
+	        subgraph cluster_4_3 {
+	            node [style=filled];
+                label="Diagnostics";
+                color=black;
+	            
+	            IDiagnosticsProvider
+	        }
+	    }
+	}
+	
+	subgraph cluster_100 {
+	    node[style=filled];
+	    label = ".NET"
+	    color=green
+	    
+	    IMemoryCache
+	    IServiceProvider
+	    IHttpClientFactory
+	}
+	
+	ChartAction -> { IGraphicsClient ChartCache }
+	PeepoAngryAction -> { PeepoCache IGraphicsClient }
+	PeepoLoveAction -> { PeepoCache IGraphicsClient }
+	PointsAction -> { PointsCache IGraphicsClient }
+	WithoutAccidentAction -> { WithoutAccidentCache IGraphicsClient }
+	{ ChartCache PeepoCache PointsCache WithoutAccidentCache } -> { IMemoryCache }
+	ImageController -> { IServiceProvider }
+	GraphicsClient -> { ICounterManager IHttpClientFactory }
+	DiagnosticController -> { IDiagnosticsProvider }
+}

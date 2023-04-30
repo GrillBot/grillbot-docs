@@ -30,6 +30,7 @@ digraph GrillBot {
             IRubbergodServiceClient -> RubbergodServiceClient
             IFileServiceClient -> FileServiceClient
             IPointsServiceClient -> PointsServiceClient
+            IImageProcessingClient -> ImageProcessingClient
 		}
 	}
 	
@@ -367,9 +368,9 @@ digraph GrillBot {
                         label="Chart";
                         color=lightblue;
                         
-                        GuildChartRenderer
                         PointsChart
-                        UsersChartRenderer
+                        GuildChartBuilder
+                        UserChartBuilder
                     }
                 }
                 
@@ -949,7 +950,7 @@ digraph GrillBot {
 	UpdateUser -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriteManager ITextsManager PointsHelper IDiscordClient }
 	GetTodayBirthdayInfo -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient IConfiguration ITextsManager }
 	Emojization -> { ITextsManager }
-	ImageCreator -> { ProfilePictureManager IGraphicsClient }
+	ImageCreator -> { ProfilePictureManager IImageProcessingClient }
 	PointsLeaderboard -> { GrillBotDatabaseBuilder ITextsManager FormatHelper IPointsServiceClient }
 	AuditLogController -> { IServiceProvider }
 	AuthController -> { IServiceProvider }
@@ -1049,7 +1050,7 @@ digraph GrillBot {
 	PublicApiClientsController -> { IServiceProvider }
 	UpdateClient -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
 	DataCacheManager -> { GrillBotCacheBuilder }
-	WithoutAccidentRenderer -> { ProfilePictureManager DataCacheManager IGraphicsClient }
+	WithoutAccidentRenderer -> { ProfilePictureManager DataCacheManager IImageProcessingClient }
 	UpdateJob -> { ApiRequestContext DataCacheManager ISchedulerFactory ITextsManager }
 	GetSearchingList -> { ApiV1_GetSearchingList GrillBotDatabaseBuilder ITextsManager }
 	CopyRemind -> { GrillBotDatabaseBuilder ITextsManager CreateRemind }
@@ -1059,7 +1060,7 @@ digraph GrillBot {
 	RemindPaginationHandler -> { GetReminderList }
 	ChannelInfo -> { ITextsManager FormatHelper GrillBotDatabaseBuilder }
 	UnverifyHelper -> { GrillBotDatabaseBuilder }
-	GetDashboard -> { ApiRequestContext IWebHostEnvironment IDiscordClient InitManager ICounterManager GrillBotDatabaseBuilder LoggingManager IGraphicsClient IRubbergodServiceClient IFileServiceClient IPointsServiceClient }
+	GetDashboard -> { ApiRequestContext IWebHostEnvironment IDiscordClient InitManager ICounterManager GrillBotDatabaseBuilder LoggingManager IGraphicsClient IRubbergodServiceClient IFileServiceClient IPointsServiceClient IImageProcessingClient }
 	AuditMessageDeletedHandler -> { IMessageCacheManager FileStorageFactory AuditLogWriteManager ICounterManager DownloadHelper IFileServiceClient }
 	ChannelMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
 	EmoteMessageDeletedHandler -> { IEmoteManager IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
@@ -1104,7 +1105,7 @@ digraph GrillBot {
     AuditMessageUpdatedHandler -> { IMessageCacheManager AuditLogWriteManager }
     AuditChannelCreatedHandler -> { ICounterManager AuditLogWriteManager }
     AuditInteractionCommandHandler -> { AuditLogWriteManager }
-    PointsImage -> { GrillBotDatabaseBuilder ProfilePictureManager IGraphicsClient ITextsManager IPointsServiceClient }
+    PointsImage -> { GrillBotDatabaseBuilder ProfilePictureManager ITextsManager IPointsServiceClient IImageProcessingClient }
     DeleteInvite -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager }
     AddBirthday -> { GrillBotDatabaseBuilder }
     HaveBirthday -> { GrillBotDatabaseBuilder }
@@ -1114,9 +1115,7 @@ digraph GrillBot {
     EmotesListPaginationHandler -> { GetEmotesList }
     GetEmotesList -> { GetStatsOfEmotes ITextsManager }
     EmoteInfo -> { GrillBotDatabaseBuilder IDiscordClient ITextsManager FormatHelper }
-    GuildChartRenderer -> { ITextsManager IGraphicsClient }
-    PointsChart -> { IServiceProvider GuildChartRenderer UsersChartRenderer IPointsServiceClient }
-    UsersChartRenderer -> { ITextsManager IGraphicsClient IRandomManager }
+    PointsChart -> { IServiceProvider IPointsServiceClient IImageProcessingClient GuildChartBuilder UserChartBuilder }
     GraphicsClient -> { IHttpClientFactory ICounterManager }
     CreateSearch -> { GrillBotDatabaseBuilder }
     Searching_GetSuggestions -> { UserManager ApiV1_GetSearchingList }
@@ -1143,7 +1142,7 @@ digraph GrillBot {
     MessageModule -> { IServiceProvider }
     PermissionsModule -> { IServiceProvider }
     FileServiceClient -> { ICounterManager IHttpClientFactory }
-    GetServiceInfo -> { ApiRequestContext IGraphicsClient IRubbergodServiceClient IFileServiceClient LoggingManager IPointsServiceClient }
+    GetServiceInfo -> { ApiRequestContext IGraphicsClient IRubbergodServiceClient IFileServiceClient LoggingManager IPointsServiceClient IImageProcessingClient }
     CacheCleanerJob -> { IServiceProvider GrillBotCacheBuilder IDiscordClient InitManager LoggingManager }
     ForumThreadTagsUpdated -> { ICounterManager AuditLogWriteManager GrillBotDatabaseBuilder }
     UnverifyLogArchivationJob -> { IServiceProvider GrillBotDatabaseBuilder FileStorageFactory IDiscordClient InitManager LoggingManager }
@@ -1156,4 +1155,7 @@ digraph GrillBot {
     RubbergodServiceSynchronizationHandler -> { IRubbergodServiceClient GrillBotDatabaseBuilder }
     ThreadSynchronizationHandler -> { GrillBotDatabaseBuilder }
     UserSynchronizationHandler -> { GrillBotDatabaseBuilder }
+    GuildChartBuilder -> { ITextsManager }
+    ImageProcessingClient -> { ICounterManager IHttpClientFactory }
+    UserChartBuilder -> { ITextsManager IRandomManager }
 }

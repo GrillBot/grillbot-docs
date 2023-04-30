@@ -1,9 +1,9 @@
-digraph GrillBot {
+digraph PointsService {
     rankdir=LR
 	
 	subgraph cluster_0 {
 		node [style=filled];
-		label = "RubbergodService";
+		label = "PointsService";
 		color=blue
 		
         subgraph cluster_3_1 {
@@ -28,6 +28,25 @@ digraph GrillBot {
         
         subgraph cluster_3_2 {
             node [style=filled];
+            label="BackgroundServices";
+            color=black;
+            
+            subgraph cluster_3_2_1 {
+                node [style=filled];
+                label="PostProcessAction";
+                color=black;
+                
+                CalculateDailyStatsAction
+                RecalculateLeaderboardAction
+                RecalculatePositionAction
+            }
+            
+            PostProcessingQueue
+            PostProcessingService
+        }
+        
+        subgraph cluster_3_3 {
+            node [style=filled];
             label="Controllers";
             color=black;
             
@@ -41,12 +60,12 @@ digraph GrillBot {
             TransactionController
         }
         
-        subgraph cluster_3_3 {
+        subgraph cluster_3_4 {
             node [style=filled];
             label="Core"
             color=black
             
-            subgraph cluster_3_3_1 {
+            subgraph cluster_3_4_1 {
                 node [style=filled];
                 label="Entity"
                 color=black;
@@ -54,7 +73,7 @@ digraph GrillBot {
                 PointsServiceContext
             }
             
-            subgraph cluster_3_3_2 {
+            subgraph cluster_3_4_2 {
                 node [style=filled];
                 label="Providers"
                 color=black;
@@ -62,7 +81,7 @@ digraph GrillBot {
                 StatisticsProvider
             }
             
-            subgraph cluster_3_3_3 {
+            subgraph cluster_3_4_3 {
                 node [style=filled];
                 label="Repository"
                 color=black
@@ -128,14 +147,14 @@ digraph GrillBot {
 	AdminCreateTransactionAction -> { PointsServiceRepository }
 	AdminListAction -> { PointsServiceRepository }
 	ChartAction -> { PointsServiceRepository }
-	CreateTransactionAction -> { PointsServiceRepository IOptions IRandomManager }
+	CreateTransactionAction -> { PointsServiceRepository IOptions IRandomManager PostProcessingQueue }
 	CurrentPointsStatusAction -> { PointsServiceRepository }
-	DeleteTransactionsAction -> { PointsServiceRepository }
+	DeleteTransactionsAction -> { PointsServiceRepository PostProcessingQueue }
 	LeaderboardAction -> { PointsServiceRepository }
-	MergeTransactionsAction -> { PointsServiceRepository IOptions }
+	MergeTransactionsAction -> { PointsServiceRepository IOptions PostProcessingQueue }
 	SynchronizationAction -> { PointsServiceRepository }
 	TransactionExistsAction -> { PointsServiceRepository }
-	TransferPointsAction -> { PointsServiceRepository }
+	TransferPointsAction -> { PointsServiceRepository PostProcessingQueue }
 	AdminController -> { IServiceProvider }
 	ChartController -> { IServiceProvider }
 	DiagnosticController -> { IDiagnosticsProvider }
@@ -149,4 +168,8 @@ digraph GrillBot {
 	PointsServiceRepository -> { PointsServiceContext ICounterManager }
 	ImagePointsStatusAction -> { PointsServiceRepository }
 	LeaderboardCountAction -> { PointsServiceRepository }
+	CalculateDailyStatsAction -> { PointsServiceRepository }
+	RecalculateLeaderboardAction -> { PointsServiceRepository }
+	RecalculatePositionAction -> { PointsServiceRepository }
+	PostProcessingService -> { IServiceProvider PostProcessingQueue ICounterManager PointsServiceRepository CalculateDailyStatsAction RecalculateLeaderboardAction RecalculatePositionAction }
 }

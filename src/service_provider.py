@@ -10,6 +10,7 @@ names = {
     "rubbergod": "RubbergodService",
     "file": "FileService",
     "points": "Points",
+    "image-processing": "ImageProcessingService",
 }
 
 descriptions = {
@@ -19,6 +20,7 @@ descriptions = {
     "rubbergod": "Služba starající se o rozhraní mezi boty GrillBot a Rubbergod.",
     "file": "Služba řešící ukládání a získávání souborů mezi GrillBot a Azure Storage Blob.",
     "points": "Služba řesící správu bodů (transakcí, slučování, reporting, ...)",
+    "image-processing": "Mezi služba pro vykreslování a caching obrázků.",
 }
 
 databases = {
@@ -29,6 +31,7 @@ databases = {
     },
     "file": None,
     "points": {"Databáze": "/static/database_points.svg"},
+    "image-processing": None,
 }
 
 di_graphs = {
@@ -37,6 +40,7 @@ di_graphs = {
     "rubbergod": "/static/di-graph-rubbergod.svg",
     "file": "/static/di-graph-file.svg",
     "points": "/static/di-graph-points.svg",
+    "image-processing": "/static/di-graph-image-processing.svg",
 }
 
 api_descriptions = {
@@ -249,6 +253,44 @@ api_descriptions = {
             "Indikace, zda pro daného uživatele existuje nějaká transakce.",
         ),
     ],
+    "image-processing": [
+        build_api_description(
+            "GET /api/diag",
+            [200],
+            ["application/json"],
+            "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...).",
+        ),
+        build_api_description(
+            "POST /api/image/peepolove",
+            [200, 400],
+            ["image/png", "image/gif", "application/json"],
+            "Vytvoří obrázek peepa držícího profilovku uživatele.",
+        ),
+        build_api_description(
+            "POST /api/image/peepoangry",
+            [200, 400],
+            ["image/png", "image/gif", "application/json"],
+            "Vytvoří obrázek peepa naštvaně zírajícího na profilovku uživatele.",
+        ),
+        build_api_description(
+            "POST /api/image/points",
+            [200, 400],
+            ["image/png", "application/json"],
+            "Vykreslení obrázku s aktuálním stavem bodů uživatele.",
+        ),
+        build_api_description(
+            "POST /api/image/without-accident",
+            [200, 400],
+            ["image/png", "application/json"],
+            "Vykreslení obrázku znělky ze seriálu The Simpsons s počtem dní od posledního incidentu.",
+        ),
+        build_api_description(
+            "POST /api/image/chart",
+            [200, 400],
+            ["image/png", "application/json"],
+            "Vygenerování grafu. <b>Jediný podporovaný je spojnicový graf.</b>",
+        ),
+    ],
 }
 
 project_files = {
@@ -263,6 +305,7 @@ project_files = {
     "rubbergod": "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/RubbergodService/RubbergodService/RubbergodService.csproj",  # noqa: E501
     "file": "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/FileService/FileService/FileService.csproj",  # noqa: E501
     "points": "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/PointsService/PointsService.csproj",  # noqa: E501
+    "image-processing": "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/ImageProcessingService/ImageProcessingService.csproj",  # noqa: E501
 }
 
 
@@ -280,24 +323,20 @@ class ServiceProvider:
             "is_public": self.service_name == "grillbot",
         }
 
-        database = databases[self.service_name]
-        if database is not None:
-            result["database"] = database
+        if databases[self.service_name] is not None:
+            result["database"] = databases[self.service_name]
 
-        di_graph = di_graphs[self.service_name]
-        if di_graph is not None:
-            result["di_graph"] = di_graph
+        if di_graphs[self.service_name] is not None:
+            result["di_graph"] = di_graphs[self.service_name]
 
-        api_description = api_descriptions[self.service_name]
-        if api_description is not None:
-            result["api_description"] = api_description
+        if api_descriptions[self.service_name] is not None:
+            result["api_description"] = api_descriptions[self.service_name]
 
         if self.service_name == "grillbot":
             result["swagger_url"] = "https://grillbot.cloud/swagger"
 
-        project_file = project_files[self.service_name]
-        if project_file is not None:
-            deps = self.download_deps(project_file)
+        if project_files[self.service_name] is not None:
+            deps = self.download_deps(project_files[self.service_name])
             if deps is not None:
                 result["dependencies"] = deps
 

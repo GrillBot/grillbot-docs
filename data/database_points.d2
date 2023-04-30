@@ -7,6 +7,27 @@ Channels: {
   PointsDisabled: boolean
 }
 
+DailyStats: {
+  shape: sql_table
+
+  GuildId: character varying (30) {constraint: primary_key}
+  UserId: character varying (30) {constraint: primary_key}
+  Date: date {constraint: primary_key}
+  MessagePoints: bigint
+  ReactionPoints: bigint
+}
+
+Leaderboard: {
+  shape: sql_table
+
+  GuildId: character varying (30) {constraint: primary_key}
+  UserId: character varying (30) {constraint: primary_key}
+  YearBack: integer
+  MonthBack: integer
+  Today: integer
+  Total: integer
+}
+
 Transactions: {
   shape: sql_table
 
@@ -30,4 +51,5 @@ Users: {
   LastReactionIncrement: datetime with time zone
   LastMessageIncrement: datetime with time zone
   IsUser: boolean
+  PointsPosition: integer
 }
