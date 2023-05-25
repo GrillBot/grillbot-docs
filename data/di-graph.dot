@@ -129,6 +129,7 @@ digraph GrillBot {
                     GetEmoteSuggestionsList
                     GetStatsOfEmotes
                     GetSupportedEmotes
+                    GetUserStatisticsOfEmote
                     MergeStats
                     RemoveStats
                 }
@@ -1149,4 +1150,5 @@ digraph GrillBot {
     GuildChartBuilder -> { ITextsManager }
     ImageProcessingClient -> { ICounterManager IHttpClientFactory }
     UserChartBuilder -> { ITextsManager IRandomManager }
+    GetUserStatisticsOfEmote -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 }
