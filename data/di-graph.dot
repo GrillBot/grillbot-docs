@@ -123,14 +123,6 @@ digraph GrillBot {
                 
                 subgraph cluster_3_1_1_5 {
                     node[style=filled];
-                    label="Command";
-                    color=lightblue;
-                    
-                    GetExternalCommands
-                }
-                
-                subgraph cluster_3_1_1_6 {
-                    node[style=filled];
                     label="Emote";
                     color=lightblue;
                     
@@ -141,7 +133,7 @@ digraph GrillBot {
                     RemoveStats
                 }
                 
-                subgraph cluster_3_1_1_7 {
+                subgraph cluster_3_1_1_6 {
                     node[style=filled];
                     label="Guild";
                     color=lightblue;
@@ -153,7 +145,7 @@ digraph GrillBot {
                     UpdateGuild
                 }
                 
-                subgraph cluster_3_1_1_8 {
+                subgraph cluster_3_1_1_7 {
                     node[style=filled];
                     label="Invite";
                     color=lightblue;
@@ -164,7 +156,7 @@ digraph GrillBot {
                     RefreshMetadata
                 }
                 
-                subgraph cluster_3_1_1_9 {
+                subgraph cluster_3_1_1_8 {
                     node[style=filled];
                     label="Points";
                     color=lightblue;
@@ -176,7 +168,7 @@ digraph GrillBot {
                     ServiceTransferPoints
                 }
                 
-                subgraph cluster_3_1_1_10 {
+                subgraph cluster_3_1_1_9 {
                     node[style=filled];
                     label="PublicApiClients";
                     color=lightblue;
@@ -188,7 +180,7 @@ digraph GrillBot {
                     UpdateClient
                 }
                 
-                subgraph cluster_3_1_1_11 {
+                subgraph cluster_3_1_1_10 {
                     node[style=filled];
                     label="Reminder";
                     color=lightblue;
@@ -197,7 +189,7 @@ digraph GrillBot {
                     ApiV1_GetReminderList
                 }
                 
-                subgraph cluster_3_1_1_12 {
+                subgraph cluster_3_1_1_11 {
                     node[style=filled];
                     label="ScheduledJobs";
                     color=lightblue;
@@ -207,7 +199,7 @@ digraph GrillBot {
                     UpdateJob
                 }
                 
-                subgraph cluster_3_1_1_13 {
+                subgraph cluster_3_1_1_12 {
                     node[style=filled];
                     label="Searching";
                     color=lightblue;
@@ -216,7 +208,7 @@ digraph GrillBot {
                     RemoveSearches
                 }
                 
-                subgraph cluster_3_1_1_14 {
+                subgraph cluster_3_1_1_13 {
                     node[style=filled];
                     label="Services";
                     color=lightblue;
@@ -224,7 +216,7 @@ digraph GrillBot {
                     GetServiceInfo
                 }
                 
-                subgraph cluster_3_1_1_15 {
+                subgraph cluster_3_1_1_14 {
                     node[style=filled];
                     label="Statistics";
                     color=lightblue;
@@ -239,7 +231,7 @@ digraph GrillBot {
                     GetUnverifyStatistics
                 }
                 
-                subgraph cluster_3_1_1_16 {
+                subgraph cluster_3_1_1_15 {
                     node[style=filled];
                     label="System";
                     color=lightblue;
@@ -249,7 +241,7 @@ digraph GrillBot {
                     GetEventLog
                 }
                 
-                subgraph cluster_3_1_1_17 {
+                subgraph cluster_3_1_1_16 {
                     node[style=filled];
                     label="Unverify";
                     color=lightblue;
@@ -265,7 +257,7 @@ digraph GrillBot {
                     UpdateUnverify
                 }
                 
-                subgraph cluster_3_1_1_18 {
+                subgraph cluster_3_1_1_17 {
                     node[style=filled];
                     label="User";
                     color=lightblue;
@@ -904,7 +896,6 @@ digraph GrillBot {
 	GetChannelboard -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
 	ApiV1_SendMessageToChannel -> { ApiRequestContext ITextsManager IDiscordClient IMessageCacheManager }
 	UpdateChannel -> { ApiRequestContext GrillBotDatabaseBuilder AuditLogWriteManager ITextsManager AutoReplyManager ChannelHelper PointsHelper IDiscordClient }
-	GetExternalCommands -> { ApiRequestContext IRubbergodServiceClient }
 	GetEmoteSuggestionsList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 	GetStatsOfEmotes -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IEmoteManager }
 	GetSupportedEmotes -> { ApiRequestContext IMapper IEmoteManager }
