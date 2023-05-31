@@ -127,6 +127,7 @@ digraph GrillBot {
                     color=lightblue;
                     
                     GetEmoteSuggestionsList
+                    GetStatOfEmote
                     GetStatsOfEmotes
                     GetSupportedEmotes
                     GetUserStatisticsOfEmote
@@ -176,6 +177,7 @@ digraph GrillBot {
                     
                     CreateClient
                     DeleteClient
+                    GetClient
                     GetClientsList
                     GetPublicApiMethods
                     UpdateClient
@@ -1151,4 +1153,6 @@ digraph GrillBot {
     ImageProcessingClient -> { ICounterManager IHttpClientFactory }
     UserChartBuilder -> { ITextsManager IRandomManager }
     GetUserStatisticsOfEmote -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
+    GetClient -> { ApiRequestContext GrillBotDatabaseBuilder }
+    GetStatOfEmote -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 }
