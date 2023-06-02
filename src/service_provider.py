@@ -120,6 +120,18 @@ api_descriptions = {
             "Vrací stránkovaný seznam karmy jednotlivých uživatelů.",
         ),
         build_api_description(
+            "DELETE /api/pins/{guildId}/{channelId}",
+            [200],
+            [],
+            "Smaže všechny piny z cache.",
+        ),
+        build_api_description(
+            "GET /api/pins/{guildId}/{channelId}?markdown={markdown}",
+            [200],
+            [],
+            "Získání pinů. Možné vygenerovat JSON obsah nebo markdown.",
+        ),
+        build_api_description(
             "PATCH /api/user/{memberId}",
             [200],
             [],

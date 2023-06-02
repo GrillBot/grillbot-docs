@@ -14,3 +14,13 @@ Karma: {
   Positive: integer
   Negative: integer
 }
+
+PinCacheItem: {
+  shape: sql_table
+
+  GuildId: character varying(32) {constraint: primary_key}
+  ChannelId: character varying(32) {constraint: primary_key}
+  Filename: character varying(255) {constraint: primary_key}
+  CreatedAtUtc: timestamp with timezone
+  Data: bytea
+}

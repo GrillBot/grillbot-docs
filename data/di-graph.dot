@@ -111,11 +111,20 @@ digraph GrillBot {
                     label="Channel";
                     color=lightblue;
                     
+                    subgraph cluster_3_1_1_4_1 {
+                        node[style=filled];
+                        label="SimpleList";
+                        color=lightblue;
+                        
+                        GetChannelSimpleList
+                        GetChannelSimpleListWithPins
+                    }
+                    
                     ClearMessageCache
                     GetChannelDetail
                     GetChannelList
-                    GetChannelSimpleList
                     GetChannelUsers
+                    GetPins
                     GetChannelboard
                     ApiV1_SendMessageToChannel[label="SendMessageToChannel"]
                     UpdateChannel
@@ -527,6 +536,7 @@ digraph GrillBot {
                 
                 AutoReplyHandler
                 ChannelMessageReceivedHandler
+                ChannelPinMessageReceivedHandler
                 EmoteChainHandler
                 EmoteMessageReceivedHandler
                 PointsMessageReceivedHandler
@@ -894,7 +904,6 @@ digraph GrillBot {
 	ClearMessageCache -> { ApiRequestContext IDiscordClient IMessageCacheManager AuditLogWriteManager }
 	GetChannelDetail -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager IMapper IDiscordClient IMessageCacheManager }
 	GetChannelList -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient IMessageCacheManager IMapper }
-	GetChannelSimpleList -> { ApiRequestContext IDiscordClient IMapper GrillBotDatabaseBuilder ITextsManager }
 	GetChannelUsers -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 	GetChannelboard -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
 	ApiV1_SendMessageToChannel -> { ApiRequestContext ITextsManager IDiscordClient IMessageCacheManager }
@@ -1068,7 +1077,7 @@ digraph GrillBot {
     UnsucessCommandHandler -> { ITextsManager InteractionService GrillBotDatabaseBuilder DataCacheManager ChannelHelper IRubbergodServiceClient }
     UserPresenceSynchronizationHandler -> { GrillBotDatabaseBuilder }
     AutoReplyReadyHandler -> { AutoReplyManager }
-    ChannelInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
+    ChannelInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient LoggingManager }
     CommandsRegistrationHandler -> { InteractionService IDiscordClient LoggingManager }
     InviteReadyHandler -> { ApiRequestContext IDiscordClient RefreshMetadata }
     UserInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
@@ -1155,4 +1164,8 @@ digraph GrillBot {
     GetUserStatisticsOfEmote -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
     GetClient -> { ApiRequestContext GrillBotDatabaseBuilder }
     GetStatOfEmote -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
+    ChannelPinMessageReceivedHandler -> { GrillBotDatabaseBuilder }
+    GetChannelSimpleList -> { ApiRequestContext IDiscordClient IMapper GrillBotDatabaseBuilder ITextsManager }
+    GetChannelSimpleListWithPins -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder IMapper }
+    GetPins -> { ApiRequestContext ChannelHelper ITextsManager IRubbergodServiceClient }
 }
