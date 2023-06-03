@@ -1155,7 +1155,7 @@ digraph GrillBot {
     ChannelSynchronizationHandler -> { GrillBotDatabaseBuilder }
     GuildSynchronizationHandler -> { GrillBotDatabaseBuilder }
     PointsServiceSynchronizationHandler -> { IPointsServiceClient PointsHelper GrillBotDatabaseBuilder IDiscordClient }
-    RubbergodServiceSynchronizationHandler -> { IRubbergodServiceClient GrillBotDatabaseBuilder }
+    RubbergodServiceSynchronizationHandler -> { IRubbergodServiceClient GrillBotDatabaseBuilder IMessageCacheManager }
     ThreadSynchronizationHandler -> { GrillBotDatabaseBuilder }
     UserSynchronizationHandler -> { GrillBotDatabaseBuilder }
     GuildChartBuilder -> { ITextsManager }
