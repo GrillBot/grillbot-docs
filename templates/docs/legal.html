@@ -7,7 +7,7 @@
     částí kódu z aplikace je umožněno za podmínky uvedení autora u zdrojového kódu.<br>
     Administrátor discord serveru je oprávněn přidat běžící instanci aplikace až po písemném povolení vlastníkem aplikace. Současně také
     spuštění vlastní instance za jiným účelem, než vývoj aplikace je možné až po písemném povolení vlastníkem.<br>
-    Vlastníkem aplikace je skupina osob, kteří jsou členy skupiny <a href="https://github.com/orgs/GrillBot/people"
+    Vlastníkem aplikace je skupina osob, kteří jsou členy organizace <a href="https://github.com/orgs/GrillBot/people"
         target="_blank">GrillBot</a> v GitHub. Tyto osoby mohou udělit povolení k užívání aplikace.<br>
     Uživatel, který se připojí na Discord server, kde se také nachází bot automaticky souhlasí se sběrem dat popsaných na této stránce.
 </p>
@@ -21,14 +21,13 @@
     Data jsou v databázi uchovávany na základě jejich potřeby po různou dobu.
 <ul>
     <li>
-        Záznamy z logování provozu starší, než 12 měsíců jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data
-        uchovány po dobu minimálně dalšího jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně
-        smazat.
+        Záznamy z logování provozu starší, než 1 rok jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data uchovány
+        po dobu minimálně dalšího jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně smazat.
     </li>
     <li>
-        Záznamy z logování odebrání a vrácení přístupu starší, než 24 měsíců jsou zálohovány na diskové úložiště a z databáze smazány. Na
-        disku jsou data uchovávány po dobu minimálně dalšáho jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo
-        data nenávratně smazat.
+        Záznamy z logování odebrání a vrácení přístupu starší, než 2 roky jsou zálohovány na diskové úložiště a z databáze smazány. Na disku
+        jsou data uchovávány po dobu minimálně dalšáho jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data
+        nenávratně smazat.
     </li>
     <li>
         Ostatní výše nezmíněné data jsou v databázi uchovány po dobu existence discord serveru na kterém se bot nachází a to i po opuštění
@@ -125,15 +124,14 @@ REST API. Uživatelé mají přístup k těm záznamům, které ukazují provede
         má uživatel datum narození uloženo (ANO/NE). Žádný uživatel nevidí konkrétní datum. Uložením data narození dává uživatel souhlas k
         nakládání s datem narození za účelem prezentace ke dni narozenin prostřednictvím příkazu a automatizovaného upozornění.
     </li>
-    <li>Interní poznámka, kterou si mohou oprávněné osoby k uživateli napsat pomocí privátní webové administrace. Poznámka není dostupná ve
-        veřejné administraci.</li>
     <li>Aktuální uživatelské jméno, diskriminátor a stav přihlášení (Online, Offline, ...) ze služby Discord</li>
     <li>Agregované informace o použitých emotikonech</li>
-    <li>Minimální doba, na kterou si uživatel může dát selfunverify. Pokud není nastaveno, tak se na něj vztahuje výchozí nastavení.</li>
+    <li>Minimální doba, na kterou si uživatel může dát selfunverify. Pokud není nastaveno, tak se na něj vztahuje výchozí nastavení uvedené
+        v konfiguraci.</li>
 </ul>
 
 Každý uživatel má přístup ke svým informacím pomocí příkazu <code>/me</code>, nebo pomocí veřejné administrace. Oprávněné osoby mají přístup
-ke všem údajům o uživatelích a to pomocí příkazu <code>$user info</code>, nebo pomocí privátní webové administrace.
+ke všem údajům o uživatelích a to pomocí příkazu <code>/user info</code>, nebo pomocí privátní webové administrace.
 </p>
 
 <h3 class="fw-light">Statistika používání emotikonů</h3>
@@ -157,11 +155,12 @@ ke všem údajům o uživatelích a to pomocí příkazu <code>$user info</code>
     <li>Jednoznačný identifikátor v databázové tabulce</li>
     <li>Identifikace uživatele, který zprávu k upozornění založil</li>
     <li>Identifikace uživatele, který zprávu k upozornění má obdržet</li>
-    <li>Identifikace původní zprávy za účelem možnosti vytvářet kopie tohoto upozornění za pomocí reakcí</li>
+    <li>Identifikace původní zprávy za účelem možnosti vytvářet kopie tohoto upozornění</li>
     <li>Identifikace zprávy upozornění za účelem odložení</li>
     <li>Datum a čas, kdy se má upozornění odeslat</li>
     <li>Obsah zprávy</li>
     <li>Počet odložení</li>
+    <li>Jazyk UI uživatele</li>
 </ul>
 </p>
 
@@ -177,6 +176,7 @@ ke všem údajům o uživatelích a to pomocí příkazu <code>$user info</code>
     <li>Identifikátor role, kterou mají "Server booster" uživatelé. Nastavuje se automaticky při startu aplikace</li>
     <li>Identifikátor kanálu pro návrhy emotů</li>
     <li>Identifikátor kanálu pro veřejná hlasování</li>
+    <li>Identifikátor kanálu určeného pro boty</li>
 </ul>
 </p>
 
@@ -198,7 +198,7 @@ ke všem údajům o uživatelích a to pomocí příkazu <code>$user info</code>
 <ul>
     <li>Povinné identifikátory (Serveru, uživatele)</li>
     <li>Pořadí</li>
-    <li>Samotná přezdívka.</li>
+    <li>Samotná přezdívka</li>
 </ul>
 Duplicitní přezdívky se nezapisují, tudíž z těchto dat nelze vyčíst, kdy uživatel měl kterou přezdívku. To lze pouze s pomocí audit logu.
 </p>
@@ -207,10 +207,10 @@ Duplicitní přezdívky se nezapisují, tudíž z těchto dat nelze vyčíst, kd
 <p>
     Aktivita za kterou uživatel dostává body se ukládá formou transakcí. 1 transakce reprezentuje zprávu nebo reakci za kterou
     uživatel obdržel body.<br>
-    Na body se vztahuje expirace. Ta je nyní 1 rok od data a času přiřazení bodů. Všechny transakce a sumáře starší než 1.5 roku budou
-    sloučeny do jedné velké transakce. Sloučené transakce se zohledňují pouze v leaderboardu ve veřejné administraci.<br>
+    Na body se vztahuje expirace, která je nyní určena na dobu 1 roku od data a času přiřazení bodů. Všechny transakce starší než 1.5 roku
+    budou sloučeny do jedné velké transakce. Sloučené transakce se zohledňují pouze v leaderboardu ve veřejné administraci.<br>
     Oprávněné osoby mají možnost si zobrazit transakce v privátní administraci (běžné i sloučené). Oprávněné osoby mají také možnost provést
-    servisní úkony s body. Mohou uživateli "darovat" body, případně převést body od jiného uživatele.
+    servisní úkony s body. Mohou uživateli "darovat" body, převést body od jiného uživatele a v případě nutnosti také transakce mazat.
 </p>
 
 <h3 class="fw-light">Kanály</h3>
@@ -218,7 +218,7 @@ Duplicitní přezdívky se nezapisují, tudíž z těchto dat nelze vyčíst, kd
     Pro každý textový kanál, který se nachází na serveru a byla na něm provedena nějaká aktivita se ukládá:
 <ul>
     <li>Povinné identifikátory (serveru a kanálu)</li>
-    <li>Identifikátor nadřazeného kanálu, pokud se jedná o vlákno.</li>
+    <li>Identifikátor nadřazeného kanálu, pokud se jedná o vlákno</li>
     <li>Název kanálu</li>
     <li>Typ kanálu</li>
     <li>
@@ -229,8 +229,12 @@ Duplicitní přezdívky se nezapisují, tudíž z těchto dat nelze vyčíst, kd
             <li>Bit 3 (<code>4</code>): Kanál byl smazán (nebo vlákno bylo archivováno)</li>
             <li>Bit 4 (<code>8</code>): Automatické odpovědi jsou v daném kanálu zakázány.</li>
             <li>Bit 5 (<code>16</code>): Počítání bodů v daném kanálu je deaktivováno.</li>
+            <li>Bit 6 (<code>32</code>): Příkazy prováděné v daném kanálu se uvidí pouze volající.</li>
         </ul>
     </li>
+    <li>Počet uživatelských oprávnění</li>
+    <li>Počet oprávnění pro role</li>
+    <li>Počet pinů v kanálu</li>
 </ul>
 Za každého uživatele jsou pak u kanálu uloženy následující data:
 <ul>
@@ -345,10 +349,6 @@ neukládá kdo takovou pozvánku založil a kdy ji založil.
             <td><code>ThreadUpdated</code></td>
             <td>Úpravy provedené ve vláknu.</td>
         </tr>
-        <tr>
-            <td><code>ServiceApiCall</code></td>
-            <td>Volání interní služby.</td>
-        </tr>
     </tbody>
 </table>
 
@@ -371,18 +371,6 @@ U všech událostí se evidují tyto společné vlastnosti:
     Většina událostí obsahuje v záznamu také data specifické k určitému typu události. Ve většině případů se jedná o JSON data.
 <ul>
     <li>Informační zprávy, varování a chyby obsahují textový řetězec s obsahem zprávy. Neobsahují JSON data.</li>
-    <li>
-        Provedení příkazu
-        <ul>
-            <li>Identifikaci příkazu, který byl prováděn.</li>
-            <li>Obsah zprávy, který vyvolal příkaz.</li>
-            <li>Příznak, zda příkaz byl proveden úspěšně.</li>
-            <li>Typ chyby, který vznikl při provádění příkazu, pokud se neprovedl správně.</li>
-            <li>Důvod chyby, která vznikla při provádění příkazu. Pokud se příkaz neprovedl správně.</li>
-            <li>Doba trvání provedení příkazu.</li>
-            <li>Obsah výjimky, pokud došlo k chybě.</li>
-        </ul>
-    </li>
     <li>
         Vytvoření a smazání kanálu
         <ul>
@@ -573,20 +561,14 @@ U všech událostí se evidují tyto společné vlastnosti:
             <li>Tagy (ve fórech)</li>
         </ul>
     </li>
-    <li>
-        Volání interní služby
-        <ul>
-            <li>... Bude doplněno ...</li>
-        </ul>
-    </li>
 </ul>
 </p>
 
 <h3 class="fw-light">Zpřístupnění</h3>
 <p>
     Ke všem výše uvedeným informacím mají přístup pouze oprávněné osoby. Všechny informace jsou čitelné pomocí webové administrace.
-    Oprávněná osoba může provést smazání záznamu pokud k tomu má patřičný důvod.<br>
-    Uživatel má nárok k výmazu pouze informací o sobě samém. K výmazu dojde formou anonymizace. Z technických důvodů není možné provést
-    ostré smazání dat. Smazání všech informací může provést pouze oprávněná osoba a na základě písemné žádosti.
+    Oprávněná osoba může provést smazání záznamu pokud k tomu má patřičný důvod.<br> Uživatel má nárok k výmazu pouze informací o sobě
+    samém. K výmazu dojde formou anonymizace. Z technických důvodů není možné provést ostré smazání dat. Smazání všech informací může
+    provést pouze oprávněná osoba a na základě písemné žádosti.
 </p>
 {% endblock %}
