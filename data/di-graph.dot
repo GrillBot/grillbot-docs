@@ -80,7 +80,6 @@ digraph GrillBot {
                     
                     CreateLogItem
                     GetAuditLogList
-                    GetFileContent
                     RemoveItem
                 }
                 
@@ -890,9 +889,8 @@ digraph GrillBot {
 	GrillBotDatabaseBuilder -> { DbContextOptions ICounterManager }
 	GrillBotCacheBuilder -> { IServiceProvider DbContextOptions ICounterManager }
 	CreateLogItem -> { ApiRequestContext AuditLogWriteManager ITextsManager }
-	GetAuditLogList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper ITextsManager FileStorageFactory IFileServiceClient }
-	GetFileContent -> { ApiRequestContext GrillBotDatabaseBuilder FileStorageFactory ITextsManager }
-	RemoveItem -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager FileStorageFactory IFileServiceClient }
+	GetAuditLogList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper ITextsManager IFileServiceClient }
+	RemoveItem -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager IFileServiceClient }
 	CreateToken -> { ApiRequestContext IHttpClientFactory IDiscordClient ITextsManager GrillBotDatabaseBuilder IConfiguration }
 	GetRedirectLink -> { ApiRequestContext IConfiguration }
 	ProcessCallback -> { ApiRequestContext IConfiguration IHttpClientFactory }
