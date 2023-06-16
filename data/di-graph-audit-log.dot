@@ -34,6 +34,7 @@ digraph AuditLogService {
                 
                 GetDashboardInfoAction
                 GetJobsInfoAction
+                GetItemsCountOfGuildAction
             }
             
             subgraph cluster_3_1_4 {
@@ -220,4 +221,5 @@ digraph AuditLogService {
     { ApiRequestProcessor ChannelCreatedProcessor ChannelDeletedProcessor ChannelUpdatedProcessor DeletedEmoteProcessor GuildUpdatedProcessor InteractionCommandProcessor JobCompletedProcessor LogMessageProcessor MemberUpdatedProcessor MessageDeletedProcessor MessageEditedProcessor ThreadDeletedProcessor ThreadUpdatedProcessor UnbanProcessor UserJoinedProcessor UserLeftProcessor } -> { IServiceProvider DiscordManager }
     { MemberRoleUpdatedProcessor OverwriteCreatedProcessor OverwriteDeletedProcessor OverwriteUpdatedProcessor } -> { IServiceProvider AuditLogServiceContext DiscordManager }
     RequestProcessorFactory -> { IServiceProvider }
+    GetItemsCountOfGuildAction -> { AuditLogServiceContext }
 }

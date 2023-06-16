@@ -911,7 +911,7 @@ digraph GrillBot {
 	MergeStats -> { ApiRequestContext GrillBotDatabaseBuilder IEmoteManager IAuditLogServiceClient }
 	RemoveStats -> { ApiRequestContext GrillBotDatabaseBuilder IAuditLogServiceClient }
 	GetAvailableGuilds -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient }
-	GetGuildDetail -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient GrillBotCacheBuilder ITextsManager IPointsServiceClient }
+	GetGuildDetail -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient GrillBotCacheBuilder ITextsManager IPointsServiceClient IAuditLogServiceClient }
 	GetGuildList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient }
 	GetRoles -> { ApiRequestContext IDiscordClient }
 	UpdateGuild -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder GetGuildDetail ITextsManager }
