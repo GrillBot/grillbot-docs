@@ -349,7 +349,8 @@ api_descriptions = {
             "GET /api/logItem/{id}",
             [200, 404],
             ["application/json"],
-            "Získání detailu záznamu. Pokud záznam neexistuje, nebo k němu neexistuje detail, tak se vrátí 404 Not Found.",
+            "Získání detailu záznamu. Pokud záznam neexistuje, nebo k němu neexistuje detail, "
+            + "tak se vrátí 404 Not Found.",
         ),
         build_api_description(
             "GET /api/logItem/search",
@@ -420,8 +421,9 @@ healthcheck_endpoints = {
     "file": "https://grillbot.cloud/file/health",
     "points": "https://grillbot.cloud/points/health",
     "image-processing": "https://grillbot.cloud/image-processing/health",
-    "audit-log": "https://grillbot.cloud/audit-log/health"
+    "audit-log": "https://grillbot.cloud/audit-log/health",
 }
+
 
 class ServiceProvider:
     def __init__(self, service_name: str) -> None:
@@ -460,9 +462,15 @@ class ServiceProvider:
             if deps is not None:
                 result["dependencies"] = deps
 
-        if self.service_name in healthcheck_endpoints and healthcheck_endpoints[self.service_name] is not None:
-            logging.info(f'Checking online status of {self.service_name}')
-            result["is_online"] = requests.head(healthcheck_endpoints[self.service_name]).status_code == 200
+        if (
+            self.service_name in healthcheck_endpoints
+            and healthcheck_endpoints[self.service_name] is not None
+        ):
+            logging.info(f"Checking online status of {self.service_name}")
+            result["is_online"] = (
+                requests.head(healthcheck_endpoints[self.service_name]).status_code
+                == 200
+            )
 
         return result
 
