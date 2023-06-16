@@ -1,0 +1,223 @@
+digraph AuditLogService {
+    rankdir=LR
+	
+	subgraph cluster_0 {
+		node [style=filled];
+		label = "AuditLogService";
+		color=blue
+		
+        subgraph cluster_3_1 {
+            node [style=filled];
+            label="Actions";
+            color=black;
+            
+            subgraph cluster_3_1_1 {
+                node [style=filled];
+                label="Archivation";
+                color=black;
+                
+                ArchiveOldLogsAction
+            }
+            
+            subgraph cluster_3_1_2 {
+                node [style=filled];
+                label="Detail";
+                color=black;
+                
+                ReadDetailAction
+            }
+            
+            subgraph cluster_3_1_3 {
+                node [style=filled];
+                label="Info";
+                color=black;
+                
+                GetDashboardInfoAction
+                GetJobsInfoAction
+            }
+            
+            subgraph cluster_3_1_4 {
+                node [style=filled];
+                label="Search";
+                color=black;
+                
+                SearchItemsAction
+            }
+            
+            subgraph cluster_3_1_5 {
+                node [style=filled];
+                label="Statistics";
+                color=black;
+                
+                GetApiStatisticsAction
+                GetAuditLogStatisticsAction
+                GetAvgTimesAction
+                GetInteractionStatisticsListAction
+                GetUserApiStatisticsAction
+                GetUserCommandStatisticsAction
+            }
+            
+            CreateItemsAction
+            DeleteItemAction    
+        }
+        
+        subgraph cluster_3_2 {
+            node [style=filled];
+            label="Controllers";
+            color=black;
+            
+            ArchivationController
+            DiagnosticController
+            InfoController
+            LogItemController
+            StatisticsController
+        }
+        
+        subgraph cluster_3_3 {
+            node [style=filled];
+            label="Core"
+            color=black
+            
+            subgraph cluster_3_4_1 {
+                node [style=filled];
+                label="Discord"
+                color=black;
+                
+                DiscordLogManager
+                DiscordManager
+            }
+            
+            subgraph cluster_3_4_2 {
+                node [style=filled];
+                label="Entity"
+                color=black;
+                
+                AuditLogServiceContext
+            }
+            
+            subgraph cluster_3_4_3 {
+                node [style=filled];
+                label="Providers"
+                color=black;
+                
+                StatisticsProvider
+            }
+        }
+        
+        subgraph cluster_3_4 {
+            node [style=filled];
+            label="Processors"
+            color=black
+            
+            subgraph cluster_3_4_1 {
+                node [style=filled];
+                label="Request"
+                color=black
+            
+                ApiRequestProcessor
+                ChannelCreatedProcessor
+                ChannelDeletedProcessor
+                ChannelUpdatedProcessor
+                DeletedEmoteProcessor
+                GuildUpdatedProcessor
+                InteractionCommandProcessor
+                JobCompletedProcessor
+                LogMessageProcessor
+                MemberRoleUpdatedProcessor
+                MemberUpdatedProcessor
+                MessageDeletedProcessor
+                MessageEditedProcessor
+                OverwriteCreatedProcessor
+                OverwriteDeletedProcessor
+                OverwriteUpdatedProcessor
+                ThreadDeletedProcessor
+                ThreadUpdatedProcessor
+                UnbanProcessor
+                UserJoinedProcessor
+                UserLeftProcessor
+            }
+            
+            RequestProcessorFactory
+        }
+	}
+	
+	subgraph cluster_4 {
+	    node [style=filled];
+	    label = "GrillBot.Core";
+	    color=blue
+	    
+	    subgraph cluster_4_1 {
+	        node [style=filled];
+            label="Managers";
+            color=black;
+            
+            subgraph cluster_4_1_2 {
+	            node [style=filled];
+                label="Performance";
+                color=black;
+                
+                ICounterManager
+	        }
+	    }
+	    
+	    subgraph cluster_4_2 {
+	        node [style=filled];
+            label="Services";
+            color=black;
+	        
+	        subgraph cluster_4_3 {
+	            node [style=filled];
+                label="Diagnostics";
+                color=black;
+	            
+	            IDiagnosticsProvider
+	        }
+	    }
+	}
+	
+	subgraph cluster_100 {
+	    node[style=filled];
+	    label = ".NET"
+	    color=green
+	    
+	    IServiceProvider
+	    DbContextOptions
+	    ILoggerFactory
+	    IOptionsSnapshot
+	    IConfiguration
+	}
+	
+	subgraph cluster_200 {
+	    node[style=filled];
+	    label = "Discord.NET"
+	    color=green
+	    
+	    IDiscordClient
+	}
+	
+    ArchiveOldLogsAction -> { IOptionsSnapshot AuditLogServiceContext }
+    ReadDetailAction -> { AuditLogServiceContext }
+    GetDashboardInfoAction -> { AuditLogServiceContext }
+    GetJobsInfoAction -> { AuditLogServiceContext }
+    SearchItemsAction -> { AuditLogServiceContext }
+    GetApiStatisticsAction -> { AuditLogServiceContext }
+    GetAuditLogStatisticsAction -> { AuditLogServiceContext }
+    GetAvgTimesAction -> { AuditLogServiceContext }
+    GetInteractionStatisticsListAction -> { AuditLogServiceContext }
+    GetUserApiStatisticsAction -> { AuditLogServiceContext }
+    GetUserCommandStatisticsAction -> { AuditLogServiceContext }
+    CreateItemsAction -> { AuditLogServiceContext RequestProcessorFactory }
+    DeleteItemAction -> { AuditLogServiceContext }
+    ArchivationController -> { IServiceProvider }
+    DiagnosticController -> { IDiagnosticsProvider }
+    InfoController -> { IServiceProvider }
+    LogItemController -> { IServiceProvider }
+    StatisticsController -> { IServiceProvider }
+    DiscordLogManager -> { IDiscordClient ILoggerFactory }
+    DiscordManager -> { IDiscordClient IConfiguration ICounterManager }
+    AuditLogServiceContext -> { DbContextOptions }
+    StatisticsProvider -> { AuditLogServiceContext }
+    { ApiRequestProcessor ChannelCreatedProcessor ChannelDeletedProcessor ChannelUpdatedProcessor DeletedEmoteProcessor GuildUpdatedProcessor InteractionCommandProcessor JobCompletedProcessor LogMessageProcessor MemberUpdatedProcessor MessageDeletedProcessor MessageEditedProcessor ThreadDeletedProcessor ThreadUpdatedProcessor UnbanProcessor UserJoinedProcessor UserLeftProcessor } -> { IServiceProvider DiscordManager }
+    { MemberRoleUpdatedProcessor OverwriteCreatedProcessor OverwriteDeletedProcessor OverwriteUpdatedProcessor } -> { IServiceProvider AuditLogServiceContext DiscordManager }
+    RequestProcessorFactory -> { IServiceProvider }
+}

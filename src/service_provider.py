@@ -3,6 +3,8 @@ from src.api import build_api_description
 import pathlib
 from src.dotnet_deps import DotnetDependencyList
 from src.source.node import NodeDependencyList
+import requests
+import logging
 
 names = {
     "grillbot": "GrillBot",
@@ -11,6 +13,7 @@ names = {
     "file": "FileService",
     "points": "Points",
     "image-processing": "ImageProcessingService",
+    "audit-log": "AuditLogService",
 }
 
 descriptions = {
@@ -21,17 +24,17 @@ descriptions = {
     "file": "Služba řešící ukládání a získávání souborů mezi GrillBot a Azure Storage Blob.",
     "points": "Služba řesící správu bodů (transakcí, slučování, reporting, ...)",
     "image-processing": "Mezi služba pro vykreslování a caching obrázků.",
+    "audit-log": "Služba pro logování provozu (evidence, prezentace, statistiky, ...)",
 }
 
 databases = {
     "grillbot": {"Databáze": "/static/database.svg", "Cache": "/static/cache.svg"},
     "graphics": None,
-    "rubbergod": {
-        "Databáze": "/static/rubbergod_db.svg",
-    },
+    "rubbergod": {"Databáze": "/static/rubbergod_db.svg"},
     "file": None,
     "points": {"Databáze": "/static/database_points.svg"},
     "image-processing": None,
+    "audit-log": {"Databáze": "/static/database_audit-log.svg"},
 }
 
 di_graphs = {
@@ -41,6 +44,7 @@ di_graphs = {
     "file": "/static/di-graph-file.svg",
     "points": "/static/di-graph-points.svg",
     "image-processing": "/static/di-graph-image-processing.svg",
+    "audit-log": "/static/di-graph-audit-log.svg",
 }
 
 api_descriptions = {
@@ -303,6 +307,94 @@ api_descriptions = {
             "Vygenerování grafu. <b>Jediný podporovaný je spojnicový graf.</b>",
         ),
     ],
+    "audit-log": [
+        build_api_description(
+            "POST /api/archivation",
+            [200, 204],
+            ["application/json"],
+            "Archivace starých logů. Pokud není k archivaci alespoň 5000 záznamů, tak se vrací 204 No Content.",
+        ),
+        build_api_description(
+            "GET /api/diag",
+            [200],
+            ["application/json"],
+            "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...).",
+        ),
+        build_api_description(
+            "POST /api/info/jobs",
+            [200],
+            ["application/json"],
+            "Informace o bězích naplánovaných úloh (počet spuštění, poslední běh, časy, ...)",
+        ),
+        build_api_description(
+            "GET /api/info/dashboard",
+            [200],
+            ["application/json"],
+            "Informace o voláních služeb, příkazech, atd. pro hlavní scénu webové administrace.",
+        ),
+        build_api_description(
+            "POST /api/logItem",
+            [200, 400],
+            ["application/json"],
+            "Požadavek na vytvoření nového záznamu v logu.",
+        ),
+        build_api_description(
+            "DELETE /api/logItem/{id}",
+            [200, 404],
+            ["application/json"],
+            "Smazání záznamu z logu (vč. informací o existujících souborech).<br>Vrací příznak, zda smazání proběhlo "
+            + "úspěšně a seznam souborů, které se mají smazat z úložiště.",
+        ),
+        build_api_description(
+            "GET /api/logItem/{id}",
+            [200, 404],
+            ["application/json"],
+            "Získání detailu záznamu. Pokud záznam neexistuje, nebo k němu neexistuje detail, tak se vrátí 404 Not Found.",
+        ),
+        build_api_description(
+            "GET /api/logItem/search",
+            [200, 400],
+            ["application/json"],
+            "Vyhledávání v logu a vyčítání formou seznamu.",
+        ),
+        build_api_description(
+            "GET /api/statistics/auditLog",
+            [200],
+            ["application/json"],
+            "Statistika audit logu (počty záznamů, počty a objemy souborů)",
+        ),
+        build_api_description(
+            "GET /api/statistics/interactions/list",
+            [200],
+            ["application/json"],
+            "Seznam provedených příkazů a jejich statistika.",
+        ),
+        build_api_description(
+            "GET /api/statistics/interactions/userstats",
+            [200],
+            ["application/json"],
+            "Statistika provádění příkazů křížem přes uživatele.",
+        ),
+        build_api_description(
+            "GET /api/statistics/api/stats",
+            [200],
+            ["application/json"],
+            "Statistika volání API",
+        ),
+        build_api_description(
+            "GET /api/statistics/api/userstats/{criteria}",
+            [200],
+            ["application/json"],
+            "Statistika volání API křížem přes uživatele.<br>Vyžadováno kritérium. "
+            + "Povolené hodnoty jsou <code>v1-private</code>, <code>v1-public</code>, <code>v2</code>",
+        ),
+        build_api_description(
+            "GET /api/statistics/avgtimes",
+            [200],
+            ["application/json"],
+            "Statistika průměrných časů za dny.",
+        ),
+    ],
 }
 
 project_files = {
@@ -318,8 +410,18 @@ project_files = {
     "file": "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/FileService/FileService/FileService.csproj",  # noqa: E501
     "points": "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/PointsService/PointsService.csproj",  # noqa: E501
     "image-processing": "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/ImageProcessingService/ImageProcessingService.csproj",  # noqa: E501
+    "audit-log": "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/AuditLogService/AuditLogService.csproj",  # noqa: E501
 }
 
+healthcheck_endpoints = {
+    "grillbot": None,
+    "graphics": "https://grillbot.cloud/graphics/health",
+    "rubbergod": "https://grillbot.cloud/rubbergod/health",
+    "file": "https://grillbot.cloud/file/health",
+    "points": "https://grillbot.cloud/points/health",
+    "image-processing": "https://grillbot.cloud/image-processing/health",
+    "audit-log": "https://grillbot.cloud/audit-log/health"
+}
 
 class ServiceProvider:
     def __init__(self, service_name: str) -> None:
@@ -335,22 +437,32 @@ class ServiceProvider:
             "is_public": self.service_name == "grillbot",
         }
 
-        if databases[self.service_name] is not None:
+        if self.service_name in databases and databases[self.service_name] is not None:
             result["database"] = databases[self.service_name]
 
-        if di_graphs[self.service_name] is not None:
+        if self.service_name in di_graphs and di_graphs[self.service_name] is not None:
             result["di_graph"] = di_graphs[self.service_name]
 
-        if api_descriptions[self.service_name] is not None:
+        if (
+            self.service_name in api_descriptions
+            and api_descriptions[self.service_name] is not None
+        ):
             result["api_description"] = api_descriptions[self.service_name]
 
         if self.service_name == "grillbot":
             result["swagger_url"] = "https://grillbot.cloud/swagger"
 
-        if project_files[self.service_name] is not None:
+        if (
+            self.service_name in project_files
+            and project_files[self.service_name] is not None
+        ):
             deps = self.download_deps(project_files[self.service_name])
             if deps is not None:
                 result["dependencies"] = deps
+
+        if self.service_name in healthcheck_endpoints and healthcheck_endpoints[self.service_name] is not None:
+            logging.info(f'Checking online status of {self.service_name}')
+            result["is_online"] = requests.head(healthcheck_endpoints[self.service_name]).status_code == 200
 
         return result
 

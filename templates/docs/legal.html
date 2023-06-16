@@ -211,6 +211,8 @@ Duplicitní přezdívky se nezapisují, tudíž z těchto dat nelze vyčíst, kd
     budou sloučeny do jedné velké transakce. Sloučené transakce se zohledňují pouze v leaderboardu ve veřejné administraci.<br>
     Oprávněné osoby mají možnost si zobrazit transakce v privátní administraci (běžné i sloučené). Oprávněné osoby mají také možnost provést
     servisní úkony s body. Mohou uživateli "darovat" body, převést body od jiného uživatele a v případě nutnosti také transakce mazat.
+
+    <i class="d-block">O správu bodů se stará služba <a href="/services/points">PointsService</a></i>
 </p>
 
 <h3 class="fw-light">Kanály</h3>
@@ -263,7 +265,10 @@ neukládá kdo takovou pozvánku založil a kdy ji založil.
 <h3 class="fw-light">Logování provozu</h3>
 <p>
     Logování provozu se provádí za účelem zabezpečení bezproblémového chodu serveru a případného dohledávání nepovolených aktivit.
-    Logování probíhá formou událostí různých typů. Tyto události jsou:
+    Logování probíhá formou událostí různých typů.
+    <i class="d-block">O správu logování provozu se stará služba <a href="/services/audit-log">AuditLogService</a>.</i>
+    
+    Tyto události jsou:
 <table class="table table-striped table-bordered table-sm">
     <thead>
         <tr>
@@ -284,10 +289,6 @@ neukládá kdo takovou pozvánku založil a kdy ji založil.
         <tr>
             <td><code>Error</code></td>
             <td>Při běhu aplikace došlo k chybě.</td>
-        </tr>
-        <tr>
-            <td><code>Command</code></td>
-            <td>Provedení příkazu.</td>
         </tr>
         <tr>
             <td><code>ChannelCreated</code>, <code>ChannelDeleted</code>, <code>ChannelUpdated</code></td>
@@ -334,8 +335,8 @@ neukládá kdo takovou pozvánku založil a kdy ji založil.
             <td>Provedení integrovaného příkazu (Slash command, Message command, User command)</td>
         </tr>
         <tr>
-            <td><code>ThreadDeleted</code></td>
-            <td>Smazání vlákna</td>
+            <td><code>ThreadDeleted</code>, <code>ThreadUpdated</code></td>
+            <td>Smazání a úpravy vlákna</td>
         </tr>
         <tr>
             <td><code>JobCompleted</code></td>
@@ -344,10 +345,6 @@ neukládá kdo takovou pozvánku založil a kdy ji založil.
         <tr>
             <td><code>API</code></td>
             <td>Požadavek na REST API</td>
-        </tr>
-        <tr>
-            <td><code>ThreadUpdated</code></td>
-            <td>Úpravy provedené ve vláknu.</td>
         </tr>
     </tbody>
 </table>

@@ -1,0 +1,382 @@
+LogItem: {
+  shape: sql_table
+
+  ID: GUID {constraint: primary_key}
+  CreatedAt: DateTime
+  GuildId: Text(32)
+  UserId: Text(32)
+  ChannelId: Text(32)
+  DiscordId: Text(32)
+  Type: INT
+}
+
+File: {
+  shape: sql_table
+
+  ID: GUID {constraint: primary_key}
+  LogItemId: GUID {constraint: foreign_key}
+  Filename: Text(255)
+  Extension: Text(255)
+  Size: BIGINT
+}
+
+LogItem.ID -> File.LogItemId
+
+# Model tables
+
+ApiRequest: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  ControllerName: Text(128)
+  ActionName: Text(128)
+  StartAt: DateTime
+  EndAt: DateTime
+  Method: Text(10)
+  TemplatePath: Text
+  Path: Text
+  Parameters: json
+  Language: Text(10)
+  ApiGroupName: Text(5)
+  Headers: json
+  Identification: Text(512)
+  IpAddress: Text(128)
+  Result: Text
+}
+
+LogItem.ID -> ApiRequest.LogItemId
+
+LogMessage: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  Message: Text
+  Severity: INT
+  SourceAppName: Text(100)
+  Source: Text(512)
+}
+
+LogItem.ID -> LogMessage.LogItemId
+
+DeletedEmote: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  EmoteId: Text(32)
+  EmoteName: Text
+}
+
+LogItem.ID -> DeletedEmote.LogItemId
+
+Unban: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  UserId: Text(32)
+}
+
+LogItem.ID -> Unban.LogItemId
+
+JobExecution: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  JobName: Text(128)
+  Result: Text
+  StartAt: DateTime
+  EndAt: DateTime
+  WasError: bool
+  StartUserId: Text(32)
+}
+
+LogItem.ID -> JobExecution.LogItemId
+
+ChannelInfo: {
+  shape: sql_table
+
+  ID: GUID {constraint: primary_key}
+  ChannelName: Text
+  SlowMode: INT?
+  Type: INT
+  IsNsfw: bool?
+  Bitrate: INT?
+  Topic: Text?
+  Position: INT
+  Flags: INT
+}
+
+ChannelCreated: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  ChannelInfoId: GUID {constraint: foreign_key}
+}
+
+LogItem.Id -> ChannelCreated.LogItemId
+ChannelCreated.ChannelInfoId -> ChannelInfo.Id
+
+ChannelDeleted: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  ChannelInfoId: GUID {constraint: foreign_key}
+}
+
+LogItem.Id -> ChannelDeleted.LogItemId
+ChannelDeleted.ChannelInfoId -> ChannelInfo.Id
+
+ChannelUpdated: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  BeforeId: GUID {constraint: foreign_key}
+  AfterId: GUID {constraint: foreign_key}
+}
+
+LogItem.Id -> ChannelUpdated.LogItemId
+ChannelUpdated.BeforeId -> ChannelInfo.Id
+ChannelUpdated.AfterId -> ChannelInfo.Id
+
+GuildInfo: {
+  shape: sql_table
+
+  ID: GUID {constraint: primary_key}
+  DefaultMessageNotifications: INT
+  Description: Text
+  VanityUrl: Text
+  BannerId: Text
+  DiscoverySplashId: Text
+  SplashId: Text
+  IconId: Text
+  IconData: binary
+  PublicUpdatesChannelId: Text(32)
+  RulesChannelId: Text(32)
+  SystemChannelId: Text(32)
+  AfkChannelId: Text(32)
+  AfkTimeout: INT
+  Name: Text(100)
+  MfaLevel: INT
+  VerificationLevel: INT
+  ExplicitContentFilter: INT
+  Features: INT
+  PremiumTier: INT
+  SystemChannelFlags: INT
+  NsfwLevel: INT
+}
+
+GuildUpdated: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  BeforeId: GUID {constraint: foreign_key}
+  AfterId: GUID {constraint: foreign_key}
+}
+
+LogItem.ID -> GuildUpdated.LogItemId
+GuildUpdated.BeforeId -> GuildInfo.ID
+GuildUpdated.AfterId -> GuildInfo.ID
+
+MemberRoleUpdated: {
+  shape: sql_table
+
+  ID: GUID {constraint: primary_key}
+  LogItemId: GUID {constraint: foreign_key}
+  UserId: Text(32)
+  RoleId: Text(32)
+  RoleName: Text
+  RoleColor: Text(32)
+  IsAdded: bool
+}
+
+LogItem.ID -> MemberRoleUpdated.LogItemId
+
+MessageDeleted: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  AuthorId: Text(32)
+  MessageCreatedAt: DateTime
+  Content: Text
+}
+
+EmbedInfo: {
+  shape: sql_table
+
+  ID: GUID {constraint: primary_key}
+  MessageDeletedId: GUID {constraint: foreign_key}
+  Title: Text(256),
+  Type: Text(16)
+  ImageInfo: Text
+  VideoInfo: Text
+  AuthorName: Text
+  ContainsFooter: bool
+  ProviderName: Text
+  ThumbnailInfo: Text
+}
+
+EmbedField: {
+  shape: sql_table
+
+  ID: GUID {constraint: primary_key}
+  EmbedInfoId: GUID {constraint: foreign_key}
+  Name: Text(256)
+  Value: Text(1024)
+  Inline: bool
+}
+
+LogItem.Id -> MessageDeleted.LogItemId
+MessageDeleted.Id -> EmbedInfo.MessageDeletedId
+EmbedInfo.Id -> EmbedField.EmbedInfoId
+
+MessageEdited: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  JumpUrl: Text
+  ContentBefore: Text
+  ContentAfter: Text
+}
+
+LogItem.ID -> MessageEdited.LogItemId
+
+OverwriteInfo: {
+  shape: sql_table
+
+  ID: GUID {constraint: foreign_key}
+  Target: INT
+  TargetId: Text(32)
+  AllowValue: Text
+  DenyValue: Text
+}
+
+OverwriteCreated: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  OverwriteInfoId: GUID {constraint: foreign_key}
+}
+
+LogItem.ID -> OverwriteCreated.LogItemId
+OverwriteCreated.OverwriteInfoId -> OverwriteInfo.ID
+
+OverwriteUpdated: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  BeforeId: GUID {constraint: foreign_key}
+  AfterId: GUID {constraint: foreign_key}
+}
+
+LogItem.ID -> OverwriteUpdated.LogItemId
+OverwriteUpdated.BeforeId -> OverwriteInfo.ID
+OverwriteUpdated.AfterId -> OverwriteInfo.ID
+
+OverwriteDeleted: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  OverwriteInfoId: GUID {constraint: foreign_key}
+}
+
+LogItem.ID -> OverwriteDeleted.LogItemId
+OverwriteDeleted.OverwriteInfoId -> OverwriteInfo.ID
+
+UserJoined: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  MemberCount: INT
+}
+
+LogItem.ID -> UserJoined.LogItemId
+
+UserLeft: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  UserId: Text(32)
+  MemberCount: INT
+  IsBan: bool
+  BanReason: Text?
+}
+
+LogItem.ID -> UserLeft.LogItemId
+
+InteractionCommand: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  Name: Text
+  ModuleName: Text
+  MethodName: Text
+  Parameters: json
+  HasResponded: bool
+  IsValidToken: bool
+  IsSuccess: bool
+  CommandError: INT?
+  ErrorReason: Text?
+  Duration: INT?
+  Exception: Text?
+  Locale: Text(50)
+}
+
+LogItem.ID -> InteractionCommand.LogItemId
+
+ThreadInfo: {
+  shape: sql_table
+
+  ID: GUID {constraint: foreign_key}
+  ThreadName: Text
+  SlowMode: INT?
+  Type: INT
+  IsArchived: bool
+  ArchiveDuration: INT
+  IsLocked: bool
+  Tags: json
+}
+
+ThreadDeleted: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  ThreadInfoId: GUID {constraint: foreign_key}
+}
+
+LogItem.ID -> ThreadDeleted.LogItemId
+ThreadDeleted.ThreadInfoId -> ThreadInfo.ID
+
+ThreadUpdated: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  BeforeId: GUID {constraint: foreign_key}
+  AfterId: GUID {constraint: foreign_key}
+}
+
+LogItem.ID -> ThreadUpdated.LogItemId
+ThreadUpdated.BeforeId -> ThreadInfo.ID
+ThreadUpdated.AfterId -> ThreadInfo.ID
+
+MemberInfo: {
+  shape: sql_table
+
+  Id: GUID {constraint: primary_key}
+  UserId: Text(32)
+  Nickname: Text(32)
+  IsMuted: bool
+  IsDeaf: bool
+  SelfUnverifyMinimalTime: Text
+  Flags: INT
+}
+
+MemberUpdated: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  BeforeId: GUID {constraint: foreign_key}
+  AfterId: GUID {constraint: foreign_key}
+}
+
+LogItem.Id -> MemberUpdated.LogItemId
+MemberUpdated.BeforeId -> MemberInfo.Id
+MemberUpdated.AfterId -> MemberInfo.Id

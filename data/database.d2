@@ -8,35 +8,6 @@ ApiClients: {
   LastUse: timestamp without time zone
 }
 
-AuditLogFiles: {
-  shape: sql_table
-
-  Id: bigint {constraint: primary_key}
-  AuditLogItemId: bigint {constraint: foreign_key}
-  Filename: character varying (255)
-  Size: bigint
-}
-
-AuditLogFiles.AuditLogItemId -> AuditLogs.Id
-
-AuditLogs: {
-  shape: sql_table
-
-  Id: bigint {constraint: primary_key}
-  CreatedAt: timestamp without time zone
-  GuildId: character varying (30) {constraint: foreign_key}
-  ProcessedUserId: character varying (30) {constraint: foreign_key}
-  DiscordAuditLogItemId: text
-  Data: text
-  Type: integer
-  ChannelId: character varying (30) {constraint: foreign_key}
-}
-
-AuditLogs.GuildId -> Guilds.Id
-AuditLogs.ProcessedUserId -> Users.Id
-AuditLogs.ProcessedUserId -> GuildUsers.UserId
-AuditLogs.ChannelId -> Channels.ChannelId
-
 AutoReplies: {
   shape: sql_table
 

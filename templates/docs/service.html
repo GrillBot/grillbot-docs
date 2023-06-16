@@ -2,7 +2,23 @@
 {% block sub_page %} Služba {{data['name']}} {% endblock %}
 
 {% block content %}
-<p>{{data['description']}}</p>
+<div class="row">
+    <div class="col-md">
+        <p>{{data['description']}}</p>
+    </div>
+
+    {% if 'is_online' in data %}
+    <div class="col-md-auto">
+        {% if data['is_online'] %}
+        <p class="text-success">Služba {{data['name']}} je aktivní.</p>
+        {% else %}
+        <p class="text-danger">Služba {{data['name']}} je neaktivní.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+
 
 {% if 'swagger_url' in data %}
 <p>Swagger dokumentace je dostupná <a href="{{data['swagger_url']}}">zde</a>.</p>
@@ -34,7 +50,7 @@
 
     <table class="table table-sm table-responsive-md table-bordered auto-column-width">
         <thead>
-            <tr>
+            <tr style="border-bottom: 2px solid black !important;">
                 <th>URI</th>
                 <th>Návratové kódy</th>
                 <th>Typ obsahu</th>

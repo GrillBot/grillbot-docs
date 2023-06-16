@@ -2,11 +2,12 @@ import requests
 import os
 from datetime import datetime, timezone
 from dateutil import tz
+import logging
 
 
 def is_grillbot_online() -> bool:
-    response = requests.get("https://grillbot.cloud/health")
-    return response.status_code == 200
+    logging.info('Checking GrillBot status.')
+    return requests.get("https://grillbot.cloud/health").status_code == 200
 
 
 def get_modification_date(
