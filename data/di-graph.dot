@@ -289,6 +289,14 @@ digraph GrillBot {
                 
                 subgraph cluster_3_1_2_1 {
                     node[style=filled];
+                    label="AuditLog";
+                    color=lightblue
+                    
+                    CreateAuditLogMessageAction
+                }
+                
+                subgraph cluster_3_1_2_2 {
+                    node[style=filled];
                     label="Events";
                     color=lightblue;
                     
@@ -1164,4 +1172,5 @@ digraph GrillBot {
     GetAuditLogDetail -> { ApiRequestContext IAuditLogServiceClient GrillBotDatabaseBuilder IDiscordClient IMapper }
     GetApiUserStatistics -> { ApiRequestContext GrillBotDatabaseBuilder IAuditLogServiceClient }
     GetUserCommandStatistics -> { ApiRequestContext GrillBotDatabaseBuilder IAuditLogServiceClient }
+    CreateAuditLogMessageAction -> { ApiRequestContext IAuditLogServiceClient }
 }
