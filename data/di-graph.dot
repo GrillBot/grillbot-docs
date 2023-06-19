@@ -16,7 +16,6 @@ digraph GrillBot {
 		GuildHelper
 		FileStorageFactory
 		ApiRequestContext
-		ApiRequest
 		CooldownManager
 		
 		subgraph cluster_0_1 {
@@ -978,9 +977,9 @@ digraph GrillBot {
 	RequireEmoteSuggestionChannelAttribute -> { GrillBotDatabaseBuilder }
 	RequireValidEmoteSuggestions -> { GrillBotDatabaseBuilder }
 	RequireUserPermsAttribute -> { ITextsManager GrillBotDatabaseBuilder }
-	ExceptionFilter -> { ApiRequest ApiRequestContext LoggingManager IAuditLogServiceClient }
-	RequestFilter -> { ApiRequest ApiRequestContext IDiscordClient UserManager }
-	ResultFilter -> { ApiRequest ApiRequestContext IAuditLogServiceClient }
+	ExceptionFilter -> { ApiRequestContext LoggingManager IAuditLogServiceClient }
+	RequestFilter -> { ApiRequestContext IDiscordClient UserManager }
+	ResultFilter -> { ApiRequestContext IAuditLogServiceClient }
 	PointsBoardPaginationHandler -> { PointsLeaderboard }
 	RemindAutoCompleteHandler -> { Reminder_GetSuggestions }
 	SearchingAutoCompleteHandler -> { Searching_GetSuggestions }
