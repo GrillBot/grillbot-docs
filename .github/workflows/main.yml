@@ -51,6 +51,21 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/grillbot/grillbot-docs:master
+  DeployToDevelopment:
+    runs-on: 'ubuntu-latest'
+    environment: 'Development'
+    needs: 'BuildContainer'
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Deployment via SSH
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.SSH_DEV_HOST }}
+          username: ${{ secrets.SSH_DEV_USERNAME }}
+          password: ${{ secrets.SSH_DEV_PASSWORD }}
+          port: 22
+          script:
+            echo '${{ secrets.SSH_DEV_PASSWORD }}' | sudo -S python3 /scripts/deploy/deploy.py grillbot-docs
   DeployToProduction:
     runs-on: ubuntu-latest
     environment: 'Production'
