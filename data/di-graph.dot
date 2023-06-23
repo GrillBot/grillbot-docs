@@ -729,6 +729,7 @@ digraph GrillBot {
             UnverifyProfileManager
             UnverifyMessageManager
             UnverifyCheckManager
+            PinManager
         }
         
         subgraph cluster_3_8 {
@@ -1004,7 +1005,7 @@ digraph GrillBot {
 	AuditLogLoggingHandler -> { IConfiguration IServiceProvider IAuditLogServiceClient }
 	BirthdayCronJob -> { IConfiguration IDiscordClient GetTodayBirthdayInfo GrillBotDatabaseBuilder IServiceProvider InitManager LoggingManager IAuditLogServiceClient }
 	DiscordHealthCheck -> { DiscordSocketClient }
-	DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider IWebHostEnvironment InteractionService LoggingManager EventLogManager EventManager InteractionHandler }
+	DiscordService -> { DiscordSocketClient IConfiguration IServiceProvider IWebHostEnvironment InteractionService LoggingManager EventLogManager EventManager InteractionHandler PinManager }
 	RemindCronJob -> { IServiceProvider IDiscordClient InitManager LoggingManager FinishRemind GrillBotDatabaseBuilder IAuditLogServiceClient }
 	RemindHelper -> { IDiscordClient ITextsManager }
 	SuggestionJob -> { IServiceProvider IDiscordClient InitManager LoggingManager EmoteSuggestionHelper GrillBotDatabaseBuilder IMessageCacheManager ITextsManager IAuditLogServiceClient }
@@ -1076,7 +1077,7 @@ digraph GrillBot {
     UnsucessCommandHandler -> { ITextsManager InteractionService GrillBotDatabaseBuilder DataCacheManager ChannelHelper IRubbergodServiceClient }
     UserPresenceSynchronizationHandler -> { GrillBotDatabaseBuilder }
     AutoReplyReadyHandler -> { AutoReplyManager }
-    ChannelInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient LoggingManager }
+    ChannelInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
     CommandsRegistrationHandler -> { InteractionService IDiscordClient LoggingManager }
     InviteReadyHandler -> { ApiRequestContext IDiscordClient RefreshMetadata }
     UserInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
@@ -1172,4 +1173,5 @@ digraph GrillBot {
     GetApiUserStatistics -> { ApiRequestContext GrillBotDatabaseBuilder IAuditLogServiceClient }
     GetUserCommandStatistics -> { ApiRequestContext GrillBotDatabaseBuilder IAuditLogServiceClient }
     CreateAuditLogMessageAction -> { ApiRequestContext IAuditLogServiceClient }
+    PinManager -> { InitManager IDiscordClient ICounterManager GrillBotDatabaseBuilder }
 }
