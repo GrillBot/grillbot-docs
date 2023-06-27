@@ -132,6 +132,17 @@ digraph GrillBot {
                 
                 subgraph cluster_3_1_1_5 {
                     node[style=filled];
+                    label="Dashboard";
+                    color=lightblue;
+                    
+                    GetActiveOperations
+                    GetCommonInfo
+                    GetOperationStats
+                    GetServicesList
+                }
+                
+                subgraph cluster_3_1_1_6 {
+                    node[style=filled];
                     label="Emote";
                     color=lightblue;
                     
@@ -144,7 +155,7 @@ digraph GrillBot {
                     RemoveStats
                 }
                 
-                subgraph cluster_3_1_1_6 {
+                subgraph cluster_3_1_1_7 {
                     node[style=filled];
                     label="Guild";
                     color=lightblue;
@@ -156,7 +167,7 @@ digraph GrillBot {
                     UpdateGuild
                 }
                 
-                subgraph cluster_3_1_1_7 {
+                subgraph cluster_3_1_1_8 {
                     node[style=filled];
                     label="Invite";
                     color=lightblue;
@@ -167,7 +178,7 @@ digraph GrillBot {
                     RefreshMetadata
                 }
                 
-                subgraph cluster_3_1_1_8 {
+                subgraph cluster_3_1_1_9 {
                     node[style=filled];
                     label="Points";
                     color=lightblue;
@@ -179,7 +190,7 @@ digraph GrillBot {
                     ServiceTransferPoints
                 }
                 
-                subgraph cluster_3_1_1_9 {
+                subgraph cluster_3_1_1_10 {
                     node[style=filled];
                     label="PublicApiClients";
                     color=lightblue;
@@ -192,7 +203,7 @@ digraph GrillBot {
                     UpdateClient
                 }
                 
-                subgraph cluster_3_1_1_10 {
+                subgraph cluster_3_1_1_11 {
                     node[style=filled];
                     label="Reminder";
                     color=lightblue;
@@ -201,7 +212,7 @@ digraph GrillBot {
                     ApiV1_GetReminderList
                 }
                 
-                subgraph cluster_3_1_1_11 {
+                subgraph cluster_3_1_1_12 {
                     node[style=filled];
                     label="ScheduledJobs";
                     color=lightblue;
@@ -211,7 +222,7 @@ digraph GrillBot {
                     UpdateJob
                 }
                 
-                subgraph cluster_3_1_1_12 {
+                subgraph cluster_3_1_1_13 {
                     node[style=filled];
                     label="Searching";
                     color=lightblue;
@@ -220,7 +231,7 @@ digraph GrillBot {
                     RemoveSearches
                 }
                 
-                subgraph cluster_3_1_1_13 {
+                subgraph cluster_3_1_1_14 {
                     node[style=filled];
                     label="Services";
                     color=lightblue;
@@ -228,7 +239,7 @@ digraph GrillBot {
                     GetServiceInfo
                 }
                 
-                subgraph cluster_3_1_1_14 {
+                subgraph cluster_3_1_1_15 {
                     node[style=filled];
                     label="Statistics";
                     color=lightblue;
@@ -241,17 +252,16 @@ digraph GrillBot {
                     GetUserCommandStatistics
                 }
                 
-                subgraph cluster_3_1_1_15 {
+                subgraph cluster_3_1_1_16 {
                     node[style=filled];
                     label="System";
                     color=lightblue;
                     
                     ChangeBotStatus
-                    GetDashboard
                     GetEventLog
                 }
                 
-                subgraph cluster_3_1_1_16 {
+                subgraph cluster_3_1_1_17 {
                     node[style=filled];
                     label="Unverify";
                     color=lightblue;
@@ -267,7 +277,7 @@ digraph GrillBot {
                     UpdateUnverify
                 }
                 
-                subgraph cluster_3_1_1_17 {
+                subgraph cluster_3_1_1_18 {
                     node[style=filled];
                     label="User";
                     color=lightblue;
@@ -427,6 +437,7 @@ digraph GrillBot {
             AuthController
             AutoReplyController
             ChannelController
+            DashboardController
             DataController
             EmoteSuggestionController
             EmotesController
@@ -1063,7 +1074,6 @@ digraph GrillBot {
 	RemindPaginationHandler -> { GetReminderList }
 	ChannelInfo -> { ITextsManager FormatHelper GrillBotDatabaseBuilder }
 	UnverifyHelper -> { GrillBotDatabaseBuilder }
-	GetDashboard -> { ApiRequestContext IWebHostEnvironment IDiscordClient InitManager ICounterManager LoggingManager IGraphicsClient IRubbergodServiceClient IFileServiceClient IPointsServiceClient IImageProcessingClient IAuditLogServiceClient }
 	AuditMessageDeletedHandler -> { IMessageCacheManager DownloadHelper IFileServiceClient IAuditLogServiceClient }
 	ChannelMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
 	EmoteMessageDeletedHandler -> { IEmoteManager IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
@@ -1174,4 +1184,9 @@ digraph GrillBot {
     GetUserCommandStatistics -> { ApiRequestContext GrillBotDatabaseBuilder IAuditLogServiceClient }
     CreateAuditLogMessageAction -> { ApiRequestContext IAuditLogServiceClient }
     PinManager -> { InitManager IDiscordClient ICounterManager GrillBotDatabaseBuilder }
+    DashboardController -> { IServiceProvider }
+    GetActiveOperations -> { ApiRequestContext ICounterManager }
+    GetCommonInfo -> { ApiRequestContext IDiscordClient InitManager IWebHostEnvironment }
+    GetOperationStats -> { ApiRequestContext ICounterManager }
+    GetServicesList -> { ApiRequestContext LoggingManager IGraphicsClient IRubbergodServiceClient IFileServiceClient IPointsServiceClient IImageProcessingClient IAuditLogServiceClient }
 }

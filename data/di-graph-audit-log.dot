@@ -21,23 +21,33 @@ digraph AuditLogService {
             
             subgraph cluster_3_1_2 {
                 node [style=filled];
+                label="Dashboard";
+                color=black;
+                
+                GetApiDashboardAction
+                GetTodayAvgTimesDashboard
+                GetInteractionsDashboardAction
+                GetJobsDashboardListAction
+            }
+            
+            subgraph cluster_3_1_3 {
+                node [style=filled];
                 label="Detail";
                 color=black;
                 
                 ReadDetailAction
             }
             
-            subgraph cluster_3_1_3 {
+            subgraph cluster_3_1_4 {
                 node [style=filled];
                 label="Info";
                 color=black;
                 
-                GetDashboardInfoAction
                 GetJobsInfoAction
                 GetItemsCountOfGuildAction
             }
             
-            subgraph cluster_3_1_4 {
+            subgraph cluster_3_1_5 {
                 node [style=filled];
                 label="Search";
                 color=black;
@@ -45,7 +55,7 @@ digraph AuditLogService {
                 SearchItemsAction
             }
             
-            subgraph cluster_3_1_5 {
+            subgraph cluster_3_1_6 {
                 node [style=filled];
                 label="Statistics";
                 color=black;
@@ -68,6 +78,7 @@ digraph AuditLogService {
             color=black;
             
             ArchivationController
+            DashboardController
             DiagnosticController
             InfoController
             LogItemController
@@ -198,7 +209,6 @@ digraph AuditLogService {
 	
     ArchiveOldLogsAction -> { IOptionsSnapshot AuditLogServiceContext }
     ReadDetailAction -> { AuditLogServiceContext }
-    GetDashboardInfoAction -> { AuditLogServiceContext }
     GetJobsInfoAction -> { AuditLogServiceContext }
     SearchItemsAction -> { AuditLogServiceContext }
     GetApiStatisticsAction -> { AuditLogServiceContext }
@@ -222,4 +232,9 @@ digraph AuditLogService {
     { MemberRoleUpdatedProcessor OverwriteCreatedProcessor OverwriteDeletedProcessor OverwriteUpdatedProcessor } -> { IServiceProvider AuditLogServiceContext DiscordManager }
     RequestProcessorFactory -> { IServiceProvider }
     GetItemsCountOfGuildAction -> { AuditLogServiceContext }
+    GetApiDashboardAction -> { AuditLogServiceContext }
+    GetTodayAvgTimesDashboard -> { AuditLogServiceContext }
+    GetInteractionsDashboardAction -> { AuditLogServiceContext }
+    GetJobsDashboardListAction -> { AuditLogServiceContext }
+    DashboardController -> { IServiceProvider }
 }

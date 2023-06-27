@@ -327,12 +327,6 @@ api_descriptions = {
             "Informace o bězích naplánovaných úloh (počet spuštění, poslední běh, časy, ...)",
         ),
         build_api_description(
-            "GET /api/info/dashboard",
-            [200],
-            ["application/json"],
-            "Informace o voláních služeb, příkazech, atd. pro hlavní scénu webové administrace.",
-        ),
-        build_api_description(
             "POST /api/logItem",
             [200, 400],
             ["application/json"],
@@ -395,6 +389,30 @@ api_descriptions = {
             ["application/json"],
             "Statistika průměrných časů za dny.",
         ),
+        build_api_description(
+            "GET /api/dashboard/api/{apiGroup}",
+            [200],
+            ["application/json"],
+            "Posledních 10 volání API GrillBot pro API V1 nebo API V2.",
+        ),
+        build_api_description(
+            "GET /api/dashboard/interactions",
+            [200],
+            ["application/json"],
+            "Posledních 10 volání integrovaných příkazů.",
+        ),
+        build_api_description(
+            "GET /api/dashboard/jobs",
+            [200],
+            ["application/json"],
+            "Posledních 10 spuštění naplánovaných úloh.",
+        ),
+        build_api_description(
+            "GET /api/dashboard/todayAvgTimes",
+            [200],
+            ["application/json"],
+            "Průměrné časy provádění za dnešní den.",
+        )
     ],
 }
 
