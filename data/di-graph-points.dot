@@ -24,6 +24,7 @@ digraph PointsService {
             TransferPointsAction
             ImagePointsStatusAction
             LeaderboardCountAction
+            GetStatusInfoAction
         }
         
         subgraph cluster_3_2 {
@@ -41,7 +42,6 @@ digraph PointsService {
                 RecalculatePositionAction
             }
             
-            PostProcessingQueue
             PostProcessingService
         }
         
@@ -147,17 +147,17 @@ digraph PointsService {
 	AdminCreateTransactionAction -> { PointsServiceRepository }
 	AdminListAction -> { PointsServiceRepository }
 	ChartAction -> { PointsServiceRepository }
-	CreateTransactionAction -> { PointsServiceRepository IOptions IRandomManager PostProcessingQueue }
+	CreateTransactionAction -> { PointsServiceRepository IOptions IRandomManager }
 	CurrentPointsStatusAction -> { PointsServiceRepository }
-	DeleteTransactionsAction -> { PointsServiceRepository PostProcessingQueue }
+	DeleteTransactionsAction -> { PointsServiceRepository }
 	LeaderboardAction -> { PointsServiceRepository }
-	MergeTransactionsAction -> { PointsServiceRepository IOptions PostProcessingQueue }
+	MergeTransactionsAction -> { PointsServiceRepository IOptions }
 	SynchronizationAction -> { PointsServiceRepository }
 	TransactionExistsAction -> { PointsServiceRepository }
-	TransferPointsAction -> { PointsServiceRepository PostProcessingQueue }
+	TransferPointsAction -> { PointsServiceRepository }
 	AdminController -> { IServiceProvider }
 	ChartController -> { IServiceProvider }
-	DiagnosticController -> { IDiagnosticsProvider }
+	DiagnosticController -> { IDiagnosticsProvider IServiceProvider }
 	LeaderboardController -> { IServiceProvider }
 	MergeController -> { IServiceProvider }
 	StatusController -> { IServiceProvider }
@@ -171,5 +171,6 @@ digraph PointsService {
 	CalculateDailyStatsAction -> { PointsServiceRepository }
 	RecalculateLeaderboardAction -> { PointsServiceRepository }
 	RecalculatePositionAction -> { PointsServiceRepository }
-	PostProcessingService -> { IServiceProvider PostProcessingQueue ICounterManager PointsServiceRepository CalculateDailyStatsAction RecalculateLeaderboardAction RecalculatePositionAction }
+	PostProcessingService -> { IServiceProvider ICounterManager PointsServiceRepository CalculateDailyStatsAction RecalculateLeaderboardAction RecalculatePositionAction }
+	GetStatusInfoAction -> { PointsServiceRepository IOptions }
 }

@@ -449,6 +449,7 @@ digraph GrillBot {
             ScheduledJobsController
             SearchingController
             SelfUnverifyController
+            ServiceController
             StatisticsController
             SystemController
             UnverifyController
@@ -1189,4 +1190,5 @@ digraph GrillBot {
     GetCommonInfo -> { ApiRequestContext IDiscordClient InitManager IWebHostEnvironment }
     GetOperationStats -> { ApiRequestContext ICounterManager }
     GetServicesList -> { ApiRequestContext LoggingManager IGraphicsClient IRubbergodServiceClient IFileServiceClient IPointsServiceClient IImageProcessingClient IAuditLogServiceClient }
+    ServiceController -> { IServiceProvider }
 }

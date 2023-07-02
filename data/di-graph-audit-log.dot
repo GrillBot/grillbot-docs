@@ -45,6 +45,7 @@ digraph AuditLogService {
                 
                 GetJobsInfoAction
                 GetItemsCountOfGuildAction
+                GetStatusInfoAction
             }
             
             subgraph cluster_3_1_5 {
@@ -197,6 +198,7 @@ digraph AuditLogService {
 	    ILoggerFactory
 	    IOptionsSnapshot
 	    IConfiguration
+	    IOptions
 	}
 	
 	subgraph cluster_200 {
@@ -220,7 +222,7 @@ digraph AuditLogService {
     CreateItemsAction -> { AuditLogServiceContext RequestProcessorFactory }
     DeleteItemAction -> { AuditLogServiceContext }
     ArchivationController -> { IServiceProvider }
-    DiagnosticController -> { IDiagnosticsProvider }
+    DiagnosticController -> { IDiagnosticsProvider IServiceProvider }
     InfoController -> { IServiceProvider }
     LogItemController -> { IServiceProvider }
     StatisticsController -> { IServiceProvider }
@@ -237,4 +239,5 @@ digraph AuditLogService {
     GetInteractionsDashboardAction -> { AuditLogServiceContext }
     GetJobsDashboardListAction -> { AuditLogServiceContext }
     DashboardController -> { IServiceProvider }
+    GetStatusInfoAction -> { AuditLogServiceContext IOptions }
 }

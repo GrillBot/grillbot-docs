@@ -191,6 +191,12 @@ api_descriptions = {
             "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...).",
         ),
         build_api_description(
+            "GET /api/diag/status",
+            [200],
+            ["application/json"],
+            "Vrací podrobnější informace, které nelze vložit do diagnostiky."
+        ),
+        build_api_description(
             "POST /api/chart",
             [200, 400],
             ["application/json"],
@@ -319,6 +325,12 @@ api_descriptions = {
             [200],
             ["application/json"],
             "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...).",
+        ),
+        build_api_description(
+            "GET /api/diag/status",
+            [200],
+            ["application/json"],
+            "Vrací podrobnější informace, které nelze vložit do diagnostiky."
         ),
         build_api_description(
             "POST /api/info/jobs",
