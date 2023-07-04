@@ -21,7 +21,6 @@ digraph GrillBot {
             }
             
             GetKarmaPageAction
-            RefreshUserAction
             SendDirectApiAction
             StoreKarmaAction
         }
@@ -35,7 +34,6 @@ digraph GrillBot {
             DirectApiController
             KarmaController
             PinsController
-            UserController
         }
         
         subgraph cluster_3_3 {
@@ -85,15 +83,6 @@ digraph GrillBot {
 	        DiscordLogManager
 	        DiscordManager
 	    }
-	    
-	    subgraph cluster_6 {
-	        node [style=filled];
-            label="MemberSynchronization";
-            color=black;
-	        
-	        MemberSyncQueue
-	        MemberSyncService
-	    }
 	}
 	
 	subgraph cluster_4 {
@@ -108,26 +97,10 @@ digraph GrillBot {
             
             subgraph cluster_4_1_1 {
 	            node [style=filled];
-                label="Discord";
-                color=black;
-                
-                IEmoteManager
-	        }
-            
-            subgraph cluster_4_1_2 {
-	            node [style=filled];
                 label="Performance";
                 color=black;
                 
                 ICounterManager
-	        }
-	        
-	        subgraph cluster_4_1_3 {
-	            node [style=filled];
-                label="Random";
-                color=black;
-                
-                IRandomManager
 	        }
 	    }
 	    
@@ -155,8 +128,6 @@ digraph GrillBot {
 	    IServiceProvider
 	    DbContextOptions
 	    ILoggerFactory
-	    IMemoryCache
-	    ILogger
 	}
 	
 	subgraph cluster_101 {
@@ -168,20 +139,17 @@ digraph GrillBot {
 	}
 	
 	GetKarmaPageAction -> { RubbergodServiceRepository }
-	RefreshUserAction -> { MemberSyncQueue }
 	SendDirectApiAction -> { DirectApiManager }
-	StoreKarmaAction -> { MemberSyncQueue RubbergodServiceRepository }
+	StoreKarmaAction -> { RubbergodServiceRepository }
 	DiagnosticController -> { IDiagnosticsProvider }
 	DirectApiController -> { IServiceProvider }
 	KarmaController -> { IServiceProvider }
-	UserController -> { IServiceProvider }
 	StatisticsProvider -> { RubbergodServiceRepository }
 	RubbergodServiceRepository -> { RubbergodServiceContext ICounterManager }
 	RubbergodServiceContext -> { DbContextOptions }
 	DirectApiClient -> { IDiscordClient IConfiguration }
 	DiscordLogManager -> { IDiscordClient ILoggerFactory }
-	DiscordManager ->{ IDiscordClient IConfiguration IMemoryCache ICounterManager }
-	MemberSyncService -> { MemberSyncQueue IServiceProvider ILogger }
+	DiscordManager -> { IDiscordClient IConfiguration ICounterManager }
 	DirectApiManager -> { IConfiguration DirectApiClient ICounterManager }
 	PinsController -> { IServiceProvider }
 	InvalidateCacheAction -> { RubbergodServiceRepository }

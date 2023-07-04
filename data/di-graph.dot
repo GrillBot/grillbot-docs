@@ -313,6 +313,14 @@ digraph GrillBot {
                     CreateScheduledEvent
                     UpdateScheduledEvent
                 }
+                
+                subgraph cluster_3_1_2_3 {
+                    node[style=filled];
+                    label="User";
+                    color=lightblue;
+                    
+                    GetRubbergodUserKarma
+                }
             }
             
             subgraph cluster_3_1_3 {
@@ -1191,4 +1199,5 @@ digraph GrillBot {
     GetOperationStats -> { ApiRequestContext ICounterManager }
     GetServicesList -> { ApiRequestContext LoggingManager IGraphicsClient IRubbergodServiceClient IFileServiceClient IPointsServiceClient IImageProcessingClient IAuditLogServiceClient }
     ServiceController -> { IServiceProvider }
+    GetRubbergodUserKarma -> { ApiRequestContext IRubbergodServiceClient IDiscordClient }
 }
