@@ -971,7 +971,7 @@ digraph GrillBot {
 	UpdateUnverify -> { ApiRequestContext IDiscordClient ITextsManager GrillBotDatabaseBuilder UnverifyLogManager UnverifyMessageManager }
 	GetAvailableUsers -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder }
 	GetUserDetail -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient ITextsManager IPointsServiceClient }
-	GetUserList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient }
+	GetUserList -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient }
 	UpdateUser -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager PointsHelper IDiscordClient IAuditLogServiceClient }
 	GetTodayBirthdayInfo -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient IConfiguration ITextsManager }
 	Emojization -> { ITextsManager }
