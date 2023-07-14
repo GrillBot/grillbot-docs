@@ -446,12 +446,12 @@ project_files = {
 
 healthcheck_endpoints = {
     "grillbot": None,
-    "graphics": "https://grillbot.cloud/graphics/health",
-    "rubbergod": "https://grillbot.cloud/rubbergod/health",
-    "file": "https://grillbot.cloud/file/health",
-    "points": "https://grillbot.cloud/points/health",
-    "image-processing": "https://grillbot.cloud/image-processing/health",
-    "audit-log": "https://grillbot.cloud/audit-log/health",
+    "graphics": "https://health.grillbot.eu/graphics",
+    "rubbergod": "https://health.grillbot.eu/rubbergodService",
+    "file": "https://health.grillbot.eu/file",
+    "points": "https://health.grillbot.eu/points",
+    "image-processing": "https://health.grillbot.eu/imageProcessing",
+    "audit-log": "https://health.grillbot.eu/auditLog",
 }
 
 
@@ -482,7 +482,7 @@ class ServiceProvider:
             result["api_description"] = api_descriptions[self.service_name]
 
         if self.service_name == "grillbot":
-            result["swagger_url"] = "https://grillbot.cloud/swagger"
+            result["swagger_url"] = "https://grillbot.eu/swagger"
 
         if (
             self.service_name in project_files
