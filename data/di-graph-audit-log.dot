@@ -75,6 +75,27 @@ digraph AuditLogService {
         
         subgraph cluster_3_2 {
             node [style=filled];
+            label="BackgroundServices";
+            color=black;
+            
+            subgraph cluster_3_2_1 {
+                node [style=filled];
+                label="Actions";
+                color=black;
+                
+                ComputeApiDateCountsAction
+                ComputeApiRequestStatsAction
+                ComputeApiResultCountsAction
+                ComputeAvgTimesAction
+                DeleteInvalidStatisticsAction
+            }
+            
+            Channel_LogItem
+            PostProcessingService
+        }
+        
+        subgraph cluster_3_3 {
+            node [style=filled];
             label="Controllers";
             color=black;
             
@@ -86,7 +107,7 @@ digraph AuditLogService {
             StatisticsController
         }
         
-        subgraph cluster_3_3 {
+        subgraph cluster_3_4 {
             node [style=filled];
             label="Core"
             color=black
@@ -106,6 +127,14 @@ digraph AuditLogService {
                 color=black;
                 
                 AuditLogServiceContext
+                
+                subgraph cluster_3_4_2_1 {
+                    node [style=filled];
+                    label="Statistics"
+                    color=black;
+                
+                    AuditLogStatisticsContext
+                }
             }
             
             subgraph cluster_3_4_3 {
@@ -117,12 +146,12 @@ digraph AuditLogService {
             }
         }
         
-        subgraph cluster_3_4 {
+        subgraph cluster_3_5 {
             node [style=filled];
             label="Processors"
             color=black
             
-            subgraph cluster_3_4_1 {
+            subgraph cluster_3_5_1 {
                 node [style=filled];
                 label="Request"
                 color=black
@@ -213,14 +242,14 @@ digraph AuditLogService {
     ReadDetailAction -> { AuditLogServiceContext }
     GetJobsInfoAction -> { AuditLogServiceContext }
     SearchItemsAction -> { AuditLogServiceContext }
-    GetApiStatisticsAction -> { AuditLogServiceContext }
+    GetApiStatisticsAction -> { AuditLogStatisticsContext }
     GetAuditLogStatisticsAction -> { AuditLogServiceContext }
-    GetAvgTimesAction -> { AuditLogServiceContext }
+    GetAvgTimesAction -> { AuditLogStatisticsContext }
     GetInteractionStatisticsListAction -> { AuditLogServiceContext }
     GetUserApiStatisticsAction -> { AuditLogServiceContext }
     GetUserCommandStatisticsAction -> { AuditLogServiceContext }
-    CreateItemsAction -> { AuditLogServiceContext RequestProcessorFactory }
-    DeleteItemAction -> { AuditLogServiceContext }
+    CreateItemsAction -> { AuditLogServiceContext RequestProcessorFactory Channel_LogItem }
+    DeleteItemAction -> { AuditLogServiceContext Channel_LogItem }
     ArchivationController -> { IServiceProvider }
     DiagnosticController -> { IDiagnosticsProvider IServiceProvider }
     InfoController -> { IServiceProvider }
@@ -229,15 +258,18 @@ digraph AuditLogService {
     DiscordLogManager -> { IDiscordClient ILoggerFactory }
     DiscordManager -> { IDiscordClient IConfiguration ICounterManager }
     AuditLogServiceContext -> { DbContextOptions }
-    StatisticsProvider -> { AuditLogServiceContext }
+    StatisticsProvider -> { AuditLogServiceContext AuditLogStatisticsContext }
     { ApiRequestProcessor ChannelCreatedProcessor ChannelDeletedProcessor ChannelUpdatedProcessor DeletedEmoteProcessor GuildUpdatedProcessor InteractionCommandProcessor JobCompletedProcessor LogMessageProcessor MemberUpdatedProcessor MessageDeletedProcessor MessageEditedProcessor ThreadDeletedProcessor ThreadUpdatedProcessor UnbanProcessor UserJoinedProcessor UserLeftProcessor } -> { IServiceProvider DiscordManager }
     { MemberRoleUpdatedProcessor OverwriteCreatedProcessor OverwriteDeletedProcessor OverwriteUpdatedProcessor } -> { IServiceProvider AuditLogServiceContext DiscordManager }
     RequestProcessorFactory -> { IServiceProvider }
     GetItemsCountOfGuildAction -> { AuditLogServiceContext }
     GetApiDashboardAction -> { AuditLogServiceContext }
-    GetTodayAvgTimesDashboard -> { AuditLogServiceContext }
+    GetTodayAvgTimesDashboard -> { AuditLogStatisticsContext }
     GetInteractionsDashboardAction -> { AuditLogServiceContext }
     GetJobsDashboardListAction -> { AuditLogServiceContext }
     DashboardController -> { IServiceProvider }
     GetStatusInfoAction -> { AuditLogServiceContext IOptions }
+    { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiResultCountsAction ComputeAvgTimesAction DeleteInvalidStatisticsAction } -> { AuditLogServiceContext AuditLogStatisticsContext }
+    PostProcessingService -> { IServiceProvider ICounterManager Channel_LogItem }
+    AuditLogStatisticsContext -> { DbContextOptions }
 }

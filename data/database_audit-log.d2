@@ -380,3 +380,42 @@ MemberUpdated: {
 LogItem.Id -> MemberUpdated.LogItemId
 MemberUpdated.BeforeId -> MemberInfo.Id
 MemberUpdated.AfterId -> MemberInfo.Id
+
+Statistics.DailyAvgTimes: {
+  shape: sql_table
+
+  Date: date {constraint: primary_key}
+  Interactions: double precision
+  Jobs: double precision
+  ExternalApi: double precision
+  InternalApi: double precision
+}
+
+Statistics.DateCountStatistics: {
+  shape: sql_table
+
+  Date: date {constraint: primary_key}
+  ApiGroup: character varying (5) {constraint: primary_key}
+  Count: bigint
+}
+
+Statistics.RequestStats: {
+  shape: sql_table
+
+  Endpoint: character varying (4096) {constraint: primary_key}
+  LastRequest: timestamp with time zone
+  FailedCount: bigint
+  MaxDuration: bigint
+  MinDuration: bigint
+  SuccessCount: bigint
+  TotalDuration: bigint
+  LastDuration: bigint
+}
+
+Statistics.ResultCountStatistic: {
+  shape: sql_table
+
+  Result: character varying (255) {constraint: primary_key}
+  ApiGroup: character varying (5) {constraint: primary_key}
+  Count: bigint
+}
