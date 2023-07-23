@@ -86,11 +86,16 @@ digraph AuditLogService {
                 ComputeApiDateCountsAction
                 ComputeApiRequestStatsAction
                 ComputeApiResultCountsAction
+                ComputeApiUserStatisticsAction
                 ComputeAvgTimesAction
+                ComputeDateStatisticsAction
+                ComputeFileExtensionStatisticsAction
+                ComputeInteractionStatisticsAction
+                ComputeInteractionUserStatisticsAction
+                ComputeTypeStatitistics
                 DeleteInvalidStatisticsAction
             }
             
-            Channel_LogItem
             PostProcessingService
         }
         
@@ -243,13 +248,13 @@ digraph AuditLogService {
     GetJobsInfoAction -> { AuditLogServiceContext }
     SearchItemsAction -> { AuditLogServiceContext }
     GetApiStatisticsAction -> { AuditLogStatisticsContext }
-    GetAuditLogStatisticsAction -> { AuditLogServiceContext }
+    GetAuditLogStatisticsAction -> { AuditLogStatisticsContext }
     GetAvgTimesAction -> { AuditLogStatisticsContext }
-    GetInteractionStatisticsListAction -> { AuditLogServiceContext }
-    GetUserApiStatisticsAction -> { AuditLogServiceContext }
-    GetUserCommandStatisticsAction -> { AuditLogServiceContext }
-    CreateItemsAction -> { AuditLogServiceContext RequestProcessorFactory Channel_LogItem }
-    DeleteItemAction -> { AuditLogServiceContext Channel_LogItem }
+    GetInteractionStatisticsListAction -> { AuditLogStatisticsContext }
+    GetUserApiStatisticsAction -> { AuditLogStatisticsContext }
+    GetUserCommandStatisticsAction -> { AuditLogStatisticsContext }
+    CreateItemsAction -> { AuditLogServiceContext RequestProcessorFactory }
+    DeleteItemAction -> { AuditLogServiceContext }
     ArchivationController -> { IServiceProvider }
     DiagnosticController -> { IDiagnosticsProvider IServiceProvider }
     InfoController -> { IServiceProvider }
@@ -269,7 +274,7 @@ digraph AuditLogService {
     GetJobsDashboardListAction -> { AuditLogServiceContext }
     DashboardController -> { IServiceProvider }
     GetStatusInfoAction -> { AuditLogServiceContext IOptions }
-    { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiResultCountsAction ComputeAvgTimesAction DeleteInvalidStatisticsAction } -> { AuditLogServiceContext AuditLogStatisticsContext }
-    PostProcessingService -> { IServiceProvider ICounterManager Channel_LogItem }
+    { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiResultCountsAction ComputeApiUserStatisticsAction ComputeAvgTimesAction ComputeDateStatisticsAction ComputeFileExtensionStatisticsAction ComputeInteractionStatisticsAction ComputeInteractionUserStatisticsAction ComputeTypeStatitistics DeleteInvalidStatisticsAction } -> { AuditLogServiceContext AuditLogStatisticsContext }
+    PostProcessingService -> { IServiceProvider ICounterManager CreateItemsAction AuditLogServiceContext AuditLogStatisticsContext }
     AuditLogStatisticsContext -> { DbContextOptions }
 }

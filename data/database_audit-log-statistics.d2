@@ -1,0 +1,91 @@
+Statistics.ApiUserActionStatistics: {
+  shape: sql_table
+
+  Action: character varying (128) {constraint: primary_key}
+  UserId: character varying (255) {constraint: primary_key}
+  ApiGroup: character varying (5) {constraint: primary_key}
+  IsPublic: boolean {constraint: primary_key}
+  Count: bigint
+}
+
+Statistics.DailyAvgTimes: {
+  shape: sql_table
+
+  Date: date {constraint: primary_key}
+  Interactions: double precision
+  Jobs: double precision
+  ExternalApi: double precision
+  InternalApi: double precision
+}
+
+Statistics.DateCountStatistics: {
+  shape: sql_table
+
+  Date: date {constraint: primary_key}
+  ApiGroup: character varying (5) {constraint: primary_key}
+  Count: bigint
+}
+
+Statistics.DateStatistics: {
+  shape: sql_table
+
+  Date: date {constraint: primary_key}
+  Count: bigint
+}
+
+Statistics.FileExtensionStatistics: {
+  shape: sql_table
+
+  Extension: character varying (255) {constraint: primary_key}
+  Count: bigint
+  Size: bigint
+}
+
+Statistics.InteractionStatistics: {
+  shape: sql_table
+
+  Action: character varying (4096) {constraint: primary_key}
+  LastRun: timestamp with time zone
+  FailedCount: bigint
+  MaxDuration: bigint
+  MinDuration: bigint
+  SuccessCount: bigint
+  TotalDuration: bigint
+  LastRunDuration: bigint
+}
+
+Statistics.InteractionUserActionStatistics: {
+  shape: sql_table
+
+  Action: character varying (128) {constraint: primary_key}
+  UserId: character varying (255) {constraint: primary_key}
+  Count: bigint
+}
+
+Statistics.RequestStats: {
+  shape: sql_table
+
+  Endpoint: character varying (4096) {constraint: primary_key}
+  LastRequest: timestamp with time zone
+  FailedCount: bigint
+  MaxDuration: bigint
+  MinDuration: bigint
+  SuccessCount: bigint
+  TotalDuration: bigint
+  LastDuration: bigint
+}
+
+Statistics.ResultCountStatistic: {
+  shape: sql_table
+
+  Result: character varying (255) {constraint: primary_key}
+  ApiGroup: character varying (5) {constraint: primary_key}
+  Count: bigint
+}
+
+Statistics.TypeStatistics: {
+  shape: sql_table
+
+  Type: integer {constraint: primary_key}
+  Count: bigint
+}

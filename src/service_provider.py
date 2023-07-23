@@ -34,7 +34,10 @@ databases = {
     "file": None,
     "points": {"Databáze": "/static/database_points.svg"},
     "image-processing": None,
-    "audit-log": {"Databáze": "/static/database_audit-log.svg"},
+    "audit-log": {
+        "Databáze": "/static/database_audit-log.svg",
+        "Statistiky": "/static/database_audit-log-statistics.svg",
+    },
 }
 
 di_graphs = {
@@ -194,7 +197,7 @@ api_descriptions = {
             "GET /api/diag/status",
             [200],
             ["application/json"],
-            "Vrací podrobnější informace, které nelze vložit do diagnostiky."
+            "Vrací podrobnější informace, které nelze vložit do diagnostiky.",
         ),
         build_api_description(
             "POST /api/chart",
@@ -330,7 +333,7 @@ api_descriptions = {
             "GET /api/diag/status",
             [200],
             ["application/json"],
-            "Vrací podrobnější informace, které nelze vložit do diagnostiky."
+            "Vrací podrobnější informace, které nelze vložit do diagnostiky.",
         ),
         build_api_description(
             "POST /api/info/jobs",
@@ -424,7 +427,7 @@ api_descriptions = {
             [200],
             ["application/json"],
             "Průměrné časy provádění za dnešní den.",
-        )
+        ),
     ],
 }
 
