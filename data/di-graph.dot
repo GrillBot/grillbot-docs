@@ -1167,7 +1167,7 @@ digraph GrillBot {
     GetServiceInfo -> { ApiRequestContext IGraphicsClient IRubbergodServiceClient IFileServiceClient LoggingManager IPointsServiceClient IImageProcessingClient IAuditLogServiceClient }
     CacheCleanerJob -> { IServiceProvider GrillBotCacheBuilder IDiscordClient InitManager LoggingManager IAuditLogServiceClient }
     ForumThreadTagsUpdated -> { IAuditLogServiceClient }
-    UnverifyLogArchivationJob -> { IServiceProvider GrillBotDatabaseBuilder FileStorageFactory IDiscordClient InitManager LoggingManager IAuditLogServiceClient }
+    UnverifyLogArchivationJob -> { IServiceProvider GrillBotDatabaseBuilder FileStorageFactory IDiscordClient InitManager LoggingManager IAuditLogServiceClient IConfiguration }
     ApiBridgeAction -> { ApiRequestContext IServiceProvider IRubbergodServiceClient }
     PermissionsSetSubModule -> { IServiceProvider }
     PointsServiceClient -> { ICounterManager IHttpClientFactory }
