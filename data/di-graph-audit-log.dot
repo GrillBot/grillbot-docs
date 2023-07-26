@@ -94,6 +94,7 @@ digraph AuditLogService {
                 ComputeInteractionUserStatisticsAction
                 ComputeTypeStatitistics
                 DeleteInvalidStatisticsAction
+                HardDeleteAction
             }
             
             PostProcessingService
@@ -274,7 +275,7 @@ digraph AuditLogService {
     GetJobsDashboardListAction -> { AuditLogServiceContext }
     DashboardController -> { IServiceProvider }
     GetStatusInfoAction -> { AuditLogServiceContext IOptions }
-    { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiResultCountsAction ComputeApiUserStatisticsAction ComputeAvgTimesAction ComputeDateStatisticsAction ComputeFileExtensionStatisticsAction ComputeInteractionStatisticsAction ComputeInteractionUserStatisticsAction ComputeTypeStatitistics DeleteInvalidStatisticsAction } -> { AuditLogServiceContext AuditLogStatisticsContext }
+    { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiResultCountsAction ComputeApiUserStatisticsAction ComputeAvgTimesAction ComputeDateStatisticsAction ComputeFileExtensionStatisticsAction ComputeInteractionStatisticsAction ComputeInteractionUserStatisticsAction ComputeTypeStatitistics DeleteInvalidStatisticsAction HardDeleteAction } -> { AuditLogServiceContext AuditLogStatisticsContext }
     PostProcessingService -> { IServiceProvider ICounterManager CreateItemsAction AuditLogServiceContext AuditLogStatisticsContext }
     AuditLogStatisticsContext -> { DbContextOptions }
 }

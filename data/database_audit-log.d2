@@ -1,14 +1,15 @@
 LogItem: {
   shape: sql_table
 
-  ID: GUID {constraint: primary_key}
-  CreatedAt: DateTime
-  GuildId: Text(32)
-  UserId: Text(32)
-  ChannelId: Text(32)
-  DiscordId: Text(32)
-  Type: INT,
-  Flags: bigint
+  ID: uuid {constraint: primary_key}
+  CreatedAt: timestamp with time zone
+  GuildId: character varying (32)
+  UserId: character varying (32)
+  ChannelId: character varying (32)
+  DiscordId: character varying (32)
+  Type: integer,
+  IsDeleted: boolean
+  IsPendingProcess: boolean
 }
 
 File: {
@@ -29,20 +30,24 @@ ApiRequest: {
   shape: sql_table
 
   LogItemId: GUID {constraint: foreign_key}
-  ControllerName: Text(128)
-  ActionName: Text(128)
+  ControllerName: character varying (128)
+  ActionName: character varying (128)
   StartAt: DateTime
   EndAt: DateTime
-  Method: Text(10)
+  Method: character varying (10)
   TemplatePath: Text
   Path: Text
-  Parameters: json
-  Language: Text(10)
-  ApiGroupName: Text(5)
-  Headers: json
-  Identification: Text(512)
-  IpAddress: Text(128)
-  Result: Text
+  Parameters: jsonb
+  Language: character varying (10)
+  ApiGroupName: character varying (5)
+  Headers: jsonb
+  Identification: character varying (512)
+  Ip: character varying (128)
+  Result: character varying (255)
+  IsSuccess: boolean
+  RequestDate: date
+  Role: character varying (32)
+  ForwardedIp: character varying (128)
 }
 
 LogItem.ID -> ApiRequest.LogItemId
