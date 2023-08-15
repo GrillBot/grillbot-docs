@@ -13,6 +13,14 @@ digraph GrillBot {
             
             subgraph cluster_3_1_1 {
                 node [style=filled];
+                label="Help";
+                color=black;
+                
+                GetSlashCommandsAction
+            }
+            
+            subgraph cluster_3_1_2 {
+                node [style=filled];
                 label="Pins";
                 color=black;
                 
@@ -21,7 +29,6 @@ digraph GrillBot {
             }
             
             GetKarmaPageAction
-            SendDirectApiAction
             StoreKarmaAction
         }
         
@@ -31,7 +38,7 @@ digraph GrillBot {
             color=black;
             
             DiagnosticController
-            DirectApiController
+            HelpController
             KarmaController
             PinsController
         }
@@ -128,6 +135,7 @@ digraph GrillBot {
 	    IServiceProvider
 	    DbContextOptions
 	    ILoggerFactory
+	    IMemoryCache
 	}
 	
 	subgraph cluster_101 {
@@ -139,10 +147,8 @@ digraph GrillBot {
 	}
 	
 	GetKarmaPageAction -> { RubbergodServiceRepository }
-	SendDirectApiAction -> { DirectApiManager }
 	StoreKarmaAction -> { RubbergodServiceRepository }
 	DiagnosticController -> { IDiagnosticsProvider }
-	DirectApiController -> { IServiceProvider }
 	KarmaController -> { IServiceProvider }
 	StatisticsProvider -> { RubbergodServiceRepository }
 	RubbergodServiceRepository -> { RubbergodServiceContext ICounterManager }
@@ -154,4 +160,6 @@ digraph GrillBot {
 	PinsController -> { IServiceProvider }
 	InvalidateCacheAction -> { RubbergodServiceRepository }
 	GetPinsAction -> { RubbergodServiceRepository DirectApiManager }
+	GetSlashCommandsAction -> { IMemoryCache DirectApiManager }
+	HelpController -> { IServiceProvider }
 }

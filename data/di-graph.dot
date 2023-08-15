@@ -1041,7 +1041,7 @@ digraph GrillBot {
 	MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder ICounterManager }
 	InviteManager -> { GrillBotCacheBuilder ICounterManager }
 	ProfilePictureManager -> { GrillBotCacheBuilder ICounterManager }
-	CleanChannelMessages -> { ITextsManager }
+	CleanChannelMessages -> { ITextsManager IMessageCacheManager }
 	PurgePins -> { ITextsManager }
 	RolesReader -> { FormatHelper ITextsManager }
 	Commands_SendMessageToChannel -> { IHttpClientFactory ApiV1_SendMessageToChannel ITextsManager }
@@ -1075,7 +1075,7 @@ digraph GrillBot {
 	DataCacheManager -> { GrillBotCacheBuilder }
 	WithoutAccidentRenderer -> { ProfilePictureManager DataCacheManager IImageProcessingClient }
 	UpdateJob -> { ApiRequestContext DataCacheManager ISchedulerFactory ITextsManager }
-	GetSearchingList -> { ApiV1_GetSearchingList GrillBotDatabaseBuilder ITextsManager }
+	GetSearchingList -> { ApiV1_GetSearchingList ITextsManager }
 	CopyRemind -> { GrillBotDatabaseBuilder ITextsManager CreateRemind }
 	CreateRemind -> { ITextsManager IConfiguration FormatHelper GrillBotDatabaseBuilder }
 	Reminder_GetSuggestions -> { GrillBotDatabaseBuilder ITextsManager }
