@@ -1093,7 +1093,7 @@ digraph GrillBot {
 	EmoteChainHandler -> { EmoteChainManager }
     EmoteMessageReceivedHandler -> { IEmoteManager IDiscordClient GrillBotDatabaseBuilder }
     PointsMessageReceivedHandler -> { PointsHelper IPointsServiceClient }
-    UnsucessCommandHandler -> { ITextsManager InteractionService GrillBotDatabaseBuilder DataCacheManager ChannelHelper IRubbergodServiceClient }
+    UnsucessCommandHandler -> { ITextsManager InteractionService GrillBotDatabaseBuilder ChannelHelper IRubbergodServiceClient }
     UserPresenceSynchronizationHandler -> { GrillBotDatabaseBuilder }
     AutoReplyReadyHandler -> { AutoReplyManager }
     ChannelInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
