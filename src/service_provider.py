@@ -109,12 +109,6 @@ api_descriptions = {
             "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...)",
         ),
         build_api_description(
-            "GET /api/directapi/{service}",
-            [200, 400],
-            ["application/json", "text/plain"],
-            "Odešle request na externí službu podporující DirectApi (RubberGod) a vrátí odpověď.",
-        ),
-        build_api_description(
             "POST /api/karma",
             [200, 400],
             ["application/json"],
@@ -143,6 +137,12 @@ api_descriptions = {
             [200],
             [],
             "Založí nový požadavek na synchronizaci uživatele v interní databázi.",
+        ),
+        build_api_description(
+            "GET /api/help/slashcommands",
+            [200],
+            ["application/json"],
+            "Vrací seznam všech dostupných slash commands v Rubbergod.",
         ),
     ],
     "file": [
