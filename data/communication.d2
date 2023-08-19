@@ -1,3 +1,7 @@
+Internal GrillBot infrastructure.PostgreSQL: {
+  shape: cylinder
+}
+
 Internal GrillBot infrastructure.Bot -> Third party services.Math\.JS
 Internal GrillBot infrastructure.Bot -> Third party services.KachnaOnline
 
@@ -15,3 +19,8 @@ Internal GrillBot infrastructure.Bot -> Internal GrillBot infrastructure.ImagePr
 Internal GrillBot infrastructure.Bot -> Internal GrillBot infrastructure.AuditLogService
 
 Internal GrillBot infrastructure.ImageProcessingService -> Internal GrillBot infrastructure.Graphics
+
+Internal GrillBot infrastructure.Bot -> Internal GrillBot infrastructure.PostgreSQL
+Internal GrillBot infrastructure.RubbergodService -> Internal GrillBot infrastructure.PostgreSQL
+Internal GrillBot infrastructure.PointsService -> Internal GrillBot infrastructure.PostgreSQL
+Internal GrillBot infrastructure.AuditLogService -> Internal GrillBot infrastructure.PostgreSQL
