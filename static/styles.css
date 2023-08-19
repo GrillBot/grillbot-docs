@@ -6,7 +6,8 @@
     color: lightcoral;
 }
 
-.diagram img, img.diagram {
+.diagram img,
+img.diagram {
     max-width: 100%;
 }
 
@@ -27,4 +28,9 @@ table.auto-column-width tr th:last-child {
 }
 table.auto-column-width tr th.sortable {
     padding-right: 10px;
+}
+
+#service_dependencies {
+    column-count: 2;
+    column-gap: 20px;
 }

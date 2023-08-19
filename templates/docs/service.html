@@ -77,7 +77,7 @@
 <div>
     <h3>Závislosti</h3>
 
-    <ul>
+    <ul id="service_dependencies">
         {% for dep in data['dependencies'] %}
         <li>
             <a href="{{dep['url']}}">{{dep['name']}} ({{dep['version']}})</a>
