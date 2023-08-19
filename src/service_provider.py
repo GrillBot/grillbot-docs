@@ -155,6 +155,12 @@ api_descriptions = {
             "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...)",
         ),
         build_api_description(
+            "GET /api/help/slashcommands",
+            [200],
+            ["application/json"],
+            "Vrací seznam všech dostupných slash commands v Rubbergod.",
+        ),
+        build_api_description(
             "POST /api/karma",
             [200, 400],
             ["application/json"],
@@ -169,26 +175,14 @@ api_descriptions = {
         build_api_description(
             "DELETE /api/pins/{guildId}/{channelId}",
             [200],
-            [],
+            ["text/plain"],
             "Smaže všechny piny z cache.",
         ),
         build_api_description(
             "GET /api/pins/{guildId}/{channelId}?markdown={markdown}",
             [200],
-            [],
+            ["application/json", "text/markdown"],
             "Získání pinů. Možné vygenerovat JSON obsah nebo markdown.",
-        ),
-        build_api_description(
-            "PATCH /api/user/{memberId}",
-            [200],
-            [],
-            "Založí nový požadavek na synchronizaci uživatele v interní databázi.",
-        ),
-        build_api_description(
-            "GET /api/help/slashcommands",
-            [200],
-            ["application/json"],
-            "Vrací seznam všech dostupných slash commands v Rubbergod.",
         ),
     ],
     "file": [
