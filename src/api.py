@@ -37,4 +37,7 @@ def build_api_description(
 
 
 def create_grillbot_swagger_spec(path: str, version: str = "v2") -> str:
-    return f" <a href='https://grillbot.eu/swagger/index.html?urls.primaryName={version}#/{path}'>Kompletní API specifikace</a>"
+    return (
+        f" <a href='https://grillbot.eu/swagger/index.html?urls.primaryName={version}#/{path}'>"
+        + "Kompletní API specifikace</a>"
+    )
