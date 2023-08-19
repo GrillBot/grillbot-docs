@@ -1,5 +1,5 @@
 from typing import Union
-from src.api import build_api_description
+from src.api import build_api_description, create_grillbot_swagger_spec
 import pathlib
 from src.dotnet_deps import DotnetDependencyList
 from src.source.node import NodeDependencyList
@@ -29,11 +29,8 @@ descriptions = {
 
 databases = {
     "grillbot": {"Databáze": "/static/database.svg", "Cache": "/static/cache.svg"},
-    "graphics": None,
     "rubbergod": {"Databáze": "/static/rubbergod_db.svg"},
-    "file": None,
     "points": {"Databáze": "/static/database_points.svg"},
-    "image-processing": None,
     "audit-log": {
         "Databáze": "/static/database_audit-log.svg",
         "Statistiky": "/static/database_audit-log-statistics.svg",
@@ -42,7 +39,6 @@ databases = {
 
 di_graphs = {
     "grillbot": "/static/di-graph.svg",
-    "graphics": None,
     "rubbergod": "/static/di-graph-rubbergod.svg",
     "file": "/static/di-graph-file.svg",
     "points": "/static/di-graph-points.svg",
@@ -51,7 +47,57 @@ di_graphs = {
 }
 
 api_descriptions = {
-    "grillbot": None,
+    "grillbot": [
+        build_api_description(
+            "POST /api/auditlog/create/message",
+            [200, 400],
+            ["application/json"],
+            "Vytvoření nové textové položky do audit logu.<br>"
+            + create_grillbot_swagger_spec("AuditLog/AuditLog_CreateMessageLogItem"),
+        ),
+        build_api_description(
+            "POST /api/guild/{guildId:ulong(32)}/event",
+            [200, 400, 404],
+            ["application/json"],
+            "Vytvoření nové události na serveru.<br>"
+            + create_grillbot_swagger_spec("Guild/Guild_CreateScheduledEvent"),
+        ),
+        build_api_description(
+            "PATCH /api/guild/{guildId:ulong(32)}/event/{eventId:ulong(32)}",
+            [200, 400, 403, 404],
+            ["application/json"],
+            "Modifikace existující události na serveru.<br>"
+            + create_grillbot_swagger_spec("Guild/Guild_UpdateScheduledEvent"),
+        ),
+        build_api_description(
+            "DELETE /api/guild/{guildId:ulong(32)}/event/{eventId:ulong(32)}",
+            [200, 400, 403, 404],
+            ["application/json"],
+            "Smazání existující události na serveru.<br>"
+            + create_grillbot_swagger_spec("Guild/Guild_CancelScheduledEvent"),
+        ),
+        build_api_description(
+            "POST /api/user/karma",
+            [200, 500],
+            ["application/json"],
+            "Vyčtení aktuálního leaderboardu v karmě od Rubbergoda.<br>"
+            + create_grillbot_swagger_spec("Users/Users_GetRubbergodUserKarma"),
+        ),
+        build_api_description(
+            "POST /api/user/karma/store",
+            [200, 400, 500],
+            ["application/json"],
+            "Zapsání seznamu uživatelů s jejich aktuální hodnotou karmy.<br>"
+            + create_grillbot_swagger_spec("Users/Users_StoreKarma"),
+        ),
+        build_api_description(
+            "GET /api/user/birthday/today",
+            [200],
+            ["application/json"],
+            "Získání informace o tom, kdo má dneska v očích GrillBot narozeniny.<br>"
+            + create_grillbot_swagger_spec("Users/Users_GetTodayBirthdayInfo"),
+        ),
+    ],
     "graphics": [
         build_api_description(
             "POST /chart",
@@ -431,6 +477,13 @@ api_descriptions = {
     ],
 }
 
+api_description_note = {
+    "grillbot": "Tato sekce popisuje veřejné API, které může být integrováno třetími stranami. "
+    + "Jakákoliv implementace nových metod je prováděna na základě poaždavků. "
+    + "Nový požadavek nebo žádost o přístup (k získání API klíče) můžete odeslat prostřednictvím issues v GitHub repozitáři, "
+    + "nebo v kanálu #bot-development, pokud jste na serveru VUT FIT."
+}
+
 project_files = {
     "grillbot": [
         "https://raw.githubusercontent.com/GrillBot/grillbot/master/src/GrillBot.App/GrillBot.App.csproj",
@@ -448,7 +501,6 @@ project_files = {
 }
 
 healthcheck_endpoints = {
-    "grillbot": None,
     "graphics": "https://health.grillbot.eu/graphics",
     "rubbergod": "https://health.grillbot.eu/rubbergodService",
     "file": "https://health.grillbot.eu/file",
@@ -483,6 +535,11 @@ class ServiceProvider:
             and api_descriptions[self.service_name] is not None
         ):
             result["api_description"] = api_descriptions[self.service_name]
+            if (
+                self.service_name in api_description_note
+                and api_description_note[self.service_name] is not None
+            ):
+                result["api_description_note"] = api_description_note[self.service_name]
 
         if self.service_name == "grillbot":
             result["swagger_url"] = "https://grillbot.eu/swagger"

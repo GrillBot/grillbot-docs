@@ -47,6 +47,9 @@
 {% if 'api_description' in data %}
 <div>
     <h3>Popis API</h3>
+    {% if 'api_description_note' in data %}
+    <p>{{data['api_description_note']}}</p>
+    {% endif %}
 
     <table class="table table-sm table-responsive-md table-bordered auto-column-width">
         <thead>
