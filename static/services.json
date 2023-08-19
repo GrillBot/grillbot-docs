@@ -382,7 +382,7 @@
     },
     "points": {
         "name": "Points",
-        "description": "Služba řesící správu bodů (transakcí, slučování, reporting, ...)",
+        "description": "Služba řesící správu bodů (transakcí, slučování, reporting, ...). Body fungují tak, že uživatel projevuje aktivitu na serveru, kde se nachází bot, který volá tuto službu. Za každou zprávu (s odstupem 1 minuty) uživatel obdrží 15-25 bodů. Za každou reakci (s odstupem půl minuty) uživatel obdrží 1-15 bodů. Získané body uživateli platí pouze po dobu jednoho roku a poté začnou mizet.",
         "databases": {
             "Databáze": "/static/database_points.svg"
         },
