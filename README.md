@@ -7,12 +7,11 @@ Documentation site for GrillBot project.
 - Python 3.6+
 - Graphviz (optional) - Required only for rendering graphs in the `data/` directory. If you do not want to install graphviz, you can use any online editor. Such as [https://dreampuf.github.io/GraphvizOnline/](https://dreampuf.github.io/GraphvizOnline/)
 
-
 ## Start as development
 
-1) Install python
-2) Install dependencies from requirements file. (`pip3 install --upgrade -r requirements.txt`)
-3) Start flask server (`python3 ./app.py --debug`)
+1. Install python
+2. Install dependencies from requirements file. (`pip3 install --upgrade -r requirements.txt`)
+3. Start flask server (`python3 ./app.py --debug`)
 
 ## License
 
