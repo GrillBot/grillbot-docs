@@ -853,6 +853,16 @@
                     "application/json"
                 ],
                 "description": "Průměrné časy provádění za dnešní den."
+            },
+            {
+                "endpoint": "GET /api/info/guild/{guildId:ulong(32)}/count",
+                "status_codes": [
+                    200
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Vrací počet záznamů v audit logu pro daný server."
             }
         ],
         "project_files": [
