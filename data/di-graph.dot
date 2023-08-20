@@ -23,14 +23,8 @@ digraph GrillBot {
             label="Services";
             color=black;
             
-            IGraphicsClient -> GraphicsClient
             IKachnaOnlineClient -> KachnaOnlineClient
             IMathClient -> MathClient
-            IRubbergodServiceClient -> RubbergodServiceClient
-            IFileServiceClient -> FileServiceClient
-            IPointsServiceClient -> PointsServiceClient
-            IImageProcessingClient -> ImageProcessingClient
-            IAuditLogServiceClient -> AuditLogServiceClient
 		}
 	}
 	
@@ -856,6 +850,60 @@ digraph GrillBot {
                 
                 IRandomManager -> RandomManager
 	        }
+	    }
+	}
+	
+	subgraph cluster_5 {
+	    node [style=filled];
+	    label = "GrillBot.Core.Services";
+	    color=blue
+	    
+	    subgraph cluster_5_1 {
+	        node [style=filled];
+            label="AuditLog";
+            color=black;
+            
+            IAuditLogServiceClient -> AuditLogServiceClient
+	    }
+	    
+	    subgraph cluster_5_2 {
+	        node [style=filled];
+            label="FileService";
+            color=black;
+            
+            IFileServiceClient -> FileServiceClient
+	    }
+	    
+	    subgraph cluster_5_3 {
+	        node [style=filled];
+            label="Graphics";
+            color=black;
+
+            IGraphicsClient -> GraphicsClient
+	    }
+	    
+	    subgraph cluster_5_4 {
+	        node [style=filled];
+            label="ImageProcessing";
+            color=black;
+            
+            IImageProcessingClient -> ImageProcessingClient
+	    }
+	    
+	    subgraph cluster_5_5 {
+	        node [style=filled];
+            label="PointsService";
+            color=black;
+            
+            IPointsServiceClient -> PointsServiceClient
+	    }
+	    
+	    subgraph cluster_5_6 {
+	        node [style=filled];
+            label="RubbergodService";
+            color=black;
+            
+            IRubbergodServiceClient -> RubbergodServiceClient
 	    }
 	}
 	

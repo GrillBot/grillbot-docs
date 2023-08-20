@@ -37,20 +37,6 @@ digraph ImageProcessingService {
             DiagnosticController
             ImageController
         }
-        
-        subgraph cluster_3_4 {
-            node [style=filled];
-            label="Core";
-            color=black;
-            
-            subgraph cluster_3_4_1 {
-                node [style=filled];
-                label="GraphicsService"
-                color=black;
-                
-                IGraphicsClient -> GraphicsClient
-            }
-        }
 	}
 	
 	subgraph cluster_4 {
@@ -87,6 +73,20 @@ digraph ImageProcessingService {
 	    }
 	}
 	
+	subgraph cluster_5 {
+	    node [style=filled];
+	    label = "GrillBot.Core.Services";
+	    color=blue;
+	    
+	    subgraph cluster_5_1 {
+	        node [style=filled];
+            label="Graphics";
+            color=black;
+            
+            IGraphicsClient -> GraphicsClient
+	    }
+	}
+	
 	subgraph cluster_100 {
 	    node[style=filled];
 	    label = ".NET"
@@ -104,6 +104,6 @@ digraph ImageProcessingService {
 	WithoutAccidentAction -> { WithoutAccidentCache IGraphicsClient }
 	{ ChartCache PeepoCache PointsCache WithoutAccidentCache } -> { IMemoryCache }
 	ImageController -> { IServiceProvider }
-	GraphicsClient -> { ICounterManager IHttpClientFactory }
+	GraphicsClient -> { IHttpClientFactory ICounterManager }
 	DiagnosticController -> { IDiagnosticsProvider }
 }
