@@ -89,3 +89,17 @@ Statistics.TypeStatistics: {
   Type: integer {constraint: primary_key}
   Count: bigint
 }
+
+Statistics.JobInfos: {
+  shape: sql_table
+
+  Name: character varying (128) {constraint: primary_key}
+  StartCount: integer
+  LastRunDuration: integer
+  LastStartAt: timestamp with time zone
+  FailedCount: integer
+  TotalDuration: integer
+  MinTime: integer
+  MaxTime: integer
+  AvgTime: integer
+}

@@ -92,7 +92,8 @@ digraph AuditLogService {
                 ComputeFileExtensionStatisticsAction
                 ComputeInteractionStatisticsAction
                 ComputeInteractionUserStatisticsAction
-                ComputeTypeStatitistics
+                ComputeTypeStatistics
+                ComputeJobInfoAction
                 DeleteInvalidStatisticsAction
                 HardDeleteAction
             }
@@ -246,7 +247,7 @@ digraph AuditLogService {
 	
     ArchiveOldLogsAction -> { IOptionsSnapshot AuditLogServiceContext }
     ReadDetailAction -> { AuditLogServiceContext }
-    GetJobsInfoAction -> { AuditLogServiceContext }
+    GetJobsInfoAction -> { AuditLogStatisticsContext }
     SearchItemsAction -> { AuditLogServiceContext }
     GetApiStatisticsAction -> { AuditLogStatisticsContext }
     GetAuditLogStatisticsAction -> { AuditLogStatisticsContext }
@@ -275,7 +276,7 @@ digraph AuditLogService {
     GetJobsDashboardListAction -> { AuditLogServiceContext }
     DashboardController -> { IServiceProvider }
     GetStatusInfoAction -> { AuditLogServiceContext IOptions }
-    { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiResultCountsAction ComputeApiUserStatisticsAction ComputeAvgTimesAction ComputeDateStatisticsAction ComputeFileExtensionStatisticsAction ComputeInteractionStatisticsAction ComputeInteractionUserStatisticsAction ComputeTypeStatitistics DeleteInvalidStatisticsAction HardDeleteAction } -> { AuditLogServiceContext AuditLogStatisticsContext }
+    { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiResultCountsAction ComputeApiUserStatisticsAction ComputeAvgTimesAction ComputeDateStatisticsAction ComputeFileExtensionStatisticsAction ComputeInteractionStatisticsAction ComputeInteractionUserStatisticsAction ComputeTypeStatistics DeleteInvalidStatisticsAction HardDeleteAction ComputeJobInfoAction } -> { AuditLogServiceContext AuditLogStatisticsContext }
     PostProcessingService -> { IServiceProvider ICounterManager CreateItemsAction AuditLogServiceContext AuditLogStatisticsContext }
     AuditLogStatisticsContext -> { DbContextOptions }
 }
