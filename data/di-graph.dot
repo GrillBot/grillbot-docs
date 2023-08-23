@@ -19,7 +19,7 @@ digraph GrillBot {
 		CooldownManager
 		
 		subgraph cluster_0_1 {
-            node [style=filled];
+            node [style=filled];    
             label="Services";
             color=black;
             
@@ -479,6 +479,7 @@ digraph GrillBot {
                 color=yellow;
                 
                 AuditChannelDestroyedHandler
+                GuildConfigurationChannelDestroyedHandler
             }
             
             subgraph cluster_3_3_3 {
@@ -607,9 +608,18 @@ digraph GrillBot {
                 CommandsRegistrationHandler
                 InviteReadyHandler
                 UserInitSynchronizationHandler
+                GuildSynchronizationHandler
             }
             
             subgraph cluster_3_3_16 {
+                node[style=filled];
+                label="RoleDeleted";
+                color=yellow;
+                
+                GuildConfigurationRoleDeletedHandler
+            }
+            
+            subgraph cluster_3_3_17 {
                 node[style=filled];
                 label="Synchronization";
                 color=yellow;
@@ -622,7 +632,7 @@ digraph GrillBot {
                 UserSynchronizationHandler
             }
             
-            subgraph cluster_3_3_17 {
+            subgraph cluster_3_3_18 {
                 node[style=filled];
                 label="ThreadDeleted";
                 color=yellow;
@@ -630,7 +640,7 @@ digraph GrillBot {
                 AuditThreadDeletedHandler
             }
             
-            subgraph cluster_3_3_18 {
+            subgraph cluster_3_3_19 {
                 node[style=filled];
                 label="ThreadUpdated";
                 color=yellow;
@@ -638,7 +648,7 @@ digraph GrillBot {
                 ForumThreadTagsUpdated
             }
             
-            subgraph cluster_3_3_19 {
+            subgraph cluster_3_3_20 {
                 node[style=filled];
                 label="UserJoined";
                 color=yellow;
@@ -647,7 +657,7 @@ digraph GrillBot {
                 InviteUserJoinedHandler
             }
             
-            subgraph cluster_3_3_20 {
+            subgraph cluster_3_3_21 {
                 node[style=filled];
                 label="UserLeft";
                 color=yellow;
@@ -656,7 +666,7 @@ digraph GrillBot {
                 UnverifyUserLeftHandler
             }
             
-            subgraph cluster_3_3_21 {
+            subgraph cluster_3_3_22 {
                 node[style=filled];
                 label="UserUnbanned";
                 color=yellow;
@@ -1248,4 +1258,7 @@ digraph GrillBot {
     GetServicesList -> { ApiRequestContext LoggingManager IGraphicsClient IRubbergodServiceClient IFileServiceClient IPointsServiceClient IImageProcessingClient IAuditLogServiceClient }
     ServiceController -> { IServiceProvider }
     GetRubbergodUserKarma -> { ApiRequestContext IRubbergodServiceClient IDiscordClient }
+    GuildConfigurationChannelDestroyedHandler -> { IAuditLogServiceClient GrillBotDatabaseBuilder }
+    GuildSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
+    GuildConfigurationRoleDeletedHandler -> { IAuditLogServiceClient GrillBotDatabaseBuilder }
 }
