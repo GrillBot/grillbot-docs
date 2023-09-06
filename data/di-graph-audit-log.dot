@@ -184,6 +184,7 @@ digraph AuditLogService {
                 UnbanProcessor
                 UserJoinedProcessor
                 UserLeftProcessor
+                RoleDeletedProcessor
             }
             
             RequestProcessorFactory
@@ -266,7 +267,7 @@ digraph AuditLogService {
     DiscordManager -> { IDiscordClient IConfiguration ICounterManager }
     AuditLogServiceContext -> { DbContextOptions }
     StatisticsProvider -> { AuditLogServiceContext AuditLogStatisticsContext }
-    { ApiRequestProcessor ChannelCreatedProcessor ChannelDeletedProcessor ChannelUpdatedProcessor DeletedEmoteProcessor GuildUpdatedProcessor InteractionCommandProcessor JobCompletedProcessor LogMessageProcessor MemberUpdatedProcessor MessageDeletedProcessor MessageEditedProcessor ThreadDeletedProcessor ThreadUpdatedProcessor UnbanProcessor UserJoinedProcessor UserLeftProcessor } -> { IServiceProvider DiscordManager }
+    { ApiRequestProcessor ChannelCreatedProcessor ChannelDeletedProcessor ChannelUpdatedProcessor DeletedEmoteProcessor GuildUpdatedProcessor InteractionCommandProcessor JobCompletedProcessor LogMessageProcessor MemberUpdatedProcessor MessageDeletedProcessor MessageEditedProcessor ThreadDeletedProcessor ThreadUpdatedProcessor UnbanProcessor UserJoinedProcessor UserLeftProcessor RoleDeletedProcessor } -> { IServiceProvider DiscordManager }
     { MemberRoleUpdatedProcessor OverwriteCreatedProcessor OverwriteDeletedProcessor OverwriteUpdatedProcessor } -> { IServiceProvider AuditLogServiceContext DiscordManager }
     RequestProcessorFactory -> { IServiceProvider }
     GetItemsCountOfGuildAction -> { AuditLogServiceContext }

@@ -387,3 +387,26 @@ MemberUpdated: {
 LogItem.Id -> MemberUpdated.LogItemId
 MemberUpdated.BeforeId -> MemberInfo.Id
 MemberUpdated.AfterId -> MemberInfo.Id
+
+RoleInfo: {
+  shape: sql_table
+
+  Id: GUID {constraint: primary_key}
+  RoleId: character varying (32)
+  Name: character varying (100)
+  Color: character varying (32)
+  IsMentionable: boolean
+  IsHoisted: boolean
+  Permissions: jsonb
+  IconId: character varying (256)
+}
+
+RoleDeleted: {
+  shape: sql_table
+
+  LogItemId: GUID {constraint: foreign_key}
+  RoleInfoId: GUID {constraint: foreign_key}
+}
+
+LogItem.Id -> RoleDeleted.LogItemId
+RoleDeleted.RoleInfoId -> RoleInfo.Id
