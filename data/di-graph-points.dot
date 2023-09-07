@@ -150,7 +150,7 @@ digraph PointsService {
 	CreateTransactionAction -> { PointsServiceRepository IOptions IRandomManager }
 	CurrentPointsStatusAction -> { PointsServiceRepository }
 	DeleteTransactionsAction -> { PointsServiceRepository }
-	LeaderboardAction -> { PointsServiceRepository }
+	LeaderboardAction -> { PointsServiceContext ICounterManager }
 	MergeTransactionsAction -> { PointsServiceRepository IOptions }
 	SynchronizationAction -> { PointsServiceRepository }
 	TransactionExistsAction -> { PointsServiceRepository }
