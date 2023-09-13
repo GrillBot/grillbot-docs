@@ -75,14 +75,6 @@ Statistics.RequestStats: {
   LastDuration: bigint
 }
 
-Statistics.ResultCountStatistic: {
-  shape: sql_table
-
-  Result: character varying (255) {constraint: primary_key}
-  ApiGroup: character varying (5) {constraint: primary_key}
-  Count: bigint
-}
-
 Statistics.TypeStatistics: {
   shape: sql_table
 
