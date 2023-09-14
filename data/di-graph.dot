@@ -517,6 +517,7 @@ digraph GrillBot {
                 color=yellow;
                 
                 AuditInteractionCommandHandler
+                EmoteSupportCheckInteractionCommandHandler
                 UpdateUserLanguageHandler
             }
             
@@ -609,6 +610,7 @@ digraph GrillBot {
                 InviteReadyHandler
                 UserInitSynchronizationHandler
                 GuildSynchronizationHandler
+                EmoteInitSynchronizationHandler
             }
             
             subgraph cluster_3_3_16 {
@@ -992,7 +994,7 @@ digraph GrillBot {
 	ApiV1_SendMessageToChannel -> { ApiRequestContext ITextsManager IDiscordClient IMessageCacheManager }
 	UpdateChannel -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager AutoReplyManager ChannelHelper PointsHelper IDiscordClient IAuditLogServiceClient }
 	GetEmoteSuggestionsList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
-	GetStatsOfEmotes -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IEmoteManager }
+	GetStatsOfEmotes -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 	GetSupportedEmotes -> { ApiRequestContext IMapper IEmoteManager }
 	MergeStats -> { ApiRequestContext GrillBotDatabaseBuilder IEmoteManager IAuditLogServiceClient }
 	RemoveStats -> { ApiRequestContext GrillBotDatabaseBuilder IAuditLogServiceClient }
@@ -1261,4 +1263,6 @@ digraph GrillBot {
     GuildConfigurationChannelDestroyedHandler -> { IAuditLogServiceClient GrillBotDatabaseBuilder }
     GuildSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
     GuildConfigurationRoleDeletedHandler -> { IAuditLogServiceClient GrillBotDatabaseBuilder }
+    EmoteSupportCheckInteractionCommandHandler -> { GrillBotDatabaseBuilder IEmoteManager }
+    EmoteInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
 }

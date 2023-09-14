@@ -66,6 +66,7 @@ Emotes: {
   FirstOccurenceAt: timestamp without time zone
   LastOccurenceAt: timestamp without time zone
   GuildId: character varying (30) {constraint: foreign_key}
+  IsEmoteSupported: boolean
 }
 
 Emotes.UserId -> GuildUsers.UserId
