@@ -50,9 +50,18 @@ jobs:
         with:
           files: .
           args: "README.md"
+  CheckHtmlContent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: HtmlValidator
+        uses: Cyb3r-Jak3/html5validator-action
+        with:
+          root: /
   BuildContainer:
     runs-on: ubuntu-latest
-    needs: [LintPythonCode, CheckJsonFiles, CheckMarkdownContent]
+    needs: [LintPythonCode, CheckJsonFiles, CheckMarkdownContent, CheckHtmlContent]
     if: github.ref == 'refs/heads/master'
     permissions:
       contents: read
