@@ -11,6 +11,14 @@ digraph PointsService {
             label="Actions";
             color=black;
             
+            subgraph cluster_3_1_1 {
+                node [style=filled];
+                label="Actions";
+                color=black;
+                
+                UserListAction
+            }
+            
             AdminCreateTransactionAction
             AdminListAction
             ChartAction
@@ -40,6 +48,7 @@ digraph PointsService {
                 CalculateDailyStatsAction
                 RecalculateLeaderboardAction
                 RecalculatePositionAction
+                CalculateUserValueInfoAction
             }
             
             PostProcessingService
@@ -58,6 +67,7 @@ digraph PointsService {
             StatusController
             SynchronizationController
             TransactionController
+            UserController
         }
         
         subgraph cluster_3_4 {
@@ -155,22 +165,15 @@ digraph PointsService {
 	SynchronizationAction -> { PointsServiceRepository }
 	TransactionExistsAction -> { PointsServiceRepository }
 	TransferPointsAction -> { PointsServiceRepository }
-	AdminController -> { IServiceProvider }
-	ChartController -> { IServiceProvider }
+	{ AdminController UserController ChartController LeaderboardController MergeController StatusController SynchronizationController TransactionController } -> { IServiceProvider }
 	DiagnosticController -> { IDiagnosticsProvider IServiceProvider }
-	LeaderboardController -> { IServiceProvider }
-	MergeController -> { IServiceProvider }
-	StatusController -> { IServiceProvider }
-	SynchronizationController -> { IServiceProvider }
-	TransactionController -> { IServiceProvider }
 	PointsServiceContext -> { DbContextOptions }
 	StatisticsProvider -> { PointsServiceRepository }
 	PointsServiceRepository -> { PointsServiceContext ICounterManager }
 	ImagePointsStatusAction -> { PointsServiceRepository }
 	LeaderboardCountAction -> { PointsServiceRepository }
-	CalculateDailyStatsAction -> { PointsServiceRepository }
-	RecalculateLeaderboardAction -> { PointsServiceRepository }
-	RecalculatePositionAction -> { PointsServiceRepository }
+	{ CalculateDailyStatsAction CalculateUserValueInfoAction RecalculateLeaderboardAction RecalculatePositionAction } -> { ICounterManager PointsServiceRepository PointsServiceContext }
 	PostProcessingService -> { IServiceProvider ICounterManager PointsServiceRepository CalculateDailyStatsAction RecalculateLeaderboardAction RecalculatePositionAction }
 	GetStatusInfoAction -> { PointsServiceRepository IOptions }
+	UserListAction -> { PointsServiceContext ICounterManager }
 }

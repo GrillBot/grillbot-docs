@@ -570,6 +570,17 @@
                     "text/plain"
                 ],
                 "description": "Indikace, zda pro daného uživatele existuje nějaká transakce."
+            },
+            {
+                "endpoint": "POST /api/user/list",
+                "status_codes": [
+                    200,
+                    400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Stránkovaný seznam uživatelů se seznamem bodů."
             }
         ],
         "project_files": [
