@@ -32,13 +32,22 @@ digraph AuditLogService {
             
             subgraph cluster_3_1_3 {
                 node [style=filled];
+                label="Delete";
+                color=black;
+                
+                DeleteItemAction
+                BulkDeleteAction
+            }
+            
+            subgraph cluster_3_1_4 {
+                node [style=filled];
                 label="Detail";
                 color=black;
                 
                 ReadDetailAction
             }
             
-            subgraph cluster_3_1_4 {
+            subgraph cluster_3_1_5 {
                 node [style=filled];
                 label="Info";
                 color=black;
@@ -48,7 +57,7 @@ digraph AuditLogService {
                 GetStatusInfoAction
             }
             
-            subgraph cluster_3_1_5 {
+            subgraph cluster_3_1_6 {
                 node [style=filled];
                 label="Search";
                 color=black;
@@ -56,7 +65,7 @@ digraph AuditLogService {
                 SearchItemsAction
             }
             
-            subgraph cluster_3_1_6 {
+            subgraph cluster_3_1_7 {
                 node [style=filled];
                 label="Statistics";
                 color=black;
@@ -70,7 +79,6 @@ digraph AuditLogService {
             }
             
             CreateItemsAction
-            DeleteItemAction    
         }
         
         subgraph cluster_3_2 {
@@ -187,6 +195,7 @@ digraph AuditLogService {
             }
             
             RequestProcessorFactory
+            SynchronizationProcessor
         }
 	}
 	
@@ -255,8 +264,8 @@ digraph AuditLogService {
     GetInteractionStatisticsListAction -> { AuditLogStatisticsContext }
     GetUserApiStatisticsAction -> { AuditLogStatisticsContext }
     GetUserCommandStatisticsAction -> { AuditLogStatisticsContext }
-    CreateItemsAction -> { AuditLogServiceContext RequestProcessorFactory }
-    DeleteItemAction -> { AuditLogServiceContext }
+    CreateItemsAction -> { AuditLogServiceContext RequestProcessorFactory SynchronizationProcessor }
+    DeleteItemAction -> { AuditLogServiceContext SynchronizationProcessor }
     ArchivationController -> { IServiceProvider }
     DiagnosticController -> { IDiagnosticsProvider IServiceProvider }
     InfoController -> { IServiceProvider }
@@ -277,6 +286,7 @@ digraph AuditLogService {
     DashboardController -> { IServiceProvider }
     GetStatusInfoAction -> { AuditLogServiceContext IOptions }
     { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiUserStatisticsAction ComputeAvgTimesAction ComputeDateStatisticsAction ComputeFileExtensionStatisticsAction ComputeInteractionStatisticsAction ComputeInteractionUserStatisticsAction ComputeTypeStatistics DeleteInvalidStatisticsAction HardDeleteAction ComputeJobInfoAction } -> { AuditLogServiceContext AuditLogStatisticsContext }
-    PostProcessingService -> { IServiceProvider ICounterManager CreateItemsAction AuditLogServiceContext AuditLogStatisticsContext }
+    PostProcessingService -> { IServiceProvider ICounterManager CreateItemsAction AuditLogServiceContext AuditLogStatisticsContext SynchronizationProcessor }
     AuditLogStatisticsContext -> { DbContextOptions }
+    BulkDeleteAction -> { AuditLogServiceContext SynchronizationProcessor }
 }

@@ -874,6 +874,17 @@
                     "application/json"
                 ],
                 "description": "Vrací počet záznamů v audit logu pro daný server."
+            },
+            {
+                "endpoint": "PUT /api/logItem/bulkDelete",
+                "status_codes": [
+                    200,
+                    400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Hromadné smazání záznamů z logu (vč. informací o existujících souborech).<br>Vrací seznam odpovědí ve stejném formátu jako vrací akce <code>DELETE /api/logItem/{id}</code>"
             }
         ],
         "project_files": [
