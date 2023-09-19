@@ -103,6 +103,7 @@ digraph AuditLogService {
                 ComputeJobInfoAction
                 DeleteInvalidStatisticsAction
                 HardDeleteAction
+                ComputeDatabaseStatisticsAction
             }
             
             PostProcessingService
@@ -274,7 +275,7 @@ digraph AuditLogService {
     DiscordLogManager -> { IDiscordClient ILoggerFactory }
     DiscordManager -> { IDiscordClient IConfiguration ICounterManager }
     AuditLogServiceContext -> { DbContextOptions }
-    StatisticsProvider -> { AuditLogServiceContext AuditLogStatisticsContext }
+    StatisticsProvider -> { AuditLogStatisticsContext }
     { ApiRequestProcessor ChannelCreatedProcessor ChannelDeletedProcessor ChannelUpdatedProcessor DeletedEmoteProcessor GuildUpdatedProcessor InteractionCommandProcessor JobCompletedProcessor LogMessageProcessor MemberUpdatedProcessor MessageDeletedProcessor MessageEditedProcessor ThreadDeletedProcessor ThreadUpdatedProcessor UnbanProcessor UserJoinedProcessor UserLeftProcessor RoleDeletedProcessor } -> { IServiceProvider DiscordManager }
     { MemberRoleUpdatedProcessor OverwriteCreatedProcessor OverwriteDeletedProcessor OverwriteUpdatedProcessor } -> { IServiceProvider AuditLogServiceContext DiscordManager }
     RequestProcessorFactory -> { IServiceProvider }
@@ -285,7 +286,7 @@ digraph AuditLogService {
     GetJobsDashboardListAction -> { AuditLogServiceContext }
     DashboardController -> { IServiceProvider }
     GetStatusInfoAction -> { AuditLogServiceContext IOptions }
-    { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiUserStatisticsAction ComputeAvgTimesAction ComputeDateStatisticsAction ComputeFileExtensionStatisticsAction ComputeInteractionStatisticsAction ComputeInteractionUserStatisticsAction ComputeTypeStatistics DeleteInvalidStatisticsAction HardDeleteAction ComputeJobInfoAction } -> { AuditLogServiceContext AuditLogStatisticsContext }
+    { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiUserStatisticsAction ComputeAvgTimesAction ComputeDateStatisticsAction ComputeFileExtensionStatisticsAction ComputeInteractionStatisticsAction ComputeInteractionUserStatisticsAction ComputeTypeStatistics DeleteInvalidStatisticsAction HardDeleteAction ComputeJobInfoAction ComputeDatabaseStatisticsAction } -> { AuditLogServiceContext AuditLogStatisticsContext }
     PostProcessingService -> { IServiceProvider ICounterManager CreateItemsAction AuditLogServiceContext AuditLogStatisticsContext SynchronizationProcessor }
     AuditLogStatisticsContext -> { DbContextOptions }
     BulkDeleteAction -> { AuditLogServiceContext SynchronizationProcessor }

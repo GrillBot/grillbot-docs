@@ -95,3 +95,10 @@ Statistics.JobInfos: {
   MaxTime: integer
   AvgTime: integer
 }
+
+Statistics.DatabaseStatistic: {
+  shape: sql_table
+
+  TableName: character varying (1024) {constraint: primary_key}
+  RecordsCount: bigint
+}
