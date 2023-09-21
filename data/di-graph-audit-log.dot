@@ -111,6 +111,15 @@ digraph AuditLogService {
         
         subgraph cluster_3_3 {
             node [style=filled];
+            label="Caching";
+            color=black;
+            
+            GuildCache
+            AuditLogCache
+        }
+        
+        subgraph cluster_3_4 {
+            node [style=filled];
             label="Controllers";
             color=black;
             
@@ -122,12 +131,12 @@ digraph AuditLogService {
             StatisticsController
         }
         
-        subgraph cluster_3_4 {
+        subgraph cluster_3_5 {
             node [style=filled];
             label="Core"
             color=black
             
-            subgraph cluster_3_4_1 {
+            subgraph cluster_3_5_1 {
                 node [style=filled];
                 label="Discord"
                 color=black;
@@ -136,14 +145,14 @@ digraph AuditLogService {
                 DiscordManager
             }
             
-            subgraph cluster_3_4_2 {
+            subgraph cluster_3_5_2 {
                 node [style=filled];
                 label="Entity"
                 color=black;
                 
                 AuditLogServiceContext
                 
-                subgraph cluster_3_4_2_1 {
+                subgraph cluster_3_5_2_1 {
                     node [style=filled];
                     label="Statistics"
                     color=black;
@@ -152,7 +161,7 @@ digraph AuditLogService {
                 }
             }
             
-            subgraph cluster_3_4_3 {
+            subgraph cluster_3_5_3 {
                 node [style=filled];
                 label="Providers"
                 color=black;
@@ -161,12 +170,12 @@ digraph AuditLogService {
             }
         }
         
-        subgraph cluster_3_5 {
+        subgraph cluster_3_6 {
             node [style=filled];
             label="Processors"
             color=black
             
-            subgraph cluster_3_5_1 {
+            subgraph cluster_3_6_1 {
                 node [style=filled];
                 label="Request"
                 color=black
@@ -244,6 +253,7 @@ digraph AuditLogService {
 	    IOptionsSnapshot
 	    IConfiguration
 	    IOptions
+	    IMemoryCache
 	}
 	
 	subgraph cluster_200 {
@@ -272,7 +282,7 @@ digraph AuditLogService {
     LogItemController -> { IServiceProvider }
     StatisticsController -> { IServiceProvider }
     DiscordLogManager -> { IDiscordClient ILoggerFactory }
-    DiscordManager -> { IDiscordClient IConfiguration ICounterManager }
+    DiscordManager -> { IDiscordClient IConfiguration ICounterManager GuildCache AuditLogCache }
     AuditLogServiceContext -> { DbContextOptions }
     StatisticsProvider -> { AuditLogStatisticsContext }
     { ApiRequestProcessor ChannelCreatedProcessor ChannelDeletedProcessor ChannelUpdatedProcessor DeletedEmoteProcessor GuildUpdatedProcessor InteractionCommandProcessor JobCompletedProcessor LogMessageProcessor MemberUpdatedProcessor MessageDeletedProcessor MessageEditedProcessor ThreadDeletedProcessor ThreadUpdatedProcessor UnbanProcessor UserJoinedProcessor UserLeftProcessor RoleDeletedProcessor } -> { IServiceProvider DiscordManager }
@@ -289,4 +299,6 @@ digraph AuditLogService {
     PostProcessingService -> { IServiceProvider ICounterManager CreateItemsAction AuditLogServiceContext AuditLogStatisticsContext }
     AuditLogStatisticsContext -> { DbContextOptions }
     BulkDeleteAction -> { AuditLogServiceContext }
+    GuildCache -> { IMemoryCache ICounterManager }
+    AuditLogCache -> { ICounterManager }
 }
