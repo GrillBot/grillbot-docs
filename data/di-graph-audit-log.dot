@@ -196,7 +196,6 @@ digraph AuditLogService {
             }
             
             RequestProcessorFactory
-            SynchronizationProcessor
         }
 	}
 	
@@ -265,8 +264,8 @@ digraph AuditLogService {
     GetInteractionStatisticsListAction -> { AuditLogStatisticsContext }
     GetUserApiStatisticsAction -> { AuditLogStatisticsContext }
     GetUserCommandStatisticsAction -> { AuditLogStatisticsContext }
-    CreateItemsAction -> { AuditLogServiceContext RequestProcessorFactory SynchronizationProcessor }
-    DeleteItemAction -> { AuditLogServiceContext SynchronizationProcessor }
+    CreateItemsAction -> { AuditLogServiceContext RequestProcessorFactory }
+    DeleteItemAction -> { AuditLogServiceContext }
     ArchivationController -> { IServiceProvider }
     DiagnosticController -> { IDiagnosticsProvider IServiceProvider }
     InfoController -> { IServiceProvider }
@@ -287,7 +286,7 @@ digraph AuditLogService {
     DashboardController -> { IServiceProvider }
     GetStatusInfoAction -> { AuditLogServiceContext IOptions }
     { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiUserStatisticsAction ComputeAvgTimesAction ComputeDateStatisticsAction ComputeFileExtensionStatisticsAction ComputeInteractionStatisticsAction ComputeInteractionUserStatisticsAction ComputeTypeStatistics DeleteInvalidStatisticsAction HardDeleteAction ComputeJobInfoAction ComputeDatabaseStatisticsAction } -> { AuditLogServiceContext AuditLogStatisticsContext }
-    PostProcessingService -> { IServiceProvider ICounterManager CreateItemsAction AuditLogServiceContext AuditLogStatisticsContext SynchronizationProcessor }
+    PostProcessingService -> { IServiceProvider ICounterManager CreateItemsAction AuditLogServiceContext AuditLogStatisticsContext }
     AuditLogStatisticsContext -> { DbContextOptions }
-    BulkDeleteAction -> { AuditLogServiceContext SynchronizationProcessor }
+    BulkDeleteAction -> { AuditLogServiceContext }
 }
