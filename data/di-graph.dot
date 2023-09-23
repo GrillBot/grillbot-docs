@@ -576,14 +576,6 @@ digraph GrillBot {
             
             subgraph cluster_3_3_12 {
                 node[style=filled];
-                label="PresenceUpdated";
-                color=yellow;
-                
-                UserPresenceSynchronizationHandler
-            }
-            
-            subgraph cluster_3_3_13 {
-                node[style=filled];
                 label="ReactionAdded";
                 color=yellow;
                 
@@ -591,7 +583,7 @@ digraph GrillBot {
                 PointsReactionAddedHandler
             }
             
-            subgraph cluster_3_3_14 {
+            subgraph cluster_3_3_13 {
                 node[style=filled];
                 label="ReactionRemoved";
                 color=yellow;
@@ -600,7 +592,7 @@ digraph GrillBot {
                 PointsReactionRemovedHandler
             }
             
-            subgraph cluster_3_3_15 {
+            subgraph cluster_3_3_14 {
                 node[style=filled];
                 label="Ready";
                 color=yellow;
@@ -614,7 +606,7 @@ digraph GrillBot {
                 EmoteInitSynchronizationHandler
             }
             
-            subgraph cluster_3_3_16 {
+            subgraph cluster_3_3_15 {
                 node[style=filled];
                 label="RoleDeleted";
                 color=yellow;
@@ -622,7 +614,7 @@ digraph GrillBot {
                 GuildConfigurationRoleDeletedHandler
             }
             
-            subgraph cluster_3_3_17 {
+            subgraph cluster_3_3_16 {
                 node[style=filled];
                 label="Synchronization";
                 color=yellow;
@@ -635,7 +627,7 @@ digraph GrillBot {
                 UserSynchronizationHandler
             }
             
-            subgraph cluster_3_3_18 {
+            subgraph cluster_3_3_17 {
                 node[style=filled];
                 label="ThreadDeleted";
                 color=yellow;
@@ -643,7 +635,7 @@ digraph GrillBot {
                 AuditThreadDeletedHandler
             }
             
-            subgraph cluster_3_3_19 {
+            subgraph cluster_3_3_18 {
                 node[style=filled];
                 label="ThreadUpdated";
                 color=yellow;
@@ -651,7 +643,7 @@ digraph GrillBot {
                 ForumThreadTagsUpdated
             }
             
-            subgraph cluster_3_3_20 {
+            subgraph cluster_3_3_19 {
                 node[style=filled];
                 label="UserJoined";
                 color=yellow;
@@ -660,7 +652,7 @@ digraph GrillBot {
                 InviteUserJoinedHandler
             }
             
-            subgraph cluster_3_3_21 {
+            subgraph cluster_3_3_20 {
                 node[style=filled];
                 label="UserLeft";
                 color=yellow;
@@ -669,7 +661,7 @@ digraph GrillBot {
                 UnverifyUserLeftHandler
             }
             
-            subgraph cluster_3_3_22 {
+            subgraph cluster_3_3_21 {
                 node[style=filled];
                 label="UserUnbanned";
                 color=yellow;
@@ -734,13 +726,13 @@ digraph GrillBot {
             AuditLogClearingJob
             BirthdayCronJob
             MessageCacheJob
-            OnlineUsersCleanJob
             PointsJob
             RemindCronJob
             UnverifyCronJob
             SuggestionJob
             CacheCleanerJob
             UnverifyLogArchivationJob
+            UserPresenceSynchronizationJob
         }
         
         subgraph cluster_3_7 {
@@ -1096,7 +1088,7 @@ digraph GrillBot {
 	UnverifyMessageManager -> { ITextsManager }
 	UnverifyProfileManager -> { GrillBotDatabaseBuilder ITextsManager }
 	PointsJob -> { IServiceProvider IDiscordClient InitManager LoggingManager IPointsServiceClient IAuditLogServiceClient }
-	OnlineUsersCleanJob -> { IServiceProvider IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager IAuditLogServiceClient }
+	UserPresenceSynchronizationJob -> { IServiceProvider IDiscordClient GrillBotDatabaseBuilder InitManager LoggingManager IAuditLogServiceClient }
 	DiscordExceptionHandler -> { IDiscordClient IConfiguration IServiceProvider }
 	MessageCacheJob -> { IServiceProvider IDiscordClient InitManager IMessageCacheManager LoggingManager IAuditLogServiceClient }
 	MessageCacheManager -> { DiscordSocketClient InitManager GrillBotCacheBuilder ICounterManager }
@@ -1155,7 +1147,6 @@ digraph GrillBot {
     EmoteMessageReceivedHandler -> { IEmoteManager IDiscordClient GrillBotDatabaseBuilder }
     PointsMessageReceivedHandler -> { PointsHelper IPointsServiceClient }
     UnsucessCommandHandler -> { ITextsManager InteractionService GrillBotDatabaseBuilder ChannelHelper IRubbergodServiceClient }
-    UserPresenceSynchronizationHandler -> { GrillBotDatabaseBuilder }
     AutoReplyReadyHandler -> { AutoReplyManager }
     ChannelInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
     CommandsRegistrationHandler -> { InteractionService IDiscordClient LoggingManager }
