@@ -520,6 +520,7 @@ digraph GrillBot {
                 AuditInteractionCommandHandler
                 EmoteSupportCheckInteractionCommandHandler
                 UpdateUserLanguageHandler
+                InteractionFailedCommandHandler
             }
             
             subgraph cluster_3_3_7 {
@@ -1258,4 +1259,5 @@ digraph GrillBot {
     EmoteSupportCheckInteractionCommandHandler -> { GrillBotDatabaseBuilder IEmoteManager }
     EmoteInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
     GetUserList -> { ApiRequestContext IPointsServiceClient GrillBotDatabaseBuilder IMapper }
+    InteractionFailedCommandHandler -> { CooldownManager }
 }
