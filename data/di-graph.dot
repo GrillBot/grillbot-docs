@@ -1030,7 +1030,7 @@ digraph GrillBot {
 	GetTodayBirthdayInfo -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient IConfiguration ITextsManager }
 	Emojization -> { ITextsManager }
 	ImageCreator -> { ProfilePictureManager IImageProcessingClient }
-	PointsLeaderboard -> { ITextsManager FormatHelper IPointsServiceClient }
+	PointsLeaderboard -> { ITextsManager FormatHelper IPointsServiceClient GrillBotDatabaseBuilder }
 	AuditLogController -> { IServiceProvider }
 	AuthController -> { IServiceProvider }
 	AutoReplyController -> { IServiceProvider }
