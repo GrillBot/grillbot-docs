@@ -1225,7 +1225,7 @@ digraph GrillBot {
     PermissionsSetSubModule -> { IServiceProvider }
     PointsServiceClient -> { ICounterManager IHttpClientFactory }
     ChannelSynchronizationHandler -> { GrillBotDatabaseBuilder }
-    GuildSynchronizationHandler -> { GrillBotDatabaseBuilder }
+    GuildSynchronizationHandler -> { GrillBotDatabaseBuilder IEmoteManager }
     PointsServiceSynchronizationHandler -> { IPointsServiceClient GrillBotDatabaseBuilder }
     RubbergodServiceSynchronizationHandler -> { IRubbergodServiceClient GrillBotDatabaseBuilder IMessageCacheManager }
     ThreadSynchronizationHandler -> { GrillBotDatabaseBuilder }
