@@ -989,7 +989,7 @@ digraph GrillBot {
 	UpdateChannel -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager AutoReplyManager ChannelHelper PointsHelper IDiscordClient IAuditLogServiceClient }
 	GetEmoteSuggestionsList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
 	GetStatsOfEmotes -> { ApiRequestContext GrillBotDatabaseBuilder IMapper }
-	GetSupportedEmotes -> { ApiRequestContext IMapper IEmoteManager }
+	GetSupportedEmotes -> { ApiRequestContext IMapper IDiscordClient }
 	MergeStats -> { ApiRequestContext GrillBotDatabaseBuilder IEmoteManager IAuditLogServiceClient }
 	RemoveStats -> { ApiRequestContext GrillBotDatabaseBuilder IAuditLogServiceClient }
 	GetAvailableGuilds -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient }
