@@ -776,14 +776,14 @@
                 "description": "Statistika audit logu (počty záznamů, počty a objemy souborů)."
             },
             {
-                "endpoint": "GET /api/statistics/interactions/list",
+                "endpoint": "GET /api/statistics/interactions/stats",
                 "status_codes": [
                     200
                 ],
                 "content_types": [
                     "application/json"
                 ],
-                "description": "Seznam provedených příkazů a jejich statistika."
+                "description": "Statistika integrovaných příkazů."
             },
             {
                 "endpoint": "GET /api/statistics/interactions/userstats",

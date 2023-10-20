@@ -102,3 +102,10 @@ Statistics.DatabaseStatistic: {
   TableName: character varying (1024) {constraint: primary_key}
   RecordsCount: bigint
 }
+
+Statistics.InteractionDateCountStatistic: {
+  shape: sql_table
+
+  Date: date {constraint: primary_key}
+  Count: bigint
+}

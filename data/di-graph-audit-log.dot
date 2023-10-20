@@ -73,7 +73,7 @@ digraph AuditLogService {
                 GetApiStatisticsAction
                 GetAuditLogStatisticsAction
                 GetAvgTimesAction
-                GetInteractionStatisticsListAction
+                GetInteractionStatisticsAction
                 GetUserApiStatisticsAction
                 GetUserCommandStatisticsAction
             }
@@ -104,6 +104,7 @@ digraph AuditLogService {
                 DeleteInvalidStatisticsAction
                 HardDeleteAction
                 ComputeDatabaseStatisticsAction
+                ComputeInteractionDateStatistics
             }
             
             PostProcessingService
@@ -271,7 +272,7 @@ digraph AuditLogService {
     GetApiStatisticsAction -> { AuditLogStatisticsContext }
     GetAuditLogStatisticsAction -> { AuditLogStatisticsContext }
     GetAvgTimesAction -> { AuditLogStatisticsContext }
-    GetInteractionStatisticsListAction -> { AuditLogStatisticsContext }
+    GetInteractionStatisticsAction -> { AuditLogStatisticsContext }
     GetUserApiStatisticsAction -> { AuditLogStatisticsContext }
     GetUserCommandStatisticsAction -> { AuditLogStatisticsContext }
     CreateItemsAction -> { AuditLogServiceContext RequestProcessorFactory }
@@ -295,7 +296,7 @@ digraph AuditLogService {
     GetJobsDashboardListAction -> { AuditLogServiceContext }
     DashboardController -> { IServiceProvider }
     GetStatusInfoAction -> { AuditLogServiceContext IOptions }
-    { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiUserStatisticsAction ComputeAvgTimesAction ComputeDateStatisticsAction ComputeFileExtensionStatisticsAction ComputeInteractionStatisticsAction ComputeInteractionUserStatisticsAction ComputeTypeStatistics DeleteInvalidStatisticsAction HardDeleteAction ComputeJobInfoAction ComputeDatabaseStatisticsAction } -> { AuditLogServiceContext AuditLogStatisticsContext }
+    { ComputeApiDateCountsAction ComputeApiRequestStatsAction ComputeApiUserStatisticsAction ComputeAvgTimesAction ComputeDateStatisticsAction ComputeFileExtensionStatisticsAction ComputeInteractionStatisticsAction ComputeInteractionUserStatisticsAction ComputeTypeStatistics DeleteInvalidStatisticsAction HardDeleteAction ComputeJobInfoAction ComputeDatabaseStatisticsAction ComputeInteractionDateStatistics } -> { AuditLogServiceContext AuditLogStatisticsContext }
     PostProcessingService -> { IServiceProvider ICounterManager CreateItemsAction AuditLogServiceContext AuditLogStatisticsContext }
     AuditLogStatisticsContext -> { DbContextOptions }
     BulkDeleteAction -> { AuditLogServiceContext }

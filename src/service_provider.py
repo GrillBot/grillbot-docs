@@ -101,7 +101,7 @@ class ServiceProvider:
         extension = pathlib.Path(project).suffix
         if extension == ".csproj":
             result = DotnetDependencyList.get_data(project)
-            for dep in filter(lambda x: x["name"] == "GrillBot.Core", result):
+            for dep in filter(lambda x: x["name"] == "GrillBot.Core" or x["name"] == "GrillBot.Core.Services", result):
                 dep[
                     "url"
                 ] = "https://github.com/GrillBot/GrillBot.Core/pkgs/nuget/GrillBot.Core"
