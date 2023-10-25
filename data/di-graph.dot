@@ -15,6 +15,7 @@ digraph GrillBot {
 		FormatHelper
 		GuildHelper
 		FileStorageFactory
+		BlobManagerFactory
 		ApiRequestContext
 		CooldownManager
 		
@@ -682,6 +683,7 @@ digraph GrillBot {
             ChannelHelper
             RemindHelper
             UnverifyHelper
+            BlobManagerFactoryHelper
         }
         
         subgraph cluster_3_5 {
@@ -970,8 +972,8 @@ digraph GrillBot {
 	GrillBotDatabaseBuilder -> { DbContextOptions ICounterManager }
 	GrillBotCacheBuilder -> { IServiceProvider DbContextOptions ICounterManager }
 	CreateLogItem -> { ApiRequestContext ITextsManager IAuditLogServiceClient }
-	GetAuditLogList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IFileServiceClient IAuditLogServiceClient }
-	RemoveItem -> { ApiRequestContext ITextsManager IFileServiceClient IAuditLogServiceClient }
+	GetAuditLogList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IAuditLogServiceClient BlobManagerFactoryHelper }
+	RemoveItem -> { ApiRequestContext ITextsManager IAuditLogServiceClient BlobManagerFactoryHelper }
 	CreateToken -> { ApiRequestContext IHttpClientFactory IDiscordClient ITextsManager GrillBotDatabaseBuilder IConfiguration }
 	GetRedirectLink -> { ApiRequestContext IConfiguration }
 	ProcessCallback -> { ApiRequestContext IConfiguration IHttpClientFactory }
@@ -1075,7 +1077,7 @@ digraph GrillBot {
 	RemindModule -> { IServiceProvider }
 	SearchingModule -> { IServiceProvider }
 	SuggestionModule -> { IServiceProvider }
-	AuditLogClearingJob -> { GrillBotDatabaseBuilder IServiceProvider FileStorageFactory IDiscordClient InitManager LoggingManager IFileServiceClient IAuditLogServiceClient }
+	AuditLogClearingJob -> { GrillBotDatabaseBuilder IServiceProvider IDiscordClient InitManager LoggingManager IAuditLogServiceClient BlobManagerFactoryHelper }
 	AuditLogLoggingHandler -> { IConfiguration IServiceProvider IAuditLogServiceClient }
 	BirthdayCronJob -> { IConfiguration IDiscordClient GetTodayBirthdayInfo GrillBotDatabaseBuilder IServiceProvider InitManager LoggingManager IAuditLogServiceClient }
 	DiscordHealthCheck -> { DiscordSocketClient }
@@ -1137,7 +1139,7 @@ digraph GrillBot {
 	RemindPaginationHandler -> { GetReminderList }
 	ChannelInfo -> { ITextsManager FormatHelper GrillBotDatabaseBuilder }
 	UnverifyHelper -> { GrillBotDatabaseBuilder }
-	AuditMessageDeletedHandler -> { IMessageCacheManager DownloadHelper IFileServiceClient IAuditLogServiceClient }
+	AuditMessageDeletedHandler -> { IMessageCacheManager DownloadHelper IAuditLogServiceClient BlobManagerFactoryHelper }
 	ChannelMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
 	EmoteMessageDeletedHandler -> { IEmoteManager IMessageCacheManager GrillBotDatabaseBuilder IDiscordClient }
 	EmoteSuggestionsMessageDeletedHandler -> { IMessageCacheManager GrillBotDatabaseBuilder }
@@ -1217,10 +1219,10 @@ digraph GrillBot {
     MessageModule -> { IServiceProvider }
     PermissionsModule -> { IServiceProvider }
     FileServiceClient -> { ICounterManager IHttpClientFactory }
-    GetServiceInfo -> { ApiRequestContext IGraphicsClient IRubbergodServiceClient IFileServiceClient LoggingManager IPointsServiceClient IImageProcessingClient IAuditLogServiceClient }
+    GetServiceInfo -> { ApiRequestContext IGraphicsClient IRubbergodServiceClient LoggingManager IPointsServiceClient IImageProcessingClient IAuditLogServiceClient }
     CacheCleanerJob -> { IServiceProvider GrillBotCacheBuilder IDiscordClient InitManager LoggingManager IAuditLogServiceClient }
     ForumThreadTagsUpdated -> { IAuditLogServiceClient }
-    UnverifyLogArchivationJob -> { IServiceProvider GrillBotDatabaseBuilder FileStorageFactory IDiscordClient InitManager LoggingManager IAuditLogServiceClient IConfiguration }
+    UnverifyLogArchivationJob -> { IServiceProvider GrillBotDatabaseBuilder IDiscordClient InitManager LoggingManager IAuditLogServiceClient IConfiguration BlobManagerFactoryHelper }
     ApiBridgeAction -> { ApiRequestContext IServiceProvider IRubbergodServiceClient }
     PermissionsSetSubModule -> { IServiceProvider }
     PointsServiceClient -> { ICounterManager IHttpClientFactory }
@@ -1250,7 +1252,7 @@ digraph GrillBot {
     GetActiveOperations -> { ApiRequestContext ICounterManager }
     GetCommonInfo -> { ApiRequestContext IDiscordClient InitManager IWebHostEnvironment }
     GetOperationStats -> { ApiRequestContext ICounterManager }
-    GetServicesList -> { ApiRequestContext LoggingManager IGraphicsClient IRubbergodServiceClient IFileServiceClient IPointsServiceClient IImageProcessingClient IAuditLogServiceClient }
+    GetServicesList -> { ApiRequestContext LoggingManager IGraphicsClient IRubbergodServiceClient IPointsServiceClient IImageProcessingClient IAuditLogServiceClient }
     ServiceController -> { IServiceProvider }
     GetRubbergodUserKarma -> { ApiRequestContext IRubbergodServiceClient IDiscordClient }
     GuildConfigurationChannelDestroyedHandler -> { IAuditLogServiceClient GrillBotDatabaseBuilder }
@@ -1260,4 +1262,6 @@ digraph GrillBot {
     EmoteInitSynchronizationHandler -> { GrillBotDatabaseBuilder IDiscordClient }
     GetUserList -> { ApiRequestContext IPointsServiceClient GrillBotDatabaseBuilder IMapper }
     InteractionFailedCommandHandler -> { CooldownManager }
+    BlobManagerFactoryHelper -> { BlobManagerFactory IWebHostEnvironment }
+    BlobManagerFactory -> { ICounterManager IConfiguration }
 }

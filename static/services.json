@@ -317,69 +317,6 @@
         ],
         "healthcheck": "https://health.grillbot.eu/rubbergodService"
     },
-    "file": {
-        "name": "FileService",
-        "description": "Služba řešící ukládání a získávání souborů mezi GrillBot a Azure Blob Storage.",
-        "di_graph": "/static/di-graph-file.svg",
-        "api": [
-            {
-                "endpoint": "POST /api/data",
-                "status_codes": [
-                    200,
-                    409
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Nahrání nového souboru. Pokud již soubor pod stejným jménem existuje, tak se vrací Conflcit."
-            },
-            {
-                "endpoint": "GET /api/data",
-                "status_codes": [
-                    200,
-                    404
-                ],
-                "content_types": [
-                    "*/*"
-                ],
-                "description": "Stažení obsahu souboru. Pokud neexistuje, tak se vrací Not Found"
-            },
-            {
-                "endpoint": "DELETE /api/data",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Fyzické smazání souboru."
-            },
-            {
-                "endpoint": "GET /api/data/link",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "text/plain"
-                ],
-                "description": "Vytvoření unikátního odkazu přímo na soubor."
-            },
-            {
-                "endpoint": "GET /api/diag",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...)"
-            }
-        ],
-        "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/FileService/FileService/FileService.csproj"
-        ],
-        "healthcheck": "https://health.grillbot.eu/file"
-    },
     "points": {
         "name": "Points",
         "description": "Služba řesící správu bodů (transakcí, slučování, reporting, ...). Body fungují tak, že uživatel projevuje aktivitu na serveru, kde se nachází bot, který volá tuto službu. Za každou zprávu (s odstupem 1 minuty) uživatel obdrží 15-25 bodů. Za každou reakci (s odstupem půl minuty) uživatel obdrží 1-15 bodů. Získané body uživateli platí pouze po dobu jednoho roku a poté začnou mizet.",
