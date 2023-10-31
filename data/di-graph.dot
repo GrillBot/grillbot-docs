@@ -61,7 +61,7 @@ digraph GrillBot {
             label="Actions";
             color=black;
             
-            ApiBridgeAction
+            ServiceBridgeAction
             
             subgraph cluster_3_1_1 {
                 node[style=filled];
@@ -282,6 +282,7 @@ digraph GrillBot {
                     GetUserDetail
                     GetUserList
                     UpdateUser
+                    Hearthbeat
                 }
             }
             
@@ -1223,7 +1224,6 @@ digraph GrillBot {
     CacheCleanerJob -> { IServiceProvider GrillBotCacheBuilder IDiscordClient InitManager LoggingManager IAuditLogServiceClient }
     ForumThreadTagsUpdated -> { IAuditLogServiceClient }
     UnverifyLogArchivationJob -> { IServiceProvider GrillBotDatabaseBuilder IDiscordClient InitManager LoggingManager IAuditLogServiceClient IConfiguration BlobManagerFactoryHelper }
-    ApiBridgeAction -> { ApiRequestContext IServiceProvider IRubbergodServiceClient }
     PermissionsSetSubModule -> { IServiceProvider }
     PointsServiceClient -> { ICounterManager IHttpClientFactory }
     ChannelSynchronizationHandler -> { GrillBotDatabaseBuilder }
@@ -1264,4 +1264,6 @@ digraph GrillBot {
     InteractionFailedCommandHandler -> { CooldownManager }
     BlobManagerFactoryHelper -> { BlobManagerFactory IWebHostEnvironment }
     BlobManagerFactory -> { ICounterManager IConfiguration }
+    ServiceBridgeAction -> { ApiRequestContext IRubbergodServiceClient IAuditLogServiceClient IPointsServiceClient }
+    Hearthbeat -> { ApiRequestContext UserManager }
 }
