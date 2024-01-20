@@ -18,6 +18,13 @@ Statistics.DailyAvgTimes: {
   InternalApi: double precision
 }
 
+Statistics.DatabaseStatistics: {
+  shape: sql_table
+
+  TableName: character varying (1024) {constraint: primary_key}
+  RecordsCount: bigint
+}
+
 Statistics.DateCountStatistics: {
   shape: sql_table
 
@@ -41,6 +48,13 @@ Statistics.FileExtensionStatistics: {
   Size: bigint
 }
 
+Statistics.InteractionDateCountStatistic: {
+  shape: sql_table
+
+  Date: date {constraint: primary_key}
+  Count: bigint
+}
+
 Statistics.InteractionStatistics: {
   shape: sql_table
 
@@ -62,26 +76,6 @@ Statistics.InteractionUserActionStatistics: {
   Count: bigint
 }
 
-Statistics.RequestStats: {
-  shape: sql_table
-
-  Endpoint: character varying (4096) {constraint: primary_key}
-  LastRequest: timestamp with time zone
-  FailedCount: bigint
-  MaxDuration: bigint
-  MinDuration: bigint
-  SuccessCount: bigint
-  TotalDuration: bigint
-  LastDuration: bigint
-}
-
-Statistics.TypeStatistics: {
-  shape: sql_table
-
-  Type: integer {constraint: primary_key}
-  Count: bigint
-}
-
 Statistics.JobInfos: {
   shape: sql_table
 
@@ -96,16 +90,22 @@ Statistics.JobInfos: {
   AvgTime: integer
 }
 
-Statistics.DatabaseStatistic: {
+Statistics.RequestStats: {
   shape: sql_table
 
-  TableName: character varying (1024) {constraint: primary_key}
-  RecordsCount: bigint
+  Endpoint: character varying (4096) {constraint: primary_key}
+  LastRequest: timestamp with time zone
+  FailedCount: bigint
+  MaxDuration: bigint
+  MinDuration: bigint
+  SuccessCount: bigint
+  TotalDuration: bigint
+  LastRunDuration: bigint
 }
 
-Statistics.InteractionDateCountStatistic: {
+Statistics.TypeStatistics: {
   shape: sql_table
 
-  Date: date {constraint: primary_key}
+  Type: integer {constraint: primary_key}
   Count: bigint
 }

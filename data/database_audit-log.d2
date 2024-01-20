@@ -16,8 +16,8 @@ LogItem: {
 File: {
   shape: sql_table
 
-  ID: GUID {constraint: primary_key}
-  LogItemId: GUID {constraint: foreign_key}
+  ID: uuid {constraint: primary_key}
+  LogItemId: uuid {constraint: foreign_key}
   Filename: Text(255)
   Extension: Text(255)
   Size: BIGINT
@@ -30,7 +30,7 @@ LogItem.ID -> File.LogItemId
 ApiRequest: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
   ControllerName: character varying (128)
   ActionName: character varying (128)
   StartAt: DateTime
@@ -56,7 +56,7 @@ LogItem.ID -> ApiRequest.LogItemId
 LogMessage: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
   Message: Text
   Severity: INT
   SourceAppName: Text(100)
@@ -68,7 +68,7 @@ LogItem.ID -> LogMessage.LogItemId
 DeletedEmote: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
   EmoteId: Text(32)
   EmoteName: Text
 }
@@ -78,7 +78,7 @@ LogItem.ID -> DeletedEmote.LogItemId
 Unban: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
   UserId: Text(32)
 }
 
@@ -87,13 +87,14 @@ LogItem.ID -> Unban.LogItemId
 JobExecution: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
   JobName: Text(128)
   Result: Text
   StartAt: DateTime
   EndAt: DateTime
   WasError: bool
   StartUserId: Text(32)
+  JobDate: date
 }
 
 LogItem.ID -> JobExecution.LogItemId
@@ -101,7 +102,7 @@ LogItem.ID -> JobExecution.LogItemId
 ChannelInfo: {
   shape: sql_table
 
-  ID: GUID {constraint: primary_key}
+  ID: uuid {constraint: primary_key}
   ChannelName: Text
   SlowMode: INT?
   Type: INT
@@ -115,8 +116,8 @@ ChannelInfo: {
 ChannelCreated: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
-  ChannelInfoId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
+  ChannelInfoId: uuid {constraint: foreign_key}
 }
 
 LogItem.Id -> ChannelCreated.LogItemId
@@ -125,8 +126,8 @@ ChannelCreated.ChannelInfoId -> ChannelInfo.Id
 ChannelDeleted: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
-  ChannelInfoId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
+  ChannelInfoId: uuid {constraint: foreign_key}
 }
 
 LogItem.Id -> ChannelDeleted.LogItemId
@@ -135,9 +136,9 @@ ChannelDeleted.ChannelInfoId -> ChannelInfo.Id
 ChannelUpdated: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
-  BeforeId: GUID {constraint: foreign_key}
-  AfterId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
+  BeforeId: uuid {constraint: foreign_key}
+  AfterId: uuid {constraint: foreign_key}
 }
 
 LogItem.Id -> ChannelUpdated.LogItemId
@@ -147,7 +148,7 @@ ChannelUpdated.AfterId -> ChannelInfo.Id
 GuildInfo: {
   shape: sql_table
 
-  ID: GUID {constraint: primary_key}
+  ID: uuid {constraint: primary_key}
   DefaultMessageNotifications: INT
   Description: Text
   VanityUrl: Text
@@ -174,9 +175,9 @@ GuildInfo: {
 GuildUpdated: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
-  BeforeId: GUID {constraint: foreign_key}
-  AfterId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
+  BeforeId: uuid {constraint: foreign_key}
+  AfterId: uuid {constraint: foreign_key}
 }
 
 LogItem.ID -> GuildUpdated.LogItemId
@@ -186,8 +187,8 @@ GuildUpdated.AfterId -> GuildInfo.ID
 MemberRoleUpdated: {
   shape: sql_table
 
-  ID: GUID {constraint: primary_key}
-  LogItemId: GUID {constraint: foreign_key}
+  ID: uuid {constraint: primary_key}
+  LogItemId: uuid {constraint: foreign_key}
   UserId: Text(32)
   RoleId: Text(32)
   RoleName: Text
@@ -200,7 +201,7 @@ LogItem.ID -> MemberRoleUpdated.LogItemId
 MessageDeleted: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
   AuthorId: Text(32)
   MessageCreatedAt: DateTime
   Content: Text
@@ -209,8 +210,8 @@ MessageDeleted: {
 EmbedInfo: {
   shape: sql_table
 
-  ID: GUID {constraint: primary_key}
-  MessageDeletedId: GUID {constraint: foreign_key}
+  ID: uuid {constraint: primary_key}
+  MessageDeletedId: uuid {constraint: foreign_key}
   Title: Text(256),
   Type: Text(16)
   ImageInfo: Text
@@ -224,8 +225,8 @@ EmbedInfo: {
 EmbedField: {
   shape: sql_table
 
-  ID: GUID {constraint: primary_key}
-  EmbedInfoId: GUID {constraint: foreign_key}
+  ID: uuid {constraint: primary_key}
+  EmbedInfoId: uuid {constraint: foreign_key}
   Name: Text(256)
   Value: Text(1024)
   Inline: bool
@@ -238,7 +239,7 @@ EmbedInfo.Id -> EmbedField.EmbedInfoId
 MessageEdited: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
   JumpUrl: Text
   ContentBefore: Text
   ContentAfter: Text
@@ -249,7 +250,7 @@ LogItem.ID -> MessageEdited.LogItemId
 OverwriteInfo: {
   shape: sql_table
 
-  ID: GUID {constraint: foreign_key}
+  ID: uuid {constraint: foreign_key}
   Target: INT
   TargetId: Text(32)
   AllowValue: Text
@@ -259,8 +260,8 @@ OverwriteInfo: {
 OverwriteCreated: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
-  OverwriteInfoId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
+  OverwriteInfoId: uuid {constraint: foreign_key}
 }
 
 LogItem.ID -> OverwriteCreated.LogItemId
@@ -269,9 +270,9 @@ OverwriteCreated.OverwriteInfoId -> OverwriteInfo.ID
 OverwriteUpdated: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
-  BeforeId: GUID {constraint: foreign_key}
-  AfterId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
+  BeforeId: uuid {constraint: foreign_key}
+  AfterId: uuid {constraint: foreign_key}
 }
 
 LogItem.ID -> OverwriteUpdated.LogItemId
@@ -281,8 +282,8 @@ OverwriteUpdated.AfterId -> OverwriteInfo.ID
 OverwriteDeleted: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
-  OverwriteInfoId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
+  OverwriteInfoId: uuid {constraint: foreign_key}
 }
 
 LogItem.ID -> OverwriteDeleted.LogItemId
@@ -291,7 +292,7 @@ OverwriteDeleted.OverwriteInfoId -> OverwriteInfo.ID
 UserJoined: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
   MemberCount: INT
 }
 
@@ -300,7 +301,7 @@ LogItem.ID -> UserJoined.LogItemId
 UserLeft: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
   UserId: Text(32)
   MemberCount: INT
   IsBan: bool
@@ -309,10 +310,10 @@ UserLeft: {
 
 LogItem.ID -> UserLeft.LogItemId
 
-InteractionCommand: {
+InteractionCommands: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
   Name: Text
   ModuleName: Text
   MethodName: Text
@@ -326,6 +327,7 @@ InteractionCommand: {
   Exception: Text?
   Locale: Text(50)
   EndAt: timestamp with time zone
+  InteractionDate: date
 }
 
 LogItem.ID -> InteractionCommand.LogItemId
@@ -333,7 +335,7 @@ LogItem.ID -> InteractionCommand.LogItemId
 ThreadInfo: {
   shape: sql_table
 
-  ID: GUID {constraint: foreign_key}
+  ID: uuid {constraint: foreign_key}
   ThreadName: Text
   SlowMode: INT?
   Type: INT
@@ -346,8 +348,8 @@ ThreadInfo: {
 ThreadDeleted: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
-  ThreadInfoId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
+  ThreadInfoId: uuid {constraint: foreign_key}
 }
 
 LogItem.ID -> ThreadDeleted.LogItemId
@@ -356,9 +358,9 @@ ThreadDeleted.ThreadInfoId -> ThreadInfo.ID
 ThreadUpdated: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
-  BeforeId: GUID {constraint: foreign_key}
-  AfterId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
+  BeforeId: uuid {constraint: foreign_key}
+  AfterId: uuid {constraint: foreign_key}
 }
 
 LogItem.ID -> ThreadUpdated.LogItemId
@@ -368,7 +370,7 @@ ThreadUpdated.AfterId -> ThreadInfo.ID
 MemberInfo: {
   shape: sql_table
 
-  Id: GUID {constraint: primary_key}
+  Id: uuid {constraint: primary_key}
   UserId: Text(32)
   Nickname: Text(32)
   IsMuted: bool
@@ -380,9 +382,9 @@ MemberInfo: {
 MemberUpdated: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
-  BeforeId: GUID {constraint: foreign_key}
-  AfterId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
+  BeforeId: uuid {constraint: foreign_key}
+  AfterId: uuid {constraint: foreign_key}
 }
 
 LogItem.Id -> MemberUpdated.LogItemId
@@ -392,7 +394,7 @@ MemberUpdated.AfterId -> MemberInfo.Id
 RoleInfo: {
   shape: sql_table
 
-  Id: GUID {constraint: primary_key}
+  Id: uuid {constraint: primary_key}
   RoleId: character varying (32)
   Name: character varying (100)
   Color: character varying (32)
@@ -405,9 +407,19 @@ RoleInfo: {
 RoleDeleted: {
   shape: sql_table
 
-  LogItemId: GUID {constraint: foreign_key}
-  RoleInfoId: GUID {constraint: foreign_key}
+  LogItemId: uuid {constraint: foreign_key}
+  RoleInfoId: uuid {constraint: foreign_key}
 }
 
 LogItem.Id -> RoleDeleted.LogItemId
 RoleDeleted.RoleInfoId -> RoleInfo.Id
+
+MemberWarnings: {
+  shape: sql_table
+
+  LogItemId: uuid {constraint: foreign_key}
+  Reason: text
+  TargetId: character varying (32)
+}
+
+LogItem.Id -> MemberWarnings.LogItemId

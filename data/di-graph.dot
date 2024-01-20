@@ -134,6 +134,7 @@ digraph GrillBot {
                     GetCommonInfo
                     GetOperationStats
                     GetServicesList
+                    GetUserMeasuresDashboard
                 }
                 
                 subgraph cluster_3_1_1_6 {
@@ -283,6 +284,15 @@ digraph GrillBot {
                     GetUserList
                     UpdateUser
                     Hearthbeat
+                }
+                
+                subgraph cluster_3_1_1_19 {
+                    node[style=filled];
+                    label="UserMeasures";
+                    color=lightblue;
+                    
+                    CreateUserMeasuresWarning
+                    GetUserMeasuresList
                 }
             }
             
@@ -459,6 +469,7 @@ digraph GrillBot {
             SystemController
             UnverifyController
             UsersController
+            UserMeasuresController
         }
         
         subgraph cluster_3_3 {
@@ -1027,7 +1038,7 @@ digraph GrillBot {
 	RemoveUnverify -> { ApiRequestContext IDiscordClient ITextsManager GrillBotDatabaseBuilder UnverifyMessageManager UnverifyLogManager LoggingManager UnverifyHelper }
 	UpdateUnverify -> { ApiRequestContext IDiscordClient ITextsManager GrillBotDatabaseBuilder UnverifyLogManager UnverifyMessageManager }
 	GetAvailableUsers -> { ApiRequestContext IDiscordClient GrillBotDatabaseBuilder }
-	GetUserDetail -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient ITextsManager IPointsServiceClient }
+	GetUserDetail -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IDiscordClient ITextsManager IPointsServiceClient IAuditLogServiceClient }
 	GetUserList -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient }
 	UpdateUser -> { ApiRequestContext GrillBotDatabaseBuilder ITextsManager PointsHelper IDiscordClient IAuditLogServiceClient }
 	GetTodayBirthdayInfo -> { ApiRequestContext GrillBotDatabaseBuilder IDiscordClient IConfiguration ITextsManager }
@@ -1266,4 +1277,8 @@ digraph GrillBot {
     BlobManagerFactory -> { ICounterManager IConfiguration }
     ServiceBridgeAction -> { ApiRequestContext IRubbergodServiceClient IAuditLogServiceClient IPointsServiceClient }
     Hearthbeat -> { ApiRequestContext UserManager }
+    GetUserMeasuresDashboard -> { ApiRequestContext IAuditLogServiceClient GrillBotDatabaseBuilder ITextsManager }
+    CreateUserMeasuresWarning -> { ApiRequestContext IAuditLogServiceClient }
+    GetUserMeasuresList -> { ApiRequestContext GrillBotDatabaseBuilder IMapper IAuditLogServiceClient }
+    UserMeasuresController -> { IServiceProvider }
 }

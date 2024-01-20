@@ -298,18 +298,6 @@
                     "application/json"
                 ],
                 "description": "Získání pinů. Možné vygenerovat JSON obsah nebo markdown."
-            },
-            {
-                "endpoint": "GET /api/user/birthday/today",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Získání informace o tom, kdo má dneska v očích GrillBot narozeniny.",
-                "api_spec_version": "v2",
-                "api_spec": "Users/Users_GetTodayBirthdayInfo"
             }
         ],
         "project_files": [
@@ -801,6 +789,16 @@
                     "application/json"
                 ],
                 "description": "Průměrné časy provádění za dnešní den."
+            },
+            {
+                "endpoint": "GET /api/dashboard/memberWarning",
+                "status_codes": [
+                    200
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Posledních 10 varování uživatelům."
             },
             {
                 "endpoint": "GET /api/info/guild/{guildId:ulong(32)}/count",
