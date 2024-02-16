@@ -1,24 +1,103 @@
-Internal GrillBot infrastructure.PostgreSQL: {
-  shape: cylinder
+# Legend
+legend: |md
+  # Legenda
+  ## Barva spojů
+  - Oranžová: RabbitMQ komunikace
+  - Modrá: Databázové komunikace
+  - Zelená: HTTP
+
+  ## Barva boxů
+  - Transparentní: Zóny (Servery, hostingy)
+  - Modrá: Infrastrukturní (DB, ...)
+  - Šedá: Mikroslužby
+  - Azurová: Microsoft Azure
+|
+
+# Definitions
+GrillBot.Infrastructure: {
+  style: {border-radius: 10}
+
+  PostgreSQL: {shape: cylinder}
+  RabbitMQ: {shape: queue}
 }
 
-Internal GrillBot infrastructure.Bot -> Third party services.Math\.JS
-Internal GrillBot infrastructure.Bot -> Third party services.KachnaOnline
-Internal GrillBot infrastructure.Bot -> Third party services.Azure storage account
+GrillBot: {
+  label: GrillBot hosting
 
-Third party services.Rubbergod -> Internal GrillBot infrastructure.Bot
+  style: {
+    fill: transparent
+    border-radius: 10
+  }
 
-Internal GrillBot infrastructure.Docs -> Internal GrillBot infrastructure.Bot
+  Bot: {
+    style: {3d: true}
+  }
 
-Internal GrillBot infrastructure.Bot -> Internal GrillBot infrastructure.Graphics
-Internal GrillBot infrastructure.Bot -> Internal GrillBot infrastructure.RubbergodService
-Internal GrillBot infrastructure.Bot -> Internal GrillBot infrastructure.PointsService
-Internal GrillBot infrastructure.Bot -> Internal GrillBot infrastructure.ImageProcessingService
-Internal GrillBot infrastructure.Bot -> Internal GrillBot infrastructure.AuditLogService
+  Microservices: {
+    style: {
+      fill: whitesmoke
+      border-radius: 10
+    }
 
-Internal GrillBot infrastructure.ImageProcessingService -> Internal GrillBot infrastructure.Graphics
+    Points: {shape: package}
+    Rubbergod: {shape: package}
+    Graphics: {shape: package}
+    ImageProcessing: {shape: package}
+    AuditLog: {shape: package}
+    UserMeasures: {shape: package}
+  }
+}
 
-Internal GrillBot infrastructure.Bot -> Internal GrillBot infrastructure.PostgreSQL
-Internal GrillBot infrastructure.RubbergodService -> Internal GrillBot infrastructure.PostgreSQL
-Internal GrillBot infrastructure.PointsService -> Internal GrillBot infrastructure.PostgreSQL
-Internal GrillBot infrastructure.AuditLogService -> Internal GrillBot infrastructure.PostgreSQL
+ThirdParty: {
+  label: Third party services
+  style: {fill: transparent}
+
+  Azure: {
+    label: Microsoft Azure
+    style: {border-radius: 10}
+
+    style: {
+      fill: azure
+      border-radius: 10
+    }
+  }
+
+  Azure.StorageAccount: {
+    label: Storage account
+    shape: cylinder
+  }
+}
+
+# Third party external services communication (Bot -> Service)
+GrillBot.Bot -> ThirdParty.Math\.JS: {style: {stroke: green}}
+GrillBot.Bot -> ThirdParty.KachnaOnline: {style: {stroke: green}}
+GrillBot.Bot -> ThirdParty.Azure.StorageAccount.Blob: {style: {stroke: green}}
+
+# Third party external services communication (Service -> Bot)
+ThirdParty.Rubbergod -> GrillBot.Bot: {style: {stroke: green}}
+
+# Internal communication (Service -> Bot)
+GrillBot.Docs -> GrillBot.Bot: {style: {stroke: green}}
+
+# Internal communication (Bot -> Service)
+GrillBot.Bot -> GrillBot.Microservices.Graphics: {style: {stroke: green}}
+GrillBot.Bot -> GrillBot.Microservices.Rubbergod: {style: {stroke: green}}
+GrillBot.Bot -> GrillBot.Microservices.Points: {style: {stroke: green}}
+GrillBot.Bot -> GrillBot.Microservices.ImageProcessing: {style: {stroke: green}}
+GrillBot.Bot -> GrillBot.Microservices.AuditLog: {style: {stroke: green}}
+GrillBot.Bot -> GrillBot.Microservices.UserMeasures: {style: {stroke: green}}
+
+# Internal communication (Service -> Service)
+GrillBot.Microservices.ImageProcessing -> GrillBot.Microservices.Graphics: {style: {stroke: green}}
+
+# RabbitMQ communication
+GrillBot.Bot -> GrillBot.Infrastructure.RabbitMQ: {style: {stroke: orange}}
+GrillBot.Infrastructure.RabbitMQ -> GrillBot.Microservices.Points: {style: {stroke: orange}}
+GrillBot.Infrastructure.RabbitMQ -> GrillBot.Microservices.UserMeasures: {style: {stroke: orange}}
+
+# Database communication
+GrillBot.Bot -> GrillBot.Infrastructure.PostgreSQL: {style: {stroke: "#008bb9"}}
+GrillBot.Microservices.AuditLog -> GrillBot.Infrastructure.PostgreSQL: {style: {stroke: "#008bb9"}}
+GrillBot.Microservices.Rubbergod -> GrillBot.Infrastructure.PostgreSQL: {style: {stroke: "#008bb9"}}
+GrillBot.Microservices.Points -> GrillBot.Infrastructure.PostgreSQL: {style: {stroke: "#008bb9"}}
+GrillBot.Microservices.UserMeasures -> GrillBot.Infrastructure.PostgreSQL: {style: {stroke: "#008bb9"}}

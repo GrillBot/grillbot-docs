@@ -37,13 +37,6 @@
 {% endfor%}
 {% endif %}
 
-{% if 'di_graph' in data %}
-<div>
-    <h3>Dependency injection</h3>
-    <img src="{{data['di_graph']}}" alt="DI" class="diagram">
-</div>
-{% endif %}
-
 {% if 'api_description' in data %}
 <div>
     <h3>Popis API</h3>

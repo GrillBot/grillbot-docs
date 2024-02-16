@@ -36,9 +36,6 @@ class ServiceProvider:
         if "databases" in service and service["databases"] is not None:
             result["database"] = service["databases"]
 
-        if "di_graph" in service and service["di_graph"] is not None:
-            result["di_graph"] = service["di_graph"]
-
         if "api" in service and service["api"] is not None:
             result["api_description"] = []
             for endpoint in service["api"]:
@@ -101,7 +98,7 @@ class ServiceProvider:
         extension = pathlib.Path(project).suffix
         if extension == ".csproj":
             result = DotnetDependencyList.get_data(project)
-            for dep in filter(lambda x: x["name"] == "GrillBot.Core" or x["name"] == "GrillBot.Core.Services", result):
+            for dep in filter(lambda x: str(x["name"]).startswith("GrillBot.Core"), result):
                 dep[
                     "url"
                 ] = "https://github.com/GrillBot/GrillBot.Core/pkgs/nuget/GrillBot.Core"
