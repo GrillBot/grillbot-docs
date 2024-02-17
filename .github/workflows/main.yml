@@ -85,7 +85,7 @@ jobs:
           username: ${{ secrets.SSH_DEV_USERNAME }}
           password: ${{ secrets.SSH_DEV_PASSWORD }}
           port: 22
-          script: echo '${{ secrets.SSH_DEV_PASSWORD }}' | sudo -S /scripts/update-grillbot-services-dev.sh docs
+          script: echo '${{ secrets.SSH_DEV_PASSWORD }}' | sudo -S /scripts/update-grillbot-dev.sh docs
   DeployToProduction:
     runs-on: ubuntu-latest
     environment: "Production"
@@ -99,4 +99,4 @@ jobs:
           username: ${{ secrets.SSH_Username }}
           password: ${{ secrets.SSH_Password }}
           port: 22
-          script: echo '${{ secrets.SSH_Password }}' | sudo -S /scripts/update-grillbot-services-prod.sh docs
+          script: echo '${{ secrets.SSH_Password }}' | sudo -S /scripts/update-grillbot-prod.sh docs
