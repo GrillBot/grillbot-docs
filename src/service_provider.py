@@ -102,6 +102,8 @@ class ServiceProvider:
                 dep[
                     "url"
                 ] = "https://github.com/GrillBot/GrillBot.Core/pkgs/nuget/GrillBot.Core"
+            for dep in filter(lambda x: str(x["name"]).startswith("GrillBot.Services"), result):
+                dep["url"] = "https://github.com/GrillBot/GrillBot.Services/"
             return result
         elif extension == ".json":
             result = NodeDependencyList(project).get_data()

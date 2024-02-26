@@ -25,28 +25,6 @@ Statistics.DatabaseStatistics: {
   RecordsCount: bigint
 }
 
-Statistics.DateCountStatistics: {
-  shape: sql_table
-
-  Date: date {constraint: primary_key}
-  ApiGroup: character varying (5) {constraint: primary_key}
-  Count: bigint
-}
-
-Statistics.DateStatistics: {
-  shape: sql_table
-
-  Date: date {constraint: primary_key}
-  Count: bigint
-}
-
-Statistics.InteractionDateCountStatistic: {
-  shape: sql_table
-
-  Date: date {constraint: primary_key}
-  Count: bigint
-}
-
 Statistics.InteractionStatistics: {
   shape: sql_table
 
@@ -93,11 +71,4 @@ Statistics.RequestStats: {
   SuccessCount: bigint
   TotalDuration: bigint
   LastRunDuration: bigint
-}
-
-Statistics.TypeStatistics: {
-  shape: sql_table
-
-  Type: integer {constraint: primary_key}
-  Count: bigint
 }

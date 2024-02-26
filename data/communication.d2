@@ -91,9 +91,10 @@ GrillBot.Bot -> GrillBot.Microservices.UserMeasures: {style: {stroke: green}}
 GrillBot.Microservices.ImageProcessing -> GrillBot.Microservices.Graphics: {style: {stroke: green}}
 
 # RabbitMQ communication
-GrillBot.Bot -> GrillBot.Infrastructure.RabbitMQ: {style: {stroke: orange}}
-GrillBot.Infrastructure.RabbitMQ -> GrillBot.Microservices.Points: {style: {stroke: orange}}
+GrillBot.Bot <-> GrillBot.Infrastructure.RabbitMQ: {style: {stroke: orange}}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.Points: {style: {stroke: orange}}
 GrillBot.Infrastructure.RabbitMQ -> GrillBot.Microservices.UserMeasures: {style: {stroke: orange}}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.AuditLog: {style: {stroke: orange}}
 
 # Database communication
 GrillBot.Bot -> GrillBot.Infrastructure.PostgreSQL: {style: {stroke: "#008bb9"}}

@@ -553,7 +553,7 @@
     },
     "audit-log": {
         "name": "AuditLogService",
-        "description": "Služba pro logování provozu (evidence, prezentace, statistiky, ...)",
+        "description": "Služba pro logování provozu (evidence, prezentace, statistiky, ...). Vytváření, mazání a přepočty probíhají pomocí RabbitMQ queues.",
         "databases": {
             "Databáze": "/static/database_audit-log.svg",
             "Statistiky": "/static/database_audit-log-statistics.svg"
@@ -600,28 +600,6 @@
                     "application/json"
                 ],
                 "description": "Informace o bězích naplánovaných úloh (počet spuštění, poslední běh, časy, ...)"
-            },
-            {
-                "endpoint": "POST /api/logItem",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Požadavek na vytvoření nového záznamu v logu."
-            },
-            {
-                "endpoint": "DELETE /api/logItem/{id}",
-                "status_codes": [
-                    200,
-                    404
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Smazání záznamu z logu (vč. informací o existujících souborech).<br>Vrací příznak, zda smazání proběhlo úspěšně a seznam souborů, které se mají smazat z úložiště."
             },
             {
                 "endpoint": "GET /api/logItem/{id}",
@@ -746,16 +724,6 @@
                 "description": "Průměrné časy provádění za dnešní den."
             },
             {
-                "endpoint": "GET /api/dashboard/memberWarning",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Posledních 10 varování uživatelům."
-            },
-            {
                 "endpoint": "GET /api/info/guild/{guildId:ulong(32)}/count",
                 "status_codes": [
                     200
@@ -764,17 +732,6 @@
                     "application/json"
                 ],
                 "description": "Vrací počet záznamů v audit logu pro daný server."
-            },
-            {
-                "endpoint": "PUT /api/logItem/bulkDelete",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Hromadné smazání záznamů z logu (vč. informací o existujících souborech).<br>Vrací seznam odpovědí ve stejném formátu jako vrací akce <code>DELETE /api/logItem/{id}</code>"
             }
         ],
         "project_files": [
