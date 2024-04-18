@@ -1,3 +1,9 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+
 DataCache: {
   shape: sql_table
 
@@ -34,13 +40,4 @@ ProfilePictures: {
   AvatarId: character varying (255)
   IsAnimated: boolean
   Data: bytea
-}
-
-EmoteSuggestionMetadata: {
-  shape: sql_table
-
-  Id: character varying (1024) {constraint: primary_key}
-  CreatedAt: timestamp without time zone
-  DataContent: bytea
-  Filename: character varying (200)
 }

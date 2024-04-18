@@ -1,3 +1,9 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+
 ApiClients: {
   shape: sql_table
 
@@ -33,44 +39,6 @@ Channels: {
 
 Channels.GuildId -> Guilds.Id
 Channels.ParentChannelId -> Channels.ChannelId
-
-EmoteSuggestions: {
-  shape: sql_table
-
-  Id: bigint {constraint: primary_key}
-  SuggestionMessageId: character varying (30)
-  VoteMessageId: character varying (30)
-  CreatedAt: timestamp without time zone
-  VoteEndsAt: timestamp without time zone
-  ImageData: bytea
-  GuildId: character varying (30) {constraint: foreign_key}
-  FromUserId: character varying (30) {constraint: foreign_key}
-  Filename: character varying (255)
-  Description: character varying (1024)
-  ApprovedForVote: boolean
-  VoteFinished: boolean
-  CommunityApproved: boolean
-  DownVotes: integer
-  UpVotes: integer
-}
-
-EmoteSuggestions.GuildId -> Guilds.Id
-EmoteSuggestions.FromUserId -> GuildUsers.UserId
-
-Emotes: {
-  shape: sql_table
-
-  EmoteId: character varying (255) {constraint: primary_key}
-  UserId: character varying (30) {constraint: primary_key}
-  UseCount: bigint
-  FirstOccurenceAt: timestamp without time zone
-  LastOccurenceAt: timestamp without time zone
-  GuildId: character varying (30) {constraint: foreign_key}
-  IsEmoteSupported: boolean
-}
-
-Emotes.UserId -> GuildUsers.UserId
-Emotes.GuildId -> Guilds.Id
 
 GuildEvent: {
   shape: sql_table
@@ -147,8 +115,8 @@ Reminders: {
   RemindMessageId: character varying (30)
 }
 
-Reminders.FromUserId -> GuildUsers.UserId
-Reminders.ToUserId -> GuildUsers.UserId
+Reminders.FromUserId -> Users.Id
+Reminders.ToUserId -> Users.Id
 
 SearchItems: {
   shape: sql_table

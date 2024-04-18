@@ -127,7 +127,8 @@ REST API. Uživatelé mají přístup k těm záznamům, které ukazují provede
         má uživatel datum narození uloženo (ANO/NE). Žádný uživatel nevidí konkrétní datum. Uložením data narození dává uživatel souhlas k
         nakládání s datem narození za účelem prezentace ke dni narozenin prostřednictvím příkazu a automatizovaného upozornění.
     </li>
-    <li>Aktuální uživatelské jméno, globální alias, odkaz na aktuální profilovou fotografii a stav přihlášení (Online, Offline, ...) ze služby Discord</li>
+    <li>Aktuální uživatelské jméno, globální alias, odkaz na aktuální profilovou fotografii a stav přihlášení (Online, Offline, ...) ze
+        služby Discord</li>
     <li>Agregované informace o použitých emotikonech</li>
     <li>Minimální doba, na kterou si uživatel může dát selfunverify. Pokud není nastaveno, tak se na něj vztahuje výchozí nastavení uvedené
         v konfiguraci.</li>
@@ -143,13 +144,15 @@ ke všem údajům o uživatelích a to pomocí příkazu <code>/user info</code>
     Statistika o používání různých emotikonů. Vytváří se statistika pouze k emotikonům, ke kterým má bot přístup. Tato statistika se sbírá
     ze zpráv i reakcí. Neuchovávají se unicode emoji. U každé statistiky je uchováno:
 <ul>
-    <li>Jednoznačný identifikátor emotikonu ve formátu <code>&lt;:nazev:id&gt;</code></li>
-    <li>Identifikace uživatele, který emoji použil</li>
-    <li>Identifikace serveru, ve kterém se emote nachází</li>
-    <li>Počet použití emotikonu</li>
-    <li>Datum a čas prvního výskytu emotikonu, který bot zaznamenal</li>
-    <li>Datum a čas posledního výskytu emotikonu, který bot zaznamenal</li>
+    <li>Hodnoty, které povedou k jednoznačné identifikaci emotikonu.</li>
+    <li>Identifikace uživatele, který emoji použil.</li>
+    <li>Identifikace serveru, ve kterém se emote nachází.</li>
+    <li>Počet použití emotikonu.</li>
+    <li>Datum a čas prvního výskytu emotikonu, který bot zaznamenal. Pokud z historických důvodu nebylo možné tuto hodnotu zaznamenat. Tak
+        první výskyt je datum a čas vytvoření emotu.</li>
+    <li>Datum a čas posledního výskytu emotikonu, který bot zaznamenal.</li>
 </ul>
+<i class="d-block">O správu statistisk emotikonů se stará služba <a href="/services/emote">EmoteService</a></i>
 </p>
 
 <h3 class="fw-light">Upozorňování</h3>
@@ -271,7 +274,7 @@ neukládá kdo takovou pozvánku založil a kdy ji založil.
     Logování provozu se provádí za účelem zabezpečení bezproblémového chodu serveru a případného dohledávání nepovolených aktivit.
     Logování probíhá formou událostí různých typů.
     <i class="d-block">O správu logování provozu se stará služba <a href="/services/audit-log">AuditLogService</a>.</i>
-    
+
     Tyto události jsou:
 <table class="table table-striped table-bordered table-sm">
     <thead>

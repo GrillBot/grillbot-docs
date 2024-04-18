@@ -1,0 +1,27 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+
+EmoteDefinition: {
+  shape: sql_table
+
+  EmoteId: character varying (32) {constraint: primary_key}
+  EmoteName: character varying (32) {constraint: primary_key}
+  EmoteIsAnimated: boolean {constraint: primary_key}
+  GuildId: character varying (32) {constraint: primary_key}
+}
+
+EmoteUserStatItems: {
+  shape: sql_table
+
+  EmoteId: character varying (32) {constraint: primary_key}
+  EmoteName: character varying (32) {constraint: primary_key}
+  EmoteIsAnimated: boolean {constraint: primary_key}
+  GuildId: character varying (32) {constraint: primary_key}
+  UserId: character varying (32) {constraint: primary_key}
+  UseCount: bigint
+  FirstOccurence: timestamp with time zone
+  LastOccurence: timestamp with time zone
+}

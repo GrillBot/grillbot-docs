@@ -1,3 +1,9 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+
 # Legend
 legend: |md
   # Legenda
@@ -12,6 +18,26 @@ legend: |md
   - Šedá: Mikroslužby
   - Azurová: Microsoft Azure
 |
+
+classes: {
+  postgres_relation: {
+    style: {
+      stroke: "#008bb9"
+    }
+  }
+
+  http_relation: {
+    style: {
+      stroke: green
+    }
+  }
+
+  rabbit_relation: {
+    style: {
+      stroke: orange
+    }
+  }
+}
 
 # Definitions
 GrillBot.Infrastructure: {
@@ -45,6 +71,7 @@ GrillBot: {
     ImageProcessing: {shape: package}
     AuditLog: {shape: package}
     UserMeasures: {shape: package}
+    Emote: {shape: package}
   }
 }
 
@@ -69,36 +96,39 @@ ThirdParty: {
 }
 
 # Third party external services communication (Bot -> Service)
-GrillBot.Bot -> ThirdParty.Math\.JS: {style: {stroke: green}}
-GrillBot.Bot -> ThirdParty.KachnaOnline: {style: {stroke: green}}
-GrillBot.Bot -> ThirdParty.Azure.StorageAccount.Blob: {style: {stroke: green}}
+GrillBot.Bot -> ThirdParty.Math\.JS: {class: http_relation}
+GrillBot.Bot -> ThirdParty.KachnaOnline: {class: http_relation}
+GrillBot.Bot -> ThirdParty.Azure.StorageAccount.Blob: {class: http_relation}
 
 # Third party external services communication (Service -> Bot)
-ThirdParty.Rubbergod -> GrillBot.Bot: {style: {stroke: green}}
+ThirdParty.Rubbergod -> GrillBot.Bot: {class: http_relation}
 
 # Internal communication (Service -> Bot)
-GrillBot.Docs -> GrillBot.Bot: {style: {stroke: green}}
+GrillBot.Docs -> GrillBot.Bot: {class: http_relation}
 
 # Internal communication (Bot -> Service)
-GrillBot.Bot -> GrillBot.Microservices.Graphics: {style: {stroke: green}}
-GrillBot.Bot -> GrillBot.Microservices.Rubbergod: {style: {stroke: green}}
-GrillBot.Bot -> GrillBot.Microservices.Points: {style: {stroke: green}}
-GrillBot.Bot -> GrillBot.Microservices.ImageProcessing: {style: {stroke: green}}
-GrillBot.Bot -> GrillBot.Microservices.AuditLog: {style: {stroke: green}}
-GrillBot.Bot -> GrillBot.Microservices.UserMeasures: {style: {stroke: green}}
+GrillBot.Bot -> GrillBot.Microservices.Graphics: {class: http_relation}
+GrillBot.Bot -> GrillBot.Microservices.Rubbergod: {class: http_relation}
+GrillBot.Bot -> GrillBot.Microservices.Points: {class: http_relation}
+GrillBot.Bot -> GrillBot.Microservices.ImageProcessing: {class: http_relation}
+GrillBot.Bot -> GrillBot.Microservices.AuditLog: {class: http_relation}
+GrillBot.Bot -> GrillBot.Microservices.UserMeasures: {class: http_relation}
+GrillBot.Bot -> GrillBot.Microservices.Emote: {class: http_relation}
 
 # Internal communication (Service -> Service)
-GrillBot.Microservices.ImageProcessing -> GrillBot.Microservices.Graphics: {style: {stroke: green}}
+GrillBot.Microservices.ImageProcessing -> GrillBot.Microservices.Graphics: {class: http_relation}
 
 # RabbitMQ communication
-GrillBot.Bot <-> GrillBot.Infrastructure.RabbitMQ: {style: {stroke: orange}}
-GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.Points: {style: {stroke: orange}}
-GrillBot.Infrastructure.RabbitMQ -> GrillBot.Microservices.UserMeasures: {style: {stroke: orange}}
-GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.AuditLog: {style: {stroke: orange}}
+GrillBot.Bot <-> GrillBot.Infrastructure.RabbitMQ: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.Points: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ -> GrillBot.Microservices.UserMeasures: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.AuditLog: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ -> GrillBot.Microservices.Emote: {class: rabbit_relation}
 
 # Database communication
-GrillBot.Bot -> GrillBot.Infrastructure.PostgreSQL: {style: {stroke: "#008bb9"}}
-GrillBot.Microservices.AuditLog -> GrillBot.Infrastructure.PostgreSQL: {style: {stroke: "#008bb9"}}
-GrillBot.Microservices.Rubbergod -> GrillBot.Infrastructure.PostgreSQL: {style: {stroke: "#008bb9"}}
-GrillBot.Microservices.Points -> GrillBot.Infrastructure.PostgreSQL: {style: {stroke: "#008bb9"}}
-GrillBot.Microservices.UserMeasures -> GrillBot.Infrastructure.PostgreSQL: {style: {stroke: "#008bb9"}}
+GrillBot.Bot -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Microservices.AuditLog -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Microservices.Rubbergod -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Microservices.Points -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Microservices.UserMeasures -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Microservices.Emote -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}

@@ -22,50 +22,6 @@
                 "api_spec": "AuditLog/AuditLog_CreateMessageLogItem"
             },
             {
-                "endpoint": "POST /api/guild/{guildId:ulong(32)}/event",
-                "status_codes": [
-                    200,
-                    400,
-                    404
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vytvoření nové události na serveru.",
-                "api_spec_version": "v2",
-                "api_spec": "Guild/Guild_CreateScheduledEvent"
-            },
-            {
-                "endpoint": "PATCH /api/guild/{guildId:ulong(32)}/event/{eventId:ulong(32)}",
-                "status_codes": [
-                    200,
-                    400,
-                    403,
-                    404
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Modifikace existující události na serveru.",
-                "api_spec_version": "v2",
-                "api_spec": "Guild/Guild_UpdateScheduledEvent"
-            },
-            {
-                "endpoint": "DELETE /api/guild/{guildId:ulong(32)}/event/{eventId:ulong(32)}",
-                "status_codes": [
-                    200,
-                    400,
-                    403,
-                    404
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Smazání existující události na serveru.",
-                "api_spec_version": "v2",
-                "api_spec": "Guild/Guild_CancelScheduledEvent"
-            },
-            {
                 "endpoint": "POST /api/user/karma",
                 "status_codes": [
                     200,
@@ -313,7 +269,8 @@
             }
         ],
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/RubbergodService/RubbergodService/RubbergodService.csproj"
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/RubbergodService/RubbergodService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
         "healthcheck": "https://health.grillbot.eu/rubbergodService"
     },
@@ -464,7 +421,8 @@
             }
         ],
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/PointsService/PointsService.csproj"
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/PointsService/PointsService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
         "healthcheck": "https://health.grillbot.eu/points"
     },
@@ -735,7 +693,8 @@
             }
         ],
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/AuditLogService/AuditLogService.csproj"
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/AuditLogService/AuditLogService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
         "healthcheck": "https://health.grillbot.eu/auditLog"
     },
@@ -801,5 +760,114 @@
             "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/UserMeasuresService/UserMeasuresService.csproj"
         ],
         "healthcheck": "https://health.grillbot.eu/userMeasures"
+    },
+    "emote": {
+        "name": "EmoteService",
+        "description": "Služba pro správu statistik emotikonů a udržování podporovaných emotikonů.",
+        "databases": {
+            "Databáze": "/static/database_emote.svg"
+        },
+        "api": [
+            {
+                "endpoint": "GET /api/diag",
+                "status_codes": [
+                    200
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...)"
+            },
+            {
+                "endpoint": "GET /emote/supported?guildId={guildId}",
+                "status_codes": [
+                    200,
+                    400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Vrací seznam podporovaných emotů."
+            },
+            {
+                "endpoint": "GET /emote/{guildId}/{emoteId}/info",
+                "status_codes": [
+                    200,
+                    400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Detailní informace o emote"
+            },
+            {
+                "endpoint": "DELETE /emote/supported/{guildId}/{emoteId}",
+                "status_codes": [
+                    200,
+                    400,
+                    404
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Smazání podporovaného emote."
+            },
+            {
+                "endpoint": "DELETE /statistics/{guildId}/{emoteId}?userId={userId}",
+                "status_codes": [
+                    200,
+                    404
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Smazání statistik konkrétního emote."
+            },
+            {
+                "endpoint": "PUT /statistics/{guildId}/{sourceEmoteId}/{destinationEmoteId}/merge",
+                "status_codes": [
+                    200,400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Sloučení statistik emotů."
+            },
+            {
+                "endpoint": "POST /statistics/emoteUsersUsage",
+                "status_codes": [
+                    200,400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Seznam uživatelů, co použili emote."
+            },
+            {
+                "endpoint": "POST /statistics/emoteStatistics",
+                "status_codes": [
+                    200,400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Stránkovaný seznam statistik emotů"
+            },
+            {
+                "endpoint": "GET /statistics/count/{guildId}",
+                "status_codes": [
+                    200,400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Počet statistik na serveru."
+            }
+        ],
+        "project_files": [
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/EmoteService/EmoteService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
+        ],
+        "healthcheck": "https://health.grillbot.eu/emote"
     }
 }

@@ -13,17 +13,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  LintPythonCode:
+  ValidatePythonCode:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: 3.8
       - name: Restore cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-${{ hashFiles('requirements*') }}
@@ -33,35 +33,29 @@ jobs:
           python3 -m pip install --upgrade --upgrade-strategy eager flake8
       - name: Run flake8
         run: flake8 .
-  CheckJsonFiles:
+  ValidateStaticContent:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Check JSON files
         run: bash <(curl -s https://raw.githubusercontent.com/CICDToolbox/json-lint/master/pipeline.sh)
-  CheckMarkdownContent:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
       - name: Markdown lint
-        uses: nosborn/github-action-markdown-cli@v1.1.1
+        uses: nosborn/github-action-markdown-cli@v3.3.0
         with:
           files: .
-          args: "README.md"
   CreateDockerImage:
     runs-on: ubuntu-latest
-    needs: [LintPythonCode, CheckJsonFiles, CheckMarkdownContent]
+    needs: [ValidatePythonCode, ValidateStaticContent]
     if: github.ref == 'refs/heads/master'
     permissions:
       contents: read
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Log in to the container repository
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -79,7 +73,7 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - name: Deployment via SSH
-        uses: appleboy/ssh-action@v0.1.8
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_DEV_HOST }}
           username: ${{ secrets.SSH_DEV_USERNAME }}
@@ -93,7 +87,7 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - name: Execute deployment on SSH
-        uses: appleboy/ssh-action@v0.1.8
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_Username }}
