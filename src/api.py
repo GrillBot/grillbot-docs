@@ -11,6 +11,7 @@ def _bold(value: str) -> str:
 
 status_codes = {
     200: "OK",
+    201: "Created",
     204: "No content",
     400: "Bad request",
     403: "Forbidden",

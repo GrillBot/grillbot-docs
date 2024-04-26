@@ -72,6 +72,31 @@
                 "description": "Souhrnné informace o uživateli na serveru",
                 "api_spec_version": "v2",
                 "api_spec": "Users/Users_GetGuildUserInfo"
+            },
+            {
+                "endpoint": "GET /api/user/measures/timeout/create",
+                "status_codes": [
+                    201,
+                    400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Zapsání nového opatření ve formě timeoutu.",
+                "api_spec_version": "v2",
+                "api_spec": "UserMeasures/UserMeasures_CreateUserMeasuresTimeout"
+            },
+            {
+                "endpoint": "DELETE /api/measures/timeout/{timeoutId}",
+                "status_codes": [
+                    200,
+                    400,
+                    404
+                ],
+                "content_types": ["application/json"],
+                "description": "Smazání opatření ve formě timeoutu.",
+                "api_spec": "UserMeasures/UserMeasures_DeleteUserMeasureTimeout",
+                "api_spec_version": "v2"
             }
         ],
         "api_note": "Tato sekce popisuje veřejné API, které může být integrováno třetími stranami. Jakákoliv implementace nových metod je prováděna na základě poaždavků. Nový požadavek nebo žádost o přístup (k získání API klíče) můžete odeslat prostřednictvím issues v GitHub repozitáři, nebo v kanálu #bot-development, pokud jste na serveru VUT FIT.",
@@ -427,7 +452,7 @@
         "healthcheck": "https://health.grillbot.eu/points"
     },
     "image-processing": {
-        "name": "ImageProcessingService",
+        "name": "ImageProcessing",
         "description": "Mezi služba pro vykreslování a caching obrázků.",
         "di_graph": "/static/di-graph-image-processing.svg",
         "api": [
@@ -510,7 +535,7 @@
         "healthcheck": "https://health.grillbot.eu/imageProcessing"
     },
     "audit-log": {
-        "name": "AuditLogService",
+        "name": "AuditLog",
         "description": "Služba pro logování provozu (evidence, prezentace, statistiky, ...). Vytváření, mazání a přepočty probíhají pomocí RabbitMQ queues.",
         "databases": {
             "Databáze": "/static/database_audit-log.svg",
@@ -699,7 +724,7 @@
         "healthcheck": "https://health.grillbot.eu/auditLog"
     },
     "user-measures": {
-        "name": "UserMeasuresService",
+        "name": "UserMeasures",
         "description": "Služba pro evidenci hříšníků. Evidence unverify, timeoutů a varování o nepřízpusobivém chování. Zapisování a mazání položek probíhá pomocí RabbitMQ queues.",
         "databases": {
             "Databáze": "/static/database_user-measures.svg"
@@ -762,7 +787,7 @@
         "healthcheck": "https://health.grillbot.eu/userMeasures"
     },
     "emote": {
-        "name": "EmoteService",
+        "name": "Emote",
         "description": "Služba pro správu statistik emotikonů a udržování podporovaných emotikonů.",
         "databases": {
             "Databáze": "/static/database_emote.svg"
@@ -826,7 +851,8 @@
             {
                 "endpoint": "PUT /statistics/{guildId}/{sourceEmoteId}/{destinationEmoteId}/merge",
                 "status_codes": [
-                    200,400
+                    200,
+                    400
                 ],
                 "content_types": [
                     "application/json"
@@ -836,7 +862,8 @@
             {
                 "endpoint": "POST /statistics/emoteUsersUsage",
                 "status_codes": [
-                    200,400
+                    200,
+                    400
                 ],
                 "content_types": [
                     "application/json"
@@ -846,7 +873,8 @@
             {
                 "endpoint": "POST /statistics/emoteStatistics",
                 "status_codes": [
-                    200,400
+                    200,
+                    400
                 ],
                 "content_types": [
                     "application/json"
@@ -856,7 +884,8 @@
             {
                 "endpoint": "GET /statistics/count/{guildId}",
                 "status_codes": [
-                    200,400
+                    200,
+                    400
                 ],
                 "content_types": [
                     "application/json"

@@ -1,7 +1,7 @@
 MemberWarningItems: {
   shape: sql_table
 
-  Id: uuid {constraint: foreign_key}
+  Id: uuid {constraint: primary_key}
   CreatedAtUtc: timestamp with time zone
   ModeratorId: character varying (32)
   GuildId: character varying (32)
@@ -12,12 +12,25 @@ MemberWarningItems: {
 UnverifyItems: {
   shape: sql_table
 
-  Id: uuid {constraint: foreign_key}
+  Id: uuid {constraint: primary_key}
   CreatedAtUtc: timestamp with time zone
   ModeratorId: character varying (32)
   GuildId: character varying (32)
   UserId: character varying (32)
   Reason: text
   ValidTo: timestamp with time zone
-  LogSetId: bigint
+  LogSetId: bigint {constraint: unique}
+}
+
+Timeouts: {
+  shape: sql_table
+
+  Id: uuid {constraint: primary_key}
+  ValidTo: timestamp with time zone
+  ExternalId: bigint {constraint: unique}
+  CreatedAtUtc: timestamp with time zone
+  ModeratorId: character varying (32)
+  GuildId: character varying (32)
+  UserId: character varying (32)
+  Reason: text
 }
