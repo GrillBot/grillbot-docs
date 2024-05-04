@@ -165,18 +165,6 @@
                 "description": "Vykreslení obrázku naštvaně zírajícího peepo. Podporuje animované profilové obrázky.<br>Vrací pole jednotlivých frames, které si volající musí sám poskládat."
             },
             {
-                "endpoint": "POST /image/peepo/love",
-                "status_codes": [
-                    200,
-                    400,
-                    500
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vykreslení obrázku peepo držícího uživatele. Podporuje animované profilové obrázky.<br>Vrací pole jednotlivých frames, které si volající musí sám posklídat."
-            },
-            {
                 "endpoint": "GET /health",
                 "status_codes": [
                     200
@@ -224,7 +212,7 @@
     },
     "rubbergod": {
         "name": "RubbergodService",
-        "description": "Služba starající se o rozhraní mezi boty GrillBot a Rubbergod.",
+        "description": "Služba starající se o rozhraní mezi boty GrillBot a Rubbergod. Udržování karmy a uvolňování cache pinů probíhá přes RabbitMQ queues.",
         "databases": {
             "Databáze": "/static/rubbergod_db.svg"
         },
@@ -251,17 +239,6 @@
                 "description": "Vrací seznam všech dostupných slash commands v Rubbergod."
             },
             {
-                "endpoint": "POST /api/karma",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Založí nový nebo upraví existující záznam o karmě uživatele."
-            },
-            {
                 "endpoint": "GET /api/karma",
                 "status_codes": [
                     200,
@@ -271,16 +248,6 @@
                     "application/json"
                 ],
                 "description": "Vrací stránkovaný seznam karmy jednotlivých uživatelů."
-            },
-            {
-                "endpoint": "DELETE /api/pins/{guildId}/{channelId}",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Smaže všechny piny z cache."
             },
             {
                 "endpoint": "GET /api/pins/{guildId}/{channelId}?markdown={markdown}",
