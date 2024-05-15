@@ -121,9 +121,11 @@ GrillBot.Microservices.ImageProcessing -> GrillBot.Microservices.Graphics: {clas
 # RabbitMQ communication
 GrillBot.Bot <-> GrillBot.Infrastructure.RabbitMQ: {class: rabbit_relation}
 GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.Points: {class: rabbit_relation}
-GrillBot.Infrastructure.RabbitMQ -> GrillBot.Microservices.UserMeasures: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.UserMeasures: {class: rabbit_relation}
 GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.AuditLog: {class: rabbit_relation}
-GrillBot.Infrastructure.RabbitMQ -> GrillBot.Microservices.Emote: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.Emote: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.Rubbergod: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.ImageProcessing: {class: rabbit_relation}
 
 # Database communication
 GrillBot.Bot -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}

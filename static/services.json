@@ -127,44 +127,6 @@
                 "description": "Vygenerování grafu. <b>Jediný podporovaný je spojnicový graf.</b>"
             },
             {
-                "endpoint": "POST /image/without-accident",
-                "status_codes": [
-                    200,
-                    400,
-                    500
-                ],
-                "content_types": [
-                    "image/png",
-                    "application/json"
-                ],
-                "description": "Vykreslení obrázku znělky ze seriálu The Simpsons s počtem dní od posledního incidentu."
-            },
-            {
-                "endpoint": "POST /image/points",
-                "status_codes": [
-                    200,
-                    400,
-                    500
-                ],
-                "content_types": [
-                    "image/png",
-                    "application/json"
-                ],
-                "description": "Vykreslení obrázku s aktuálním stavem bodů uživatele."
-            },
-            {
-                "endpoint": "POST /image/peepo/angry",
-                "status_codes": [
-                    200,
-                    400,
-                    500
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vykreslení obrázku naštvaně zírajícího peepo. Podporuje animované profilové obrázky.<br>Vrací pole jednotlivých frames, které si volající musí sám poskládat."
-            },
-            {
                 "endpoint": "GET /health",
                 "status_codes": [
                     200
