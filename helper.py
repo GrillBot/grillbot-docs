@@ -7,7 +7,7 @@ import logging
 
 def is_grillbot_online() -> bool:
     logging.info('Checking GrillBot status.')
-    return requests.get("https://health.grillbot.eu/bot").status_code == 200
+    return requests.head("https://health.grillbot.eu/bot").status_code == 200
 
 
 def get_modification_date(

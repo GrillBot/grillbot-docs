@@ -1,4 +1,4 @@
-FROM alpine:3.17.3 as d2-rendering
+FROM alpine:3.21.3 AS d2-rendering
 
 RUN mkdir /d2
 RUN apk update && apk add ttf-dejavu curl make
@@ -9,11 +9,11 @@ RUN for file in $(find /d2 -name "*.d2"); do \
     d2 $file $(echo $file | cut -d'.' -f1).svg; \
     done
 
-FROM python:3.11-alpine as flask_docs
+FROM python:3.14.0a5-alpine AS flask_docs
 
 EXPOSE 80
 ENV TZ=Europe/Prague
-LABEL org.opencontainers.image.source https://github.com/grillbot/grillbot-docs
+LABEL org.opencontainers.image.source=https://github.com/grillbot/grillbot-docs
 
 # Configure timezones
 RUN apk update && apk add tzdata

@@ -1,0 +1,20 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+
+RemindMessages: {
+  shape: sql_table
+
+  Id: bigint {constraint: primary_key}
+  FromUserId: character varying (32)
+  ToUserId: character varying (32)
+  NotifyAtUtc: timestamp with time zone
+  Message: text
+  PostponeCount: int
+  NotificationMessageId: character varying(32)
+  CommandMessageId: character varying(32)
+  Language: character varying(32)
+  IsSendInProgress: boolean
+}

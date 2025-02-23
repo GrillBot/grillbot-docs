@@ -93,7 +93,9 @@
                     400,
                     404
                 ],
-                "content_types": ["application/json"],
+                "content_types": [
+                    "application/json"
+                ],
                 "description": "Smazání opatření ve formě timeoutu.",
                 "api_spec": "UserMeasures/UserMeasures_DeleteUserMeasureTimeout",
                 "api_spec_version": "v2"
@@ -827,5 +829,162 @@
             "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
         "healthcheck": "https://health.grillbot.eu/emote"
+    },
+    "remind": {
+        "name": "Remind",
+        "description": "Služba pro oznamování událostí.",
+        "databases": {
+            "Databáze": "/static/database_remind.svg"
+        },
+        "api": [
+            {
+                "endpoint": "GET /api/diag",
+                "status_codes": [
+                    200
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...)"
+            },
+            {
+                "endpoint": "POST /api/remind/process-pending",
+                "status_codes": [
+                    200
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Vyvolání zpracování oznámení, které mají být oznámeny."
+            },
+            {
+                "endpoint": "PUT /api/remind/cancel",
+                "status_codes": [
+                    200,
+                    400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Storno oznámení"
+            },
+            {
+                "endpoint": "POST /api/remind/list",
+                "status_codes": [
+                    200,
+                    400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Stránkovaný seznam se seznamem oznámení."
+            },
+            {
+                "endpoint": "POST /api/remind/create",
+                "status_codes": [
+                    200,
+                    400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Vytvoření nového oznámení"
+            },
+            {
+                "endpoint": "POST /api/remind/copy",
+                "status_codes": [
+                    200,
+                    404
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Vytvoření kopie z již existujícího oznámení."
+            },
+            {
+                "endpoint": "GET /api/remind/suggestions/{userId}",
+                "status_codes": [
+                    200,
+                    400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Vyčtení seznamu návrhů pro discord autocomplete."
+            },
+            {
+                "endpoint": "PUT /api/remind/postpone/{notificationMessageId}/{hours}",
+                "status_codes": [
+                    200,
+                    404
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Posunutí oznámení."
+            }
+        ],
+        "project_files": [
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/refs/heads/master/src/RemindService/RemindService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
+        ],
+        "healthcheck": "https://health.grillbot.eu/remind"
+    },
+    "searching": {
+        "name": "Hledání",
+        "description": "Služba pro ukládání informací o hledání.",
+        "databases": {
+            "Databáze": "/static/database_searching.svg"
+        },
+        "api": [
+            {
+                "endpoint": "GET /api/diag",
+                "status_codes": [
+                    200
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...)"
+            },
+            {
+                "endpoint": "POST /api/items/list",
+                "status_codes": [
+                    200,
+                    400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Stránkovaný seznam se seznamem všech hledání."
+            },
+            {
+                "endpoint": "GET /api/items/suggestions/{guildId}/{channelId}",
+                "status_codes": [
+                    200,
+                    400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Vyčtení seznamu návrhů pro discord autocomplete."
+            },
+            {
+                "endpoint": "DELETE /api/items/remove/{id}",
+                "status_codes": [
+                    200,
+                    400
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Smazání hledání"
+            }
+        ],
+        "project_files": [
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/refs/heads/master/src/SearchingService/SearchingService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
+        ],
+        "healthcheck": "https://health.grillbot.eu/searching"
     }
 }

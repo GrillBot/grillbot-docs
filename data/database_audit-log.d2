@@ -9,6 +9,7 @@ LogItem: {
   DiscordId: character varying (32)
   Type: integer,
   LogDate: date
+  IsDeleted: boolean
 }
 
 File: {
@@ -47,6 +48,7 @@ ApiRequest: {
   RequestDate: date
   Role: character varying (32)
   ForwardedIp: character varying (128)
+  Duration: bigint
 }
 
 LogItem.ID -> ApiRequest.LogItemId
@@ -86,12 +88,13 @@ JobExecution: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
-  JobName: Text(128)
+  JobName: character varying(128)
   Result: Text
   StartAt: DateTime
   EndAt: DateTime
   WasError: bool
   StartUserId: Text(32)
+  Duration: bigint
   JobDate: date
 }
 
@@ -328,7 +331,7 @@ InteractionCommands: {
   InteractionDate: date
 }
 
-LogItem.ID -> InteractionCommand.LogItemId
+LogItem.ID -> InteractionCommands.LogItemId
 
 ThreadInfo: {
   shape: sql_table
@@ -411,13 +414,3 @@ RoleDeleted: {
 
 LogItem.Id -> RoleDeleted.LogItemId
 RoleDeleted.RoleInfoId -> RoleInfo.Id
-
-MemberWarnings: {
-  shape: sql_table
-
-  LogItemId: uuid {constraint: foreign_key}
-  Reason: text
-  TargetId: character varying (32)
-}
-
-LogItem.Id -> MemberWarnings.LogItemId

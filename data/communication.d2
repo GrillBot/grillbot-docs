@@ -11,6 +11,7 @@ legend: |md
   - Oranžová: RabbitMQ komunikace
   - Modrá: Databázové komunikace
   - Zelená: HTTP
+  - Červená: Redis komunikace
 
   ## Barva boxů
   - Transparentní: Zóny (Servery, hostingy)
@@ -37,6 +38,12 @@ classes: {
       stroke: orange
     }
   }
+
+  redis_relation: {
+    style: {
+      stroke: red
+    }
+  }
 }
 
 # Definitions
@@ -45,6 +52,7 @@ GrillBot.Infrastructure: {
 
   PostgreSQL: {shape: cylinder}
   RabbitMQ: {shape: queue}
+  Redis: {shape: cylinder}
 }
 
 GrillBot: {
@@ -59,19 +67,21 @@ GrillBot: {
     style: {3d: true}
   }
 
-  Microservices: {
+  Services: {
     style: {
       fill: whitesmoke
       border-radius: 10
     }
 
-    Points: {shape: package}
-    Rubbergod: {shape: package}
-    Graphics: {shape: package}
-    ImageProcessing: {shape: package}
     AuditLog: {shape: package}
-    UserMeasures: {shape: package}
     Emote: {shape: package}
+    ImageProcessing: {shape: package}
+    Points: {shape: package}
+    Remind: {shape: package}
+    Rubbergod: {shape: package}
+    Searching: {shape: package}
+    UserMeasures: {shape: package}
+    Graphics: {shape: package}
   }
 }
 
@@ -107,30 +117,39 @@ ThirdParty.Rubbergod -> GrillBot.Bot: {class: http_relation}
 GrillBot.Docs -> GrillBot.Bot: {class: http_relation}
 
 # Internal communication (Bot -> Service)
-GrillBot.Bot -> GrillBot.Microservices.Graphics: {class: http_relation}
-GrillBot.Bot -> GrillBot.Microservices.Rubbergod: {class: http_relation}
-GrillBot.Bot -> GrillBot.Microservices.Points: {class: http_relation}
-GrillBot.Bot -> GrillBot.Microservices.ImageProcessing: {class: http_relation}
-GrillBot.Bot -> GrillBot.Microservices.AuditLog: {class: http_relation}
-GrillBot.Bot -> GrillBot.Microservices.UserMeasures: {class: http_relation}
-GrillBot.Bot -> GrillBot.Microservices.Emote: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.AuditLog: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.Emote: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.ImageProcessing: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.Points: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.Remind: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.Rubbergod: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.Searching: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.UserMeasures: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.Graphics: {class: http_relation}
 
 # Internal communication (Service -> Service)
-GrillBot.Microservices.ImageProcessing -> GrillBot.Microservices.Graphics: {class: http_relation}
+GrillBot.Services.ImageProcessing -> GrillBot.Services.Graphics: {class: http_relation}
 
 # RabbitMQ communication
 GrillBot.Bot <-> GrillBot.Infrastructure.RabbitMQ: {class: rabbit_relation}
-GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.Points: {class: rabbit_relation}
-GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.UserMeasures: {class: rabbit_relation}
-GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.AuditLog: {class: rabbit_relation}
-GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.Emote: {class: rabbit_relation}
-GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.Rubbergod: {class: rabbit_relation}
-GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Microservices.ImageProcessing: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.AuditLog: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Emote: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.ImageProcessing: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Points: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Remind: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Rubbergod: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Searching: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.UserMeasures: {class: rabbit_relation}
 
 # Database communication
 GrillBot.Bot -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
-GrillBot.Microservices.AuditLog -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
-GrillBot.Microservices.Rubbergod -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
-GrillBot.Microservices.Points -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
-GrillBot.Microservices.UserMeasures -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
-GrillBot.Microservices.Emote -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Services.AuditLog -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Services.Emote -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Services.Points -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Services.Remind -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Services.Rubbergod -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Services.Searching -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Services.UserMeasures -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+
+# Redis communication
+GrillBot.Bot -> GrillBot.Infrastructure.Redis: {class: redis_relation}

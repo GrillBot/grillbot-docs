@@ -4,14 +4,6 @@ vars: {
   }
 }
 
-DataCache: {
-  shape: sql_table
-
-  Key: text {constraint: primary_key}
-  Value: text
-  ValidTo: timestamp without time zone
-}
-
 InviteMetadata: {
   shape: sql_table
 

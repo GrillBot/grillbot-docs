@@ -1,0 +1,28 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+
+SearchItem: {
+  shape: sql_table
+
+  Id: bigint {constraint: primary_key}
+  UserId: character varying (30)
+  GuildId: character varying (30)
+  ChannelId: character varying (30)
+  Content: character varying (1024)
+  CreatedAt: timestamp with time zone
+  ValidTo: timestamp with time zone
+  IsDeleted: boolean
+}
+
+Users: {
+  shape: sql_table
+
+  GuildId: character varying (30) {constraint: primary_key}
+  UserId: character varying (30) {constraint: primary_key}
+  IsSearchingAdmin: boolean
+  HaveGuildAdmin: boolean
+  HaveManageMessages: boolean
+}

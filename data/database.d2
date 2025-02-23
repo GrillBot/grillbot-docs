@@ -74,7 +74,6 @@ Guilds: {
   MuteRoleId: character varying (30)
   AdminChannelId: character varying (30)
   BoosterRoleId: character varying (30)
-  EmoteSuggestionChannelId: character varying(30)
   VoteChannelId: character varying (30)
 }
 
@@ -101,36 +100,6 @@ Nicknames: {
 
 Nicknames.GuildId -> Guilds.Id
 Nicknames.UserId -> GuildUsers.UserId
-
-Reminders: {
-  shape: sql_table
-
-  Id: bigint {constraint: primary_key}
-  FromUserId: character varying (30) {constraint: foreign_key}
-  ToUserId: character varying (30) {constraint: foreign_key}
-  At: timestamp without time zone
-  Message: text
-  Postpone: integer
-  OriginalMessageId: character varying (30)
-  RemindMessageId: character varying (30)
-}
-
-Reminders.FromUserId -> Users.Id
-Reminders.ToUserId -> Users.Id
-
-SearchItems: {
-  shape: sql_table
-
-  Id: bigint {constraint: primary_key}
-  UserId: character varying (30) {constraint: foreign_key}
-  GuildId: character varying (30) {constraint: foreign_key}
-  ChannelId: character varying (30) {constraint: foreign_key}
-  MessageContent: character varying (1024)
-}
-
-SearchItems.UserId -> GuildUsers.UserId
-SearchItems.GuildId -> Guilds.Id
-SearchItems.ChannelId -> Channels.ChannelId
 
 SelfUnverifyKeepables: {
   shape: sql_table
