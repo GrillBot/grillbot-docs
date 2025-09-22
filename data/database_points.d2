@@ -34,7 +34,7 @@ Transactions: {
   GuildId: character varying (30) {constraint: primary_key}
   UserId: character varying (30) {constraint: primary_key}
   MessageId: character varying (30) {constraint: primary_key}
-  ReactionId: character varying (30) {constraint: primary_key}
+  ReactionId: character varying (100) {constraint: primary_key}
   MergedCount: integer
   MergeRangeFrom: timestamp with time zone
   MergeRangeTo: timestamp with time zone
@@ -48,12 +48,12 @@ Users: {
   Id: character varying (30) {constraint: primary_key}
   GuildId: character varying (30) {constraint: primary_key}
   PointsDisabled: boolean
-  LastReactionIncrement: datetime with time zone
-  LastMessageIncrement: datetime with time zone
+  LastReactionIncrement: timestamp with time zone
+  LastMessageIncrement: timestamp with time zone
   IsUser: boolean
   PointsPosition: integer
-  ActivePoints: bigint
-  ExpiredPoints: bigint
+  ActivePoints: integer
+  ExpiredPoints: integer
   MergedPoints: bigint
   LastSuperReactionIncrement: timestamp with time zone
 }

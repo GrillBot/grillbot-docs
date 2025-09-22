@@ -18,8 +18,6 @@
     {% endif %}
 </div>
 
-
-
 {% if 'swagger_url' in data %}
 <p>Swagger dokumentace je dostupná <a href="{{data['swagger_url']}}">zde</a>.</p>
 {% endif %}
@@ -35,35 +33,6 @@
     <img src="{{data['database'][db]}}" alt="{{db}}" class="diagram">
 </div>
 {% endfor%}
-{% endif %}
-
-{% if 'api_description' in data %}
-<div>
-    <h3>Popis API</h3>
-    {% if 'api_description_note' in data %}
-    <p>{{data['api_description_note']}}</p>
-    {% endif %}
-
-    <table class="table table-sm table-responsive-md table-bordered auto-column-width">
-        <thead>
-            <tr style="border-bottom: 2px solid black !important;">
-                <th>URI</th>
-                <th>Návratové kódy</th>
-                <th>Typ obsahu</th>
-                <th>Popis</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in data['api_description'] %}
-            <tr>
-                {% for col in row %}
-                <td>{{col|safe}}</td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
 {% endif %}
 
 {% if 'dependencies' in data %}

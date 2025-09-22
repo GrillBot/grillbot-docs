@@ -1,7 +1,7 @@
 LogItem: {
   shape: sql_table
 
-  ID: uuid {constraint: primary_key}
+  Id: uuid {constraint: primary_key}
   CreatedAt: timestamp with time zone
   GuildId: character varying (32)
   UserId: character varying (32)
@@ -12,129 +12,129 @@ LogItem: {
   IsDeleted: boolean
 }
 
-File: {
+Files: {
   shape: sql_table
 
-  ID: uuid {constraint: primary_key}
+  Id: uuid {constraint: primary_key}
   LogItemId: uuid {constraint: foreign_key}
-  Filename: Text(255)
-  Extension: Text(255)
-  Size: BIGINT
+  Filename: character varying(255)
+  Extension: character varying(255)
+  Size: bigint
 }
 
-LogItem.ID -> File.LogItemId
+LogItem.ID -> Files.LogItemId
 
 # Model tables
 
-ApiRequest: {
+ApiRequests: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
   ControllerName: character varying (128)
   ActionName: character varying (128)
-  StartAt: DateTime
-  EndAt: DateTime
+  StartAt: timestamp with time zone
+  EndAt: timestamp with time zone
   Method: character varying (10)
-  TemplatePath: Text
-  Path: Text
+  TemplatePath: text
+  Path: text
   Parameters: jsonb
   Language: character varying (10)
   ApiGroupName: character varying (5)
   Headers: jsonb
   Identification: character varying (512)
-  Ip: character varying (128)
-  Result: character varying (255)
+  Ip: character varying (64)
+  Result: character varying (128)
   IsSuccess: boolean
   RequestDate: date
   Role: character varying (32)
-  ForwardedIp: character varying (128)
+  ForwardedIp: character varying (64)
   Duration: bigint
 }
 
-LogItem.ID -> ApiRequest.LogItemId
+LogItem.ID -> ApiRequests.LogItemId
 
-LogMessage: {
+LogMessages: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
-  Message: Text
-  Severity: INT
-  SourceAppName: Text(100)
-  Source: Text(512)
+  Message: text
+  Severity: integer
+  Source: character varying (512)
+  SourceAppName: character varying (100)
 }
 
-LogItem.ID -> LogMessage.LogItemId
+LogItem.ID -> LogMessages.LogItemId
 
-DeletedEmote: {
+DeletedEmotes: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
-  EmoteId: Text(32)
-  EmoteName: Text
+  EmoteId: character varying(32)
+  EmoteName: text
 }
 
-LogItem.ID -> DeletedEmote.LogItemId
+LogItem.ID -> DeletedEmotes.LogItemId
 
-Unban: {
+Unbans: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
-  UserId: Text(32)
+  UserId: character varying (32)
 }
 
-LogItem.ID -> Unban.LogItemId
+LogItem.ID -> Unbans.LogItemId
 
-JobExecution: {
+JobExecutions: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
   JobName: character varying(128)
-  Result: Text
-  StartAt: DateTime
-  EndAt: DateTime
-  WasError: bool
-  StartUserId: Text(32)
+  Result: text
+  StartAt: timestamp with time zone
+  EndAt: timestamp with time zone
+  WasError: boolean
+  StartUserId: character varying (32)
   Duration: bigint
   JobDate: date
 }
 
-LogItem.ID -> JobExecution.LogItemId
+LogItem.ID -> JobExecutions.LogItemId
 
-ChannelInfo: {
+ChannelInfoItems: {
   shape: sql_table
 
-  ID: uuid {constraint: primary_key}
-  ChannelName: Text
-  SlowMode: INT?
-  Type: INT
-  IsNsfw: bool?
-  Bitrate: INT?
-  Topic: Text?
-  Position: INT
-  Flags: INT
+  Id: uuid {constraint: primary_key}
+  ChannelName: text
+  SlowMode: integer
+  Type: integer
+  IsNsfw: boolean
+  Bitrate: integer
+  Topic: text
+  Position: integer
+  Flags: integer
 }
 
-ChannelCreated: {
-  shape: sql_table
-
-  LogItemId: uuid {constraint: foreign_key}
-  ChannelInfoId: uuid {constraint: foreign_key}
-}
-
-LogItem.Id -> ChannelCreated.LogItemId
-ChannelCreated.ChannelInfoId -> ChannelInfo.Id
-
-ChannelDeleted: {
+ChannelCreatedItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
   ChannelInfoId: uuid {constraint: foreign_key}
 }
 
-LogItem.Id -> ChannelDeleted.LogItemId
-ChannelDeleted.ChannelInfoId -> ChannelInfo.Id
+LogItem.Id -> ChannelCreatedItems.LogItemId
+ChannelCreatedItems.ChannelInfoId -> ChannelInfoItems.Id
 
-ChannelUpdated: {
+ChannelDeletedItems: {
+  shape: sql_table
+
+  LogItemId: uuid {constraint: foreign_key}
+  ChannelInfoId: uuid {constraint: foreign_key}
+}
+
+LogItem.Id -> ChannelDeletedItems.LogItemId
+ChannelDeletedItems.ChannelInfoId -> ChannelInfoItems.Id
+
+ChannelUpdatedItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
@@ -142,38 +142,38 @@ ChannelUpdated: {
   AfterId: uuid {constraint: foreign_key}
 }
 
-LogItem.Id -> ChannelUpdated.LogItemId
-ChannelUpdated.BeforeId -> ChannelInfo.Id
-ChannelUpdated.AfterId -> ChannelInfo.Id
+LogItem.Id -> ChannelUpdatedItems.LogItemId
+ChannelUpdatedItems.BeforeId -> ChannelInfoItems.Id
+ChannelUpdatedItems.AfterId -> ChannelInfoItems.Id
 
-GuildInfo: {
+GuildInfoItems: {
   shape: sql_table
 
-  ID: uuid {constraint: primary_key}
-  DefaultMessageNotifications: INT
-  Description: Text
-  VanityUrl: Text
-  BannerId: Text
-  DiscoverySplashId: Text
-  SplashId: Text
-  IconId: Text
-  IconData: binary
-  PublicUpdatesChannelId: Text(32)
-  RulesChannelId: Text(32)
-  SystemChannelId: Text(32)
-  AfkChannelId: Text(32)
-  AfkTimeout: INT
-  Name: Text(100)
-  MfaLevel: INT
-  VerificationLevel: INT
-  ExplicitContentFilter: INT
-  Features: INT
-  PremiumTier: INT
-  SystemChannelFlags: INT
-  NsfwLevel: INT
+  Id: uuid {constraint: primary_key}
+  DefaultMessageNotifications: integer
+  Description: text
+  VanityUrl: text
+  BannerId: text
+  DiscoverySplashId: text
+  SplashId: text
+  IconId: text
+  IconData: bytea
+  PublicUpdatesChannelId: character varying (32)
+  RulesChannelId: character varying (32)
+  SystemChannelId: character varying (32)
+  AfkChannelId: character varying (32)
+  AfkTimeout: integer
+  Name: character varying (100)
+  MfaLevel: integer
+  VerificationLevel: integer
+  ExplicitContentFilter: integer
+  Features: bigint
+  PremiumTier: integer
+  SystemChannelFlags: integer
+  NsfwLevel: integer
 }
 
-GuildUpdated: {
+GuildUpdatedItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
@@ -181,94 +181,94 @@ GuildUpdated: {
   AfterId: uuid {constraint: foreign_key}
 }
 
-LogItem.ID -> GuildUpdated.LogItemId
-GuildUpdated.BeforeId -> GuildInfo.ID
-GuildUpdated.AfterId -> GuildInfo.ID
+LogItem.ID -> GuildUpdatedItems.LogItemId
+GuildUpdatedItems.BeforeId -> GuildInfoItems.ID
+GuildUpdatedItems.AfterId -> GuildInfoItems.ID
 
-MemberRoleUpdated: {
+MemberRoleUpdatedItems: {
   shape: sql_table
 
-  ID: uuid {constraint: primary_key}
+  Id: uuid {constraint: primary_key}
   LogItemId: uuid {constraint: foreign_key}
-  UserId: Text(32)
-  RoleId: Text(32)
-  RoleName: Text
-  RoleColor: Text(32)
-  IsAdded: bool
+  UserId: character varying (32)
+  RoleId: character varying (32)
+  RoleName: text
+  RoleColor: character varying (32)
+  IsAdded: boolean
 }
 
-LogItem.ID -> MemberRoleUpdated.LogItemId
+LogItem.ID -> MemberRoleUpdatedItems.LogItemId
 
-MessageDeleted: {
+MessageDeletedItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
-  AuthorId: Text(32)
-  MessageCreatedAt: DateTime
-  Content: Text
+  AuthorId: character varying (32)
+  MessageCreatedAt: timestamp with time zone
+  Content: text
 }
 
-EmbedInfo: {
+EmbedInfoItems: {
   shape: sql_table
 
-  ID: uuid {constraint: primary_key}
+  Id: uuid {constraint: primary_key}
   MessageDeletedId: uuid {constraint: foreign_key}
-  Title: Text(256),
-  Type: Text(16)
-  ImageInfo: Text
-  VideoInfo: Text
-  AuthorName: Text
-  ContainsFooter: bool
-  ProviderName: Text
-  ThumbnailInfo: Text
+  Title: character varying(256),
+  Type: character varying(16)
+  ImageInfo: text
+  VideoInfo: text
+  AuthorName: text
+  ContainsFooter: boolean
+  ProviderName: text
+  ThumbnailInfo: text
 }
 
-EmbedField: {
+EmbedFields: {
   shape: sql_table
 
-  ID: uuid {constraint: primary_key}
+  Id: uuid {constraint: primary_key}
   EmbedInfoId: uuid {constraint: foreign_key}
-  Name: Text(256)
-  Value: Text(1024)
-  Inline: bool
+  Name: character varying(256)
+  Value: character varying(1024)
+  Inline: boolean
 }
 
-LogItem.Id -> MessageDeleted.LogItemId
-MessageDeleted.Id -> EmbedInfo.MessageDeletedId
-EmbedInfo.Id -> EmbedField.EmbedInfoId
+LogItem.Id -> MessageDeletedItems.LogItemId
+MessageDeletedItems.Id -> EmbedInfoItems.MessageDeletedId
+EmbedInfoItems.Id -> EmbedFields.EmbedInfoId
 
-MessageEdited: {
+MessageEditedItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
-  JumpUrl: Text
-  ContentBefore: Text
-  ContentAfter: Text
+  JumpUrl: text
+  ContentBefore: text
+  ContentAfter: text
 }
 
-LogItem.ID -> MessageEdited.LogItemId
+LogItem.ID -> MessageEditedItems.LogItemId
 
-OverwriteInfo: {
+OverwriteInfoItems: {
   shape: sql_table
 
-  ID: uuid {constraint: foreign_key}
-  Target: INT
-  TargetId: Text(32)
-  AllowValue: Text
-  DenyValue: Text
+  Id: uuid {constraint: foreign_key}
+  Target: integer
+  TargetId: character varying (32)
+  AllowValue: text
+  DenyValue: text
 }
 
-OverwriteCreated: {
+OverwriteCreatedItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
   OverwriteInfoId: uuid {constraint: foreign_key}
 }
 
-LogItem.ID -> OverwriteCreated.LogItemId
-OverwriteCreated.OverwriteInfoId -> OverwriteInfo.ID
+LogItem.ID -> OverwriteCreatedItems.LogItemId
+OverwriteCreatedItems.OverwriteInfoId -> OverwriteInfoItems.ID
 
-OverwriteUpdated: {
+OverwriteUpdatedItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
@@ -276,87 +276,87 @@ OverwriteUpdated: {
   AfterId: uuid {constraint: foreign_key}
 }
 
-LogItem.ID -> OverwriteUpdated.LogItemId
-OverwriteUpdated.BeforeId -> OverwriteInfo.ID
-OverwriteUpdated.AfterId -> OverwriteInfo.ID
+LogItem.ID -> OverwriteUpdatedItems.LogItemId
+OverwriteUpdatedItems.BeforeId -> OverwriteInfoItems.ID
+OverwriteUpdatedItems.AfterId -> OverwriteInfoItems.ID
 
-OverwriteDeleted: {
+OverwriteDeletedItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
   OverwriteInfoId: uuid {constraint: foreign_key}
 }
 
-LogItem.ID -> OverwriteDeleted.LogItemId
-OverwriteDeleted.OverwriteInfoId -> OverwriteInfo.ID
+LogItem.ID -> OverwriteDeletedItems.LogItemId
+OverwriteDeletedItems.OverwriteInfoId -> OverwriteInfoItems.ID
 
-UserJoined: {
+UserJoinedItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
-  MemberCount: INT
+  MemberCount: integer
 }
 
-LogItem.ID -> UserJoined.LogItemId
+LogItem.ID -> UserJoinedItems.LogItemId
 
-UserLeft: {
+UserLeftItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
-  UserId: Text(32)
-  MemberCount: INT
-  IsBan: bool
-  BanReason: Text?
+  UserId: character varying (32)
+  MemberCount: integer
+  IsBan: boolean
+  BanReason: text
 }
 
-LogItem.ID -> UserLeft.LogItemId
+LogItem.ID -> UserLeftItems.LogItemId
 
 InteractionCommands: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
-  Name: Text
-  ModuleName: Text
-  MethodName: Text
-  Parameters: json
-  HasResponded: bool
-  IsValidToken: bool
-  IsSuccess: bool
-  CommandError: INT?
-  ErrorReason: Text?
-  Duration: INT?
-  Exception: Text?
-  Locale: Text(50)
+  Name: text
+  ModuleName: text
+  MethodName: text
+  Parameters: jsonb
+  HasResponded: boolean
+  IsValidToken: boolean
+  IsSuccess: boolean
+  CommandError: integer
+  ErrorReason: text
+  Duration: integer
+  Exception: text
+  Locale: text
   EndAt: timestamp with time zone
   InteractionDate: date
 }
 
 LogItem.ID -> InteractionCommands.LogItemId
 
-ThreadInfo: {
+ThreadInfoItems: {
   shape: sql_table
 
-  ID: uuid {constraint: foreign_key}
-  ThreadName: Text
-  SlowMode: INT?
-  Type: INT
-  IsArchived: bool
-  ArchiveDuration: INT
-  IsLocked: bool
+  Id: uuid {constraint: foreign_key}
+  ThreadName: text
+  SlowMode: integer
+  Type: integer
+  IsArchived: boolean
+  ArchiveDuration: integer
+  IsLocked: boolean
   Tags: json
 }
 
-ThreadDeleted: {
+ThreadDeletedItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
   ThreadInfoId: uuid {constraint: foreign_key}
 }
 
-LogItem.ID -> ThreadDeleted.LogItemId
-ThreadDeleted.ThreadInfoId -> ThreadInfo.ID
+LogItem.ID -> ThreadDeletedItems.LogItemId
+ThreadDeletedItems.ThreadInfoId -> ThreadInfoItems.ID
 
-ThreadUpdated: {
+ThreadUpdatedItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
@@ -364,23 +364,24 @@ ThreadUpdated: {
   AfterId: uuid {constraint: foreign_key}
 }
 
-LogItem.ID -> ThreadUpdated.LogItemId
-ThreadUpdated.BeforeId -> ThreadInfo.ID
-ThreadUpdated.AfterId -> ThreadInfo.ID
+LogItem.ID -> ThreadUpdatedItems.LogItemId
+ThreadUpdatedItems.BeforeId -> ThreadInfoItems.ID
+ThreadUpdatedItems.AfterId -> ThreadInfoItems.ID
 
-MemberInfo: {
+MemberInfos: {
   shape: sql_table
 
   Id: uuid {constraint: primary_key}
-  UserId: Text(32)
-  Nickname: Text(32)
-  IsMuted: bool
-  IsDeaf: bool
-  SelfUnverifyMinimalTime: Text
-  Flags: INT
+  UserId: character varying (32)
+  Nickname: character varying (32)
+  IsMuted: boolean
+  IsDeaf: boolean
+  SelfUnverifyMinimalTime: text
+  Flags: integer
+  PointsDeactivated: boolean
 }
 
-MemberUpdated: {
+MemberUpdatedItems: {
   shape: sql_table
 
   LogItemId: uuid {constraint: foreign_key}
@@ -388,11 +389,11 @@ MemberUpdated: {
   AfterId: uuid {constraint: foreign_key}
 }
 
-LogItem.Id -> MemberUpdated.LogItemId
-MemberUpdated.BeforeId -> MemberInfo.Id
-MemberUpdated.AfterId -> MemberInfo.Id
+LogItem.Id -> MemberUpdatedItems.LogItemId
+MemberUpdatedItems.BeforeId -> MemberInfos.Id
+MemberUpdatedItems.AfterId -> MemberInfos.Id
 
-RoleInfo: {
+RoleInfos: {
   shape: sql_table
 
   Id: uuid {constraint: primary_key}
@@ -413,4 +414,4 @@ RoleDeleted: {
 }
 
 LogItem.Id -> RoleDeleted.LogItemId
-RoleDeleted.RoleInfoId -> RoleInfo.Id
+RoleDeleted.RoleInfoId -> RoleInfos.Id

@@ -8,19 +8,11 @@ ApiClients: {
   shape: sql_table
 
   Id: text {constraint: primary_key}
-  Name: character varying (30)
   AllowedMethods: jsonb
   UseCount: integer
   LastUse: timestamp without time zone
-}
-
-AutoReplies: {
-  shape: sql_table
-
-  Id: bigint {constraint: primary_key}
-  Template: text
-  Reply: text
-  Flags: bigint
+  Name: character varying (30)
+  Disabled: boolean
 }
 
 Channels: {
@@ -40,31 +32,19 @@ Channels: {
 Channels.GuildId -> Guilds.Id
 Channels.ParentChannelId -> Channels.ChannelId
 
-GuildEvent: {
-  shape: sql_table
-
-  Id: text {constraint: primary_key}
-  GuildId: character varying (30) {constraint: primary_key}
-  From: timestamp without time zone
-  To: timestamp without time zone
-}
-
-GuildEvent.GuildId -> Guilds.Id
-
 GuildUsers: {
   shape: sql_table
 
   UserId: character varying (30) {constraint: primary_key}
   GuildId: character varying (30) {constraint: primary_key}
-  UsedInviteCode: character varying (20) {constraint: foreign_key}
   GivenReactions: bigint
   ObtainedReactions: bigint
   Nickname: character varying (32)
+  IsInGuild: boolean
 }
 
 GuildUsers.UserId -> Users.Id
 GuildUsers.GuildId -> Guilds.Id
-GuildUsers.UsedInviteCode -> Invites.Code
 
 Guilds: {
   shape: sql_table
@@ -75,71 +55,9 @@ Guilds: {
   AdminChannelId: character varying (30)
   BoosterRoleId: character varying (30)
   VoteChannelId: character varying (30)
+  BotRoomChannelId: character varying (30)
+  AssociationRoleId: character varying (30)
 }
-
-Invites: {
-  shape: sql_table
-
-  Code: character varying (10) {constraint: primary_key}
-  CreatedAt: timestamp without time zone
-  CreatorId: character varying (30) {constraint: foreign_key}
-  GuildId: character varying (30) {constraint: foreign_key}
-}
-
-Invites.CreatorId -> GuildUsers.UserId
-Invites.GuildId -> Guilds.Id
-
-Nicknames: {
-  shape: sql_table
-
-  GuildId: character varying (30) {constraint: primary_key}
-  UserId: character varying (30) {constraint: primary_key}
-  Id: bigint {constraint: primary_key}
-  NicknameValue: character varying (32)
-}
-
-Nicknames.GuildId -> Guilds.Id
-Nicknames.UserId -> GuildUsers.UserId
-
-SelfUnverifyKeepables: {
-  shape: sql_table
-
-  GroupName: character varying(100) {constraint: primary_key}
-  Name: character varying(100) {constraint: primary_key}
-}
-
-Unverifies: {
-  shape: sql_table
-
-  GuildId: character varying (30) {constraint: primary_key}
-  UserId: character varying (30) {constraint: primary_key}
-  StartAt: timestamp without time zone
-  EndAt: timestamp without time zone
-  Reason: text
-  Roles: jsonb
-  Channels: jsonb
-  SetOperationId: bigint
-}
-
-Unverifies.GuildId -> Guilds.Id
-Unverifies.UserId -> GuildUsers.UserId
-Unverifies.SetOperationId -> UnverifyLogs.Id
-
-UnverifyLogs: {
-  shape: sql_table
-
-  Id: bigint {constraint: primary_key}
-  Operation: integer
-  GuildId: character varying (30) {constraint: foreign_key}
-  FromUserId: character varying (30) {constraint: foreign_key}
-  ToUserId: character varying (30) {constraint: foreign_key}
-  CreatedAt: timestamp without time zone
-  Data: text
-}
-
-UnverifyLogs.GuildId -> Guilds.Id
-UnverifyLogs.FromUserId -> GuildUsers.UserId
-UnverifyLogs.ToUserId -> GuildUsers.UserId
 
 UserChannels: {
   shape: sql_table
@@ -162,10 +80,10 @@ Users: {
   Id: character varying (30) {constraint: primary_key}
   Flags: bigint
   Birthday: timestamp without time zone
-  Note: text
   Username: character varying (30)
   SelfUnverifyMinimalTime: text
   Status: integer
   Language: character varying (50)
+  AvatarUrl: character varying (1024)
   GlobalAlias: character varying (32)
 }

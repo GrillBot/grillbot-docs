@@ -4,104 +4,8 @@
         "swagger_url": "https://grillbot.eu/swagger",
         "description": "Nejdůležitější služba. Jedná se o centrální bod celého systému. Všechna funkcionalita, která není obsažena ve službách je zde. Také zajišťuje správu dat v databázi a konektivitu s Discord.",
         "databases": {
-            "Databáze": "/static/database.svg",
-            "Cache": "/static/cache.svg"
+            "Databáze": "/static/database.svg"
         },
-        "api": [
-            {
-                "endpoint": "POST /api/auditlog/create/message",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vytvoření nové textové položky do audit logu.",
-                "api_spec_version": "v2",
-                "api_spec": "AuditLog/AuditLog_CreateMessageLogItem"
-            },
-            {
-                "endpoint": "POST /api/user/karma",
-                "status_codes": [
-                    200,
-                    500
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vyčtení aktuálního leaderboardu v karmě od Rubbergoda.",
-                "api_spec_version": "v2",
-                "api_spec": "Users/Users_GetRubbergodUserKarma"
-            },
-            {
-                "endpoint": "POST /api/user/karma/store",
-                "status_codes": [
-                    200,
-                    400,
-                    500
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Zapsání seznamu uživatelů s jejich aktuální hodnotou karmy.",
-                "api_spec_version": "v2",
-                "api_spec": "Users/Users_StoreKarma"
-            },
-            {
-                "endpoint": "GET /api/user/birthday/today",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Získání informace o tom, kdo má dneska v očích GrillBot narozeniny.",
-                "api_spec_version": "v2",
-                "api_spec": "Users/Users_GetTodayBirthdayInfo"
-            },
-            {
-                "endpoint": "GET /api/user/info/{guildId}/{userId}",
-                "status_codes": [
-                    200,
-                    404
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Souhrnné informace o uživateli na serveru",
-                "api_spec_version": "v2",
-                "api_spec": "Users/Users_GetGuildUserInfo"
-            },
-            {
-                "endpoint": "GET /api/user/measures/timeout/create",
-                "status_codes": [
-                    201,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Zapsání nového opatření ve formě timeoutu.",
-                "api_spec_version": "v2",
-                "api_spec": "UserMeasures/UserMeasures_CreateUserMeasuresTimeout"
-            },
-            {
-                "endpoint": "DELETE /api/measures/timeout/{timeoutId}",
-                "status_codes": [
-                    200,
-                    400,
-                    404
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Smazání opatření ve formě timeoutu.",
-                "api_spec": "UserMeasures/UserMeasures_DeleteUserMeasureTimeout",
-                "api_spec_version": "v2"
-            }
-        ],
-        "api_note": "Tato sekce popisuje veřejné API, které může být integrováno třetími stranami. Jakákoliv implementace nových metod je prováděna na základě poaždavků. Nový požadavek nebo žádost o přístup (k získání API klíče) můžete odeslat prostřednictvím issues v GitHub repozitáři, nebo v kanálu #bot-development, pokud jste na serveru VUT FIT.",
         "project_files": [
             "https://raw.githubusercontent.com/GrillBot/grillbot/master/src/GrillBot.App/GrillBot.App.csproj",
             "https://raw.githubusercontent.com/GrillBot/grillbot/master/src/GrillBot.Cache/GrillBot.Cache.csproj",
@@ -114,61 +18,6 @@
     "graphics": {
         "name": "Graphics",
         "description": "Vykreslovací služba. Stará se o vše co nějak souvisí s grafikou (grafy, obrázek bodů, ...)",
-        "api": [
-            {
-                "endpoint": "POST /chart",
-                "status_codes": [
-                    200,
-                    400,
-                    500
-                ],
-                "content_types": [
-                    "image/png",
-                    "application/json"
-                ],
-                "description": "Vygenerování grafu. <b>Jediný podporovaný je spojnicový graf.</b>"
-            },
-            {
-                "endpoint": "GET /health",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Kontrola životnosti služby."
-            },
-            {
-                "endpoint": "GET /info",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Informace o běžící službě."
-            },
-            {
-                "endpoint": "GET /metrics",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Stav procesu služby."
-            },
-            {
-                "endpoint": "GET /stats",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Statistiky služby (počty požadavků, statistiky per endpoint, ...)"
-            }
-        ],
         "project_files": [
             "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/Graphics/package.json"
         ],
@@ -178,57 +27,13 @@
         "name": "RubbergodService",
         "description": "Služba starající se o rozhraní mezi boty GrillBot a Rubbergod. Udržování karmy a uvolňování cache pinů probíhá přes RabbitMQ queues.",
         "databases": {
-            "Databáze": "/static/rubbergod_db.svg"
+            "Databáze": "/static/database_rubbergod.svg"
         },
-        "di_graph": "/static/di-graph-rubbergod.svg",
-        "api": [
-            {
-                "endpoint": "GET /api/diag",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...)"
-            },
-            {
-                "endpoint": "GET /api/help/slashcommands",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací seznam všech dostupných slash commands v Rubbergod."
-            },
-            {
-                "endpoint": "GET /api/karma",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací stránkovaný seznam karmy jednotlivých uživatelů."
-            },
-            {
-                "endpoint": "GET /api/pins/{guildId}/{channelId}?markdown={markdown}",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Získání pinů. Možné vygenerovat JSON obsah nebo markdown."
-            }
-        ],
         "project_files": [
             "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/RubbergodService/RubbergodService.csproj",
             "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
-        "healthcheck": "https://health.grillbot.eu/rubbergodService"
+        "healthcheck": "https://health.grillbot.eu/rubbergod_service"
     },
     "points": {
         "name": "Points",
@@ -236,234 +41,19 @@
         "databases": {
             "Databáze": "/static/database_points.svg"
         },
-        "di_graph": "/static/di-graph-points.svg",
-        "api": [
-            {
-                "endpoint": "POST /api/admin/list",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Administrační seznam transakcí"
-            },
-            {
-                "endpoint": "GET /api/diag",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...)."
-            },
-            {
-                "endpoint": "GET /api/diag/status",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací podrobnější informace, které nelze vložit do diagnostiky."
-            },
-            {
-                "endpoint": "POST /api/chart",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Načtení statistik za jednotlivé dny pro graf."
-            },
-            {
-                "endpoint": "GET /api/leaderboard/{guildId}",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "TOP N statistika bodů."
-            },
-            {
-                "endpoint": "GET /api/leaderboard/{guildId}/count",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Celkový počet dostupných záznamů v leaderboardu."
-            },
-            {
-                "endpoint": "POST /api/merge",
-                "status_codes": [
-                    200,
-                    204
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Sloučení expirovaných transakcí."
-            },
-            {
-                "endpoint": "GET /api/status/{guildId}/{userId}",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Stav platných bodů uživatele."
-            },
-            {
-                "endpoint": "GET /api/status/{guildId}/{userId}/image",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Stav platných bodů uživatele pro vykreslení obrázku."
-            },
-            {
-                "endpoint": "GET /api/status/{guildId}/{userId}/expired",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Stav expirovaných bodů uživatele"
-            },
-            {
-                "endpoint": "POST /api/transaction/transfer",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Převod bodů mezi uživateli."
-            },
-            {
-                "endpoint": "GET /api/transaction/{guildId}/{userId}",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "text/plain"
-                ],
-                "description": "Indikace, zda pro daného uživatele existuje nějaká transakce."
-            },
-            {
-                "endpoint": "POST /api/user/list",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Stránkovaný seznam uživatelů se seznamem bodů."
-            }
-        ],
         "project_files": [
             "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/PointsService/PointsService.csproj",
             "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
-        "healthcheck": "https://health.grillbot.eu/points"
+        "healthcheck": "https://health.grillbot.eu/points_service"
     },
     "image-processing": {
         "name": "ImageProcessing",
         "description": "Mezi služba pro vykreslování a caching obrázků.",
-        "di_graph": "/static/di-graph-image-processing.svg",
-        "api": [
-            {
-                "endpoint": "GET /api/diag",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...)."
-            },
-            {
-                "endpoint": "POST /api/image/peepolove",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "image/png",
-                    "image/gif",
-                    "application/json"
-                ],
-                "description": "Vytvoří obrázek peepa držícího profilovku uživatele."
-            },
-            {
-                "endpoint": "POST /api/image/peepoangry",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "image/png",
-                    "image/gif",
-                    "application/json"
-                ],
-                "description": "Vytvoří obrázek peepa naštvaně zírajícího na profilovku uživatele."
-            },
-            {
-                "endpoint": "POST /api/image/points",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "image/png",
-                    "application/json"
-                ],
-                "description": "Vykreslení obrázku s aktuálním stavem bodů uživatele."
-            },
-            {
-                "endpoint": "POST /api/image/without-accident",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "image/png",
-                    "application/json"
-                ],
-                "description": "Vykreslení obrázku znělky ze seriálu The Simpsons s počtem dní od posledního incidentu."
-            },
-            {
-                "endpoint": "POST /api/image/chart",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "image/png",
-                    "application/json"
-                ],
-                "description": "Vygenerování grafu. <b>Jediný podporovaný je spojnicový graf.</b>"
-            }
-        ],
         "project_files": [
             "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/ImageProcessingService/ImageProcessingService.csproj"
         ],
-        "healthcheck": "https://health.grillbot.eu/imageProcessing"
+        "healthcheck": "https://health.grillbot.eu/image_processing_service"
     },
     "audit-log": {
         "name": "AuditLog",
@@ -472,187 +62,11 @@
             "Databáze": "/static/database_audit-log.svg",
             "Statistiky": "/static/database_audit-log-statistics.svg"
         },
-        "di_graph": "/static/di-graph-audit-log.svg",
-        "api": [
-            {
-                "endpoint": "POST /api/archivation",
-                "status_codes": [
-                    200,
-                    204
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Archivace starých logů. Pokud není k archivaci alespoň 5000 záznamů,<br>tak se vrací 204 No Content. <b>Vzhledem k množství dat, které archivace<br>musí zpracovat počítejte s vyššími časy zpracování!</b>"
-            },
-            {
-                "endpoint": "GET /api/diag",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...)."
-            },
-            {
-                "endpoint": "GET /api/diag/status",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací podrobnější informace, které nelze vložit do diagnostiky."
-            },
-            {
-                "endpoint": "GET /api/info/jobs",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Informace o bězích naplánovaných úloh (počet spuštění, poslední běh, časy, ...)"
-            },
-            {
-                "endpoint": "GET /api/logItem/{id}",
-                "status_codes": [
-                    200,
-                    404
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Získání detailu záznamu. Pokud záznam neexistuje, nebo k němu neexistuje detail, tak se vrátí 404 Not Found."
-            },
-            {
-                "endpoint": "GET /api/logItem/search",
-                "status_codes": [
-                    200,
-                    400
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vyhledávání v logu a vyčítání formou seznamu."
-            },
-            {
-                "endpoint": "GET /api/statistics/auditLog",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Statistika audit logu (počty záznamů, počty a objemy souborů)."
-            },
-            {
-                "endpoint": "GET /api/statistics/interactions/stats",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Statistika integrovaných příkazů."
-            },
-            {
-                "endpoint": "GET /api/statistics/interactions/userstats",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Statistika provádění příkazů křížem přes uživatele."
-            },
-            {
-                "endpoint": "GET /api/statistics/api/stats",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Statistika volání API."
-            },
-            {
-                "endpoint": "GET /api/statistics/api/userstats/{criteria}",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Statistika volání API křížem přes uživatele.<br>Vyžadováno kritérium. Povolené hodnoty jsou <code>v1-private</code>, <code>v1-public</code>, <code>v2</code>."
-            },
-            {
-                "endpoint": "GET /api/statistics/avgtimes",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Statistika průměrných časů za dny."
-            },
-            {
-                "endpoint": "GET /api/dashboard/api/{apiGroup}",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Posledních 10 volání API GrillBot pro API V1 nebo API V2."
-            },
-            {
-                "endpoint": "GET /api/dashboard/interactions",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Posledních 10 volání integrovaných příkazů."
-            },
-            {
-                "endpoint": "GET /api/dashboard/jobs",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Posledních 10 spuštění naplánovaných úloh."
-            },
-            {
-                "endpoint": "GET /api/dashboard/todayAvgTimes",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Průměrné časy provádění za dnešní den."
-            },
-            {
-                "endpoint": "GET /api/info/guild/{guildId:ulong(32)}/count",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací počet záznamů v audit logu pro daný server."
-            }
-        ],
         "project_files": [
             "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/AuditLogService/AuditLogService.csproj",
             "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
-        "healthcheck": "https://health.grillbot.eu/auditLog"
+        "healthcheck": "https://health.grillbot.eu/audit_log_service"
     },
     "user-measures": {
         "name": "UserMeasures",
@@ -660,62 +74,10 @@
         "databases": {
             "Databáze": "/static/database_user-measures.svg"
         },
-        "api": [
-            {
-                "endpoint": "GET /user/{guildId}/{userId}",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Statistické informace o uživateli."
-            },
-            {
-                "endpoint": "GET /api/diag",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací diagnostické informace o stavu služby (počty, využití paměti, statistiky, ...)."
-            },
-            {
-                "endpoint": "GET /api/dashboard",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací posledních vytvořených 10 opatření."
-            },
-            {
-                "endpoint": "POST /api/list",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací stránkovaný seznam všech opatření s možností filtrování."
-            },
-            {
-                "endpoint": "GET /api/info/count/{guildId}",
-                "status_codes": [
-                    200
-                ],
-                "content_types": [
-                    "application/json"
-                ],
-                "description": "Vrací počet záznamů uložených v databázi pro daný server."
-            }
-        ],
         "project_files": [
             "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/UserMeasuresService/UserMeasuresService.csproj"
         ],
-        "healthcheck": "https://health.grillbot.eu/userMeasures"
+        "healthcheck": "https://health.grillbot.eu/user_measures_service"
     },
     "emote": {
         "name": "Emote",
