@@ -38,8 +38,25 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      # Validates every tracked *.json file with jq, which the runner ships.
+      # This used to pipe https://raw.githubusercontent.com/CICDToolbox/json-lint
+      # into bash; that repository was deleted, so curl started returning a 404
+      # body that bash then tried to execute. Keeping the check in-repo means a
+      # third party cannot break or change it again.
       - name: Check JSON files
-        run: bash <(curl -s https://raw.githubusercontent.com/CICDToolbox/json-lint/master/pipeline.sh)
+        run: |
+          status=0
+
+          while IFS= read -r -d '' file; do
+            if error=$(jq empty "${file}" 2>&1); then
+              echo "ok       ${file}"
+            else
+              echo "INVALID  ${file}: ${error}"
+              status=1
+            fi
+          done < <(git ls-files -z '*.json')
+
+          exit "${status}"
       - name: Markdown lint
         uses: nosborn/github-action-markdown-cli@v3.5.0
         with:
@@ -77,7 +94,6 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSHPRASE }}
