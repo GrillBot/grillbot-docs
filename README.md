@@ -19,6 +19,5 @@ Documentation site for GrillBot project.
 
 ## License
 
-GrillBot docs same as whole GrillBot is licenced as All rights reserved.
-The source code is available for reading and contribution.
-Owner consent is required for use in a production environment.
+GrillBot docs, like the whole of GrillBot, are released under the [MIT License](LICENSE).
+Contributions are accepted under the same terms.

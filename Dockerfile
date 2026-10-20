@@ -14,6 +14,7 @@ FROM python:alpine AS flask_docs
 EXPOSE 80
 ENV TZ=Europe/Prague
 LABEL org.opencontainers.image.source=https://github.com/grillbot/grillbot-docs
+LABEL org.opencontainers.image.licenses=MIT
 
 # Configure timezones
 RUN apk update && apk add tzdata

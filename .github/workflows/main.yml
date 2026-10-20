@@ -5,11 +5,15 @@ on:
     branches: [master]
     paths-ignore:
       - "debug.ps1"
+      - "LICENSE"
+      - "README.md"
   pull_request:
     types: [opened, reopened, synchronize]
     branches: [master]
     paths-ignore:
       - "debug.ps1"
+      - "LICENSE"
+      - "README.md"
   workflow_dispatch:
 
 jobs:
