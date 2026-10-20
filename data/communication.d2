@@ -80,7 +80,7 @@ GrillBot: {
     Remind: {shape: package}
     Rubbergod: {shape: package}
     Searching: {shape: package}
-    UserMeasures: {shape: package}
+    UserManagement: {shape: package}
     Graphics: {shape: package}
   }
 }
@@ -124,7 +124,7 @@ GrillBot.Bot -> GrillBot.Services.Points: {class: http_relation}
 GrillBot.Bot -> GrillBot.Services.Remind: {class: http_relation}
 GrillBot.Bot -> GrillBot.Services.Rubbergod: {class: http_relation}
 GrillBot.Bot -> GrillBot.Services.Searching: {class: http_relation}
-GrillBot.Bot -> GrillBot.Services.UserMeasures: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.UserManagement: {class: http_relation}
 GrillBot.Bot -> GrillBot.Services.Graphics: {class: http_relation}
 
 # Internal communication (Service -> Service)
@@ -139,7 +139,7 @@ GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Points: {class: rabbit_re
 GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Remind: {class: rabbit_relation}
 GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Rubbergod: {class: rabbit_relation}
 GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Searching: {class: rabbit_relation}
-GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.UserMeasures: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.UserManagement: {class: rabbit_relation}
 
 # Database communication
 GrillBot.Bot -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
@@ -149,7 +149,7 @@ GrillBot.Services.Points -> GrillBot.Infrastructure.PostgreSQL: {class: postgres
 GrillBot.Services.Remind -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
 GrillBot.Services.Rubbergod -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
 GrillBot.Services.Searching -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
-GrillBot.Services.UserMeasures -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Services.UserManagement -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
 
 # Redis communication
 GrillBot.Bot -> GrillBot.Infrastructure.Redis: {class: redis_relation}

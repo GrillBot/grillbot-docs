@@ -68,16 +68,17 @@
         ],
         "healthcheck": "https://health.grillbot.eu/audit_log_service"
     },
-    "user-measures": {
-        "name": "UserMeasures",
-        "description": "Služba pro evidenci hříšníků. Evidence unverify, timeoutů a varování o nepřízpusobivém chování. Zapisování a mazání položek probíhá pomocí RabbitMQ queues.",
+    "user-management": {
+        "name": "UserManagement",
+        "description": "Služba pro správu uživatelů. Eviduje historii přezdívek a uživatelská opatření (unverify, timeouty a varování o nepřizpůsobivém chování). Zapisování položek probíhá pomocí RabbitMQ.",
         "databases": {
-            "Databáze": "/static/database_user-measures.svg"
+            "Databáze": "/static/database_user-management.svg"
         },
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/UserMeasuresService/UserMeasuresService.csproj"
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/UserManagementService/UserManagementService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
-        "healthcheck": "https://health.grillbot.eu/user_measures_service"
+        "healthcheck": "https://health.grillbot.eu/user_management_service"
     },
     "emote": {
         "name": "Emote",

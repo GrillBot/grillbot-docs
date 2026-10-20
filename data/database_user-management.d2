@@ -1,0 +1,61 @@
+GuildUsers: {
+  shape: sql_table
+
+  GuildId: numeric {constraint: primary_key}
+  UserId: numeric {constraint: primary_key}
+  CurrentNickname: character varying (32)
+}
+
+Nicknames: {
+  shape: sql_table
+
+  Id: uuid {constraint: primary_key}
+  GuildId: numeric {constraint: foreign_key}
+  UserId: numeric {constraint: foreign_key}
+  Value: character varying (32)
+  InsertedAtUtc: timestamp with time zone
+}
+
+Nicknames.GuildId -> GuildUsers.GuildId
+Nicknames.UserId -> GuildUsers.UserId
+
+infractions: {
+  label: "infractions (schema)"
+
+  Warnings: {
+    shape: sql_table
+
+    Id: uuid {constraint: primary_key}
+    CreatedAtUtc: timestamp with time zone
+    ModeratorId: numeric
+    GuildId: numeric
+    UserId: numeric
+    Reason: text
+  }
+
+  Unverifies: {
+    shape: sql_table
+
+    Id: uuid {constraint: primary_key}
+    CreatedAtUtc: timestamp with time zone
+    ModeratorId: numeric
+    GuildId: numeric
+    UserId: numeric
+    Reason: text
+    ValidTo: timestamp with time zone
+    LogSetId: bigint {constraint: unique}
+  }
+
+  Timeouts: {
+    shape: sql_table
+
+    Id: uuid {constraint: primary_key}
+    CreatedAtUtc: timestamp with time zone
+    ModeratorId: numeric
+    GuildId: numeric
+    UserId: numeric
+    Reason: text
+    ValidTo: timestamp with time zone
+    ExternalId: bigint {constraint: unique}
+  }
+}
