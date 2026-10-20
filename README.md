@@ -36,10 +36,10 @@ with four threads, dropped to an unprivileged user after binding port 80.
 Dependency lists on the service pages are downloaded from GitHub and cached in
 the process:
 
-| Variable | Default | Meaning |
-|---|---|---|
-| `CACHE_TTL_SECONDS` | `7200` | How long downloaded project files stay fresh. If a refresh fails, the previous data is served for up to 24 hours. |
-| `HEALTH_TTL_SECONDS` | `30` | How long an online/offline check is reused. |
+- `CACHE_TTL_SECONDS` (default `7200`): how long downloaded project files stay
+  fresh. If a refresh fails, the previous data is served for up to 24 hours.
+- `HEALTH_TTL_SECONDS` (default `30`): how long an online/offline check is
+  reused.
 
 ## License
 
