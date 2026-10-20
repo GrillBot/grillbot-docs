@@ -3,9 +3,10 @@ from src.api import build_api_description, create_grillbot_swagger_spec
 import pathlib
 from src.dotnet_deps import DotnetDependencyList
 from src.source.node import NodeDependencyList
-import requests
+import helper
 import logging
 import json
+from src.source.cache import cache
 
 cached_services: Union[dict, None] = None
 
@@ -69,10 +70,7 @@ class ServiceProvider:
                 result["dependencies"] = deps
 
         if "healthcheck" in service and service["healthcheck"] is not None:
-            logging.info(f"Checking online status of {self.service_name}")
-            result["is_online"] = (
-                requests.head(service["healthcheck"]).status_code == 200
-            )
+            result["is_online"] = helper.is_online(service["healthcheck"])
 
         return result
 
@@ -95,6 +93,11 @@ class ServiceProvider:
             return self._deps_download(project)
 
     def _deps_download(self, project: str) -> Union[list, None]:
+        return cache.get_or_load(
+            f"deps_{project}", lambda: self._load_deps(project)
+        )
+
+    def _load_deps(self, project: str) -> Union[list, None]:
         extension = pathlib.Path(project).suffix
         if extension == ".csproj":
             result = DotnetDependencyList.get_data(project)

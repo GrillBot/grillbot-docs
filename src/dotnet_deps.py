@@ -2,6 +2,8 @@ import os
 import requests
 from xml.etree import ElementTree
 import logging
+from typing import Optional
+from src.source.cache import cache
 
 
 class DotnetDependencyList:
@@ -27,7 +29,15 @@ class DotnetDependencyList:
 
     @staticmethod
     def download_dependencies(url: str, project_name: str) -> dict:
-        response = requests.get(url)
+        # Projects of one repository are shared by several services, so this is cached per project file.
+        return cache.get_or_load(
+            f"dotnet_{url}",
+            lambda: DotnetDependencyList._download_dependencies(url, project_name),
+        )
+
+    @staticmethod
+    def _download_dependencies(url: str, project_name: str) -> dict:
+        response = requests.get(url, timeout=10)
         if not response.ok:
             raise RuntimeError(f"Cannot find project {project_name}")
         xml = ElementTree.fromstring(response.text)
@@ -55,11 +65,11 @@ class DotnetDependencyList:
         directory = project_url.rsplit("/", 1)[0]
         while directory.count("/") > 2:
             directory = directory.rsplit("/", 1)[0]
-            response = requests.get(f"{directory}/Directory.Packages.props")
-            if not response.ok:
+            props = DotnetDependencyList._download_text(f"{directory}/Directory.Packages.props")
+            if props is None:
                 continue
 
-            xml = ElementTree.fromstring(response.text)
+            xml = ElementTree.fromstring(props)
             return {
                 elem.attrib["Include"]: elem.attrib.get("Version", "")
                 for elem in xml.iter()
@@ -68,6 +78,14 @@ class DotnetDependencyList:
 
         logging.warning(f"Cannot find Directory.Packages.props for {project_url}")
         return dict()
+
+    @staticmethod
+    def _download_text(url: str) -> Optional[str]:
+        def load() -> Optional[str]:
+            response = requests.get(url, timeout=10)
+            return response.text if response.ok else None
+
+        return cache.get_or_load(f"text_{url}", load)
 
     @staticmethod
     def _read_version(elem: ElementTree.Element) -> str | None:

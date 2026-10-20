@@ -1,0 +1,25 @@
+# Local run of the docs site, built from this Dockerfile exactly as production builds it
+# (the D2 diagrams are rendered in the image). Standalone Docker, not Swarm.
+#
+#   docker compose up --build -d        # http://localhost:8080
+#   docker compose logs -f
+#   docker compose down
+#
+# For editing templates, styles and Python with live reload, add compose.dev.yaml:
+#   docker compose -f compose.yaml -f compose.dev.yaml up --build --watch
+#
+# Port: set DOCS_PORT to publish somewhere else than 8080.
+
+name: grillbot-docs
+
+services:
+  docs:
+    build: .
+    image: ghcr.io/grillbot/grillbot-docs:local
+    restart: unless-stopped
+    ports:
+      - "${DOCS_PORT:-8080}:80"
+    environment:
+      TZ: Europe/Prague
+    # Same ceiling as the Swarm stack; the image's HEALTHCHECK (/health) is inherited.
+    mem_limit: 128m

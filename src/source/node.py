@@ -1,6 +1,5 @@
 import requests
 import json
-from datetime import datetime, timedelta
 from .cache import cache
 from typing import List
 import re
@@ -13,18 +12,15 @@ class NodeDependencyList:
         self.cache_key = f"node_{package}_dependency_list"
 
     def get_data(self) -> dict:
-        cached_data: dict = self.cache.get(self.cache_key)
-        if cached_data is not None:
-            return cached_data
+        return self.cache.get_or_load(self.cache_key, self._load)
+
+    def _load(self) -> dict:
         data = self.download_dependencies()
 
-        result = {
+        return {
             "development": self.process_dependencies(data["devDependencies"]),
             "production": self.process_dependencies(data["dependencies"]),
         }
-
-        self.cache.add(self.cache_key, result, datetime.now() + timedelta(days=1))
-        return result
 
     def process_dependencies(self, data: dict) -> List[dict]:
         result = list()
@@ -40,7 +36,7 @@ class NodeDependencyList:
         return result
 
     def download_dependencies(self) -> dict:
-        response = requests.get(self.package)
+        response = requests.get(self.package, timeout=10)
         if not response.ok:
             raise RuntimeError(
                 f"Unable to find package.json file from url {self.package}"

@@ -29,6 +29,12 @@ def after_request(response: Response) -> Response:
     return response
 
 
+@app.route("/health")
+def health():
+    # Liveness only: no upstream calls, so an outage of GitHub or the health proxy cannot get the container killed.
+    return {"status": "ok"}, 200, {"Cache-Control": "no-store"}
+
+
 @app.route("/")
 def homepage():
     return render_template(

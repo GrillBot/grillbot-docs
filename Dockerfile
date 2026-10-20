@@ -28,4 +28,7 @@ RUN pip3 install -r requirements.txt
 COPY . .
 COPY --from=d2-rendering /d2/*.svg /static
 
-CMD [ "python3", "app.py" ]
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD wget -q --spider http://127.0.0.1/health || exit 1
+
+CMD [ "gunicorn", "-c", "gunicorn.conf.py", "app:app" ]

@@ -3,11 +3,24 @@ import os
 from datetime import datetime, timezone
 from dateutil import tz
 import logging
+from src.source.cache import cache, HEALTH_TTL_SECONDS
+
+
+def is_online(health_url: str) -> bool:
+    """Whether the health endpoint answers 200. Cached briefly, since it is asked for on every page render."""
+
+    def check() -> bool:
+        logging.info(f"Checking online status of {health_url}")
+        try:
+            return requests.head(health_url, timeout=3).status_code == 200
+        except requests.RequestException:
+            return False
+
+    return cache.get_or_load(f"health_{health_url}", check, HEALTH_TTL_SECONDS)
 
 
 def is_grillbot_online() -> bool:
-    logging.info('Checking GrillBot status.')
-    return requests.head("https://health.grillbot.eu/bot").status_code == 200
+    return is_online("https://health.grillbot.eu/bot")
 
 
 def get_modification_date(
