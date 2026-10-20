@@ -26,7 +26,7 @@ RUN pip3 install -r requirements.txt
 
 # Copy content
 COPY . .
-COPY --from=d2-rendering /d2/*.svg /static
+COPY --from=d2-rendering --chmod=644 /d2/*.svg /static
 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
     CMD wget -q --spider http://127.0.0.1/health || exit 1
