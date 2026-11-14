@@ -349,5 +349,49 @@
             "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
         "healthcheck": "https://health.grillbot.eu/searching"
+    },
+    "identity": {
+        "name": "Identity",
+        "description": "Vydává všechny přístupové tokeny (JWT) v systému. Služby se jí prokazují vlastním klientem (client credentials), bot jejím prostřednictvím získává tokeny pro uživatele, příkazy a API klíče. Tokeny podepisuje klíčem ES256 a veřejné klíče zveřejňuje, takže je kdokoliv uvnitř sítě ověří bez dalšího dotazu. Je dostupná jen ve vnitřní síti.",
+        "api": [
+            {
+                "endpoint": "POST /connect/token",
+                "status_codes": [
+                    200,
+                    400,
+                    401
+                ],
+                "content_types": [
+                    "application/x-www-form-urlencoded",
+                    "application/json"
+                ],
+                "description": "Vydání tokenu (OAuth 2.0). Granty client_credentials, refresh_token a urn:grillbot:grant-type:delegation."
+            },
+            {
+                "endpoint": "GET /.well-known/openid-configuration",
+                "status_codes": [
+                    200
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Discovery dokument: vydavatel, adresa tokenového endpointu a veřejných klíčů."
+            },
+            {
+                "endpoint": "GET /.well-known/jwks",
+                "status_codes": [
+                    200
+                ],
+                "content_types": [
+                    "application/json"
+                ],
+                "description": "Veřejné klíče, kterými se ověřuje podpis tokenů."
+            }
+        ],
+        "project_files": [
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/IdentityService/IdentityService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
+        ],
+        "healthcheck": "https://health.grillbot.eu/identity_service"
     }
 }

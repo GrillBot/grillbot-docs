@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block sub_page %} Přihlášení a soukromí {% endblock %}
+
+{% block content %}
+<p>
+    Do administrace GrillBot se přihlašuješ <b>výhradně přes Discord</b>. GrillBot nemá žádná hesla – nikdy je nevidí, nepřijímá
+    ani neukládá. Přihlašovací stránku ti zobrazí přímo Discord na adrese <code>discord.com</code>; pokud by tě po kliknutí na
+    „Přihlásit přes Discord“ cokoliv žádalo o heslo jinde, nejde o GrillBot.
+</p>
+
+<h3 class="fw-light">Co GrillBot od Discordu dostane</h3>
+<p>
+    GrillBot žádá Discord jen o oprávnění <code>identify</code>. Díky němu zjistí:
+<ul>
+    <li>tvoje Discord ID,</li>
+    <li>uživatelské a zobrazované jméno,</li>
+    <li>avatar.</li>
+</ul>
+E-mail, seznam tvých serverů ani zprávy GrillBot od Discordu nedostává. Přístupový token od Discordu se použije jen jednou
+k ověření tvé identity a neukládá se (u starších administrací leží nejvýše jednu minutu v mezipaměti, než si ho administrace vyzvedne).
+</p>
+
+<h3 class="fw-light">Co se ukládá po přihlášení</h3>
+<ul>
+    <li>
+        <b>V prohlížeči</b> jen cookie <code>__Host-grillbot.sid</code> s náhodným identifikátorem relace. Cookie je označená jako
+        <code>HttpOnly</code>, <code>Secure</code> a <code>SameSite=Strict</code>, takže ji nepřečte žádný skript na stránce
+        a prohlížeč ji neposílá z cizích webů. Žádný token se v prohlížeči neukládá.
+    </li>
+    <li>
+        <b>Na serveru</b> (v mezipaměti Redis) přístupový token s platností 10 minut, který si bot sám průběžně obnovuje.
+        Identifikátor relace je zde uložen jen jako otisk (SHA-256), ne v původní podobě.
+    </li>
+    <li>
+        Tokeny vydává interní služba <a href="/services/identity">IdentityService</a>. Záznamy o vydaných tokenech maže nejpozději
+        jeden den po jejich vypršení.
+    </li>
+    <li>
+        Volání API se zaznamenávají do logu stejně jako dřív – jejich uchovávání popisují <a href="/docs/legal">Ustanovení</a>.
+    </li>
+</ul>
+
+<h3 class="fw-light">Jak dlouho relace platí</h3>
+<ul>
+    <li>Relace skončí po <b>7 dnech</b> nečinnosti a nejpozději <b>30 dní</b> po přihlášení.</li>
+    <li>
+        Při každém obnovení tokenu (nejméně jednou za 10 minut) se znovu ověří tvoje role a oprávnění. Pokud ti někdo přístup do
+        administrace odebere, projeví se to nejpozději do 10 minut.
+    </li>
+</ul>
+
+<h3 class="fw-light">Odhlášení a zrušení přístupu</h3>
+<ul>
+    <li>Tlačítko <b>Odhlásit</b> v administraci smaže relaci na serveru i cookie v prohlížeči.</li>
+    <li>
+        Přístup aplikace GrillBot k tvému účtu můžeš kdykoliv zrušit v Discordu: <i>Nastavení → Autorizované aplikace</i>.
+        Zrušení v Discordu ukončí jen budoucí přihlášení; již otevřenou relaci ukončíš tlačítkem Odhlásit, jinak vyprší sama.
+    </li>
+</ul>
+
+<h3 class="fw-light">Starší administrace</h3>
+<p>
+    Administrace na <code>private.grillbot.eu</code> a <code>public.grillbot.eu</code> používají stejné přihlášení přes Discord.
+    Ukládají si však přístupový token přímo v prohlížeči, kde platí nejvýše 3 hodiny. Postupně je nahradí administrace na
+    <code>grillbot.eu</code>.
+</p>
+{% endblock %}

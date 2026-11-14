@@ -93,9 +93,15 @@ class ServiceProvider:
             return self._deps_download(project)
 
     def _deps_download(self, project: str) -> Union[list, None]:
-        return cache.get_or_load(
-            f"deps_{project}", lambda: self._load_deps(project)
-        )
+        try:
+            return cache.get_or_load(
+                f"deps_{project}", lambda: self._load_deps(project)
+            )
+        except Exception as ex:
+            # A project file that cannot be fetched (not merged to master yet, GitHub down) must not
+            # take the whole service page down; the failure is not cached, so the next request retries.
+            logging.warning(f"Cannot load dependencies from {project}: {ex}")
+            return None
 
     def _load_deps(self, project: str) -> Union[list, None]:
         extension = pathlib.Path(project).suffix
