@@ -36,7 +36,13 @@ k ověření tvé identity a neukládá se (u starších administrací leží ne
         jeden den po jejich vypršení.
     </li>
     <li>
-        Volání API se zaznamenávají do logu stejně jako dřív – jejich uchovávání popisují <a href="/docs/legal">Ustanovení</a>.
+        Každé přihlášení, odmítnuté přihlášení (i s důvodem), odhlášení a relaci, kterou bot ukončí sám, zapíše do logu provozu
+        jako událost <code>Identity</code>: kdo, kde (administrace nebo starší administrace), kdy a z jaké IP adresy. Token, cookie
+        ani identifikátor relace se do logu nikdy nezapisují.
+    </li>
+    <li>
+        Volání API se zaznamenávají do logu stejně jako dřív, bez hlaviček s přihlašovacími údaji (<code>Authorization</code>,
+        <code>ApiKey</code>, <code>Cookie</code>). Uchovávání obojího popisují <a href="/docs/legal">Ustanovení</a>.
     </li>
 </ul>
 
@@ -45,7 +51,7 @@ k ověření tvé identity a neukládá se (u starších administrací leží ne
     <li>Relace skončí po <b>7 dnech</b> nečinnosti a nejpozději <b>30 dní</b> po přihlášení.</li>
     <li>
         Při každém obnovení tokenu (nejméně jednou za 10 minut) se znovu ověří tvoje role a oprávnění. Pokud ti někdo přístup do
-        administrace odebere, projeví se to nejpozději do 10 minut.
+        administrace odebere, bot relaci nejpozději do 10 minut ukončí a zapíše to do logu provozu.
     </li>
 </ul>
 

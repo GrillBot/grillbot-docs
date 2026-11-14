@@ -7,19 +7,19 @@
             "Databáze": "/static/database.svg"
         },
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/grillbot/master/src/GrillBot.App/GrillBot.App.csproj",
-            "https://raw.githubusercontent.com/GrillBot/grillbot/master/src/GrillBot.Cache/GrillBot.Cache.csproj",
-            "https://raw.githubusercontent.com/GrillBot/grillbot/master/src/GrillBot.Common/GrillBot.Common.csproj",
-            "https://raw.githubusercontent.com/GrillBot/grillbot/master/src/GrillBot.Data/GrillBot.Data.csproj",
-            "https://raw.githubusercontent.com/GrillBot/grillbot/master/src/GrillBot.Database/GrillBot.Database.csproj"
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Bot/GrillBot.App/GrillBot.App.csproj",
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Bot/GrillBot.Cache/GrillBot.Cache.csproj",
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Bot/GrillBot.Common/GrillBot.Common.csproj",
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Bot/GrillBot.Data/GrillBot.Data.csproj",
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Bot/GrillBot.Database/GrillBot.Database.csproj"
         ],
-        "healthcheck": null
+        "healthcheck": "https://health.grillbot.eu/bot"
     },
     "graphics": {
         "name": "Graphics",
         "description": "Vykreslovací služba. Stará se o vše co nějak souvisí s grafikou (grafy, obrázek bodů, ...)",
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/Graphics/package.json"
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/Graphics/package.json"
         ],
         "healthcheck": "https://health.grillbot.eu/graphics"
     },
@@ -30,8 +30,8 @@
             "Databáze": "/static/database_rubbergod.svg"
         },
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/RubbergodService/RubbergodService.csproj",
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/RubbergodService/RubbergodService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
         "healthcheck": "https://health.grillbot.eu/rubbergod_service"
     },
@@ -42,8 +42,8 @@
             "Databáze": "/static/database_points.svg"
         },
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/PointsService/PointsService.csproj",
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/PointsService/PointsService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
         "healthcheck": "https://health.grillbot.eu/points_service"
     },
@@ -51,7 +51,7 @@
         "name": "ImageProcessing",
         "description": "Mezi služba pro vykreslování a caching obrázků.",
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/ImageProcessingService/ImageProcessingService.csproj"
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/ImageProcessingService/ImageProcessingService.csproj"
         ],
         "healthcheck": "https://health.grillbot.eu/image_processing_service"
     },
@@ -63,8 +63,8 @@
             "Statistiky": "/static/database_audit-log-statistics.svg"
         },
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/AuditLogService/AuditLogService.csproj",
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/AuditLogService/AuditLogService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
         "healthcheck": "https://health.grillbot.eu/audit_log_service"
     },
@@ -188,10 +188,10 @@
             }
         ],
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/EmoteService/EmoteService.csproj",
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/EmoteService/EmoteService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
-        "healthcheck": "https://health.grillbot.eu/emote"
+        "healthcheck": "https://health.grillbot.eu/emote_service"
     },
     "remind": {
         "name": "Remind",
@@ -288,10 +288,10 @@
             }
         ],
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/refs/heads/master/src/RemindService/RemindService.csproj",
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/RemindService/RemindService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
-        "healthcheck": "https://health.grillbot.eu/remind"
+        "healthcheck": "https://health.grillbot.eu/remind_service"
     },
     "searching": {
         "name": "Hledání",
@@ -345,10 +345,10 @@
             }
         ],
         "project_files": [
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/refs/heads/master/src/SearchingService/SearchingService.csproj",
-            "https://raw.githubusercontent.com/GrillBot/GrillBot.Services/master/src/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/SearchingService/SearchingService.csproj",
+            "https://raw.githubusercontent.com/GrillBot/grillbot-backend/master/src/Services/GrillBot.Services.Common/GrillBot.Services.Common.csproj"
         ],
-        "healthcheck": "https://health.grillbot.eu/searching"
+        "healthcheck": "https://health.grillbot.eu/searching_service"
     },
     "identity": {
         "name": "Identity",

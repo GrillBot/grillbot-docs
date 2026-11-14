@@ -415,3 +415,15 @@ RoleDeleted: {
 
 LogItem.Id -> RoleDeleted.LogItemId
 RoleDeleted.RoleInfoId -> RoleInfos.Id
+
+IdentityEvents: {
+  shape: sql_table
+
+  LogItemId: uuid {constraint: foreign_key}
+  EventType: integer
+  Channel: character varying(32)
+  Reason: character varying(1024)
+  IpAddress: character varying(64)
+}
+
+LogItem.Id -> IdentityEvents.LogItemId

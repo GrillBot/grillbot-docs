@@ -362,6 +362,10 @@ neukládá kdo takovou pozvánku založil a kdy ji založil.
             <td><code>RoleDeleted</code></td>
             <td>Role byla na serveru smazána.</td>
         </tr>
+        <tr>
+            <td><code>Identity</code></td>
+            <td>Přihlášení do administrace, odmítnuté přihlášení, odhlášení nebo relace ukončená botem (odebraný přístup).</td>
+        </tr>
     </tbody>
 </table>
 
@@ -554,7 +558,7 @@ U všech událostí se evidují tyto společné vlastnosti:
             <li>Seznam parametrů</li>
             <li>Jazyk</li>
             <li>Typ API (V1,V2,V3)</li>
-            <li>HTTP hlavičky</li>
+            <li>HTTP hlavičky (kromě hlaviček <code>Authorization</code>, <code>ApiKey</code> a <code>Cookie</code>, které nesou přihlašovací údaje a neukládají se)</li>
             <li>Otisk uživatele</li>
             <li>IP adresa</li>
             <li>Výsledný stavový kód</li>
@@ -585,6 +589,16 @@ U všech událostí se evidují tyto společné vlastnosti:
             <li>Oprávnění</li>
             <li>ID ikony</li>
         </ul>
+    </li>
+    <li>
+        Přihlášení a přístup (uživatel, kterého se událost týká, je identifikátor uživatele záznamu)
+        <ul>
+            <li>Druh události (přihlášení, odmítnuté přihlášení, odhlášení, relace ukončená botem)</li>
+            <li>Kde k ní došlo (administrace na <code>grillbot.eu</code>, nebo starší administrace)</li>
+            <li>Důvod odmítnutí přihlášení nebo ukončení relace</li>
+            <li>IP adresa, ze které požadavek přišel</li>
+        </ul>
+        Žádný přístupový token, cookie ani identifikátor relace se do záznamu neukládá.
     </li>
 </ul>
 </p>

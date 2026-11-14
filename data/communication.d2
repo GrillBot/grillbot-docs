@@ -82,6 +82,10 @@ GrillBot: {
     Searching: {shape: package}
     UserManagement: {shape: package}
     Graphics: {shape: package}
+    Identity: {shape: package}
+    Invite: {shape: package}
+    Message: {shape: package}
+    Unverify: {shape: package}
   }
 }
 
@@ -126,9 +130,14 @@ GrillBot.Bot -> GrillBot.Services.Rubbergod: {class: http_relation}
 GrillBot.Bot -> GrillBot.Services.Searching: {class: http_relation}
 GrillBot.Bot -> GrillBot.Services.UserManagement: {class: http_relation}
 GrillBot.Bot -> GrillBot.Services.Graphics: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.Identity: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.Invite: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.Message: {class: http_relation}
+GrillBot.Bot -> GrillBot.Services.Unverify: {class: http_relation}
 
 # Internal communication (Service -> Service)
 GrillBot.Services.ImageProcessing -> GrillBot.Services.Graphics: {class: http_relation}
+GrillBot.Services.UserManagement -> GrillBot.Services.Unverify: {class: http_relation}
 
 # RabbitMQ communication
 GrillBot.Bot <-> GrillBot.Infrastructure.RabbitMQ: {class: rabbit_relation}
@@ -140,6 +149,9 @@ GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Remind: {class: rabbit_re
 GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Rubbergod: {class: rabbit_relation}
 GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Searching: {class: rabbit_relation}
 GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.UserManagement: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Invite: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Message: {class: rabbit_relation}
+GrillBot.Infrastructure.RabbitMQ <-> GrillBot.Services.Unverify: {class: rabbit_relation}
 
 # Database communication
 GrillBot.Bot -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
@@ -150,6 +162,10 @@ GrillBot.Services.Remind -> GrillBot.Infrastructure.PostgreSQL: {class: postgres
 GrillBot.Services.Rubbergod -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
 GrillBot.Services.Searching -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
 GrillBot.Services.UserManagement -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Services.Identity -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Services.Invite -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Services.Message -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
+GrillBot.Services.Unverify -> GrillBot.Infrastructure.PostgreSQL: {class: postgres_relation}
 
 # Redis communication
 GrillBot.Bot -> GrillBot.Infrastructure.Redis: {class: redis_relation}
