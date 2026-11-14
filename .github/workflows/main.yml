@@ -21,13 +21,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: 3.8
       - name: Restore cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-${{ hashFiles('requirements*') }}
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       # Validates every tracked *.json file with jq, which the runner ships.
       # This used to pipe https://raw.githubusercontent.com/CICDToolbox/json-lint
       # into bash; that repository was deleted, so curl started returning a 404
@@ -74,15 +74,15 @@ jobs:
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Log in to the container repository
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: true
@@ -91,10 +91,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: "Production"
     needs: CreateDockerImage
-    if: github.ref == 'refs/heads/master'
+    # TEMPORARY: CD paused (deploy target unavailable) - the image is still
+    # built and pushed, deploy it by hand. Remove "false &&" to re-enable.
+    if: false && github.ref == 'refs/heads/master'
     steps:
       - name: Execute deployment on SSH
-        uses: appleboy/ssh-action@v1.2.4
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
