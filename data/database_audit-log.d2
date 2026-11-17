@@ -427,3 +427,18 @@ IdentityEvents: {
 }
 
 LogItem.Id -> IdentityEvents.LogItemId
+
+ArchivationLogs: {
+  shape: sql_table
+
+  LogItemId: uuid {constraint: [primary_key; foreign_key]}
+  ProcessName: character varying {constraint: not_null}
+  TotalRecordsCount: integer {constraint: not_null}
+  JsonSize: bigint {constraint: not_null}
+  ArchiveSize: bigint {constraint: not_null}
+  Details: text
+  DeletedFilesCount: integer
+  DeletedFilesSize: bigint
+}
+
+LogItem.Id -> ArchivationLogs.LogItemId

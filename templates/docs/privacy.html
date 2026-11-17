@@ -42,7 +42,9 @@ k ověření tvé identity a neukládá se (u starších administrací leží ne
     </li>
     <li>
         Volání API se zaznamenávají do logu stejně jako dřív, bez hlaviček s přihlašovacími údaji (<code>Authorization</code>,
-        <code>ApiKey</code>, <code>Cookie</code>). Uchovávání obojího popisují <a href="/docs/legal">Ustanovení</a>.
+        <code>ApiKey</code>, <code>Cookie</code>). Uchovávání obojího popisují <a href="/docs/legal">Ustanovení</a>: záznamy
+        <code>Identity</code> se uchovávají 3 roky, volání API 1 rok (mimo skupinu <code>V2</code> jen 6 měsíců). Poté se záznamy
+        archivují a z databáze smažou; každý takový běh archivace se sám zapíše do logu provozu jako událost <code>Archivation</code>.
     </li>
 </ul>
 

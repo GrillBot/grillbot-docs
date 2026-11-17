@@ -25,13 +25,63 @@
     Data jsou v databázi uchovávany na základě jejich potřeby po různou dobu.
 <ul>
     <li>
-        Záznamy z logování provozu starší, než 1 rok jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data uchovány
+        Záznamy z logování provozu se uchovávají podle jejich typu. Výchozí doba uchování je 1 rok, pokud tabulka níže neuvádí jinak.
+        Záznamy starší, než je jejich doba uchování, jsou zálohovány na diskové úložiště a z databáze smazány. Na disku jsou data uchovány
         po dobu minimálně dalšího jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data nenávratně smazat.
+        <table class="table table-striped table-bordered table-sm mt-2">
+            <thead>
+                <tr>
+                    <th>Typ</th>
+                    <th>Podmínka</th>
+                    <th>Doba uchování</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Info</code>, <code>Warning</code>, <code>Error</code></td>
+                    <td>Zpráva obsahuje <code>GatewayReconnectException</code></td>
+                    <td>6 měsíců</td>
+                </tr>
+                <tr>
+                    <td>
+                        <code>ChannelDeleted</code>, <code>ChannelUpdated</code>, <code>ChannelCreated</code>, <code>ThreadDeleted</code>,
+                        <code>EmoteDeleted</code>, <code>RoleDeleted</code>, <code>MemberRoleUpdated</code>
+                    </td>
+                    <td>–</td>
+                    <td>2 roky</td>
+                </tr>
+                <tr>
+                    <td><code>OverwriteCreated</code>, <code>OverwriteDeleted</code>, <code>OverwriteUpdated</code>, <code>Identity</code></td>
+                    <td>–</td>
+                    <td>3 roky</td>
+                </tr>
+                <tr>
+                    <td><code>Unban</code></td>
+                    <td>–</td>
+                    <td>5 let</td>
+                </tr>
+                <tr>
+                    <td><code>UserLeft</code></td>
+                    <td>Jednalo se o zablokování (ban)</td>
+                    <td>5 let</td>
+                </tr>
+                <tr>
+                    <td><code>API</code></td>
+                    <td>Skupina API není <code>V2</code></td>
+                    <td>6 měsíců</td>
+                </tr>
+            </tbody>
+        </table>
     </li>
     <li>
         Záznamy z logování odebrání a vrácení přístupu starší, než 2 roky jsou zálohovány na diskové úložiště a z databáze smazány. Na disku
-        jsou data uchovávány po dobu minimálně dalšáho jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data
+        jsou data uchovávány po dobu minimálně dalšího jednoho měsíce. Po uplynutí této doby si provozovatel aplikace vyhrazuje právo data
         nenávratně smazat.
+    </li>
+    <li>
+        Archivace probíhá automaticky jednou denně ve 2:00. Při jednom běhu se zpracuje nejvýše omezené množství záznamů, takže větší
+        objem starých záznamů se archivuje postupně během několika dní. Každý běh archivace, který archivoval alespoň jeden záznam, je zapsán
+        do logování provozu jako událost <code>Archivation</code>.
     </li>
     <li>
         Uživatelská opatření se uchovávají navždy.
@@ -307,7 +357,7 @@ neukládá kdo takovou pozvánku založil a kdy ji založil.
             <td>Vytvoření/Smazání/Úprava kanálu</td>
         </tr>
         <tr>
-            <td><code>EmojiDeleted</code></td>
+            <td><code>EmoteDeleted</code></td>
             <td>Smazání emotikonu ze serveru.</td>
         </tr>
         <tr>
@@ -365,6 +415,10 @@ neukládá kdo takovou pozvánku založil a kdy ji založil.
         <tr>
             <td><code>Identity</code></td>
             <td>Přihlášení do administrace, odmítnuté přihlášení, odhlášení nebo relace ukončená botem (odebraný přístup).</td>
+        </tr>
+        <tr>
+            <td><code>Archivation</code></td>
+            <td>Proběhla archivace starých záznamů z logování provozu nebo z logování unverify.</td>
         </tr>
     </tbody>
 </table>
@@ -599,6 +653,18 @@ U všech událostí se evidují tyto společné vlastnosti:
             <li>IP adresa, ze které požadavek přišel</li>
         </ul>
         Žádný přístupový token, cookie ani identifikátor relace se do záznamu neukládá.
+    </li>
+    <li>
+        Archivace (zapisuje se každý běh archivace logování provozu nebo logování unverify; běhy, které nearchivovaly žádný záznam, se
+        neukládají)
+        <ul>
+            <li>Název procesu (<code>AuditLog</code>, <code>Unverify</code>)</li>
+            <li>Celkový počet archivovaných záznamů</li>
+            <li>Velikost nekomprimovaných JSON dat</li>
+            <li>Velikost komprimovaného archivu</li>
+            <li>Textový report s podrobnostmi</li>
+            <li>Počet a velikost smazaných souborů (volitelně, pouze u přiložených souborů z logování provozu)</li>
+        </ul>
     </li>
 </ul>
 </p>
