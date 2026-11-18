@@ -9,7 +9,8 @@
     <li>
         <code>ArchivationJob</code> – archivace a mazání starých záznamů z audit logu a z unverify logu (každý den ve 2:00). Úloha spustí
         archivaci asynchronně: služby AuditLogService a UnverifyService připraví data k archivaci, bot z nich sestaví ZIP archiv, uloží jej
-        na úložiště, archivované záznamy smaže a zapíše do audit logu záznam typu <code>Archivation</code>.
+        na úložiště, archivované záznamy smaže a zapíše do audit logu záznam typu <code>Archivation</code>. Jedna dávka má nejvýše
+        2 500 záznamů; pokud po ní zbývají další záznamy k archivaci, spustí se hned další dávka (nejvýše 20 dávek za noc).
     </li>
     <li>Upozorňování na narozeniny uživatele (každý den v 8:00).</li>
     <li>Údržba cache zpráv v paměti (každých 5 minut).</li>
